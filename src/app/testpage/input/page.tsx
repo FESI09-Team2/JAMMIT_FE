@@ -20,6 +20,7 @@ export default function Home() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {/* TODO: 자동완성시 흰색 배경 처리 */}
       {/* 이메일 */}
       <Controller
         name="email"
