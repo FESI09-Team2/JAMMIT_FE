@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import Input from '@/components/commons/Input';
 
 type FormValues = {
@@ -8,23 +8,44 @@ type FormValues = {
 };
 
 export default function Home() {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const { control, handleSubmit } = useForm<FormValues>({
+    mode: 'onChange',
+  });
 
   // TODO: 제출로 변경 예정(data가 잘 나오는지 확인을 위해 사용)
   const onSubmit = (data: FormValues) => {
-    alert(data.email);
+    alert(`${data.email}`);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {/* text */}
-      <Input
-        type="text"
-        placeholder="텍스트를 입력하세요."
-        register={register('email')}
+      {/* 이메일 */}
+      <Controller
+        name="email"
+        control={control}
+        defaultValue=""
+        rules={{
+          required: '이메일은 필수 입력입니다.',
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            message: '잘못된 이메일 형식입니다.',
+          },
+        }}
+        render={({ field, fieldState }) => (
+          <Input
+            type="text"
+            placeholder="이메일을 입력하세요."
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            name={field.name}
+            error={fieldState.error?.message}
+          />
+        )}
       />
       {/* password */}
       {/*<Input />;*/}
+      {/* TODO: button 컴포넌트로 교체예정 */}
       <button type="submit">제출</button>
     </form>
   );
