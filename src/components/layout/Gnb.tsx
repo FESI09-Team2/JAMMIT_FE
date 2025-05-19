@@ -2,13 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import DefaultProfileImage from '@/assets/icons/ic_default_profile.svg';
 
 export default function Gnb() {
   const pathname = usePathname();
 
+  const isLoggedIn = true;
+
   return (
-    <header className="flex h-[3.75rem] w-full items-center justify-center bg-black px-[1.75rem] py-[1.125]">
-      <div className="w-fullitems-center flex w-full max-w-[74.875rem] justify-between text-white">
+    <header className="flex h-[3.75rem] w-full items-center justify-center bg-black px-[1.75rem]">
+      <div className="flex w-full max-w-[74.875rem] items-center justify-between text-white">
         <nav className="flex gap-[1.5rem]">
           <Link
             href="/"
@@ -33,13 +36,19 @@ export default function Gnb() {
           </Link>
         </nav>
         <div>
-          <Link
-            data-active={pathname === '/login'}
-            className="opacity-80 data-[active=true]:opacity-100"
-            href="/login"
-          >
-            로그인
-          </Link>
+          {isLoggedIn ? (
+            <div className="relative h-[2.5rem] w-[2.5rem]">
+              <DefaultProfileImage />
+            </div>
+          ) : (
+            <Link
+              data-active={pathname === '/login'}
+              className="opacity-80 data-[active=true]:opacity-100"
+              href="/login"
+            >
+              로그인
+            </Link>
+          )}
         </div>
       </div>
     </header>
