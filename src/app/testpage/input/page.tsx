@@ -5,6 +5,7 @@ import Input from '@/components/commons/Input';
 
 type FormValues = {
   email: string;
+  name: string;
 };
 
 export default function Home() {
@@ -14,7 +15,7 @@ export default function Home() {
 
   // TODO: 제출로 변경 예정(data가 잘 나오는지 확인을 위해 사용)
   const onSubmit = (data: FormValues) => {
-    alert(`${data.email}`);
+    alert(`${data.email} / ${data.name}`);
   };
 
   return (
@@ -35,6 +36,30 @@ export default function Home() {
           <Input
             type="text"
             placeholder="이메일을 입력하세요."
+            value={field.value}
+            onChange={field.onChange}
+            onBlur={field.onBlur}
+            name={field.name}
+            error={fieldState.error?.message}
+          />
+        )}
+      />
+      {/* 이름 */}
+      <Controller
+        name="name"
+        control={control}
+        defaultValue=""
+        rules={{
+          required: '이름은 필수 입력입니다.',
+          minLength: {
+            value: 2,
+            message: '이름은 두 글자 이상이어야 합니다.',
+          },
+        }}
+        render={({ field, fieldState }) => (
+          <Input
+            type="text"
+            placeholder="이름을 입력하세요."
             value={field.value}
             onChange={field.onChange}
             onBlur={field.onBlur}
