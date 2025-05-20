@@ -6,7 +6,12 @@ import React, {
   ReactNode,
   RefObject,
   useCallback,
+  useState,
 } from 'react';
+import { ErrorMessage } from '@hookform/error-message';
+import { RegisterOptions, useFormContext } from 'react-hook-form';
+import Invisibility from '@/assets/icons/ic_Invisibility.svg';
+import Visibility from '@/assets/icons/ic_visibility.svg';
 import { ErrorMessage } from '@hookform/error-message';
 import { RegisterOptions, useFormContext } from 'react-hook-form';
 
@@ -17,6 +22,10 @@ interface InputProps {
   type: string;
   /** register 를 호출할 때 지정하는 유효성 검사 규칙과 같은 포맷 */
   rules?: RegisterOptions;
+  /** 최소 입력 글자수 */
+  minLength?: number;
+  /** 최대 입력 글자수 */
+  maxLength?: number;
   /** onFocus 이벤트 등록 */
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   /** onBlur 이벤트 등록 */
@@ -35,6 +44,8 @@ function Input({
   name,
   type,
   rules,
+  minLength,
+  maxLength,
   onFocus,
   onBlur,
   onChange,
@@ -49,6 +60,8 @@ function Input({
     formState: { errors },
   } = useFormContext();
   const IsError = errors[name];
+  const IsPwd = type === 'password';
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const newValue = e.target.value;
@@ -85,27 +98,40 @@ function Input({
 
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block">
+      <label htmlFor={name} className="mt-2 mb-2 block">
         {label}
       </label>
-      <input
-        type={type}
-        onFocus={onInputFocus}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-        ref={(el) => {
-          ref(el);
-          if (innerRef) {
-            innerRef.current = el;
-          }
-        }}
-        {...rest}
-        className={`w-full rounded border px-3 py-2 ${
-          IsError
-            ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500'
-            : 'focus-within:ring-0 focus-within:outline-none'
-        }`}
-      />
+      <div className="relative w-full">
+        <input
+          type={IsPwd ? (showPassword ? 'text' : 'password') : type}
+          onFocus={onInputFocus}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+          minLength={minLength}
+          maxLength={maxLength}
+          ref={(el) => {
+            ref(el);
+            if (innerRef) {
+              innerRef.current = el;
+            }
+          }}
+          {...rest}
+          className={`w-full rounded border px-3 py-2 pr-10 ${
+            IsError
+              ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500'
+              : 'focus-within:ring-0 focus-within:outline-none'
+          }`}
+        />
+        {IsPwd && (
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute top-1/2 right-3 -translate-y-1/2"
+          >
+            {showPassword ? <Visibility /> : <Invisibility />}
+          </button>
+        )}
+      </div>
       <ErrorMessage
         errors={errors}
         name={name}
