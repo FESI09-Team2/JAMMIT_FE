@@ -8,6 +8,10 @@ import DefaultProfileImage from '@/assets/icons/ic_default_profile.svg';
 export default function Gnb() {
   const pathname = usePathname();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const navItems = [
+    { href: '/', label: '모임 찾기' },
+    { href: '/wishlist', label: '찜한 모임' },
+  ];
 
   // TODO: 로그인 정보 연결
   const isLoggedIn = false;
@@ -26,20 +30,16 @@ export default function Gnb() {
           >
             JAMMIT
           </Link>
-          <Link
-            href="/"
-            data-active={pathname === '/'}
-            className="opacity-80 data-[active=true]:opacity-100"
-          >
-            모임 찾기
-          </Link>
-          <Link
-            href="/wishlist"
-            data-active={pathname === '/wishlist'}
-            className="opacity-80 data-[active=true]:opacity-100"
-          >
-            찜한 모임
-          </Link>
+          {navItems.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              data-active={pathname === href}
+              className="opacity-80 data-[active=true]:opacity-100"
+            >
+              {label}
+            </Link>
+          ))}
         </nav>
         <div>
           {isLoggedIn ? (
