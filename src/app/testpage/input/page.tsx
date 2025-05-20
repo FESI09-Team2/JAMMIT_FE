@@ -5,16 +5,17 @@ import { useForm, FormProvider, SubmitHandler } from 'react-hook-form';
 import Input from '@/components/commons/Input';
 
 interface FormValues {
-  username: string;
+  email: string;
 }
 
 export default function Home() {
+  // mode를 적절히 교체하면 됩니다.
   const methods = useForm<FormValues>({
     mode: 'onBlur',
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    alert(data.username);
+    alert(data.email);
   };
 
   return (
@@ -25,10 +26,10 @@ export default function Home() {
         className="p-4"
       >
         <Input
-          name="username"
+          name="email"
           type="text"
-          label="Username"
-          placeholder="Enter your username"
+          label="아이디"
+          placeholder="이메일을 입력해주세요."
           rules={{
             required: '이메일은 필수 입력입니다.',
             pattern: {
