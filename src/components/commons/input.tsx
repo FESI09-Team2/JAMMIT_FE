@@ -1,51 +1,117 @@
 'use client';
 
+import React, { ChangeEventHandler, ReactNode, useCallback } from 'react';
+import { ErrorMessage } from '@hookform/error-message';
+import { RegisterOptions, useFormContext } from 'react-hook-form';
+
 interface InputProps {
-  type: 'text' | 'password'; // input의 타입을 지정
-  placeholder: string; // input에 표시할 placeholder 텍스트
-  value: string; // 현재 input에 들어 있는 값
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // 값이 바뀔 때 실행할 함수
-  onBlur: () => void; // input이 포커스를 잃을 때 실행할 함수
-  name: string; // input의 이름
-  error?: string; // 에러 메시지를 보여주기 위한 optional props
+  /** RHF name속성 */
+  name: string;
+  /** input 타입인지 */
+  type: string;
+  /** register 를 호출할 때 지정하는 유효성 검사 규칙과 같은 포맷 */
+  required?: boolean;
+  rules?: RegisterOptions;
+  /** onBlur 이벤트 등록 */
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  /** onChange 이벤트 등록 */
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  /** onChange 이벤트 등록 */
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  /** input label 설정 */
+  label?: string | ReactNode;
+  placeholder?: string;
+  defaultValue?: string | number | readonly string[];
+  /** register에서 받은 ref */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  innerRef?: any;
 }
 
 export default function Input({
-  type,
-  placeholder,
-  value,
-  onChange,
-  onBlur,
   name,
-  error,
+  type,
+  rules,
+  onFocus,
+  onBlur,
+  onChange,
+  label,
+  placeholder,
+  defaultValue,
+  innerRef,
 }: InputProps) {
-  const renderInput = () => {
-    switch (type) {
-      case 'text':
-        return (
-          <>
-            <input
-              type={type}
-              placeholder={placeholder}
-              value={value}
-              onChange={onChange}
-              onBlur={onBlur}
-              name={name}
-              className={`w-full rounded border px-3 py-2 ${
-                error
-                  ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-                  : 'focus:ring-0 focus:outline-none' // MEMO: 여기서 focus를 꺼도 포커스되면 자동으로 파란색상이 생김 문제 확인 필요
-              }`}
-            />
-            {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
-          </>
-        );
-      case 'password':
-        return <div>패스워드</div>;
-      default:
-        return null;
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
+  const IsError = errors[name];
+
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const newValue = e.target.value;
+    if (newValue) {
+      e.target.value = String(newValue);
+    }
+    setValue(name, newValue);
+    if (onChange) {
+      onChange(e);
     }
   };
 
-  return <div>{renderInput()}</div>;
+  const onInputFocus = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      if (onFocus) {
+        onFocus(e);
+      }
+    },
+    [onFocus],
+  );
+
+  const onInputBlur = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      if (onBlur) {
+        onBlur(e);
+      }
+    },
+    [onBlur],
+  );
+
+  const { ref, ...rest } = register(name, {
+    onChange: handleChange,
+    onBlur: onInputBlur,
+    ...rules,
+    shouldUnregister: true,
+  });
+
+  return (
+    <div>
+      <label htmlFor={name} className="mb-2 block">
+        {label}
+      </label>
+      <input
+        type={type}
+        onFocus={onInputFocus}
+        placeholder={placeholder}
+        defaultValue={defaultValue}
+        ref={(el) => {
+          ref(el);
+          if (innerRef) {
+            innerRef.current = el;
+          }
+        }}
+        {...rest}
+        className={`w-full rounded border px-3 py-2 ${
+          IsError
+            ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500'
+            : 'focus-within:ring-0 focus-within:outline-none'
+        }`}
+      />
+      <ErrorMessage
+        errors={errors}
+        name={name}
+        render={({ message }) => (
+          <p className="mt-1 text-sm text-red-500">{message}</p>
+        )}
+      />
+    </div>
+  );
 }
