@@ -96,7 +96,7 @@ function Input({
 
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block">
+      <label htmlFor={name} className="mt-2 mb-2 block">
         {label}
       </label>
       <div className="relative w-full">
