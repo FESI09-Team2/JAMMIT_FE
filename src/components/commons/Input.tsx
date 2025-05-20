@@ -17,9 +17,9 @@ interface InputProps {
   type: string;
   /** register 를 호출할 때 지정하는 유효성 검사 규칙과 같은 포맷 */
   rules?: RegisterOptions;
-  /** onBlur 이벤트 등록 */
+  /** onFocus 이벤트 등록 */
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  /** onChange 이벤트 등록 */
+  /** onBlur 이벤트 등록 */
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   /** onChange 이벤트 등록 */
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -52,9 +52,6 @@ function Input({
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const newValue = e.target.value;
-    if (newValue) {
-      e.target.value = String(newValue);
-    }
     setValue(name, newValue);
     if (onChange) {
       onChange(e);
