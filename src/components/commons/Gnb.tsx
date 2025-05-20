@@ -7,7 +7,7 @@ import DefaultProfileImage from '@/assets/icons/ic_default_profile.svg';
 
 export default function Gnb() {
   const pathname = usePathname();
-  const [isDropdownOpen, setisDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // TODO: 로그인 정보 연결
   const isLoggedIn = false;
@@ -46,9 +46,9 @@ export default function Gnb() {
             <div className="relative h-[2.5rem] w-[2.5rem]">
               <button
                 className="cursor-pointer"
-                onClick={() => setisDropdownOpen((prev) => !prev)}
+                onClick={() => setIsDropdownOpen((prev) => !prev)}
               >
-                <DefaultProfileImage className="cursor:pointer" />
+                <DefaultProfileImage />
               </button>
               {isDropdownOpen && (
                 <div className="absolute right-0 w-[8.875rem] overflow-hidden rounded-[0.75rem] bg-white text-base text-black shadow-xl">
