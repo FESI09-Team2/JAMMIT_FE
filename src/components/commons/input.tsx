@@ -2,6 +2,7 @@
 
 import React, {
   ChangeEventHandler,
+  memo,
   ReactNode,
   RefObject,
   useCallback,
@@ -30,7 +31,7 @@ interface InputProps {
   innerRef?: RefObject<HTMLInputElement | null>;
 }
 
-export default function Input({
+function Input({
   name,
   type,
   rules,
@@ -118,3 +119,5 @@ export default function Input({
     </div>
   );
 }
+
+export default memo(Input);
