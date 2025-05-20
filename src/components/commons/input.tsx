@@ -1,6 +1,11 @@
 'use client';
 
-import React, { ChangeEventHandler, ReactNode, useCallback } from 'react';
+import React, {
+  ChangeEventHandler,
+  ReactNode,
+  RefObject,
+  useCallback,
+} from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import { RegisterOptions, useFormContext } from 'react-hook-form';
 
@@ -10,7 +15,6 @@ interface InputProps {
   /** input 타입인지 */
   type: string;
   /** register 를 호출할 때 지정하는 유효성 검사 규칙과 같은 포맷 */
-  required?: boolean;
   rules?: RegisterOptions;
   /** onBlur 이벤트 등록 */
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
@@ -21,10 +25,9 @@ interface InputProps {
   /** input label 설정 */
   label?: string | ReactNode;
   placeholder?: string;
-  defaultValue?: string | number | readonly string[];
+  defaultValue?: string | number;
   /** register에서 받은 ref */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  innerRef?: any;
+  innerRef?: RefObject<HTMLInputElement | null>;
 }
 
 export default function Input({
