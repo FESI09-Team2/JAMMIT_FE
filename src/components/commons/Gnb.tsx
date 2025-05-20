@@ -1,13 +1,19 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import DefaultProfileImage from '@/assets/icons/ic_default_profile.svg';
 
 export default function Gnb() {
   const pathname = usePathname();
+  const [isDropdownOpen, setisDropdownOpen] = useState(false);
 
-  const isLoggedIn = true;
+  // TODO: 로그인 정보 연결
+  const isLoggedIn = false;
+  const handleLogout = () => {
+    console.log('로그아웃');
+  };
 
   return (
     <header className="flex h-[3.75rem] w-full items-center justify-center bg-black px-[1.75rem]">
@@ -38,7 +44,28 @@ export default function Gnb() {
         <div>
           {isLoggedIn ? (
             <div className="relative h-[2.5rem] w-[2.5rem]">
-              <DefaultProfileImage />
+              <button
+                className="cursor-pointer"
+                onClick={() => setisDropdownOpen((prev) => !prev)}
+              >
+                <DefaultProfileImage className="cursor:pointer" />
+              </button>
+              {isDropdownOpen && (
+                <div className="absolute right-0 w-[8.875rem] overflow-hidden rounded-[0.75rem] bg-white text-base text-black shadow-xl">
+                  <Link
+                    href="/mypage"
+                    className="flex h-[2.75rem] w-full items-center justify-center hover:bg-gray-100"
+                  >
+                    마이페이지
+                  </Link>
+                  <button
+                    className="block h-[2.75rem] w-full cursor-pointer hover:bg-gray-100"
+                    onClick={handleLogout}
+                  >
+                    로그아웃
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <Link
