@@ -6,6 +6,7 @@ import Input from '@/components/commons/Input';
 
 interface FormValues {
   email: string;
+  password: string;
 }
 
 export default function Home() {
@@ -15,7 +16,7 @@ export default function Home() {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    alert(data.email);
+    alert(JSON.stringify(data));
   };
 
   return (
@@ -45,9 +46,13 @@ export default function Home() {
           placeholder="비밀번호을 입력해주세요."
           rules={{
             required: '비밀번호은 필수 입력입니다.',
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: '올바른 비밀번호 형식을 입력해주세요.',
+            minLength: {
+              value: 8,
+              message: '비밀번호는 최소 8자 이상이어야 합니다.',
+            },
+            maxLength: {
+              value: 12,
+              message: '비밀번호는 최대 12자 이하여야 합니다.',
             },
           }}
         />

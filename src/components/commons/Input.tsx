@@ -20,6 +20,10 @@ interface InputProps {
   type: string;
   /** register 를 호출할 때 지정하는 유효성 검사 규칙과 같은 포맷 */
   rules?: RegisterOptions;
+  /** 최소 입력 글자수 */
+  minLength?: number;
+  /** 최대 입력 글자수 */
+  maxLength?: number;
   /** onFocus 이벤트 등록 */
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   /** onBlur 이벤트 등록 */
@@ -38,6 +42,8 @@ function Input({
   name,
   type,
   rules,
+  minLength,
+  maxLength,
   onFocus,
   onBlur,
   onChange,
@@ -99,6 +105,8 @@ function Input({
           onFocus={onInputFocus}
           placeholder={placeholder}
           defaultValue={defaultValue}
+          minLength={minLength}
+          maxLength={maxLength}
           ref={(el) => {
             ref(el);
             if (innerRef) {
