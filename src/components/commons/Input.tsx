@@ -6,9 +6,12 @@ import React, {
   ReactNode,
   RefObject,
   useCallback,
+  useState,
 } from 'react';
 import { ErrorMessage } from '@hookform/error-message';
 import { RegisterOptions, useFormContext } from 'react-hook-form';
+import Invisibility from '@/assets/icons/ic_Invisibility.svg';
+import Visibility from '@/assets/icons/ic_visibility.svg';
 
 interface InputProps {
   /** RHF name속성 */
@@ -49,6 +52,8 @@ function Input({
     formState: { errors },
   } = useFormContext();
   const IsError = errors[name];
+  const IsPwd = type === 'password';
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const newValue = e.target.value;
@@ -88,24 +93,35 @@ function Input({
       <label htmlFor={name} className="mb-2 block">
         {label}
       </label>
-      <input
-        type={type}
-        onFocus={onInputFocus}
-        placeholder={placeholder}
-        defaultValue={defaultValue}
-        ref={(el) => {
-          ref(el);
-          if (innerRef) {
-            innerRef.current = el;
-          }
-        }}
-        {...rest}
-        className={`w-full rounded border px-3 py-2 ${
-          IsError
-            ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500'
-            : 'focus-within:ring-0 focus-within:outline-none'
-        }`}
-      />
+      <div className="relative w-full">
+        <input
+          type={IsPwd ? (showPassword ? 'text' : 'password') : type}
+          onFocus={onInputFocus}
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+          ref={(el) => {
+            ref(el);
+            if (innerRef) {
+              innerRef.current = el;
+            }
+          }}
+          {...rest}
+          className={`w-full rounded border px-3 py-2 pr-10 ${
+            IsError
+              ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500'
+              : 'focus-within:ring-0 focus-within:outline-none'
+          }`}
+        />
+        {IsPwd && (
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute top-1/2 right-3 -translate-y-1/2"
+          >
+            {showPassword ? <Invisibility /> : <Visibility />}
+          </button>
+        )}
+      </div>
       <ErrorMessage
         errors={errors}
         name={name}

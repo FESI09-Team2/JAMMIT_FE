@@ -38,6 +38,19 @@ export default function Home() {
             },
           }}
         />
+        <Input
+          name="password"
+          type="password"
+          label="비밀번호"
+          placeholder="비밀번호을 입력해주세요."
+          rules={{
+            required: '비밀번호은 필수 입력입니다.',
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: '올바른 비밀번호 형식을 입력해주세요.',
+            },
+          }}
+        />
         <button
           type="submit"
           className="mt-4 rounded bg-blue-500 px-4 py-2 text-white"
