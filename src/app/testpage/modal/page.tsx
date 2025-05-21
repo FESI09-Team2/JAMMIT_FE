@@ -1,31 +1,52 @@
 'use client';
 
-import { useState } from 'react';
-import ModalWrapper from '@/components/commons/ModalWarraper';
+import { useState, useCallback } from 'react';
+import InteractionModal from '@/components/commons/ModalInteraction';
+
+type ModalType = 'withCancel' | 'withoutCancel' | null;
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [modalType, setModalType] = useState<ModalType>(null);
 
-  const handleOpenModal = () => setIsOpen(true);
-  const handleCloseModal = () => setIsOpen(false);
+  const handleOpenModal = useCallback((type: ModalType) => {
+    setModalType(type);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setModalType(null);
+  }, []);
+
+  const handleConfirm = useCallback(() => {
+    alert('확인되었습니다!');
+    setModalType(null);
+  }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <button
-        onClick={handleOpenModal}
-        className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-      >
-        모달 열기
+    <main className="flex min-h-screen flex-col items-center justify-center gap-4">
+      <button onClick={() => handleOpenModal('withCancel')}>
+        취소 버튼 모달 열기
       </button>
 
-      {isOpen && (
-        <ModalWrapper
-          title="안녕하세요"
+      <button onClick={() => handleOpenModal('withoutCancel')}>
+        취소 버튼 없는 모달 열기
+      </button>
+
+      {modalType === 'withCancel' && (
+        <InteractionModal
+          message="이것은 취소 버튼이 있는 모달입니다."
+          onConfirm={handleConfirm}
           onClose={handleCloseModal}
-          className="relative w-full max-w-md rounded-lg bg-white p-6 shadow-xl sm:max-w-lg"
-        >
-          <p>이것은 모달입니다.</p>
-        </ModalWrapper>
+          showCancel={true}
+        />
+      )}
+
+      {modalType === 'withoutCancel' && (
+        <InteractionModal
+          message="이것은 취소 버튼이 없는 모달입니다."
+          onConfirm={handleConfirm}
+          onClose={handleCloseModal}
+          showCancel={false}
+        />
       )}
     </main>
   );
