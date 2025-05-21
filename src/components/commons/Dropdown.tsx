@@ -2,19 +2,24 @@
 
 import { ReactNode, useRef, useState } from 'react';
 import { useClickOutside } from '@/hooks/useClickOutside';
+import DropdownMenuList from './DropdownMenuList';
 
 interface DropdownProps {
   onSelect: (selectedDropdownMenu: string) => void;
   menuOptions: string[];
+  singleIcon?: ReactNode;
   surfixIcon?: ReactNode;
   prefixIcon?: ReactNode;
+  isProfile?: boolean;
 }
 
 export default function Dropdown({
   onSelect,
   menuOptions,
+  singleIcon,
   surfixIcon,
   prefixIcon,
+  isProfile = false,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDropdownMenu, setSelectedDropdownMenu] = useState(
@@ -35,14 +40,15 @@ export default function Dropdown({
   };
 
   return (
-    // TODO: 글자나 시안 확정됨에 따라 w-auto랑 h-auto 수정
     <div className="h-auto w-auto" ref={dropdownRef}>
       <div className="relative">
         <button
           onClick={handleDropdownMenu}
-          className="flex items-center justify-between gap-[0.625rem] rounded-xl border border-gray-100 px-[0.75rem] py-[0.5rem] text-gray-800"
+          className={`flex items-center justify-between gap-[0.625rem] rounded-xl border border-gray-100 px-[0.75rem] py-[0.5rem] text-gray-800 ${isProfile ? 'h-[5rem] w-[5rem] border-none p-0' : ''} `}
         >
-          {prefixIcon ? (
+          {isProfile ? (
+            singleIcon
+          ) : prefixIcon ? (
             <>
               {prefixIcon}
               <span>{selectedDropdownMenu}</span>
@@ -56,17 +62,7 @@ export default function Dropdown({
         </button>
 
         {isOpen && (
-          <div className="absolute gap-[0.625rem] rounded-xl border border-gray-100 text-gray-800">
-            {menuOptions.map((option) => (
-              <div
-                key={option}
-                onClick={() => handleSelect(option)}
-                className="cursor-pointer rounded-xl px-[0.75rem] py-[0.5rem] hover:bg-orange-100"
-              >
-                <span>{option}</span>
-              </div>
-            ))}
-          </div>
+          <DropdownMenuList menuOptions={menuOptions} onSelect={handleSelect} />
         )}
       </div>
     </div>
