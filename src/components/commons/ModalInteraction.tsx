@@ -12,7 +12,7 @@ export default function InteractionModal({
   message,
   onConfirm,
   onClose,
-  showCancel,
+  showCancel = false,
 }: InteractionModalProps) {
   return (
     <ModalWrapper
