@@ -15,7 +15,7 @@ function ModalWrapper({
   onClose,
   className,
 }: ModalWrapperProps) {
-  const modalRef = useRef<HTMLDivElement | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   useClickOutside(modalRef, onClose);
 
   return (
