@@ -17,7 +17,7 @@ export default function InteractionModal({
   return (
     <ModalWrapper
       onClose={onClose}
-      className="relative w-full max-w-md rounded-lg bg-white p-6 text-black"
+      className="relative w-full bg-white p-6 text-black"
     >
       <p className="text-center">{message}</p>
       <div className="mt-6 flex justify-center gap-3">
