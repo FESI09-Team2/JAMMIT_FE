@@ -16,10 +16,14 @@ export default function LoginPage() {
     defaultValues: { email: '', password: '' },
     shouldUnregister: false,
   });
-  const isValid = methods.formState.isValid;
+  const {
+    formState: { isValid },
+    reset,
+  } = methods;
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log(data);
+    alert('로그인' + JSON.stringify(data));
+    reset();
   };
 
   return (
