@@ -1,4 +1,5 @@
-import { memo, ReactNode } from 'react';
+import { memo, ReactNode, useRef } from 'react';
+import { useClickOutside } from '@/hooks/useClickOutside';
 import CancelIcon from '@/assets/icons/ic_x.svg';
 
 interface ModalWrapperProps {
@@ -14,9 +15,12 @@ function ModalWrapper({
   onClose,
   className,
 }: ModalWrapperProps) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  useClickOutside(modalRef, onClose);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className={className}>
+      <div ref={modalRef} className={className}>
         <button onClick={onClose} className="absolute top-4 right-4">
           <CancelIcon />
         </button>
