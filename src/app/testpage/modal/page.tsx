@@ -23,17 +23,15 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <button onClick={() => handleOpenModal('withCancel')}>
-        취소 버튼 모달 열기
-      </button>
+      <button onClick={() => handleOpenModal('withCancel')}>나가는 모달</button>
 
       <button onClick={() => handleOpenModal('withoutCancel')}>
-        취소 버튼 없는 모달 열기
+        가입 완료 모달
       </button>
 
       {modalType === 'withCancel' && (
         <InteractionModal
-          message="이것은 취소 버튼이 있는 모달입니다."
+          message={`정말 나가시겠어요?\n작성된 내용이 모두 삭제됩니다.`}
           onConfirm={handleConfirm}
           onClose={handleCloseModal}
           showCancel={true}
@@ -42,7 +40,7 @@ export default function Home() {
 
       {modalType === 'withoutCancel' && (
         <InteractionModal
-          message="이것은 취소 버튼이 없는 모달입니다."
+          message="가입이 완료되었습니다!"
           onConfirm={handleConfirm}
           onClose={handleCloseModal}
           showCancel={false}

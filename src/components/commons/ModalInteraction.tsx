@@ -19,7 +19,7 @@ export default function InteractionModal({
       onClose={onClose}
       className="relative w-full bg-white p-6 text-black"
     >
-      <p className="text-center">{message}</p>
+      <p className="text-center whitespace-pre-line">{message}</p>
       <div className="mt-6 flex justify-center gap-3">
         {showCancel && (
           <Button variant="outline" size="small" onClick={onClose}>
