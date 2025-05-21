@@ -1,18 +1,19 @@
 'use client';
 
 import { ReactNode, useRef, useState } from 'react';
-import SurfixIcon from '@/assets/icons/ic_sort.svg';
 import { useClickOutside } from '@/hooks/useClickOutside';
 
 interface DropdownProps {
   onSelect: (selectedDropdownMenu: string) => void;
   menuOptions: string[];
+  surfixIcon?: ReactNode;
   prefixIcon?: ReactNode;
 }
 
 export default function Dropdown({
   onSelect,
   menuOptions,
+  surfixIcon,
   prefixIcon,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +48,7 @@ export default function Dropdown({
           ) : (
             <>
               <span className="hidden sm:inline">{selectedDropdownMenu}</span>
-              <SurfixIcon />
+              {surfixIcon}
             </>
           )}
         </button>
