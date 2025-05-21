@@ -1,31 +1,50 @@
 'use client';
 
-import { useState } from 'react';
-import ModalWrapper from '@/components/commons/ModalWarraper';
+import { useState, useCallback } from 'react';
+import InteractionModal from '@/components/commons/ModalInteraction';
+
+type ModalType = 'withCancel' | 'withoutCancel' | null;
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [modalType, setModalType] = useState<ModalType>(null);
 
-  const handleOpenModal = () => setIsOpen(true);
-  const handleCloseModal = () => setIsOpen(false);
+  const handleOpenModal = useCallback((type: ModalType) => {
+    setModalType(type);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setModalType(null);
+  }, []);
+
+  const handleConfirm = useCallback(() => {
+    alert('확인되었습니다!');
+    setModalType(null);
+  }, []);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
-      <button
-        onClick={handleOpenModal}
-        className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-      >
-        모달 열기
+    <main className="flex min-h-screen flex-col items-center justify-center gap-4">
+      <button onClick={() => handleOpenModal('withCancel')}>나가는 모달</button>
+
+      <button onClick={() => handleOpenModal('withoutCancel')}>
+        가입 완료 모달
       </button>
 
-      {isOpen && (
-        <ModalWrapper
-          title="안녕하세요"
+      {modalType === 'withCancel' && (
+        <InteractionModal
+          message={`정말 나가시겠어요?\n작성된 내용이 모두 삭제됩니다.`}
+          onConfirm={handleConfirm}
           onClose={handleCloseModal}
-          className="relative w-full max-w-md rounded-lg bg-white p-6 shadow-xl sm:max-w-lg"
-        >
-          <p>이것은 모달입니다.</p>
-        </ModalWrapper>
+          isShowCancel={true}
+        />
+      )}
+
+      {modalType === 'withoutCancel' && (
+        <InteractionModal
+          message="가입이 완료되었습니다!"
+          onConfirm={handleConfirm}
+          onClose={handleCloseModal}
+          isShowCancel={false}
+        />
       )}
     </main>
   );
