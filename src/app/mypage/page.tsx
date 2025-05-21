@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-
-export default function page() {
-  redirect('/mypage/my-meetings');
+export default function MyPage() {
+  return <div>마이페이지입니다.</div>;
 }
