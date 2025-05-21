@@ -30,7 +30,7 @@ export default function LoginPage() {
     <div className="mt-[12rem] flex items-center justify-center">
       <div className="flex w-[25.125rem] flex-col items-center">
         <FormProvider {...methods}>
-          <h1 className="font-semibol text-[1.5rem]">로그인</h1>
+          <h1 className="text-[1.5rem] font-semibold">로그인</h1>
           <form
             onSubmit={methods.handleSubmit(onSubmit)}
             noValidate
