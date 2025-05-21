@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/components/commons/Button';
 import Input from '@/components/commons/Input';
 import Link from 'next/link';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
@@ -11,8 +12,11 @@ interface FormValues {
 
 export default function LoginPage() {
   const methods = useForm<FormValues>({
-    mode: 'onBlur',
+    mode: 'all',
+    defaultValues: { email: '', password: '' },
+    shouldUnregister: false,
   });
+  const isValid = methods.formState.isValid;
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     console.log(data);
@@ -54,12 +58,15 @@ export default function LoginPage() {
                 },
               }}
             />
-            <button
+            <Button
+              variant="solid"
+              size="large"
+              className="mt-5 w-full"
               type="submit"
-              className="hover:gray-600 mt-5 h-10 w-full cursor-pointer bg-gray-400 text-white"
+              disabled={!isValid}
             >
               로그인
-            </button>
+            </Button>
           </form>
         </FormProvider>
         <div className="mt-5 flex justify-center">
@@ -68,7 +75,6 @@ export default function LoginPage() {
             회원가입
           </Link>
         </div>
-        {/* <div className="block h-100 w-10 bg-gray-500" /> */}
       </div>
     </div>
   );
