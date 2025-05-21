@@ -34,7 +34,7 @@ export default function Home() {
           message={`정말 나가시겠어요?\n작성된 내용이 모두 삭제됩니다.`}
           onConfirm={handleConfirm}
           onClose={handleCloseModal}
-          showCancel={true}
+          isShowCancel={true}
         />
       )}
 
@@ -43,7 +43,7 @@ export default function Home() {
           message="가입이 완료되었습니다!"
           onConfirm={handleConfirm}
           onClose={handleCloseModal}
-          showCancel={false}
+          isShowCancel={false}
         />
       )}
     </main>

@@ -3,9 +3,13 @@ import { useClickOutside } from '@/hooks/useClickOutside';
 import CancelIcon from '@/assets/icons/ic_x.svg';
 
 interface ModalWrapperProps {
+  /** 모달 상단 제목 텍스트 */
   title?: string;
+  /** 모달 내부에 렌더링될 내용 */
   children: ReactNode;
+  /** "x"버튼 또는 "취소" 버튼 클릭 시 실행할 콜백 */
   onClose: () => void;
+  /** 모달 콘텐츠 영역에 적용할 추가 스타일 클래스 */
   className?: string;
 }
 
