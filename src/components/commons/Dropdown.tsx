@@ -17,7 +17,9 @@ export default function Dropdown({
   prefixIcon,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedDropdownMenu, setSelectedDropdownMenu] = useState('최신 순');
+  const [selectedDropdownMenu, setSelectedDropdownMenu] = useState(
+    menuOptions[0] ?? '',
+  );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(dropdownRef, () => setIsOpen(false));
