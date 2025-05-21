@@ -25,7 +25,11 @@ function ModalWrapper({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div ref={modalRef} className={className}>
-        <button onClick={onClose} className="absolute top-4 right-4">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4"
+          aria-label="모달 닫기"
+        >
           <CancelIcon />
         </button>
         {title && <h2 className="mb-4">{title}</h2>}
