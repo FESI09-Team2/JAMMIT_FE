@@ -30,6 +30,8 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
   }>({
     defaultValues: {
       rating: 0,
+      review: '',
+      tags: [],
     },
   });
 
