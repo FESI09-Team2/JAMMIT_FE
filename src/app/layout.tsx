@@ -1,4 +1,5 @@
 import 'pretendard/dist/web/variable/pretendardvariable.css';
+
 import Layout from '@/components/commons/Layout';
 import '@/styles/globals.css';
 
