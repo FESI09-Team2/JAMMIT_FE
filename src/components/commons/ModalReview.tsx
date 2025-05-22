@@ -31,7 +31,6 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
   const isValid = tags.length > 0;
 
   const handleSubmitForm = (data: { review: string; tags: string[] }) => {
-    alert(`${data.tags.join('\n')}`);
     onSubmit(data);
   };
 

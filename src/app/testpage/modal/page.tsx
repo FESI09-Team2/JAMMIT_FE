@@ -17,14 +17,16 @@ export default function Home() {
     setModalType(null);
   }, []);
 
+  /** API 연결부 */
   const handleConfirm = useCallback(() => {
     alert('확인되었습니다!');
     setModalType(null);
   }, []);
 
+  /** API 연결부 */
   const handleSubmitReview = useCallback(
     (data: { review: string; tags: string[] }) => {
-      console.log('리뷰 제출됨:', data.review);
+      alert(`${data.tags.join('\n')}`);
       setModalType(null);
     },
     [],
