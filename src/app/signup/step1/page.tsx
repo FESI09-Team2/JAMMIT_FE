@@ -1,3 +1,5 @@
+import SignupStep1Page from '@/components/products/signup/step1/SignupStep1Page';
+
 export default function Step1() {
-  return <>회원가입 1페이지입니다.</>;
+  return <SignupStep1Page />;
 }
