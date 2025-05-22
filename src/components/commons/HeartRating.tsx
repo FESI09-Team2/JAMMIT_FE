@@ -57,12 +57,7 @@ export default function HeartRating({
             key={i}
             type="button"
             onClick={() => handleClick(i)}
-            style={{
-              cursor: 'pointer',
-              background: 'none',
-              border: 'none',
-              padding: 0,
-            }}
+            className="cursor-pointer border-none bg-none p-0"
             aria-label={`${i + 1}점`}
           >
             <motion.div
