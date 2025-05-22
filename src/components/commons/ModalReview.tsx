@@ -68,15 +68,15 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
             <p className="text-lg font-semibold">어떤 사람인가요?</p>
             <div className="flex flex-col gap-1">
               {CHECKBOX_OPTIONS.map((label) => (
-                <label key={label} className="flex items-center space-x-2">
+                <div key={label} className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     value={label}
                     {...register('tags')}
                     className="primary-600"
                   />
-                  <span>{label}</span>
-                </label>
+                  <label htmlFor={label}>{label}</label>
+                </div>
               ))}
             </div>
           </div>
