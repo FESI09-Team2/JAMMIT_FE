@@ -75,6 +75,7 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
               {CHECKBOX_OPTIONS.map((label) => (
                 <div key={label} className="flex items-center space-x-2">
                   <input
+                    id={label}
                     type="checkbox"
                     value={label}
                     {...register('tags')}
