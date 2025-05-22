@@ -1,4 +1,5 @@
-import { Controller, useForm } from 'react-hook-form';
+import React from 'react';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
 import ModalWrapper from './ModalWrapper';
 import HeartRating from './HeartRating';
 import TextArea from './Textarea';
@@ -23,18 +24,19 @@ const CHECKBOX_OPTIONS = [
 ];
 
 export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
-  const { control, handleSubmit, register, watch } = useForm<{
-    review: string;
-    tags: string[];
+  const methods = useForm<{
     rating: number;
+    tags: string[];
+    review: string;
   }>({
     defaultValues: {
       rating: 0,
-      review: '',
       tags: [],
+      review: '',
     },
   });
 
+  const { handleSubmit, watch, register, control } = methods;
   const tags = watch('tags') || [];
   const rating = watch('rating');
   const isValid = tags.length > 0 && rating > 0;
@@ -53,76 +55,76 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
       onClose={onCancel}
       className="relative w-full bg-white p-6 text-black"
     >
-      <form onSubmit={handleSubmit(handleSubmitForm)}>
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-2">
-            <p className="text-lg font-semibold">만족스러운 경험이었나요?</p>
-            <Controller
-              name="rating"
-              control={control}
-              render={({ field }) => (
-                <HeartRating
-                  totalValue={5}
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            {/* TODO: 멘트는 디자인 확정시 교체 예정 */}
-            <p className="text-lg font-semibold">어떤 사람인가요?</p>
-            <div className="flex flex-col gap-1">
-              {CHECKBOX_OPTIONS.map((label) => (
-                <div key={label} className="flex items-center space-x-2">
-                  <input
-                    id={label}
-                    type="checkbox"
-                    value={label}
-                    {...register('tags')}
-                    className="primary-600"
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(handleSubmitForm)}>
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2">
+              <p className="text-lg font-semibold">만족스러운 경험이었나요?</p>
+              <Controller
+                name="rating"
+                control={control}
+                render={({ field }) => (
+                  <HeartRating
+                    totalValue={5}
+                    value={field.value}
+                    onChange={field.onChange}
                   />
-                  <label htmlFor={label}>{label}</label>
-                </div>
-              ))}
+                )}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <p className="text-lg font-semibold">어떤 사람인가요?</p>
+              <div className="flex flex-col gap-1">
+                {CHECKBOX_OPTIONS.map((label) => (
+                  <div key={label} className="flex items-center space-x-2">
+                    <input
+                      id={label}
+                      type="checkbox"
+                      value={label}
+                      {...register('tags')}
+                      className="primary-600"
+                    />
+                    <label htmlFor={label}>{label}</label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <p className="text-lg font-semibold">
+                경험에 대해 자유롭게 남겨주세요.(선택)
+              </p>
+              <Controller
+                name="review"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <TextArea
+                    placeholder="남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다."
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
             </div>
           </div>
 
-          <div className="flex flex-col gap-2">
-            {/* TODO: 멘트는 디자인 확정시 교체 예정 */}
-            <p className="text-lg font-semibold">
-              경험에 대해 자유롭게 남겨주세요.(선택)
-            </p>
-            <Controller
-              name="review"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <TextArea
-                  placeholder="남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다."
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-              )}
-            />
+          <div className="mt-6 flex justify-center gap-3">
+            <Button variant="outline" size="large" onClick={onCancel}>
+              취소
+            </Button>
+            <Button
+              variant="solid"
+              size="large"
+              disabled={!isValid}
+              type="submit"
+            >
+              리뷰 등록
+            </Button>
           </div>
-        </div>
-
-        <div className="mt-6 flex justify-center gap-3">
-          <Button variant="outline" size="large" onClick={onCancel}>
-            취소
-          </Button>
-          <Button
-            variant="solid"
-            size="large"
-            disabled={!isValid}
-            type="submit"
-          >
-            리뷰 등록
-          </Button>
-        </div>
-      </form>
+        </form>
+      </FormProvider>
     </ModalWrapper>
   );
 }
