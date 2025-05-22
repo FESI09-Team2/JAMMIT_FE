@@ -4,39 +4,35 @@ import FilledHeart from '@/assets/icons/ic_fillheart.svg';
 import EmptyHeart from '@/assets/icons/ic_emptyheart.svg';
 
 interface HeartRatingProps {
+  /** 전체 하트수 개수 */
+  totalValue: number;
   /** 하트 개수 */
   value?: number;
   /** 동적 렌더링을 위한 콜백 함수 */
   onChange?: (value: number) => void;
-  /** 읽기전용 */
-  readOnly?: boolean;
 }
 
 const SCALE_MAP: Record<number, number> = { 1: 0.92, 2: 1.08, 3: 1 };
-const TOTAL_HEARTS = 5;
 
 export default function HeartRating({
+  totalValue,
   value = 0,
   onChange,
-  readOnly = false,
 }: HeartRatingProps) {
   const [animStage, setAnimStage] = useState<null | number>(null);
   const [animIndex, setAnimIndex] = useState<null | number>(null);
 
   const handleClick = useCallback(
     (index: number) => {
-      if (readOnly) {
+      if (!onChange) {
         return;
       }
 
-      if (onChange) {
-        onChange(index + 1);
-      }
-
+      onChange(index + 1);
       setAnimIndex(index);
       setAnimStage(1);
     },
-    [readOnly, onChange],
+    [onChange],
   );
 
   const onAnimComplete = useCallback(() => {
@@ -52,7 +48,7 @@ export default function HeartRating({
 
   return (
     <div className="flex items-center space-x-1">
-      {Array.from({ length: TOTAL_HEARTS }).map((_, i) => {
+      {Array.from({ length: totalValue }).map((_, i) => {
         const HeartIcon = i < value ? FilledHeart : EmptyHeart;
         const isAnimating = animIndex === i && animStage !== null;
 
@@ -61,9 +57,8 @@ export default function HeartRating({
             key={i}
             type="button"
             onClick={() => handleClick(i)}
-            disabled={readOnly}
             style={{
-              cursor: readOnly ? 'default' : 'pointer',
+              cursor: 'pointer',
               background: 'none',
               border: 'none',
               padding: 0,

@@ -59,10 +59,15 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
               name="rating"
               control={control}
               render={({ field }) => (
-                <HeartRating value={field.value} onChange={field.onChange} />
+                <HeartRating
+                  totalValue={5}
+                  value={field.value}
+                  onChange={field.onChange}
+                />
               )}
             />
           </div>
+          <HeartRating totalValue={5} value={1} />
 
           <div className="flex flex-col gap-2">
             {/* TODO: 멘트는 디자인 확정시 교체 예정 */}
