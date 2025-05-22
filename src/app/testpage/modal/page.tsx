@@ -22,11 +22,13 @@ export default function Home() {
     setModalType(null);
   }, []);
 
-  const handleSubmitReview = useCallback((data: { review: string }) => {
-    console.log('리뷰 제출됨:', data.review);
-    alert('리뷰가 제출되었습니다!');
-    setModalType(null);
-  }, []);
+  const handleSubmitReview = useCallback(
+    (data: { review: string; tags: string[] }) => {
+      console.log('리뷰 제출됨:', data.review);
+      setModalType(null);
+    },
+    [],
+  );
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4">
