@@ -25,8 +25,8 @@ export default function Home() {
 
   /** API 연결부 */
   const handleSubmitReview = useCallback(
-    (data: { review: string; tags: string[] }) => {
-      alert(`${data.tags.join('\n')}`);
+    (data: { review: string; tags: string[]; rating: number }) => {
+      alert(`${data.tags.join('\n')}\n${data.rating}`);
       setModalType(null);
     },
     [],

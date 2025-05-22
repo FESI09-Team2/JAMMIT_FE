@@ -1,11 +1,12 @@
 import { Controller, useForm } from 'react-hook-form';
 import ModalWrapper from './ModalWrapper';
-import Button from './Button';
+import HeartRating from './HeartRating';
 import TextArea from './Textarea';
+import Button from './Button';
 
 interface ModalReviewProps {
   /** "리뷰등록" 버튼 클릭 시 실행할 콜백 */
-  onSubmit: (data: { review: string; tags: string[] }) => void;
+  onSubmit: (data: { review: string; tags: string[]; rating: number }) => void;
   /** "x"버튼 또는 "취소" 버튼 클릭 시 실행할 콜백 */
   onCancel: () => void;
 }
@@ -22,15 +23,25 @@ const CHECKBOX_OPTIONS = [
 ];
 
 export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
-  const { control, handleSubmit, register, watch } = useForm<{
+  const { control, handleSubmit, register, watch, setValue } = useForm<{
     review: string;
     tags: string[];
-  }>();
+    rating: number;
+  }>({
+    defaultValues: {
+      rating: 0,
+    },
+  });
 
   const tags = watch('tags') || [];
-  const isValid = tags.length > 0;
+  const rating = watch('rating');
+  const isValid = tags.length > 0 && rating > 0;
 
-  const handleSubmitForm = (data: { review: string; tags: string[] }) => {
+  const handleSubmitForm = (data: {
+    review: string;
+    tags: string[];
+    rating: number;
+  }) => {
     onSubmit(data);
   };
 
@@ -44,7 +55,12 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-2">
             <p className="text-lg font-semibold">만족스러운 경험이었나요?</p>
-            <div> 별점 컴포넌트 자리</div>
+            <HeartRating
+              rating={rating}
+              onChange={(val) =>
+                setValue('rating', val, { shouldValidate: true })
+              }
+            />
           </div>
 
           <div className="flex flex-col gap-2">
@@ -57,7 +73,7 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
                     type="checkbox"
                     value={label}
                     {...register('tags')}
-                    className="accent-blue-500"
+                    className="primary-600"
                   />
                   <span>{label}</span>
                 </label>
