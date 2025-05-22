@@ -35,7 +35,7 @@ export default function HeartRating({
     [onChange],
   );
 
-  const onAnimComplete = useCallback(() => {
+  const handleAnimComplete = useCallback(() => {
     if (animStage === 1) {
       setAnimStage(2);
     } else if (animStage === 2) {
@@ -64,7 +64,7 @@ export default function HeartRating({
               style={{ width: 24, height: 24, display: 'flex' }}
               animate={{ scale: isAnimating ? SCALE_MAP[animStage] : 1 }}
               transition={{ duration: 0.15 }}
-              onAnimationComplete={onAnimComplete}
+              onAnimationComplete={handleAnimComplete}
             >
               <HeartIcon />
             </motion.div>
