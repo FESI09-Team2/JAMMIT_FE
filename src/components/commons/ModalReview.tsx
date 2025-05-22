@@ -44,13 +44,13 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
       <form onSubmit={handleSubmit(handleSubmitForm)}>
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-2">
-            <p>만족스러운 경험이었나요?</p>
+            <p className="text-lg font-semibold">만족스러운 경험이었나요?</p>
             <div> 별점 컴포넌트 자리</div>
           </div>
 
           <div className="flex flex-col gap-2">
             {/* TODO: 멘트는 디자인 확정시 교체 예정 */}
-            <p>어떤 사람인가요?</p>
+            <p className="text-lg font-semibold">어떤 사람인가요?</p>
             <div className="flex flex-col gap-1">
               {CHECKBOX_OPTIONS.map((label) => (
                 <label key={label} className="flex items-center space-x-2">
@@ -68,7 +68,9 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
 
           <div className="flex flex-col gap-2">
             {/* TODO: 멘트는 디자인 확정시 교체 예정 */}
-            <p>경험에 대해 자유롭게 남겨주세요.(선택)</p>
+            <p className="text-lg font-semibold">
+              경험에 대해 자유롭게 남겨주세요.(선택)
+            </p>
           </div>
         </div>
 
