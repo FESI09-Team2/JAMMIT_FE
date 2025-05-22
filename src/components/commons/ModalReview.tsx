@@ -67,7 +67,6 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
               )}
             />
           </div>
-          <HeartRating totalValue={5} value={1} />
 
           <div className="flex flex-col gap-2">
             {/* TODO: 멘트는 디자인 확정시 교체 예정 */}
