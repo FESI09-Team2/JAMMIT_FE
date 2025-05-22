@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import InteractionModal from '@/components/commons/ModalInteraction';
+import ModalInteraction from '@/components/commons/ModalInteraction';
+import ModalReview from '@/components/commons/ModalReview';
 
-type ModalType = 'withCancel' | 'withoutCancel' | null;
+type ModalType = 'withCancel' | 'withoutCancel' | 'review' | null;
 
 export default function Home() {
   const [modalType, setModalType] = useState<ModalType>(null);
@@ -21,6 +22,12 @@ export default function Home() {
     setModalType(null);
   }, []);
 
+  const handleSubmitReview = useCallback((data: { review: string }) => {
+    console.log('리뷰 제출됨:', data.review);
+    alert('리뷰가 제출되었습니다!');
+    setModalType(null);
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4">
       <button onClick={() => handleOpenModal('withCancel')}>나가는 모달</button>
@@ -29,8 +36,12 @@ export default function Home() {
         가입 완료 모달
       </button>
 
+      <button onClick={() => handleOpenModal('review')}>
+        리뷰 모달 테스트
+      </button>
+
       {modalType === 'withCancel' && (
-        <InteractionModal
+        <ModalInteraction
           message={`정말 나가시겠어요?\n작성된 내용이 모두 삭제됩니다.`}
           onConfirm={handleConfirm}
           onClose={handleCloseModal}
@@ -39,11 +50,18 @@ export default function Home() {
       )}
 
       {modalType === 'withoutCancel' && (
-        <InteractionModal
+        <ModalInteraction
           message="가입이 완료되었습니다!"
           onConfirm={handleConfirm}
           onClose={handleCloseModal}
           isShowCancel={false}
+        />
+      )}
+
+      {modalType === 'review' && (
+        <ModalReview
+          onCancel={handleCloseModal}
+          onSubmit={handleSubmitReview}
         />
       )}
     </main>
