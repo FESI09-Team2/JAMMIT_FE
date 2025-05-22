@@ -1,5 +1,5 @@
-import Gnb from '@/components/commons/Gnb';
 import 'pretendard/dist/web/variable/pretendardvariable.css';
+import Layout from '@/components/commons/Layout';
 import '@/styles/globals.css';
 
 export default function RootLayout({
@@ -9,9 +9,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className="bg-[#1A1A1E]">
-      <body className="bg-[#1A1A1E]">
-        <Gnb />
-        <main>{children}</main>
+      <body>
+        <Layout>{children}</Layout>
       </body>
     </html>
   );
