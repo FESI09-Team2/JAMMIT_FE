@@ -50,7 +50,7 @@ export default function RecruitList() {
     },
   ];
   return (
-    <div className="grid grid-cols-1 gap-[17px] lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-[1.0625rem] lg:grid-cols-3">
       {mockRecruits.map((item: RecruitCardData) => (
         <RecruitCard key={item.id} data={item} />
       ))}
