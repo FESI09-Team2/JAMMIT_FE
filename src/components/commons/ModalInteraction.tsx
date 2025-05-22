@@ -1,7 +1,7 @@
 import ModalWrapper from './ModalWrapper';
 import Button from './Button';
 
-interface InteractionModalProps {
+interface ModalInteractionProps {
   /** message: 모달에 표시할 메시지 */
   message: string;
   /** "확인" 버튼 클릭 시 실행할 콜백 */
@@ -12,12 +12,12 @@ interface InteractionModalProps {
   isShowCancel?: boolean;
 }
 
-export default function InteractionModal({
+export default function ModalInteraction({
   message,
   onConfirm,
   onClose,
   isShowCancel = false,
-}: InteractionModalProps) {
+}: ModalInteractionProps) {
   return (
     <ModalWrapper
       onClose={onClose}

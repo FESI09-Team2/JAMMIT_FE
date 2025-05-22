@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import InteractionModal from '../ModalInteraction';
+import ModalInteraction from '../ModalInteraction';
 
 jest.mock('@/assets/icons/ic_Invisibility.svg', () => {
   return function MockInVisibilityIcon() {
@@ -7,7 +7,7 @@ jest.mock('@/assets/icons/ic_Invisibility.svg', () => {
   };
 });
 
-describe('InteractionModal 렌더링 테스트', () => {
+describe('ModalInteraction 렌더링 테스트', () => {
   const onConfirmMock = jest.fn();
   const onCloseMock = jest.fn();
 
@@ -18,7 +18,7 @@ describe('InteractionModal 렌더링 테스트', () => {
 
   test('메세지와 버튼 렌더링 되는지?', () => {
     render(
-      <InteractionModal
+      <ModalInteraction
         message="테스트 메시지"
         onConfirm={onConfirmMock}
         onClose={onCloseMock}
@@ -34,7 +34,7 @@ describe('InteractionModal 렌더링 테스트', () => {
 
   test('취소 버튼이 보여지는 경우', () => {
     render(
-      <InteractionModal
+      <ModalInteraction
         message="테스트"
         onConfirm={onConfirmMock}
         onClose={onCloseMock}
@@ -47,7 +47,7 @@ describe('InteractionModal 렌더링 테스트', () => {
 
   test('확인 버튼 클릭시 onConfirm 작동 되는지?', () => {
     render(
-      <InteractionModal
+      <ModalInteraction
         message="테스트"
         onConfirm={onConfirmMock}
         onClose={onCloseMock}
@@ -60,7 +60,7 @@ describe('InteractionModal 렌더링 테스트', () => {
 
   test('취소 버튼 클릭시 onClose 작동 되는지?', () => {
     render(
-      <InteractionModal
+      <ModalInteraction
         message="테스트"
         onConfirm={onConfirmMock}
         onClose={onCloseMock}
