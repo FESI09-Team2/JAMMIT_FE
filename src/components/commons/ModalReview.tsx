@@ -23,7 +23,7 @@ const CHECKBOX_OPTIONS = [
 ];
 
 export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
-  const { control, handleSubmit, register, watch, setValue } = useForm<{
+  const { control, handleSubmit, register, watch } = useForm<{
     review: string;
     tags: string[];
     rating: number;
@@ -55,11 +55,12 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-2">
             <p className="text-lg font-semibold">만족스러운 경험이었나요?</p>
-            <HeartRating
-              rating={rating}
-              onChange={(val) =>
-                setValue('rating', val, { shouldValidate: true })
-              }
+            <Controller
+              name="rating"
+              control={control}
+              render={({ field }) => (
+                <HeartRating value={field.value} onChange={field.onChange} />
+              )}
             />
           </div>
 
@@ -86,21 +87,20 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
             <p className="text-lg font-semibold">
               경험에 대해 자유롭게 남겨주세요.(선택)
             </p>
+            <Controller
+              name="review"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextArea
+                  placeholder="남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다."
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
           </div>
         </div>
-
-        <Controller
-          name="review"
-          control={control}
-          defaultValue=""
-          render={({ field }) => (
-            <TextArea
-              placeholder="남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다."
-              value={field.value}
-              onChange={field.onChange}
-            />
-          )}
-        />
 
         <div className="mt-6 flex justify-center gap-3">
           <Button variant="outline" size="large" onClick={onCancel}>
