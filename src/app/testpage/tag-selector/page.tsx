@@ -50,7 +50,6 @@ export default function TagSelectorTestPage() {
             '악보나 연습 자료를 잘 공유해줬어요',
             '분위기를 잘 이끌어요',
           ]}
-          onChange={handleGenreChange}
         />
       </div>
     </div>
