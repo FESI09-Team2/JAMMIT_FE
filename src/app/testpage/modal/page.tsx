@@ -81,7 +81,11 @@ export default function Home() {
       )}
 
       {modalType === 'zam' && (
-        <ModalZam onCancel={handleCloseModal} onSubmit={handleSubmitZam} />
+        <ModalZam
+          title={'잼 만들기'}
+          onCancel={handleCloseModal}
+          onSubmit={handleSubmitZam}
+        />
       )}
     </main>
   );

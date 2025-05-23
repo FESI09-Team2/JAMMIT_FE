@@ -6,6 +6,8 @@ import TextArea from './Textarea';
 import Button from './Button';
 
 interface ModalZamProps {
+  /** 잼 만들기 & 잼 수정하기와 동일 UI */
+  title: string;
   /** "확인" 버튼 클릭 시 실행할 콜백 */
   onSubmit: (data: ZamFormData) => void;
   /** "x"버튼 클릭 시 실행할 콜백 */
@@ -49,7 +51,7 @@ const PEOPLE_FIELDS = [
   { name: 'string', label: '현악기' },
 ];
 
-export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
+export default function ModalZam({ title, onCancel, onSubmit }: ModalZamProps) {
   const methods = useForm<ZamFormData>({
     defaultValues: {
       zamName: '',
@@ -84,7 +86,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
 
   return (
     <ModalWrapper
-      title="잼만들기"
+      title={title}
       onClose={onCancel}
       className="relative mx-auto max-h-[80vh] w-full max-w-md overflow-y-auto rounded-lg bg-white p-4 text-black shadow-lg"
     >
@@ -119,7 +121,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
 
           {/** 필요한 인원 */}
           <div className="flex flex-col gap-2 pt-2">
-            <p className="text-lg font-semibold">세션 소개</p>
+            <p className="text-lg font-semibold">모집 멤버</p>
             <div className="flex flex-wrap gap-1 gap-x-5">
               {PEOPLE_FIELDS.map(({ name, label }) => (
                 <div className="w-20" key={name}>
@@ -231,9 +233,6 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
                     <div className="flex w-full flex-row items-center gap-4">
                       {/* 파일명이 플로팅 되어 보이는 input 박스 */}
                       <div className="relative w-[360px] rounded border px-3 py-2 pr-10 text-gray-700">
-                        {fileName ? (
-                          <span className="absolute top-1 left-3 -mt-2 bg-white px-1 text-sm text-gray-500"></span>
-                        ) : null}
                         <input
                           type="text"
                           readOnly
