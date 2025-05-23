@@ -4,10 +4,18 @@ import { useState, useCallback } from 'react';
 import ModalInteraction from '@/components/commons/ModalInteraction';
 import ModalReview from '@/components/commons/ModalReview';
 import ModalZam from '@/components/commons/ModalZam';
+import ModalEdit from '@/components/commons/ModalEdit';
 import { ZamFormData } from '@/components/commons/ModalZam';
 import { ReviewFormData } from '@/components/commons/ModalReview';
+import { EditFormData } from '@/components/commons/ModalEdit';
 
-type ModalType = 'withCancel' | 'withoutCancel' | 'review' | 'zam' | null;
+type ModalType =
+  | 'withCancel'
+  | 'withoutCancel'
+  | 'review'
+  | 'zam'
+  | 'edit'
+  | null;
 
 export default function Home() {
   const [modalType, setModalType] = useState<ModalType>(null);
@@ -32,7 +40,14 @@ export default function Home() {
     setModalType(null);
   }, []);
 
+  /** API 연결부 */
   const handleSubmitZam = useCallback((data: ZamFormData) => {
+    alert(JSON.stringify(data, null, 2));
+    setModalType(null);
+  }, []);
+
+  /** API 연결부 */
+  const handleSubmitEdit = useCallback((data: EditFormData) => {
     alert(JSON.stringify(data, null, 2));
     setModalType(null);
   }, []);
@@ -53,6 +68,10 @@ export default function Home() {
 
       <button onClick={() => handleOpenModal('zam')}>
         잼 만들기 모달 테스트
+      </button>
+
+      <button onClick={() => handleOpenModal('edit')}>
+        프로필 수정 모달 테스트
       </button>
 
       {modalType === 'withCancel' && (
@@ -82,6 +101,10 @@ export default function Home() {
 
       {modalType === 'zam' && (
         <ModalZam onCancel={handleCloseModal} onSubmit={handleSubmitZam} />
+      )}
+
+      {modalType === 'edit' && (
+        <ModalEdit onCancel={handleCloseModal} onSubmit={handleSubmitEdit} />
       )}
     </main>
   );
