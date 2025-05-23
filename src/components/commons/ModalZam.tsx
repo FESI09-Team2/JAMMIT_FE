@@ -67,10 +67,20 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
     control,
     register,
     watch,
+    setValue,
     formState: { isValid },
   } = methods;
 
+  // 모집 마감 날짜를 실시간으로 감시
   const endDate = watch('end');
+  const dayDate = watch('day');
+
+  // 모집 마감 날짜가 변경될 때 잼 날짜가 유효하지 않으면 초기화
+  React.useEffect(() => {
+    if (endDate && dayDate && dayDate < endDate) {
+      setValue('day', '');
+    }
+  }, [endDate, dayDate, setValue]);
 
   return (
     <ModalWrapper
@@ -136,44 +146,43 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
             />
           </div>
 
-          {/** 모집 마감 날짜 */}
-          <div className="flex flex-col gap-2 pt-2">
-            <label htmlFor="end" className="font-semibold">
-              잼 멤버 모집 마감 날짜
-            </label>
-            <input
-              id="end"
-              type="date"
-              {...register('end')}
-              className="rounded border p-2"
-            />
-          </div>
+          {/** 날짜 입력 (가로 배열) */}
+          <div className="flex gap-4 pt-2">
+            {/** 모집 마감 날짜 */}
+            <div className="flex flex-1 flex-col gap-2">
+              <label htmlFor="end" className="font-semibold">
+                잼 멤버 모집 마감 날짜
+              </label>
+              <input
+                id="end"
+                type="date"
+                {...register('end')}
+                className="rounded border p-2"
+              />
+            </div>
 
-          {/** 모임 날짜 */}
-          <div className="flex flex-col gap-2 pt-2">
-            <label htmlFor="day" className="font-semibold">
-              잼 날짜
-            </label>
-            <input
-              id="day"
-              type="date"
-              min={endDate || undefined} // 모집 마감 날짜 이후만 선택 가능
-              {...register('day', {
-                validate: (value) => {
-                  if (!endDate) {
-                    return true; // 모집 마감 날짜가 없으면 검증 안함
-                  }
-                  if (!value) {
-                    return true; // 모임 날짜가 없으면 검증 안함
-                  }
-                  return (
-                    value >= endDate ||
-                    '모임 날짜는 모집 마감 날짜 이후여야 합니다.'
-                  );
-                },
-              })}
-              className="rounded border p-2"
-            />
+            {/** 모임 날짜 */}
+            <div className="flex flex-1 flex-col gap-2">
+              <label htmlFor="day" className="font-semibold">
+                잼 날짜
+              </label>
+              <input
+                id="day"
+                type="date"
+                min={endDate || undefined} // 모집 마감 날짜 이후만 선택 가능
+                {...register('day', {
+                  validate: (value) => {
+                    if (!endDate) return true; // 모집 마감 날짜가 없으면 검증 안함
+                    if (!value) return true; // 모임 날짜가 없으면 검증 안함
+                    return (
+                      value >= endDate ||
+                      '모임 날짜는 모집 마감 날짜 이후여야 합니다.'
+                    );
+                  },
+                })}
+                className="rounded border p-2"
+              />
+            </div>
           </div>
 
           {/** 모임 이미지 업로드 */}
