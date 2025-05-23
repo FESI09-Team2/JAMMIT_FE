@@ -86,7 +86,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
                 label="일렉기타"
                 placeholder="인원"
                 rules={{
-                  required: '필수 입력 값입니다.',
+                  required: '필수 입력 값',
                   min: {
                     value: 0,
                     message: '0 이상의 숫자만 입력 가능합니다.',
@@ -105,7 +105,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
                 label="통기타"
                 placeholder="인원"
                 rules={{
-                  required: '필수 입력 값입니다.',
+                  required: '필수 입력 값',
                   min: {
                     value: 0,
                     message: '0 이상의 숫자만 입력 가능합니다.',
@@ -124,7 +124,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
                 label="베이스"
                 placeholder="인원"
                 rules={{
-                  required: '필수 입력 값입니다.',
+                  required: '필수 입력 값',
                   min: {
                     value: 0,
                     message: '0 이상의 숫자만 입력 가능합니다.',
@@ -143,7 +143,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
                 label="드럼"
                 placeholder="인원"
                 rules={{
-                  required: '필수 입력 값입니다.',
+                  required: '필수 입력 값',
                   min: {
                     value: 0,
                     message: '0 이상의 숫자만 입력 가능합니다.',
@@ -162,7 +162,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
                 label="보컬"
                 placeholder="인원"
                 rules={{
-                  required: '필수 입력 값입니다.',
+                  required: '필수 입력 값',
                   min: {
                     value: 0,
                     message: '0 이상의 숫자만 입력 가능합니다.',
@@ -181,7 +181,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
                 label="건반"
                 placeholder="인원"
                 rules={{
-                  required: '필수 입력 값입니다.',
+                  required: '필수 입력 값',
                   min: {
                     value: 0,
                     message: '0 이상의 숫자만 입력 가능합니다.',
@@ -200,7 +200,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
                 label="타악기"
                 placeholder="인원"
                 rules={{
-                  required: '필수 입력 값입니다.',
+                  required: '필수 입력 값',
                   min: {
                     value: 0,
                     message: '0 이상의 숫자만 입력 가능합니다.',
@@ -219,7 +219,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
                 label="현악기"
                 placeholder="인원"
                 rules={{
-                  required: '필수 입력 값입니다.',
+                  required: '필수 입력 값',
                   min: {
                     value: 0,
                     message: '0 이상의 숫자만 입력 가능합니다.',
