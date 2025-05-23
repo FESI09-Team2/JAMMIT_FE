@@ -97,6 +97,9 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
             type="text"
             label="잼 이름"
             placeholder="잼 이름을 작성해주세요."
+            rules={{
+              required: '잼 이름을 입력해주세요.',
+            }}
           />
 
           {/** 장소 */}
@@ -105,6 +108,13 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
             type="text"
             label="장소"
             placeholder="장소를 작성해주세요."
+            rules={{
+              required: '장소를 입력해주세요.',
+              pattern: {
+                value: /^[가-힣\s]+$/,
+                message: '한글만 입력 가능합니다.',
+              },
+            }}
           />
 
           {/** 필요한 인원 */}
