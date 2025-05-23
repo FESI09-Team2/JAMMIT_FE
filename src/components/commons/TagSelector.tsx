@@ -28,11 +28,11 @@ export default function TagSelector({ tags, onChange }: TagSelectorProps) {
   return (
     <div>
       <div className="flex flex-wrap gap-[0.5rem]">
-        {tags.map((tag) => {
+        {tags.map((tag, index) => {
           const isActive = selectedSet.has(tag);
           return (
             <button
-              key={tag}
+              key={`${tag}-${index}`}
               onClick={() => toggleTag(tag)}
               className={clsx(
                 'box-border flex h-[2rem] items-center justify-center rounded-[0.5rem] border bg-[#34343a] pr-[0.5rem] pl-[0.75rem] text-sm font-medium text-gray-100',
