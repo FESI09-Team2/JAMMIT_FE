@@ -3,8 +3,9 @@
 import { useState, useCallback } from 'react';
 import ModalInteraction from '@/components/commons/ModalInteraction';
 import ModalReview from '@/components/commons/ModalReview';
+import ModalZam from '@/components/commons/ModalZam';
 
-type ModalType = 'withCancel' | 'withoutCancel' | 'review' | null;
+type ModalType = 'withCancel' | 'withoutCancel' | 'review' | 'zam' | null;
 
 export default function Home() {
   const [modalType, setModalType] = useState<ModalType>(null);
@@ -34,14 +35,20 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <button onClick={() => handleOpenModal('withCancel')}>나가는 모달</button>
+      <button onClick={() => handleOpenModal('withCancel')}>
+        나가는 모달 테스트
+      </button>
 
       <button onClick={() => handleOpenModal('withoutCancel')}>
-        가입 완료 모달
+        가입 완료 모달 테스트
       </button>
 
       <button onClick={() => handleOpenModal('review')}>
         리뷰 모달 테스트
+      </button>
+
+      <button onClick={() => handleOpenModal('zam')}>
+        잼 만들기 모달 테스트
       </button>
 
       {modalType === 'withCancel' && (
@@ -66,6 +73,17 @@ export default function Home() {
         <ModalReview
           onCancel={handleCloseModal}
           onSubmit={handleSubmitReview}
+        />
+      )}
+
+      {modalType === 'zam' && (
+        <ModalZam
+          onCancel={handleCloseModal}
+          onSubmit={(data) => {
+            console.log('잼 제출됨:', data);
+            alert('잼 제출 완료!');
+            handleCloseModal();
+          }}
         />
       )}
     </main>

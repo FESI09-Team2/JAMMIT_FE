@@ -18,14 +18,14 @@ interface ZamFormData {
   day: string;
   image: File;
   people: {
-    electricGuitar: string;
-    acousticGuitar: string;
-    bass: string;
-    drum: string;
-    vocal: string;
-    keyboard: string;
-    percussion: string;
-    string: string;
+    electricGuitar: number;
+    acousticGuitar: number;
+    bass: number;
+    drum: number;
+    vocal: number;
+    keyboard: number;
+    percussion: number;
+    string: number;
   };
   end: string;
   tag: string[];
@@ -38,16 +38,6 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
       zamName: '',
       place: '',
       day: '',
-      people: {
-        electricGuitar: '',
-        acousticGuitar: '',
-        bass: '',
-        drum: '',
-        vocal: '',
-        keyboard: '',
-        percussion: '',
-        string: '',
-      },
       end: '',
       tag: [],
       introduction: '',
@@ -66,7 +56,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
     <ModalWrapper
       title="잼만들기"
       onClose={onCancel}
-      className="relative w-full bg-white p-6 text-black"
+      className="relative mx-auto max-h-[80vh] w-full max-w-md overflow-y-auto rounded-lg bg-white p-4 text-black shadow-lg"
     >
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -88,55 +78,159 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
           />
 
           {/** 필요한 인원 */}
-          <div>
-            <Input
-              name="people.electricGuitar"
-              type="text"
-              label="일렉기타"
-              placeholder="인원을 입력해주세요"
-            />
-            <Input
-              name="people.acousticGuitar"
-              type="text"
-              label="통기타"
-              placeholder="인원를 작성해주세요."
-            />
-            <Input
-              name="people.bass"
-              type="text"
-              label="베이스"
-              placeholder="인원를 작성해주세요."
-            />
-            <Input
-              name="people"
-              type="text"
-              label="드럼"
-              placeholder="인원를 작성해주세요."
-            />
-            <Input
-              name="people"
-              type="text"
-              label="보컬"
-              placeholder="인원를 작성해주세요."
-            />
-            <Input
-              name="people"
-              type="text"
-              label="건반"
-              placeholder="인원를 작성해주세요."
-            />
-            <Input
-              name="people"
-              type="text"
-              label="타악기"
-              placeholder="인원를 작성해주세요."
-            />
-            <Input
-              name="people"
-              type="text"
-              label="현악기"
-              placeholder="인원를 작성해주세요."
-            />
+          <div className="flex flex-wrap gap-3">
+            <div className="w-20">
+              <Input
+                name="people.electricGuitar"
+                type="text"
+                label="일렉기타"
+                placeholder="인원"
+                rules={{
+                  required: '필수 입력 값입니다.',
+                  min: {
+                    value: 0,
+                    message: '0 이상의 숫자만 입력 가능합니다.',
+                  },
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: '숫자만 입력 가능합니다.',
+                  },
+                }}
+              />
+            </div>
+            <div className="w-20">
+              <Input
+                name="people.acousticGuitar"
+                type="text"
+                label="통기타"
+                placeholder="인원"
+                rules={{
+                  required: '필수 입력 값입니다.',
+                  min: {
+                    value: 0,
+                    message: '0 이상의 숫자만 입력 가능합니다.',
+                  },
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: '숫자만 입력 가능합니다.',
+                  },
+                }}
+              />
+            </div>
+            <div className="w-20">
+              <Input
+                name="people.bass"
+                type="text"
+                label="베이스"
+                placeholder="인원"
+                rules={{
+                  required: '필수 입력 값입니다.',
+                  min: {
+                    value: 0,
+                    message: '0 이상의 숫자만 입력 가능합니다.',
+                  },
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: '숫자만 입력 가능합니다.',
+                  },
+                }}
+              />
+            </div>
+            <div className="w-20">
+              <Input
+                name="people.drum"
+                type="text"
+                label="드럼"
+                placeholder="인원"
+                rules={{
+                  required: '필수 입력 값입니다.',
+                  min: {
+                    value: 0,
+                    message: '0 이상의 숫자만 입력 가능합니다.',
+                  },
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: '숫자만 입력 가능합니다.',
+                  },
+                }}
+              />
+            </div>
+            <div className="w-20">
+              <Input
+                name="people.vocal"
+                type="text"
+                label="보컬"
+                placeholder="인원"
+                rules={{
+                  required: '필수 입력 값입니다.',
+                  min: {
+                    value: 0,
+                    message: '0 이상의 숫자만 입력 가능합니다.',
+                  },
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: '숫자만 입력 가능합니다.',
+                  },
+                }}
+              />
+            </div>
+            <div className="w-20">
+              <Input
+                name="people.keyboard"
+                type="text"
+                label="건반"
+                placeholder="인원"
+                rules={{
+                  required: '필수 입력 값입니다.',
+                  min: {
+                    value: 0,
+                    message: '0 이상의 숫자만 입력 가능합니다.',
+                  },
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: '숫자만 입력 가능합니다.',
+                  },
+                }}
+              />
+            </div>
+            <div className="w-20">
+              <Input
+                name="people.percussion"
+                type="text"
+                label="타악기"
+                placeholder="인원"
+                rules={{
+                  required: '필수 입력 값입니다.',
+                  min: {
+                    value: 0,
+                    message: '0 이상의 숫자만 입력 가능합니다.',
+                  },
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: '숫자만 입력 가능합니다.',
+                  },
+                }}
+              />
+            </div>
+            <div className="w-20">
+              <Input
+                name="people.string"
+                type="text"
+                label="현악기"
+                placeholder="인원"
+                rules={{
+                  required: '필수 입력 값입니다.',
+                  min: {
+                    value: 0,
+                    message: '0 이상의 숫자만 입력 가능합니다.',
+                  },
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: '숫자만 입력 가능합니다.',
+                  },
+                }}
+              />
+            </div>
           </div>
 
           {/** 간단 소개 */}
@@ -156,7 +250,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
             />
           </div>
 
-          {/** 모임 날짜(input의 type="data") */}
+          {/** 모임 날짜 */}
           <div className="flex flex-col gap-2">
             <label htmlFor="day" className="font-semibold">
               모임 날짜
@@ -169,7 +263,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
             />
           </div>
 
-          {/** 모집 마감 날짜(input의 type="data") */}
+          {/** 모집 마감 날짜 */}
           <div className="flex flex-col gap-2">
             <label htmlFor="end" className="font-semibold">
               모집 마감 날짜
@@ -188,7 +282,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
             <input type="file" {...register('image')} />
           </div>
 
-          <Button variant="solid" size="large" disabled type="submit">
+          <Button variant="solid" size="large" type="submit">
             확인
           </Button>
         </form>
