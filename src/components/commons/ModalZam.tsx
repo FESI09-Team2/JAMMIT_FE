@@ -227,6 +227,11 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
             </div>
           </div>
 
+          {/** 태그 */}
+          <div className="flex flex-col gap-2">
+            <p className="text-lg font-semibold">태그자리</p>
+          </div>
+
           {/** 간단 소개 */}
           <div className="flex flex-col gap-2">
             <p className="text-lg font-semibold">세션 소개</p>
