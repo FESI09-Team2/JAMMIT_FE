@@ -59,9 +59,15 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
       tag: [],
       introduction: '',
     },
+    mode: 'onChange',
   });
 
-  const { handleSubmit, control, register } = methods;
+  const {
+    handleSubmit,
+    control,
+    register,
+    formState: { isValid },
+  } = methods;
 
   return (
     <ModalWrapper
@@ -89,32 +95,34 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
           />
 
           {/** 필요한 인원 */}
-          <div className="flex flex-wrap gap-3">
-            {PEOPLE_FIELDS.map(({ name, label }) => (
-              <div className="w-20" key={name}>
-                <Input
-                  name={`people.${name}`}
-                  type="text"
-                  label={label}
-                  placeholder="인원"
-                  rules={NUMBER_VALIDATION}
-                />
-              </div>
-            ))}
+          <div className="flex flex-col gap-2 pt-2">
+            <p className="text-lg font-semibold">세션 소개</p>
+            <div className="flex flex-wrap gap-1 gap-x-5">
+              {PEOPLE_FIELDS.map(({ name, label }) => (
+                <div className="w-20" key={name}>
+                  <Input
+                    name={`people.${name}`}
+                    type="text"
+                    label={label}
+                    placeholder="인원"
+                    rules={NUMBER_VALIDATION}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
           {/** 태그 */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 pt-2">
             <p className="text-lg font-semibold">태그자리</p>
           </div>
 
           {/** 간단 소개 */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 pt-2">
             <p className="text-lg font-semibold">세션 소개</p>
             <Controller
               name="introduction"
               control={control}
-              defaultValue=""
               render={({ field }) => (
                 <TextArea
                   placeholder="세션에 대한 간단한 소개 남겨주세요."
@@ -126,9 +134,9 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
           </div>
 
           {/** 모임 날짜 */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 pt-2">
             <label htmlFor="day" className="font-semibold">
-              모임 날짜
+              잼 날짜
             </label>
             <input
               id="day"
@@ -139,9 +147,9 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
           </div>
 
           {/** 모집 마감 날짜 */}
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 pt-2">
             <label htmlFor="end" className="font-semibold">
-              모집 마감 날짜
+              잼 멤버 모집 마감 날짜
             </label>
             <input
               id="end"
@@ -152,12 +160,80 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
           </div>
 
           {/** 모임 이미지 업로드 */}
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold">모임 이미지</label>
-            <input type="file" {...register('image')} />
+          <div className="flex flex-col gap-2 pt-2 pb-2">
+            <label htmlFor="image" className="font-semibold">
+              잼 이미지 업로드
+            </label>
+            <Controller
+              name="image"
+              control={control}
+              rules={{
+                required: '이미지를 선택해주세요.',
+                validate: (file: File) => {
+                  if (!file) return '이미지를 선택해주세요.';
+                  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                  return (
+                    allowedTypes.includes(file.type) ||
+                    'jpeg, png, gif 형식의 이미지만 업로드 가능합니다.'
+                  );
+                },
+              }}
+              render={({ field, fieldState }) => {
+                const fileName = field.value ? field.value.name : '';
+                return (
+                  <div className="flex items-center gap-2">
+                    <input
+                      id="image"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] ?? null;
+                        field.onChange(file);
+                      }}
+                    />
+                    <div className="flex w-full flex-row items-center gap-4">
+                      {/* 파일명이 플로팅 되어 보이는 input 박스 */}
+                      <div className="relative w-[360px] rounded border px-3 py-2 pr-10 text-gray-700">
+                        {fileName ? (
+                          <span className="absolute top-1 left-3 -mt-2 bg-white px-1 text-sm text-gray-500"></span>
+                        ) : null}
+                        <input
+                          type="text"
+                          readOnly
+                          value={fileName}
+                          placeholder="파일을 선택해주세요."
+                          className="w-full bg-transparent outline-none"
+                        />
+                      </div>
+
+                      {/* 커스텀 버튼: 클릭하면 파일 선택창 열림 */}
+                      <label
+                        htmlFor="image"
+                        className="cursor-pointer rounded bg-blue-600 px-4 py-2 whitespace-nowrap text-white"
+                      >
+                        파일 찾기
+                      </label>
+                    </div>
+
+                    {/* 에러 메시지 */}
+                    {fieldState.error && (
+                      <p className="ml-4 text-sm text-red-600">
+                        {fieldState.error.message}
+                      </p>
+                    )}
+                  </div>
+                );
+              }}
+            />
           </div>
 
-          <Button variant="solid" size="large" type="submit">
+          <Button
+            variant="solid"
+            size="large"
+            type="submit"
+            disabled={!isValid}
+          >
             확인
           </Button>
         </form>
