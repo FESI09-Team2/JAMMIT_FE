@@ -1,0 +1,198 @@
+import React from 'react';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
+import ModalWrapper from './ModalWrapper';
+import Input from './Input';
+import TextArea from './Textarea';
+import Button from './Button';
+
+interface ModalZamProps {
+  /** "확인" 버튼 클릭 시 실행할 콜백 */
+  onSubmit: (data: ZamFormData) => void;
+  /** "x"버튼 클릭 시 실행할 콜백 */
+  onCancel: () => void;
+}
+
+interface ZamFormData {
+  zamName: string;
+  place: string;
+  day: string;
+  image: File;
+  people: {
+    electricGuitar: string;
+    acousticGuitar: string;
+    bass: string;
+    drum: string;
+    vocal: string;
+    keyboard: string;
+    percussion: string;
+    string: string;
+  };
+  end: string;
+  tag: string[];
+  introduction: string;
+}
+
+export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
+  const methods = useForm<ZamFormData>({
+    defaultValues: {
+      zamName: '',
+      place: '',
+      day: '',
+      people: {
+        electricGuitar: '',
+        acousticGuitar: '',
+        bass: '',
+        drum: '',
+        vocal: '',
+        keyboard: '',
+        percussion: '',
+        string: '',
+      },
+      end: '',
+      tag: [],
+      introduction: '',
+    },
+  });
+
+  const { handleSubmit, control, register } = methods;
+
+  // API 교체 예정
+  const handleSubmitForm = (data: ZamFormData) => {
+    onSubmit(data);
+    alert(JSON.stringify(data, null, 2));
+  };
+
+  return (
+    <ModalWrapper
+      title="잼만들기"
+      onClose={onCancel}
+      className="relative w-full bg-white p-6 text-black"
+    >
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(handleSubmitForm)}>
+          {/** TODO: 순서 임의 작업 디자인 나오면 변경 예정*/}
+          {/** zam이름 */}
+          <Input
+            name="zamName"
+            type="text"
+            label="잼 이름"
+            placeholder="잼 이름을 작성해주세요."
+          />
+
+          {/** 장소 */}
+          <Input
+            name="place"
+            type="text"
+            label="장소"
+            placeholder="장소를 작성해주세요."
+          />
+
+          {/** 필요한 인원 */}
+          <div>
+            <Input
+              name="people.electricGuitar"
+              type="text"
+              label="일렉기타"
+              placeholder="인원을 입력해주세요"
+            />
+            <Input
+              name="people.acousticGuitar"
+              type="text"
+              label="통기타"
+              placeholder="인원를 작성해주세요."
+            />
+            <Input
+              name="people.bass"
+              type="text"
+              label="베이스"
+              placeholder="인원를 작성해주세요."
+            />
+            <Input
+              name="people"
+              type="text"
+              label="드럼"
+              placeholder="인원를 작성해주세요."
+            />
+            <Input
+              name="people"
+              type="text"
+              label="보컬"
+              placeholder="인원를 작성해주세요."
+            />
+            <Input
+              name="people"
+              type="text"
+              label="건반"
+              placeholder="인원를 작성해주세요."
+            />
+            <Input
+              name="people"
+              type="text"
+              label="타악기"
+              placeholder="인원를 작성해주세요."
+            />
+            <Input
+              name="people"
+              type="text"
+              label="현악기"
+              placeholder="인원를 작성해주세요."
+            />
+          </div>
+
+          {/** 간단 소개 */}
+          <div className="flex flex-col gap-2">
+            <p className="text-lg font-semibold">세션 소개</p>
+            <Controller
+              name="introduction"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <TextArea
+                  placeholder="세션에 대한 간단한 소개 남겨주세요."
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+          </div>
+
+          {/** 모임 날짜(input의 type="data") */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="day" className="font-semibold">
+              모임 날짜
+            </label>
+            <input
+              id="day"
+              type="date"
+              {...register('day')}
+              className="rounded border p-2"
+            />
+          </div>
+
+          {/** 모집 마감 날짜(input의 type="data") */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="end" className="font-semibold">
+              모집 마감 날짜
+            </label>
+            <input
+              id="end"
+              type="date"
+              {...register('end')}
+              className="rounded border p-2"
+            />
+          </div>
+
+          {/** 모임 이미지 업로드 */}
+          <div className="flex flex-col gap-2">
+            <label className="font-semibold">모임 이미지</label>
+            <input type="file" {...register('image')} />
+          </div>
+
+          <Button variant="solid" size="large" disabled type="submit">
+            확인
+          </Button>
+        </form>
+      </FormProvider>
+    </ModalWrapper>
+  );
+}
