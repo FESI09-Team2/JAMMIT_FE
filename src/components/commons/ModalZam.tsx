@@ -32,6 +32,23 @@ export interface ZamFormData {
   introduction: string;
 }
 
+const NUMBER_VALIDATION = {
+  required: '필수 입력 값',
+  min: { value: 0, message: '0 이상의 숫자만 입력 가능합니다.' },
+  pattern: { value: /^[0-9]+$/, message: '숫자만 입력 가능합니다.' },
+};
+
+const PEOPLE_FIELDS = [
+  { name: 'electricGuitar', label: '일렉기타' },
+  { name: 'acousticGuitar', label: '통기타' },
+  { name: 'bass', label: '베이스' },
+  { name: 'drum', label: '드럼' },
+  { name: 'vocal', label: '보컬' },
+  { name: 'keyboard', label: '건반' },
+  { name: 'percussion', label: '타악기' },
+  { name: 'string', label: '현악기' },
+];
+
 export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
   const methods = useForm<ZamFormData>({
     defaultValues: {
@@ -73,158 +90,17 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
 
           {/** 필요한 인원 */}
           <div className="flex flex-wrap gap-3">
-            <div className="w-20">
-              <Input
-                name="people.electricGuitar"
-                type="text"
-                label="일렉기타"
-                placeholder="인원"
-                rules={{
-                  required: '필수 입력 값',
-                  min: {
-                    value: 0,
-                    message: '0 이상의 숫자만 입력 가능합니다.',
-                  },
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: '숫자만 입력 가능합니다.',
-                  },
-                }}
-              />
-            </div>
-            <div className="w-20">
-              <Input
-                name="people.acousticGuitar"
-                type="text"
-                label="통기타"
-                placeholder="인원"
-                rules={{
-                  required: '필수 입력 값',
-                  min: {
-                    value: 0,
-                    message: '0 이상의 숫자만 입력 가능합니다.',
-                  },
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: '숫자만 입력 가능합니다.',
-                  },
-                }}
-              />
-            </div>
-            <div className="w-20">
-              <Input
-                name="people.bass"
-                type="text"
-                label="베이스"
-                placeholder="인원"
-                rules={{
-                  required: '필수 입력 값',
-                  min: {
-                    value: 0,
-                    message: '0 이상의 숫자만 입력 가능합니다.',
-                  },
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: '숫자만 입력 가능합니다.',
-                  },
-                }}
-              />
-            </div>
-            <div className="w-20">
-              <Input
-                name="people.drum"
-                type="text"
-                label="드럼"
-                placeholder="인원"
-                rules={{
-                  required: '필수 입력 값',
-                  min: {
-                    value: 0,
-                    message: '0 이상의 숫자만 입력 가능합니다.',
-                  },
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: '숫자만 입력 가능합니다.',
-                  },
-                }}
-              />
-            </div>
-            <div className="w-20">
-              <Input
-                name="people.vocal"
-                type="text"
-                label="보컬"
-                placeholder="인원"
-                rules={{
-                  required: '필수 입력 값',
-                  min: {
-                    value: 0,
-                    message: '0 이상의 숫자만 입력 가능합니다.',
-                  },
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: '숫자만 입력 가능합니다.',
-                  },
-                }}
-              />
-            </div>
-            <div className="w-20">
-              <Input
-                name="people.keyboard"
-                type="text"
-                label="건반"
-                placeholder="인원"
-                rules={{
-                  required: '필수 입력 값',
-                  min: {
-                    value: 0,
-                    message: '0 이상의 숫자만 입력 가능합니다.',
-                  },
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: '숫자만 입력 가능합니다.',
-                  },
-                }}
-              />
-            </div>
-            <div className="w-20">
-              <Input
-                name="people.percussion"
-                type="text"
-                label="타악기"
-                placeholder="인원"
-                rules={{
-                  required: '필수 입력 값',
-                  min: {
-                    value: 0,
-                    message: '0 이상의 숫자만 입력 가능합니다.',
-                  },
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: '숫자만 입력 가능합니다.',
-                  },
-                }}
-              />
-            </div>
-            <div className="w-20">
-              <Input
-                name="people.string"
-                type="text"
-                label="현악기"
-                placeholder="인원"
-                rules={{
-                  required: '필수 입력 값',
-                  min: {
-                    value: 0,
-                    message: '0 이상의 숫자만 입력 가능합니다.',
-                  },
-                  pattern: {
-                    value: /^[0-9]+$/,
-                    message: '숫자만 입력 가능합니다.',
-                  },
-                }}
-              />
-            </div>
+            {PEOPLE_FIELDS.map(({ name, label }) => (
+              <div className="w-20" key={name}>
+                <Input
+                  name={`people.${name}`}
+                  type="text"
+                  label={label}
+                  placeholder="인원"
+                  rules={NUMBER_VALIDATION}
+                />
+              </div>
+            ))}
           </div>
 
           {/** 태그 */}
