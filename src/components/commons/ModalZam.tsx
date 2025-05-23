@@ -12,7 +12,7 @@ interface ModalZamProps {
   onCancel: () => void;
 }
 
-interface ZamFormData {
+export interface ZamFormData {
   zamName: string;
   place: string;
   day: string;

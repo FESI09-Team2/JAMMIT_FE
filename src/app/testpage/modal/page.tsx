@@ -4,6 +4,8 @@ import { useState, useCallback } from 'react';
 import ModalInteraction from '@/components/commons/ModalInteraction';
 import ModalReview from '@/components/commons/ModalReview';
 import ModalZam from '@/components/commons/ModalZam';
+import { ZamFormData } from '@/components/commons/ModalZam';
+import { ReviewFormData } from '@/components/commons/ModalReview';
 
 type ModalType = 'withCancel' | 'withoutCancel' | 'review' | 'zam' | null;
 
@@ -19,19 +21,21 @@ export default function Home() {
   }, []);
 
   /** API 연결부 */
-  const handleConfirm = useCallback(() => {
+  const handleSubmitConfirm = useCallback(() => {
     alert('확인되었습니다!');
     setModalType(null);
   }, []);
 
   /** API 연결부 */
-  const handleSubmitReview = useCallback(
-    (data: { rating: number; tags: string[]; review: string }) => {
-      alert(JSON.stringify(data, null, 2));
-      setModalType(null);
-    },
-    [],
-  );
+  const handleSubmitReview = useCallback((data: ReviewFormData) => {
+    alert(JSON.stringify(data, null, 2));
+    setModalType(null);
+  }, []);
+
+  const handleSubmitZam = useCallback((data: ZamFormData) => {
+    alert(JSON.stringify(data, null, 2));
+    setModalType(null);
+  }, []);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-4">
@@ -54,7 +58,7 @@ export default function Home() {
       {modalType === 'withCancel' && (
         <ModalInteraction
           message={`정말 나가시겠어요?\n작성된 내용이 모두 삭제됩니다.`}
-          onConfirm={handleConfirm}
+          onConfirm={handleSubmitConfirm}
           onClose={handleCloseModal}
           isShowCancel={true}
         />
@@ -63,7 +67,7 @@ export default function Home() {
       {modalType === 'withoutCancel' && (
         <ModalInteraction
           message="가입이 완료되었습니다!"
-          onConfirm={handleConfirm}
+          onConfirm={handleSubmitConfirm}
           onClose={handleCloseModal}
           isShowCancel={false}
         />
@@ -77,7 +81,7 @@ export default function Home() {
       )}
 
       {modalType === 'zam' && (
-        <ModalZam onCancel={handleCloseModal} onSubmit={handleCloseModal} />
+        <ModalZam onCancel={handleCloseModal} onSubmit={handleSubmitZam} />
       )}
     </main>
   );

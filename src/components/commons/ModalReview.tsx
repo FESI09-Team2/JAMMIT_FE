@@ -12,6 +12,12 @@ interface ModalReviewProps {
   onCancel: () => void;
 }
 
+export interface ReviewFormData {
+  rating: number;
+  tags: string[];
+  review: string;
+}
+
 const CHECKBOX_OPTIONS = [
   '연주 실력이 좋아요',
   '곡 준비를 잘 해왔어요',
@@ -24,11 +30,7 @@ const CHECKBOX_OPTIONS = [
 ];
 
 export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
-  const methods = useForm<{
-    rating: number;
-    tags: string[];
-    review: string;
-  }>({
+  const methods = useForm<ReviewFormData>({
     defaultValues: {
       rating: 0,
       tags: [],
