@@ -41,6 +41,18 @@ export default function TagSelectorTestPage() {
           onChange={handleGenreChange}
         />
       </div>
+      <div className="w-130">
+        <TagSelector
+          tags={[
+            '연주 실력이 좋아요',
+            '곡 준비를 잘 해왔어요',
+            '다른 파트와의 호흡이 잘 맞아요',
+            '악보나 연습 자료를 잘 공유해줬어요',
+            '분위기를 잘 이끌어요',
+          ]}
+          onChange={handleGenreChange}
+        />
+      </div>
     </div>
   );
 }
