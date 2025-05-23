@@ -46,12 +46,6 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
 
   const { handleSubmit, control, register } = methods;
 
-  // API 교체 예정
-  const handleSubmitForm = (data: ZamFormData) => {
-    onSubmit(data);
-    alert(JSON.stringify(data, null, 2));
-  };
-
   return (
     <ModalWrapper
       title="잼만들기"
@@ -59,7 +53,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
       className="relative mx-auto max-h-[80vh] w-full max-w-md overflow-y-auto rounded-lg bg-white p-4 text-black shadow-lg"
     >
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(handleSubmitForm)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           {/** TODO: 순서 임의 작업 디자인 나오면 변경 예정*/}
           {/** zam이름 */}
           <Input

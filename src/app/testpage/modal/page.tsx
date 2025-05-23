@@ -27,7 +27,7 @@ export default function Home() {
   /** API 연결부 */
   const handleSubmitReview = useCallback(
     (data: { rating: number; tags: string[]; review: string }) => {
-      alert(`${data.rating}\n${data.tags.join(',')}\n${data.review}`);
+      alert(JSON.stringify(data, null, 2));
       setModalType(null);
     },
     [],
@@ -77,14 +77,7 @@ export default function Home() {
       )}
 
       {modalType === 'zam' && (
-        <ModalZam
-          onCancel={handleCloseModal}
-          onSubmit={(data) => {
-            console.log('잼 제출됨:', data);
-            alert('잼 제출 완료!');
-            handleCloseModal();
-          }}
-        />
+        <ModalZam onCancel={handleCloseModal} onSubmit={handleCloseModal} />
       )}
     </main>
   );

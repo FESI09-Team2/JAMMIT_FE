@@ -41,14 +41,6 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
   const rating = watch('rating');
   const isValid = tags.length > 0 && rating > 0;
 
-  const handleSubmitForm = (data: {
-    review: string;
-    tags: string[];
-    rating: number;
-  }) => {
-    onSubmit(data);
-  };
-
   return (
     <ModalWrapper
       title="리뷰쓰기"
@@ -56,7 +48,7 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
       className="relative w-full bg-white p-6 text-black"
     >
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(handleSubmitForm)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2">
               <p className="text-lg font-semibold">만족스러운 경험이었나요?</p>
