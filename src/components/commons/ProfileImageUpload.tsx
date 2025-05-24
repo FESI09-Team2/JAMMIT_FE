@@ -11,7 +11,6 @@ interface ProfileImageUploadProps {
 export default function ProfileImageUpload({
   imageFile,
   onFileChange,
-  className = '',
 }: ProfileImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -34,7 +33,7 @@ export default function ProfileImageUpload({
   };
 
   return (
-    <div className={`relative ml-1 h-auto w-auto ${className}`}>
+    <div className="relative ml-1">
       {/** ⭐⭐⭐⭐⭐⭐⭐⭐무조건 변경필요⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ */}
       {preview ? (
         <DefaultProfile alt="최초 프로필" />
@@ -43,9 +42,9 @@ export default function ProfileImageUpload({
       )}
       <label
         htmlFor="profile-upload"
-        className="absolute translate-x-6 -translate-y-4 cursor-pointer hover:opacity-80"
+        className="absolute translate-x-5 -translate-y-5 cursor-pointer hover:opacity-80"
       >
-        <EditIcon />
+        <EditIcon className="scale-[0.5625]" />
         <input
           id="profile-upload"
           type="file"
