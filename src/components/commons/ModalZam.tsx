@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import ModalWrapper from './ModalWrapper';
 import Input from './Input';
@@ -76,7 +76,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
   const dayDate = watch('day');
 
   // 모집 마감 날짜가 변경될 때 잼 날짜가 유효하지 않으면 초기화
-  React.useEffect(() => {
+  useEffect(() => {
     if (endDate && dayDate && dayDate < endDate) {
       setValue('day', '');
     }
