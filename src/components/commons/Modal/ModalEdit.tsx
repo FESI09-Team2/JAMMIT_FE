@@ -1,9 +1,10 @@
 import React from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import ModalWrapper from './ModalWrapper';
-import ProfileImageUpload from './ProfileImageUpload';
-import TextArea from './Textarea';
-import Button from './Button';
+import ProfileImageUpload from '../ProfileImageUpload';
+import TextArea from '../Textarea';
+import Button from '../Button';
+import { EditFormData } from '@/types/modal';
 
 interface ModalEditProps {
   /** "확인" 버튼 클릭 시 실행할 콜백 */
@@ -17,13 +18,6 @@ interface ModalEditProps {
     genre: string[];
     introduction: string;
   };
-}
-
-export interface EditFormData {
-  image?: File;
-  session: string[];
-  genre: string[];
-  introduction: string;
 }
 
 export default function ModalEdit({

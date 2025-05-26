@@ -1,5 +1,5 @@
 import ModalWrapper from './ModalWrapper';
-import Button from './Button';
+import Button from '../Button';
 
 interface ModalInteractionProps {
   /** message: 모달에 표시할 메시지 */

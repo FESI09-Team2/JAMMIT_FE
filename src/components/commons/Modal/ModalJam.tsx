@@ -1,36 +1,10 @@
 import React, { useEffect } from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import ModalWrapper from './ModalWrapper';
-import Input from './Input';
-import TextArea from './Textarea';
-import Button from './Button';
-
-interface ModalZamProps {
-  /** "확인" 버튼 클릭 시 실행할 콜백 */
-  onSubmit: (data: ZamFormData) => void;
-  /** "x"버튼 클릭 시 실행할 콜백 */
-  onCancel: () => void;
-}
-
-export interface ZamFormData {
-  zamName: string;
-  place: string;
-  day: string;
-  image: File;
-  people: {
-    electricGuitar: number;
-    acousticGuitar: number;
-    bass: number;
-    drum: number;
-    vocal: number;
-    keyboard: number;
-    percussion: number;
-    string: number;
-  };
-  end: string;
-  tag: string[];
-  introduction: string;
-}
+import Input from '../Input';
+import TextArea from '../Textarea';
+import Button from '../Button';
+import { JamFormData } from '@/types/modal';
 
 const NUMBER_VALIDATION = {
   required: '필수 입력 값',
@@ -49,8 +23,15 @@ const PEOPLE_FIELDS = [
   { name: 'string', label: '현악기' },
 ];
 
-export default function ModalZam({ onCancel, onSubmit }: ModalZamProps) {
-  const methods = useForm<ZamFormData>({
+interface ModalJamProps {
+  /** "확인" 버튼 클릭 시 실행할 콜백 */
+  onSubmit: (data: JamFormData) => void;
+  /** "x"버튼 클릭 시 실행할 콜백 */
+  onCancel: () => void;
+}
+
+export default function ModalZam({ onCancel, onSubmit }: ModalJamProps) {
+  const methods = useForm<JamFormData>({
     defaultValues: {
       zamName: '',
       place: '',

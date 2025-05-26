@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import ModalInteraction from '@/components/commons/ModalInteraction';
-import ModalReview from '@/components/commons/ModalReview';
-import ModalZam from '@/components/commons/ModalZam';
-import ModalEdit from '@/components/commons/ModalEdit';
-import { ZamFormData } from '@/components/commons/ModalZam';
-import { ReviewFormData } from '@/components/commons/ModalReview';
-import { EditFormData } from '@/components/commons/ModalEdit';
+import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
+import ModalReview from '@/components/commons/Modal/ModalReview';
+import ModalZam from '@/components/commons/Modal/ModalJam';
+import ModalEdit from '@/components/commons/Modal/ModalEdit';
+import { JamFormData } from '@/types/modal';
+import { ReviewFormData } from '@/components/commons/Modal/ModalReview';
+import { EditFormData } from '@/types/modal';
 
 type ModalType =
   | 'withCancel'
@@ -41,7 +41,7 @@ export default function Home() {
   }, []);
 
   /** API 연결부 */
-  const handleSubmitZam = useCallback((data: ZamFormData) => {
+  const handleSubmitZam = useCallback((data: JamFormData) => {
     alert(JSON.stringify(data, null, 2));
     setModalType(null);
   }, []);
@@ -104,7 +104,16 @@ export default function Home() {
       )}
 
       {modalType === 'edit' && (
-        <ModalEdit onCancel={handleCloseModal} onSubmit={handleSubmitEdit} />
+        <ModalEdit
+          onCancel={handleCloseModal}
+          onSubmit={handleSubmitEdit}
+          initialData={{
+            image: undefined,
+            session: [],
+            genre: [],
+            introduction: '',
+          }}
+        />
       )}
     </main>
   );

@@ -1,22 +1,10 @@
 import React from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import ModalWrapper from './ModalWrapper';
-import HeartRating from './HeartRating';
-import TextArea from './Textarea';
-import Button from './Button';
-
-interface ModalReviewProps {
-  /** "리뷰등록" 버튼 클릭 시 실행할 콜백 */
-  onSubmit: (data: { review: string; tags: string[]; rating: number }) => void;
-  /** "x"버튼 또는 "취소" 버튼 클릭 시 실행할 콜백 */
-  onCancel: () => void;
-}
-
-export interface ReviewFormData {
-  rating: number;
-  tags: string[];
-  review: string;
-}
+import HeartRating from '../HeartRating';
+import TextArea from '../Textarea';
+import Button from '../Button';
+import { ReviewFormData } from '@/types/modal';
 
 const CHECKBOX_OPTIONS = [
   '연주 실력이 좋아요',
@@ -28,6 +16,13 @@ const CHECKBOX_OPTIONS = [
   '볼륨이나 톤을 배려해줘요',
   '합주 시간 약속을 잘 지켜요',
 ];
+
+interface ModalReviewProps {
+  /** "리뷰등록" 버튼 클릭 시 실행할 콜백 */
+  onSubmit: (data: { review: string; tags: string[]; rating: number }) => void;
+  /** "x"버튼 또는 "취소" 버튼 클릭 시 실행할 콜백 */
+  onCancel: () => void;
+}
 
 export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
   const methods = useForm<ReviewFormData>({
