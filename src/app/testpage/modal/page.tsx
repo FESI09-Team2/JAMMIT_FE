@@ -6,7 +6,7 @@ import ModalReview from '@/components/commons/Modal/ModalReview';
 import ModalZam from '@/components/commons/Modal/ModalJam';
 import ModalEdit from '@/components/commons/Modal/ModalEdit';
 import { JamFormData } from '@/types/modal';
-import { ReviewFormData } from '@/components/commons/Modal/ModalReview';
+import { ReviewFormData } from '@/types/modal';
 import { EditFormData } from '@/types/modal';
 
 type ModalType =
