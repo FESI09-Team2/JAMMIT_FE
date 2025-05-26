@@ -19,7 +19,7 @@ export default function ProfileImageUpload({
   className = '',
   profileSize = 56,
   editIconSize = 22,
-  offsetX = 9,
+  offsetX = 10,
   offsetY = 5,
 }: ProfileImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(null);
