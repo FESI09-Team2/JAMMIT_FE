@@ -34,17 +34,20 @@ export default function ProfileImageUpload({
 
   return (
     <div className="relative ml-1">
-      {/** ⭐⭐⭐⭐⭐⭐⭐⭐무조건 변경필요⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐ */}
+      {/** profilemodal=56, editmodal=22  // profilesign=128, editsign=41*/}
       {preview ? (
         <DefaultProfile alt="최초 프로필" />
       ) : (
-        <DefaultProfile alt="최초 프로필" />
+        <DefaultProfile alt="최초 프로필" width={56} height={56} />
       )}
       <label
         htmlFor="profile-upload"
-        className="absolute translate-x-5 -translate-y-5 cursor-pointer hover:opacity-80"
+        // profile
+        className="absolute translate-x-9 -translate-y-5 cursor-pointer hover:opacity-80"
+        // sign
+        //className="absolute translate-x-19 -translate-y-10 cursor-pointer hover:opacity-80"
       >
-        <EditIcon className="scale-[0.5625]" />
+        <EditIcon width={22} height={22} />
         <input
           id="profile-upload"
           type="file"
