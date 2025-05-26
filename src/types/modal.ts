@@ -1,5 +1,5 @@
 export interface JamFormData {
-  zamName: string;
+  jamName: string;
   place: string;
   day: string;
   image: File;

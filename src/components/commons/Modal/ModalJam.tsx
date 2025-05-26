@@ -30,10 +30,10 @@ interface ModalJamProps {
   onCancel: () => void;
 }
 
-export default function ModalZam({ onCancel, onSubmit }: ModalJamProps) {
+export default function ModalJam({ onCancel, onSubmit }: ModalJamProps) {
   const methods = useForm<JamFormData>({
     defaultValues: {
-      zamName: '',
+      jamName: '',
       place: '',
       day: '',
       end: '',
@@ -74,7 +74,7 @@ export default function ModalZam({ onCancel, onSubmit }: ModalJamProps) {
           {/** TODO: 순서 임의 작업 디자인 나오면 변경 예정*/}
           {/** zam이름 */}
           <Input
-            name="zamName"
+            name="jamName"
             type="text"
             label="잼 이름"
             placeholder="잼 이름을 작성해주세요."
