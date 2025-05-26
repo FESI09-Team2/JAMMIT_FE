@@ -50,6 +50,7 @@ export default function TagSelector({
               className={clsx(
                 'box-border flex h-[2rem] items-center justify-center rounded-[0.5rem] border bg-[#34343a] pr-[0.5rem] pl-[0.75rem] text-sm font-medium text-gray-100',
                 isActive ? 'border-[#9747FF] shadow-md' : 'border-transparent',
+                mode === 'selectable' && 'cursor-pointer',
               )}
             >
               {tag}
