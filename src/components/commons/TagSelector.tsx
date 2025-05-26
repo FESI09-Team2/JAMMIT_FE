@@ -7,21 +7,22 @@ import { clsx } from 'clsx';
 interface TagSelectorProps {
   tags: string[];
   mode: 'selectable' | 'readonly';
-  readonlySelected?: string[];
+  initialSelected?: string[];
   onChange?: (selected: string[]) => void;
 }
 
 export default function TagSelector({
   tags,
   mode = 'selectable',
-  readonlySelected,
+  initialSelected = [],
   onChange,
 }: TagSelectorProps) {
-  const [selected, setSelected] = useState<string[]>([]);
-  const selectedSet = useMemo(
-    () => new Set(mode === 'readonly' ? readonlySelected || [] : selected),
-    [mode, readonlySelected, selected],
+  const [selected, setSelected] = useState<string[]>(
+    mode === 'selectable' ? initialSelected : [],
   );
+  const selectedSet = useMemo(() => {
+    return new Set(mode === 'readonly' ? initialSelected : selected);
+  }, [mode, initialSelected, selected]);
 
   const toggleTag = useCallback(
     (tag: string) => {

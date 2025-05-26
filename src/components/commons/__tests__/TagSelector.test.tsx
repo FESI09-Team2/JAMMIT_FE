@@ -76,7 +76,7 @@ describe('TagSelector', () => {
       <TagSelector
         tags={mockTags}
         mode="readonly"
-        readonlySelected={['보컬']}
+        initialSelected={['보컬']}
       />,
     );
     const vocalTagButton = screen.getByText('보컬');
@@ -93,7 +93,7 @@ describe('TagSelector', () => {
       <TagSelector
         mode="readonly"
         tags={mockTags}
-        readonlySelected={['보컬']}
+        initialSelected={['보컬']}
         onChange={handleChange}
       />,
     );

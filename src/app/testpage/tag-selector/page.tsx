@@ -11,60 +11,42 @@ const SESSION_TAGS = [
   '타악기',
 ];
 
-const GENRE_TAGS = [
-  '락/메탈',
-  '팝',
-  '발라드',
-  '인디',
-  '얼터너티브',
-  '재즈',
-  '펑크',
-  '어쿠스틱',
-  '포크',
-  'R&B',
-];
-
-const FEEDBACK_TAGS = [
-  '연주 실력이 좋아요',
-  '곡 준비를 잘 해왔어요',
-  '다른 파트와의 호흡이 잘 맞아요',
-  '악보나 연습 자료를 잘 공유해줬어요',
-  '분위기를 잘 이끌어요',
-];
-
 export default function TagSelectorTestPage() {
-  const handleSessionChange = (selected: string[]) => {
+  const handleSessionChange1 = (selected: string[]) => {
     console.log('선호 장르:', selected);
   };
-  const handleGenreChange = (selected: string[]) => {
+  const handleSessionChange2 = (selected: string[]) => {
     console.log('선호 장르:', selected);
   };
   return (
     <div className="flex h-full w-full flex-col gap-10 bg-[#242429] p-10">
-      <div className="w-70">
-        <TagSelector
-          mode="selectable"
-          tags={GENRE_TAGS}
-          onChange={handleGenreChange}
-        />
-      </div>
-      <div className="w-130">
-        <TagSelector mode="selectable" tags={FEEDBACK_TAGS} />
-      </div>
       <div className="w-100">
-        <h1 className="mb-5 text-white">Selectable</h1>
+        <h1 className="mb-5 text-white">Selectable, 초기값 X</h1>
         <TagSelector
           mode="selectable"
           tags={SESSION_TAGS}
-          onChange={handleSessionChange}
+          onChange={handleSessionChange1}
         />
       </div>
       <div className="w-100">
-        <h1 className="mb-5 text-white">ReadOnly</h1>
+        <h1 className="mb-5 text-white">Selectable, 초기값 O</h1>
+        <TagSelector
+          mode="selectable"
+          tags={SESSION_TAGS}
+          initialSelected={['보컬', '드럼']}
+          onChange={handleSessionChange2}
+        />
+      </div>
+      <div className="w-100">
+        <h1 className="mb-5 text-white">ReadOnly, 초기값 X</h1>
+        <TagSelector mode="readonly" tags={SESSION_TAGS} />
+      </div>
+      <div className="w-100">
+        <h1 className="mb-5 text-white">ReadOnly, 초기값 O</h1>
         <TagSelector
           mode="readonly"
           tags={SESSION_TAGS}
-          readonlySelected={['보컬', '드럼']}
+          initialSelected={['보컬', '드럼']}
         />
       </div>
     </div>
