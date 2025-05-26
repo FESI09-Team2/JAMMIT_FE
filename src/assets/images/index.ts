@@ -1,0 +1,12 @@
+export { default as ImCard01 } from './im_card01.jpg';
+export { default as ImCard02 } from './im_card02.jpg';
+export { default as ImCard03 } from './im_card03.jpg';
+export { default as ImCard04 } from './im_card04.jpg';
+export { default as ImCard05 } from './im_card05.jpg';
+export { default as ImCard06 } from './im_card06.jpg';
+export { default as ImCard07 } from './im_card07.jpg';
+export { default as ImCard08 } from './im_card08.jpg';
+export { default as ImCard09 } from './im_card09.jpg';
+export { default as ImCard10 } from './im_card10.jpg';
+export { default as ImCard11 } from './im_card11.jpg';
+export { default as ImCard12 } from './im_card12.jpg';

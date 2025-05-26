@@ -1,9 +1,5 @@
-import RecruitList from '@/components/commons/RecruitList';
+import RecruitList from '@/components/products/Recruit/RecruitList';
 
 export default function Home() {
-  return (
-    <div className="mx-auto max-w-[994px]">
-      <RecruitList />
-    </div>
-  );
+  return <RecruitList />;
 }

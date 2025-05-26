@@ -77,7 +77,7 @@ export default function RecruitCard({ data }: RecruitCardProps) {
             {data.current}/{data.total}
           </span>{' '}
           명 모집중
-          <ul className="absolute right-[-2px] bottom-3 hidden rounded-xl bg-[#29292C] group-hover:block">
+          <ul className="absolute right-[-2px] bottom-[39px] hidden rounded-xl bg-[#29292C] group-hover:block">
             {data.member.map((item) => (
               <li
                 key={item.name}
