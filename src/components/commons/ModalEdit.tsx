@@ -6,20 +6,43 @@ import TextArea from './Textarea';
 import Button from './Button';
 
 interface ModalEditProps {
+  /** "확인" 버튼 클릭 시 실행할 콜백 */
   onSubmit: (data: EditFormData) => void;
+  /** "x"버튼 클릭 시 실행할 콜백 */
   onCancel: () => void;
+  /** 기존 프로필 정보를 가져오기 위한 초기값 */
+  initialData: {
+    image?: File;
+    session: string[];
+    genre: string[];
+    introduction: string;
+  };
 }
 
 export interface EditFormData {
-  image: File;
+  image?: File;
   session: string[];
   genre: string[];
   introduction: string;
 }
 
-export default function ModalZam({ onCancel, onSubmit }: ModalEditProps) {
+export default function ModalEdit({
+  onCancel,
+  onSubmit,
+  initialData = {
+    image: undefined,
+    session: [],
+    genre: [],
+    introduction: '',
+  },
+}: ModalEditProps) {
   const methods = useForm<EditFormData>({
-    defaultValues: {},
+    defaultValues: {
+      image: initialData.image,
+      session: initialData.session,
+      genre: initialData.genre,
+      introduction: initialData.introduction,
+    },
     mode: 'onChange',
   });
 
