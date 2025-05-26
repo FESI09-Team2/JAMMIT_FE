@@ -41,14 +41,31 @@ export default function TagSelectorTestPage() {
   };
   return (
     <div className="flex h-full w-full flex-col gap-10 bg-[#242429] p-10">
-      <div className="w-100">
-        <TagSelector tags={SESSION_TAGS} onChange={handleSessionChange} />
-      </div>
       <div className="w-70">
-        <TagSelector tags={GENRE_TAGS} onChange={handleGenreChange} />
+        <TagSelector
+          mode="selectable"
+          tags={GENRE_TAGS}
+          onChange={handleGenreChange}
+        />
       </div>
       <div className="w-130">
-        <TagSelector tags={FEEDBACK_TAGS} />
+        <TagSelector mode="selectable" tags={FEEDBACK_TAGS} />
+      </div>
+      <div className="w-100">
+        <h1 className="mb-5 text-white">Selectable</h1>
+        <TagSelector
+          mode="selectable"
+          tags={SESSION_TAGS}
+          onChange={handleSessionChange}
+        />
+      </div>
+      <div className="w-100">
+        <h1 className="mb-5 text-white">ReadOnly</h1>
+        <TagSelector
+          mode="readonly"
+          tags={SESSION_TAGS}
+          readonlySelected={['보컬', '드럼']}
+        />
       </div>
     </div>
   );
