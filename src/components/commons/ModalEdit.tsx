@@ -20,6 +20,7 @@ export interface EditFormData {
 export default function ModalZam({ onCancel, onSubmit }: ModalEditProps) {
   const methods = useForm<EditFormData>({
     defaultValues: {},
+    mode: 'onChange',
   });
 
   const { handleSubmit, control, setValue, watch } = methods;
@@ -29,6 +30,8 @@ export default function ModalZam({ onCancel, onSubmit }: ModalEditProps) {
   const handleFileChange = (file: File) => {
     setValue('image', file);
   };
+
+  const isValid = !!imageFile;
 
   return (
     <ModalWrapper
@@ -61,7 +64,12 @@ export default function ModalZam({ onCancel, onSubmit }: ModalEditProps) {
             />
           </div>
 
-          <Button variant="solid" size="large" type="submit">
+          <Button
+            variant="solid"
+            size="large"
+            type="submit"
+            disabled={!isValid}
+          >
             확인
           </Button>
         </form>
