@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import GroupInfoSection from './GroupInfoSection';
 import bannerImages from '@/constants/bannerImages';
+import GroupPageLayout from '@/components/commons/GroupPageLayout';
+import Button from '@/components/commons/Button';
 
 export default function GroupPage() {
   const groupData = {
@@ -30,16 +32,29 @@ export default function GroupPage() {
   };
 
   return (
-    <div className="w-[84rem]">
-      <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
-        <Image
-          src={bannerImages[groupData.bannerImageIndex]}
-          alt="모임 배너"
-          layout="fill"
-          objectFit="cover"
-          priority
-        />
-      </div>
+    <GroupPageLayout
+      banner={
+        <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
+          <Image
+            src={bannerImages[groupData.bannerImageIndex]}
+            alt="모임 배너"
+            layout="fill"
+            objectFit="cover"
+            priority
+          />
+        </div>
+      }
+      actionButtons={
+        <div className="flex flex-col gap-2">
+          <Button variant="solid" className="w-[22.75rem]">
+            수정하기
+          </Button>
+          <Button variant="outline" className="w-[22.75rem]">
+            삭제하기
+          </Button>
+        </div>
+      }
+    >
       <GroupInfoSection
         title={groupData.title}
         hostName={groupData.hostName}
@@ -50,6 +65,6 @@ export default function GroupPage() {
         genres={groupData.genres}
         description={groupData.description}
       />
-    </div>
+    </GroupPageLayout>
   );
 }
