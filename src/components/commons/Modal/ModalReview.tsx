@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import ModalWrapper from './ModalWrapper';
 import HeartRating from '../HeartRating';
@@ -38,9 +38,16 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
   const tags = watch('tags') || [];
   const rating = watch('rating');
   const isValid = tags.length > 0 && rating > 0;
-  const handleSessionChange = (selected: string[]) => {
-    setValue('tags', selected, { shouldValidate: true });
-  };
+
+  const handleTagChange = useCallback(
+    (selected: string[]) => {
+      setTimeout(() => {
+        setValue('tags', selected);
+      }, 0);
+    },
+    [setValue],
+  );
+
   return (
     <ModalWrapper
       title="리뷰쓰기"
@@ -71,7 +78,8 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
                 <TagSelector
                   mode="selectable"
                   tags={REVIEW_TAGS}
-                  onChange={handleSessionChange}
+                  initialSelected={tags}
+                  onChange={handleTagChange}
                 />
               </div>
             </div>
