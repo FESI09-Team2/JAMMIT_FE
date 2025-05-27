@@ -1,18 +1,5 @@
 import TagSelector from '@/components/commons/TagSelector';
-
-const GENRE_TAGS = [
-  '락',
-  '메탈',
-  '팝',
-  '발라드',
-  'R&B',
-  '인디',
-  '얼터너티브',
-  '재즈',
-  '펑크',
-  '어쿠스틱',
-  '포크',
-];
+import { GENRE_TAGS } from '@/constants/tags';
 
 interface GroupInfoSectionProps {
   title: string;
@@ -20,7 +7,7 @@ interface GroupInfoSectionProps {
   location: string;
   meetingDate: string;
   closingDate: string;
-  instruments: {
+  sessions: {
     name: string;
     current: number;
     max: number;
@@ -35,7 +22,7 @@ export default function GroupInfoSection({
   location,
   meetingDate,
   closingDate,
-  instruments,
+  sessions,
   genres,
   description,
 }: GroupInfoSectionProps) {
@@ -76,7 +63,7 @@ export default function GroupInfoSection({
         <div className="">
           <p className="group-info-subtitle mb-[1.25rem]">모집 현황</p>
           <div className="grid w-[18.813rem] grid-cols-2 gap-x-[2rem] gap-y-[0.5rem]">
-            {instruments.map(({ name, current, max }) => (
+            {sessions.map(({ name, current, max }) => (
               <div
                 key={name}
                 className="flex w-[8.875rem] items-center justify-between"

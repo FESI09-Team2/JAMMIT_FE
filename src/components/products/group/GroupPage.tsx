@@ -1,13 +1,16 @@
+import Image from 'next/image';
 import GroupInfoSection from './GroupInfoSection';
+import bannerImages from '@/constants/bannerImages';
 
 export default function GroupPage() {
   const groupData = {
+    bannerImageIndex: 0,
     title: 'KPOP 위주로 합주해보실 세션 모집',
     hostName: '현호박',
     location: '홍대입구역',
     meetingDate: '2025년 5월 31일 토요일 PM 2시',
     closingDate: '2025년 5월 31일 토요일 PM 2시',
-    instruments: [
+    sessions: [
       { name: '보컬', current: 9, max: 9 },
       { name: '일렉 기타', current: 9, max: 9 },
       { name: '통기타', current: 9, max: 9 },
@@ -27,8 +30,26 @@ export default function GroupPage() {
   };
 
   return (
-    <div>
-      <GroupInfoSection {...groupData} />
+    <div className="w-[84rem]">
+      <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
+        <Image
+          src={bannerImages[groupData.bannerImageIndex]}
+          alt="모임 배너"
+          layout="fill"
+          objectFit="cover"
+          priority
+        />
+      </div>
+      <GroupInfoSection
+        title={groupData.title}
+        hostName={groupData.hostName}
+        location={groupData.location}
+        meetingDate={groupData.meetingDate}
+        closingDate={groupData.closingDate}
+        sessions={groupData.sessions}
+        genres={groupData.genres}
+        description={groupData.description}
+      />
     </div>
   );
 }
