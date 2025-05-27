@@ -2,7 +2,7 @@
 import { type Config } from 'tailwindcss';
 
 const config: Config = {
-  content: ['./src/**/*.{ts,tsx,js,jsx,mdx}'], // ✅ 컴포넌트 경로 꼭 정확해야 함
+  content: ['./src/**/*.{ts,tsx,js,jsx,mdx}'],
   theme: {
     extend: {
       fontFamily: {
