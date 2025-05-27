@@ -1,3 +1,5 @@
+'use client';
+
 import { memo, ReactNode, useRef } from 'react';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import CancelIcon from '@/assets/icons/ic_x.svg';

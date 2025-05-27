@@ -3,19 +3,11 @@
 import { useState, useCallback } from 'react';
 import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
 import ModalReview from '@/components/commons/Modal/ModalReview';
-import ModalZam from '@/components/commons/Modal/ModalJam';
 import ModalEdit from '@/components/commons/Modal/ModalEdit';
-import { JamFormData } from '@/types/modal';
 import { ReviewFormData } from '@/types/modal';
 import { EditFormData } from '@/types/modal';
 
-type ModalType =
-  | 'withCancel'
-  | 'withoutCancel'
-  | 'review'
-  | 'zam'
-  | 'edit'
-  | null;
+type ModalType = 'withCancel' | 'withoutCancel' | 'review' | 'edit' | null;
 
 export default function Home() {
   const [modalType, setModalType] = useState<ModalType>(null);
@@ -41,12 +33,6 @@ export default function Home() {
   }, []);
 
   /** API 연결부 */
-  const handleSubmitZam = useCallback((data: JamFormData) => {
-    alert(JSON.stringify(data, null, 2));
-    setModalType(null);
-  }, []);
-
-  /** API 연결부 */
   const handleSubmitEdit = useCallback((data: EditFormData) => {
     alert(JSON.stringify(data, null, 2));
     setModalType(null);
@@ -64,10 +50,6 @@ export default function Home() {
 
       <button onClick={() => handleOpenModal('review')}>
         리뷰 모달 테스트
-      </button>
-
-      <button onClick={() => handleOpenModal('zam')}>
-        잼 만들기 모달 테스트
       </button>
 
       <button onClick={() => handleOpenModal('edit')}>
@@ -97,10 +79,6 @@ export default function Home() {
           onCancel={handleCloseModal}
           onSubmit={handleSubmitReview}
         />
-      )}
-
-      {modalType === 'zam' && (
-        <ModalZam onCancel={handleCloseModal} onSubmit={handleSubmitZam} />
       )}
 
       {modalType === 'edit' && (
