@@ -15,6 +15,12 @@ jest.mock('@/assets/icons/ic_visibility.svg', () => {
   return MockVisibilityIcon;
 });
 
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+}));
+
 describe('SignupStep1Page', () => {
   test('폼과 버튼이 화면에 나타난다.', () => {
     render(<Step1 />);
