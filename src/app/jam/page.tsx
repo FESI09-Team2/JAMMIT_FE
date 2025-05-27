@@ -38,6 +38,7 @@ export default function JamPage() {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <GroupPageLayout
+          // TODO: 이미지 업로드로 변경 필요
           banner={
             <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
               <Image
