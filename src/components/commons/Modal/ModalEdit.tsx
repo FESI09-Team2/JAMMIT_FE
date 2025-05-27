@@ -61,6 +61,10 @@ export default function ModalEdit({
           <ProfileImageUpload
             imageFile={imageFile}
             onFileChange={handleFileChange}
+            profileSize={56}
+            editIconSize={22}
+            offsetX={10}
+            offsetY={5}
           />
 
           <p className="pt-2 text-lg font-semibold">선호장르</p>
