@@ -15,7 +15,7 @@ export default function JamPage() {
       place: '',
       day: '',
       end: '',
-      tag: [],
+      genre: [],
       introduction: '',
     },
     mode: 'onChange',
