@@ -23,7 +23,7 @@ export default function GroupPageLayout({
       'text-[1rem]',
       isActive
         ? 'text-gray-100 underline decoration-purple-700 decoration-[3px] underline-offset-[6px]'
-        : 'text-gray-400',
+        : 'text-gray-400 cursor-pointer',
     );
 
   return (
@@ -32,33 +32,29 @@ export default function GroupPageLayout({
       {banner}
 
       {/* 탭 */}
-      <div className="flex w-full justify-center py-[1.25rem]">
-        <div className="flex items-center justify-between">
-          <div className="flex gap-[1.25rem]">
-            <button
-              onClick={() => setActiveTab('recruit')}
-              className={tabClass(activeTab === 'recruit')}
-            >
-              모집글
-            </button>
+      <div className="flex w-full justify-center gap-[1.25rem] py-[1.25rem]">
+        <button
+          onClick={() => setActiveTab('recruit')}
+          className={tabClass(activeTab === 'recruit')}
+        >
+          모집글
+        </button>
 
-            <div className="flex items-center gap-[0.2rem]">
-              <button
-                onClick={() => setActiveTab('members')}
-                className={tabClass(activeTab === 'members')}
-              >
-                참여멤버
-              </button>
-              <span
-                className={clsx(
-                  'flex h-[1.25rem] w-[1.25rem] items-center justify-center rounded-full text-xs text-white',
-                  activeTab === 'members' ? 'bg-purple-700' : 'bg-[#6E00B8]',
-                )}
-              >
-                {membersCount}
-              </span>
-            </div>
-          </div>
+        <div className="flex items-center gap-[0.2rem]">
+          <button
+            onClick={() => setActiveTab('members')}
+            className={tabClass(activeTab === 'members')}
+          >
+            참여멤버
+          </button>
+          <span
+            className={clsx(
+              'flex h-[1.25rem] w-[1.25rem] items-center justify-center rounded-full text-xs text-white',
+              activeTab === 'members' ? 'bg-purple-700' : 'bg-[#6E00B8]',
+            )}
+          >
+            {membersCount}
+          </span>
         </div>
       </div>
 

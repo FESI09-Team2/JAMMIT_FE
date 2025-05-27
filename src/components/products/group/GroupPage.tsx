@@ -45,7 +45,7 @@ export default function GroupPage() {
         </div>
       }
       actionButtons={
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-[1.25rem]">
           <Button variant="solid" className="w-[22.75rem]">
             수정하기
           </Button>

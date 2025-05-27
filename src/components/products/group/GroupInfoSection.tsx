@@ -27,7 +27,7 @@ export default function GroupInfoSection({
   description,
 }: GroupInfoSectionProps) {
   return (
-    <section className="text-gary-100 w-[60rem] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
+    <section className="w-[60rem] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
       {/* TODO: 하트 컴포넌트 추가 */}
 
       {/* 모임 제목, 주최자 */}
