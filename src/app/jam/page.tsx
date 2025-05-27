@@ -204,9 +204,9 @@ export default function JamPage({ onSubmit }: ModalJamProps) {
                   />
                   <div className="flex w-full flex-row items-center gap-4">
                     {/* 파일명이 플로팅 되어 보이는 input 박스 */}
-                    <div className="relative w-[360px] rounded border px-3 py-2 pr-10 text-gray-700">
+                    <div className="relative w-[22.5rem] rounded border px-3 py-2 pr-10 text-gray-700">
                       {fileName ? (
-                        <span className="absolute top-1 left-3 -mt-2 bg-white px-1 text-sm text-gray-500"></span>
+                        <span className="absolute top-1 left-3 mt-2 bg-white px-1 text-sm text-gray-500"></span>
                       ) : null}
                       <input
                         type="text"

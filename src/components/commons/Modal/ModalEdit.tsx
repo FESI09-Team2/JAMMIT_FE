@@ -5,7 +5,7 @@ import ProfileImageUpload from '../ProfileImageUpload';
 import TextArea from '../Textarea';
 import Button from '../Button';
 import { EditFormData } from '@/types/modal';
-import TagSelector from '@/components/commons/TagSelector';
+import TagSection from '../TagSection';
 
 const SESSION_TAGS = [
   '보컬',
@@ -90,6 +90,23 @@ export default function ModalEdit({
     [setValue],
   );
 
+  const tagSections = [
+    {
+      key: 'session',
+      label: '선호장르',
+      tags: SESSION_TAGS,
+      initialSelected: initialData.session,
+      onChange: handleSeesionTagChange,
+    },
+    {
+      key: 'genre',
+      label: '세션',
+      tags: GENRE_TAGS,
+      initialSelected: initialData.genre,
+      onChange: handleGenreTagChange,
+    },
+  ];
+
   const isValid = !!imageFile;
 
   return (
@@ -105,28 +122,18 @@ export default function ModalEdit({
             onFileChange={handleFileChange}
           />
 
-          <div className="flex flex-col gap-2">
-            <p className="pt-2 text-lg font-semibold">선호장르</p>
-            <div className="flex flex-col gap-1">
-              <TagSelector
-                mode="selectable"
-                tags={SESSION_TAGS}
-                initialSelected={initialData.session}
-                onChange={handleSeesionTagChange}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <p className="pt-2 text-lg font-semibold">세션</p>
-            <div className="flex flex-col gap-1">
-              <TagSelector
-                mode="selectable"
-                tags={GENRE_TAGS}
-                initialSelected={initialData.genre}
-                onChange={handleGenreTagChange}
-              />
-            </div>
+          <div className="flex flex-col gap-4">
+            {tagSections.map(
+              ({ key, label, tags, initialSelected, onChange }) => (
+                <TagSection
+                  key={key}
+                  label={label}
+                  tags={tags}
+                  initialSelected={initialSelected}
+                  onChange={onChange}
+                />
+              ),
+            )}
           </div>
 
           <div className="flex flex-col gap-2 pt-2 pb-2">
