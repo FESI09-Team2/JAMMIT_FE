@@ -5,8 +5,10 @@ import bannerImages from '@/constants/bannerImages';
 import GroupPageLayout from '@/components/commons/GroupPageLayout';
 import Button from '@/components/commons/Button';
 import JamFormSection from '@/components/products/jam/JamFormSection';
+import MemberInfoSection from '@/components/products/group/MemberInfoSection';
 import { FormProvider, useForm } from 'react-hook-form';
 import { JamFormData } from '@/types/modal';
+import { useQueryTab } from '@/hooks/useQueryTab';
 
 export default function JamPage() {
   const methods = useForm<JamFormData>({
@@ -30,6 +32,11 @@ export default function JamPage() {
     formState: { isValid },
   } = methods;
 
+  const { activeTab } = useQueryTab<'recruit' | 'members'>('tab', 'recruit', [
+    'recruit',
+    'members',
+  ]);
+
   const onSubmit = (data: JamFormData) => {
     console.log('폼 제출됨:', data);
   };
@@ -38,7 +45,6 @@ export default function JamPage() {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <GroupPageLayout
-          // TODO: 이미지 업로드로 변경 필요
           banner={
             <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
               <Image
@@ -66,13 +72,17 @@ export default function JamPage() {
             </div>
           }
         >
-          <JamFormSection
-            control={control}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            isValid={isValid}
-          />
+          {activeTab === 'recruit' ? (
+            <JamFormSection
+              control={control}
+              register={register}
+              watch={watch}
+              setValue={setValue}
+              isValid={isValid}
+            />
+          ) : (
+            <MemberInfoSection />
+          )}
         </GroupPageLayout>
       </form>
     </FormProvider>
