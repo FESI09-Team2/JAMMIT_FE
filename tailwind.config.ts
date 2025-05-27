@@ -1,16 +1,18 @@
-const tailwindConfig = {
-  content: [
-    './src/**/*.{ts,tsx}', // 전체로 포함시키는 게 더 확실
-  ],
-  safelist: ['pc:grid-cols-3'], // ✅ 이 줄을 추가!!
+// tailwind.config.ts
+import { type Config } from 'tailwindcss';
+
+const config: Config = {
+  content: ['./src/**/*.{ts,tsx,js,jsx,mdx}'],
   theme: {
     extend: {
-      screens: {
-        pc: '994px',
+      fontFamily: {
+        sans: ['"Pretendard Variable"', 'sans-serif'],
       },
+    },
+    screens: {
+      pc: '1000px',
     },
   },
   plugins: [],
 };
-
-export default tailwindConfig;
+export default config;

@@ -23,7 +23,7 @@ export default function Like({ initialLiked = false }: LikeProps) {
       onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleLike(e)}
     >
       <IconLove
-        className={`h-6 w-6 ${liked ? 'text-[color:var(--color-C179FF)]' : 'text-white'}`}
+        className={`h-6 w-6 ${liked ? 'text-[color:var(--primary)]' : 'text-white'}`}
       />
     </motion.button>
   );

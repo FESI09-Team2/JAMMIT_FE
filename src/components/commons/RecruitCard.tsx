@@ -4,18 +4,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Like from '../commons/Like';
 import { getDate } from '@/utils/date';
-import { RecruitCardData } from '@/types/types';
+import { RecruitCardData } from '@/types/card';
 
 interface RecruitCardProps {
   data: RecruitCardData;
 }
 
 export default function RecruitCard({ data }: RecruitCardProps) {
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [visibleTags, setVisibleTags] = useState<string[]>([]);
   const [hiddenTags, setHiddenTags] = useState<string[]>([]);
   useLayoutEffect(() => {
-    if (!wrapperRef.current || !data.tags.length) return;
+    if (!wrapperRef.current || !data.tags.length) {
+      return;
+    }
     const tagEls = Array.from(wrapperRef.current!.children) as HTMLElement[];
     const containerWidth = wrapperRef.current!.offsetWidth;
     let total = 0;
@@ -24,7 +26,9 @@ export default function RecruitCard({ data }: RecruitCardProps) {
 
     for (let i = 0; i < data.tags.length; i++) {
       const el = tagEls[i];
-      if (!el) break;
+      if (!el) {
+        break;
+      }
       total += el.offsetWidth + 8;
       if (total < containerWidth - 40) {
         visible.push(data.tags[i]);
@@ -77,7 +81,7 @@ export default function RecruitCard({ data }: RecruitCardProps) {
             {data.current}/{data.total}
           </span>{' '}
           명 모집중
-          <ul className="absolute right-[-2px] bottom-3 hidden rounded-xl bg-[#29292C] group-hover:block">
+          <ul className="absolute right-[-2px] bottom-[39px] hidden rounded-xl bg-[#29292C] group-hover:block">
             {data.member.map((item) => (
               <li
                 key={item.name}
