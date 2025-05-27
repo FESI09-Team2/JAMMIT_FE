@@ -16,7 +16,7 @@ export function useQueryTab<T extends string>(
   const setTab = (tab: T) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set(key, tab);
-    router.replace(`?${params.toString()}`);
+    router.push(`?${params.toString()}`);
   };
 
   return {
