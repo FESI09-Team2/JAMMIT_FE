@@ -19,8 +19,8 @@ export default function ProfileImageUpload({
   className = '',
   profileSize = 56,
   editIconSize = 22,
-  offsetX = 10,
-  offsetY = 5,
+  offsetX = 38,
+  offsetY = 20,
 }: ProfileImageUploadProps) {
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -62,7 +62,10 @@ export default function ProfileImageUpload({
 
       <label
         htmlFor="profile-upload"
-        className={`absolute translate-x-${offsetX} -translate-y-${offsetY} cursor-pointer hover:opacity-80`}
+        className="absolute cursor-pointer hover:opacity-80"
+        style={{
+          transform: `translate(${offsetX}px, -${offsetY}px)`,
+        }}
       >
         <EditIcon width={editIconSize} height={editIconSize} />
         <input

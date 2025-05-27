@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import ModalWrapper from './ModalWrapper';
 import ProfileImageUpload from '../ProfileImageUpload';
 import TextArea from '../Textarea';
 import Button from '../Button';
 import { EditFormData } from '@/types/modal';
+import TagSelector from '@/components/commons/TagSelector';
+
+const SESSION_TAGS = [
+  '보컬',
+  '일렉 기타',
+  '드럼',
+  '통기타',
+  '베이스',
+  '현악기',
+  '타악기',
+];
+
+const GENRE_TAGS = [
+  '락/메탈',
+  '팝',
+  '발라드',
+  '인디',
+  '얼터너티브',
+  '재즈',
+  '펑크',
+  '어쿠스틱',
+  '포크',
+  'R&B',
+];
 
 interface ModalEditProps {
   /** "확인" 버튼 클릭 시 실행할 콜백 */
@@ -48,6 +72,24 @@ export default function ModalEdit({
     setValue('image', file);
   };
 
+  const handleSeesionTagChange = useCallback(
+    (selected: string[]) => {
+      setTimeout(() => {
+        setValue('session', selected);
+      }, 0);
+    },
+    [setValue],
+  );
+
+  const handleGenreTagChange = useCallback(
+    (selected: string[]) => {
+      setTimeout(() => {
+        setValue('genre', selected);
+      }, 0);
+    },
+    [setValue],
+  );
+
   const isValid = !!imageFile;
 
   return (
@@ -61,14 +103,31 @@ export default function ModalEdit({
           <ProfileImageUpload
             imageFile={imageFile}
             onFileChange={handleFileChange}
-            profileSize={56}
-            editIconSize={22}
-            offsetX={10}
-            offsetY={5}
           />
 
-          <p className="pt-2 text-lg font-semibold">선호장르</p>
-          <p className="pt-2 text-lg font-semibold">세션</p>
+          <div className="flex flex-col gap-2">
+            <p className="pt-2 text-lg font-semibold">선호장르</p>
+            <div className="flex flex-col gap-1">
+              <TagSelector
+                mode="selectable"
+                tags={SESSION_TAGS}
+                initialSelected={initialData.session}
+                onChange={handleSeesionTagChange}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <p className="pt-2 text-lg font-semibold">세션</p>
+            <div className="flex flex-col gap-1">
+              <TagSelector
+                mode="selectable"
+                tags={GENRE_TAGS}
+                initialSelected={initialData.genre}
+                onChange={handleGenreTagChange}
+              />
+            </div>
+          </div>
 
           <div className="flex flex-col gap-2 pt-2 pb-2">
             <p className="text-lg font-semibold">자기소개(선택)</p>
