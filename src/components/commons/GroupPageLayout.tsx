@@ -49,8 +49,10 @@ export default function GroupPageLayout({
           </button>
           <span
             className={clsx(
-              'flex h-[1.25rem] w-[1.25rem] items-center justify-center rounded-full text-xs text-white',
-              activeTab === 'members' ? 'bg-purple-700' : 'bg-[#6E00B8]',
+              'flex h-[1.25rem] w-[1.25rem] items-center justify-center rounded-full text-[0.75rem]',
+              activeTab === 'members'
+                ? 'bg-purple-700 text-gray-100'
+                : 'bg-[#6E00B8] text-gray-300',
             )}
           >
             {membersCount}

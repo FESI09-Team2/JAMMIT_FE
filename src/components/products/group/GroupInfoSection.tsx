@@ -60,7 +60,7 @@ export default function GroupInfoSection({
 
       {/* 모집 현황 */}
       <div className="flex gap-[1.25rem]">
-        <div className="">
+        <div>
           <p className="group-info-subtitle mb-[1.25rem]">모집 현황</p>
           <div className="grid w-[18.813rem] grid-cols-2 gap-x-[2rem] gap-y-[0.5rem]">
             {sessions.map(({ name, current, max }) => (
