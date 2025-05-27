@@ -5,8 +5,9 @@ import HeartRating from '../HeartRating';
 import TextArea from '../Textarea';
 import Button from '../Button';
 import { ReviewFormData } from '@/types/modal';
+import TagSelector from '@/components/commons/TagSelector';
 
-const CHECKBOX_OPTIONS = [
+const REVIEW_TAGS = [
   '연주 실력이 좋아요',
   '곡 준비를 잘 해왔어요',
   '다른 파트와의 호흡이 잘 맞아요',
@@ -33,11 +34,13 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
     },
   });
 
-  const { handleSubmit, watch, register, control } = methods;
+  const { handleSubmit, watch, control, setValue } = methods;
   const tags = watch('tags') || [];
   const rating = watch('rating');
   const isValid = tags.length > 0 && rating > 0;
-
+  const handleSessionChange = (selected: string[]) => {
+    setValue('tags', selected, { shouldValidate: true });
+  };
   return (
     <ModalWrapper
       title="리뷰쓰기"
@@ -65,18 +68,11 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
             <div className="flex flex-col gap-2">
               <p className="text-lg font-semibold">어떤 사람인가요?</p>
               <div className="flex flex-col gap-1">
-                {CHECKBOX_OPTIONS.map((label) => (
-                  <div key={label} className="flex items-center space-x-2">
-                    <input
-                      id={label}
-                      type="checkbox"
-                      value={label}
-                      {...register('tags')}
-                      className="primary-600"
-                    />
-                    <label htmlFor={label}>{label}</label>
-                  </div>
-                ))}
+                <TagSelector
+                  mode="selectable"
+                  tags={REVIEW_TAGS}
+                  onChange={handleSessionChange}
+                />
               </div>
             </div>
 
