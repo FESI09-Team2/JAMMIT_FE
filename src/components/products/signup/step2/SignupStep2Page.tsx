@@ -3,7 +3,10 @@
 import AuthCard from '@/components/commons/AuthCard';
 import Button from '@/components/commons/Button';
 import Input from '@/components/commons/Input';
-import TagSelector from '@/components/commons/TagSelector';
+import ProfileImageUpload from '@/components/commons/ProfileImageUpload';
+import TagSection from '@/components/commons/TagSection';
+import { GENRE_TAGS, SESSION_TAGS } from '@/constants/tags';
+import { useCallback } from 'react';
 import {
   Controller,
   FormProvider,
@@ -11,32 +14,8 @@ import {
   useForm,
 } from 'react-hook-form';
 
-const SESSION_TAGS = [
-  '보컬',
-  '일렉 기타',
-  '통기타',
-  '베이스',
-  '건반',
-  '드럼',
-  '타악기',
-  '현악기',
-];
-
-const GENRE_TAGS = [
-  '락',
-  '메탈',
-  '팝',
-  '발라드',
-  'R&B',
-  '인디',
-  '얼터너티브',
-  '재즈',
-  '펑크',
-  '어쿠스틱',
-  '포크',
-];
-
 interface FormValues {
+  image: File;
   nickname: string;
   session: string[];
   genre: string[];
@@ -45,18 +24,50 @@ interface FormValues {
 export default function SignupStep2Page() {
   const methods = useForm<FormValues>({
     mode: 'all',
-    defaultValues: { nickname: '', session: [], genre: [] },
+    defaultValues: { image: undefined, nickname: '', session: [], genre: [] },
     shouldUnregister: false,
   });
 
   const {
     formState: { isValid },
     reset,
+    setValue,
     control,
   } = methods;
 
+  const handleSeesionTagChange = useCallback(
+    (selected: string[]) => {
+      setValue('session', selected);
+    },
+    [setValue],
+  );
+
+  const handleGenreTagChange = useCallback(
+    (selected: string[]) => {
+      setValue('genre', selected);
+    },
+    [setValue],
+  );
+
+  const tagSections = [
+    {
+      key: 'session',
+      label: '선호장르',
+      tags: SESSION_TAGS,
+      initialSelected: [],
+      onChange: handleSeesionTagChange,
+    },
+    {
+      key: 'genre',
+      label: '세션',
+      tags: GENRE_TAGS,
+      initialSelected: [],
+      onChange: handleGenreTagChange,
+    },
+  ];
+
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    alert('회원가입' + JSON.stringify(data));
+    console.log('회원가입', data);
     reset();
   };
 
@@ -69,6 +80,23 @@ export default function SignupStep2Page() {
             noValidate
             className="flex w-full flex-col gap-[1.5rem]"
           >
+            <div className="mx-auto">
+              <Controller
+                name="image"
+                control={control}
+                render={({ field }) => (
+                  <ProfileImageUpload
+                    imageFile={field.value}
+                    onFileChange={field.onChange}
+                    profileSize={128}
+                    editIconSize={41}
+                    offsetX={80}
+                    offsetY={40}
+                  />
+                )}
+              />
+            </div>
+
             <Input
               name="nickname"
               type="text"
@@ -79,40 +107,18 @@ export default function SignupStep2Page() {
               }}
             />
 
-            <div>
-              <label className="mb-[0.5rem] block text-sm font-semibold text-gray-50">
-                담당 세션
-              </label>
-              <Controller
-                name="session"
-                control={control}
-                render={({ field }) => (
-                  <TagSelector
-                    tags={SESSION_TAGS}
-                    mode="selectable"
-                    initialSelected={field.value}
-                    onChange={field.onChange}
+            <div className="flex flex-col gap-4">
+              {tagSections.map(
+                ({ key, label, tags, initialSelected, onChange }) => (
+                  <TagSection
+                    key={key}
+                    label={label}
+                    tags={tags}
+                    initialSelected={initialSelected}
+                    onChange={onChange}
                   />
-                )}
-              />
-            </div>
-
-            <div>
-              <label className="mb-[0.5rem] block text-sm font-semibold text-gray-50">
-                선호 장르
-              </label>
-              <Controller
-                name="genre"
-                control={control}
-                render={({ field }) => (
-                  <TagSelector
-                    tags={GENRE_TAGS}
-                    mode="selectable"
-                    initialSelected={field.value}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
+                ),
+              )}
             </div>
 
             <Button
@@ -122,7 +128,7 @@ export default function SignupStep2Page() {
               type="submit"
               disabled={!isValid}
             >
-              다음
+              확인
             </Button>
           </form>
         </FormProvider>
