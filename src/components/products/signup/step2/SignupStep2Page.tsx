@@ -6,6 +6,7 @@ import Input from '@/components/commons/Input';
 import ProfileImageUpload from '@/components/commons/ProfileImageUpload';
 import TagSection from '@/components/commons/TagSection';
 import { GENRE_TAGS, SESSION_TAGS } from '@/constants/tags';
+import { useSignupStore } from '@/stores/useSignupStore';
 import { useCallback } from 'react';
 import {
   Controller,
@@ -22,6 +23,7 @@ interface FormValues {
 }
 
 export default function SignupStep2Page() {
+  const { email, name, password } = useSignupStore();
   const methods = useForm<FormValues>({
     mode: 'all',
     defaultValues: { image: undefined, nickname: '', session: [], genre: [] },
@@ -52,14 +54,14 @@ export default function SignupStep2Page() {
   const tagSections = [
     {
       key: 'session',
-      label: '선호장르',
+      label: '담당 세션',
       tags: SESSION_TAGS,
       initialSelected: [],
       onChange: handleSeesionTagChange,
     },
     {
       key: 'genre',
-      label: '세션',
+      label: '선호 장르',
       tags: GENRE_TAGS,
       initialSelected: [],
       onChange: handleGenreTagChange,
@@ -67,7 +69,16 @@ export default function SignupStep2Page() {
   ];
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log('회원가입', data);
+    const fullData = {
+      ...data,
+      email,
+      name,
+      password,
+    };
+
+    console.log('회원가입 최종 데이터', fullData);
+    useSignupStore.getState().resetSignupData();
+
     reset();
   };
 

@@ -3,7 +3,9 @@
 import AuthCard from '@/components/commons/AuthCard';
 import Button from '@/components/commons/Button';
 import Input from '@/components/commons/Input';
+import { useSignupStore } from '@/stores/useSignupStore';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 
 interface FormValues {
   email: string;
@@ -12,6 +14,7 @@ interface FormValues {
 }
 
 export default function SignUpStep1Page() {
+  const router = useRouter();
   const methods = useForm<FormValues>({
     mode: 'all',
     defaultValues: { email: '', name: '', password: '' },
@@ -20,14 +23,13 @@ export default function SignUpStep1Page() {
   const {
     formState: { isValid },
     watch,
-    reset,
   } = methods;
 
   const password = watch('password');
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    alert('회원가입' + JSON.stringify(data));
-    reset();
+    useSignupStore.getState().setStep1Data(data);
+    router.push('/signup/step2');
   };
 
   return (
