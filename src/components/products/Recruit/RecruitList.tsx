@@ -4,7 +4,7 @@ import RecruitCard from '../../commons/RecruitCard';
 import Dropdown from '../../commons/Dropdown';
 import ArrowDown from '@/assets/icons/ic_arrowdown.svg';
 import { ImCard01, ImCard02, ImCard03, ImCard04 } from '@/assets/images';
-import { RecruitCardData } from '@/types/types';
+import { RecruitCardData } from '@/types/card';
 
 export default function RecruitList() {
   const mockRecruits = [
