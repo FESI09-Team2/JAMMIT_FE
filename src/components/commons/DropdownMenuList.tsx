@@ -1,5 +1,7 @@
 interface DropdownMenuListProps {
+  /** 드롭다운에 표시할 메뉴 항목 목록 */
   menuOptions: string[];
+  /** 사용자가 항목을 선택했을 때 실행되는 콜백 함수 */
   onSelect: (option: string) => void;
   /** Dropdownlist의 너비 */
   size?: 'sm' | 'md' | 'lg';
@@ -17,7 +19,6 @@ export default function DropdownMenuList({
   }[size || 'lg'];
 
   return (
-    // 384 -> 26rem, 110 -> 9rem
     <div
       className={`absolute ${sizeClass} gap-[0.625rem] rounded-lg border-1 border-[#505057] bg-[#34343A] text-gray-100`}
     >

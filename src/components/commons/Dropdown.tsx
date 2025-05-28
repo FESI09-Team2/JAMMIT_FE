@@ -5,13 +5,18 @@ import { useClickOutside } from '@/hooks/useClickOutside';
 import DropdownMenuList from './DropdownMenuList';
 
 interface DropdownProps {
+  /** 사용자가 드롭다운 항목을 선택했을 때 호출되는 콜백 함수 */
   onSelect: (selectedDropdownMenu: string) => void;
+  /** 드롭다운에 표시할 메뉴 항목 목록 */
   menuOptions: string[];
+  /** 단일 아이콘(네비바 프로필) */
   singleIcon?: ReactNode;
+  /** 텍스트 뒤 아이콘 */
   surfixIcon?: ReactNode;
+  /** 텍스트 앞 아이콘 */
   prefixIcon?: ReactNode;
   isProfile?: boolean;
-  width?: string;
+  /** Dropdown의 너비 */
   size?: 'sm' | 'md' | 'lg';
 }
 
