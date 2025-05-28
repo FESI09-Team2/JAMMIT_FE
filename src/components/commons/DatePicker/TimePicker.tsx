@@ -18,8 +18,9 @@ export function TimePicker<T extends string | number>({
         {items.map((item) => (
           <button
             key={item}
+            type="button"
             className={clsx(
-              'h-[2.0625rem] w-[2.625rem] shrink-0 rounded-[0.5rem] text-center text-[0.875rem]',
+              'h-[2.0625rem] w-[2.625rem] shrink-0 cursor-pointer rounded-[0.5rem] text-center text-[0.875rem] font-semibold',
               selected === item && 'bg-[#9900FF]',
             )}
             onClick={() => onSelect(item)}
