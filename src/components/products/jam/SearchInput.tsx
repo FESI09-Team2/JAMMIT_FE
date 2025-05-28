@@ -3,12 +3,6 @@
 import { useEffect, useRef } from 'react';
 import SearchIcon from '@/assets/icons/ic_search.svg';
 
-declare global {
-  interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    daum: any;
-  }
-}
 interface SearchInputProps {
   value: string;
   onChange: (val: string) => void;
