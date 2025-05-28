@@ -103,7 +103,20 @@
   }
 
   input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px #34343A inset;
-    -webkit-text-fill-color: white
+    -webkit-box-shadow: 0 0 0 1000px #34343a inset;
+    -webkit-text-fill-color: white;
   }
+}
+
+::-webkit-scrollbar {
+  width: 0.1875rem;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 0.5rem;
 }
