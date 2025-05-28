@@ -3,26 +3,12 @@
 import { useEffect, useRef } from 'react';
 import SearchIcon from '@/assets/icons/ic_search.svg';
 
-interface PostcodeData {
-  address: string;
-}
-
-interface DaumPostcodeConstructor {
-  new (options: { oncomplete: (data: PostcodeData) => void }): {
-    open(): void;
-  };
-}
-
-interface Daum {
-  Postcode: DaumPostcodeConstructor;
-}
-
 declare global {
   interface Window {
-    daum?: Daum;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    daum: any;
   }
 }
-
 interface SearchInputProps {
   value: string;
   onChange: (val: string) => void;
@@ -48,7 +34,8 @@ export default function SearchInput({ value, onChange }: SearchInputProps) {
     }
 
     const postcode = new daum.Postcode({
-      oncomplete: (data) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      oncomplete: (data: any) => {
         onChange(data.address);
         inputRef.current?.focus();
       },
