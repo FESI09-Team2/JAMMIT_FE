@@ -4,9 +4,11 @@ interface SignupStep1Data {
   email: string;
   name: string;
   password: string;
-  setStep1Data: (
-    data: Omit<SignupStep1Data, 'setStep1Data' | 'resetSignupData'>,
-  ) => void;
+  setStep1Data: (data: {
+    email: string;
+    name: string;
+    password: string;
+  }) => void;
   resetSignupData: () => void;
 }
 export const useSignupStore = create<SignupStep1Data>((set) => ({
