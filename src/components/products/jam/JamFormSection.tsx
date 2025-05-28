@@ -49,6 +49,7 @@ export default function JamFormSection({
   watch,
   setValue,
 }: JamFormSectionProps) {
+  const place = watch('place') || '';
   const endDate = watch('end');
   const dayDate = watch('day');
 
@@ -79,7 +80,7 @@ export default function JamFormSection({
 
         {/** TODO: kakaomap 검색 */}
         {/** 장소 */}
-        <SearchInput />
+        <SearchInput value={place} onChange={(val) => setValue('place', val)} />
 
         {/** TODO: input과 캘린더 커스텀해야됨 */}
         {/** 날짜 */}

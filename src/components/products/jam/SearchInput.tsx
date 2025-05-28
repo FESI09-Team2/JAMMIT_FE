@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import SearchIcon from '@/assets/icons/ic_search.svg';
 
 interface PostcodeData {
@@ -9,7 +9,7 @@ interface PostcodeData {
 
 interface DaumPostcodeConstructor {
   new (options: { oncomplete: (data: PostcodeData) => void }): {
-    open: () => void;
+    open(): void;
   };
 }
 
@@ -23,8 +23,12 @@ declare global {
   }
 }
 
-export default function SearchInput() {
-  const [address, setAddress] = useState('');
+interface SearchInputProps {
+  value: string;
+  onChange: (val: string) => void;
+}
+
+export default function SearchInput({ value, onChange }: SearchInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -36,17 +40,17 @@ export default function SearchInput() {
   }, []);
 
   const handleSearchClick = () => {
-    if (!window.daum?.Postcode) {
+    const { daum } = window;
+
+    if (!daum?.Postcode) {
+      alert('주소 검색 로딩 중입니다. 잠시만 기다려 주세요.');
       return;
     }
 
-    const postcode = new window.daum.Postcode({
+    const postcode = new daum.Postcode({
       oncomplete: (data) => {
-        setAddress(data.address);
-        if (inputRef.current) {
-          inputRef.current.value = data.address;
-          inputRef.current.focus();
-        }
+        onChange(data.address);
+        inputRef.current?.focus();
       },
     });
 
@@ -59,10 +63,9 @@ export default function SearchInput() {
       <div className="relative w-[27.9375rem] text-gray-400">
         <input
           ref={inputRef}
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           placeholder="장소명을 검색하세요."
-          readOnly
           className="h-[2.75rem] w-full rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem]"
         />
         <button
