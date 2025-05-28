@@ -18,6 +18,7 @@ interface DropdownProps {
   isProfile?: boolean;
   /** Dropdown의 너비 */
   size?: 'sm' | 'md' | 'lg';
+  value?: string;
 }
 
 export default function Dropdown({
@@ -28,15 +29,17 @@ export default function Dropdown({
   prefixIcon,
   isProfile = false,
   size,
+  value,
 }: DropdownProps) {
   const sizeClass = {
     sm: 'w-[6.875rem]',
     md: 'w-[24rem]',
     lg: 'w-auto',
   }[size || 'lg'];
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDropdownMenu, setSelectedDropdownMenu] = useState(
-    menuOptions[0] ?? '',
+    value || menuOptions[0] || '',
   );
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,7 +60,10 @@ export default function Dropdown({
       <div className="relative">
         <button
           onClick={handleDropdownMenu}
-          className={`flex ${sizeClass} items-center justify-between gap-[0.625rem] rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem] text-gray-100 ${isProfile ? 'h-[5rem] w-[5rem] border-none p-0' : ''} `}
+          className={`flex ${sizeClass} items-center justify-between gap-[0.625rem] rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem] text-gray-100 ${
+            isProfile ? 'h-[5rem] w-[5rem] border-none p-0' : ''
+          }`}
+          type="button"
         >
           {isProfile ? (
             singleIcon

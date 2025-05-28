@@ -50,6 +50,7 @@ export default function SearchInput({ value, onChange }: SearchInputProps) {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="장소명을 검색하세요."
+          readOnly
           className="h-[2.75rem] w-full rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem]"
         />
         <button
