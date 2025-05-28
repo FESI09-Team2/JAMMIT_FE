@@ -12,9 +12,28 @@ import {
   UseFormWatch,
   UseFormSetValue,
 } from 'react-hook-form';
-import { JamFormData } from '@/types/modal';
 import { GENRE_TAGS } from '@/constants/tags';
 import SearchInput from './SearchInput';
+
+interface JamFormData {
+  jamName: string;
+  place: string;
+  day: string;
+  image: File;
+  session: {
+    electricGuitar: number;
+    acousticGuitar: number;
+    bass: number;
+    drum: number;
+    vocal: number;
+    keyboard: number;
+    percussion: number;
+    string: number;
+  };
+  end: string;
+  genre: string[];
+  introduction: string;
+}
 
 interface JamFormSectionProps {
   control: Control<JamFormData>;
@@ -73,7 +92,7 @@ export default function JamFormSection({
               id="end"
               type="date"
               {...register('end')}
-              className="h-[2.75rem] w-[13.125rem] rounded border px-[1rem] py-[0.625rem]"
+              className="h-[2.75rem] w-[13.125rem] rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem]"
             />
           </div>
           <div className="flex flex-col gap-[0.5rem]">
@@ -82,7 +101,7 @@ export default function JamFormSection({
             </label>
             <input
               id="day"
-              type="date"
+              type="datetime-local"
               min={endDate || undefined}
               {...register('day', {
                 validate: (value) => {
@@ -93,7 +112,7 @@ export default function JamFormSection({
                   );
                 },
               })}
-              className="h-[2.75rem] w-[13.125rem] rounded border px-[1rem] py-[0.625rem]"
+              className="h-[2.75rem] w-[13.125rem] rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem]"
             />
           </div>
         </div>
