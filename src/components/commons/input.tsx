@@ -64,7 +64,9 @@ function Input({
   const IsPwd = type === 'password';
   const [showPassword, setShowPassword] = useState(false);
   const sizeClass = {
+    // 402px
     sm: 'w-[25.125rem]',
+    // 447px
     md: 'w-[27.9375rem]',
     lg: 'w-auto',
   }[size || 'lg'];
