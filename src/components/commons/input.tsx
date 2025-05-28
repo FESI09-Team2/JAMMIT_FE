@@ -61,8 +61,8 @@ function Input({
     formState: { errors },
   } = useFormContext();
   const sizeClass = {
-    sm: 'w-[402px]',
-    md: 'w-[447px]',
+    sm: 'w-[25.125rem]',
+    md: 'w-[27.9375rem]',
     lg: 'w-auto',
   }[size || 'lg'];
   const IsError = errors[name];
@@ -103,7 +103,7 @@ function Input({
   });
 
   return (
-    <div className="flex flex-col gap-[8px]">
+    <div className="flex flex-col gap-[0.5rem]">
       <label htmlFor={name} className="block text-sm text-gray-100">
         {label}
       </label>
@@ -122,7 +122,7 @@ function Input({
             }
           }}
           {...rest}
-          className={`h-[44px] w-full rounded border-0 bg-[#34343A] px-[16px] py-[10px] ${
+          className={`h-[2.75rem] w-full rounded border-0 bg-[#34343A] px-[1rem] py-[0.625rem] ${
             IsError
               ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500'
               : 'focus-within:ring-0 focus-within:outline-none'
