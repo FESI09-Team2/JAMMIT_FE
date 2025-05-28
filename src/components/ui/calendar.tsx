@@ -6,7 +6,6 @@ import ArrowRight from '@/assets/icons/ic_arrow_right.svg';
 import ArrowLeft from '@/assets/icons/ic_arrow_left.svg';
 
 import { cn } from '@/lib/utils';
-import { buttonVariants } from '@/components/ui/button';
 
 import { enUS } from 'date-fns/locale';
 
@@ -48,15 +47,10 @@ function Calendar({
         cell: cn(
           'relative w-full rounded-[8px] text-center text-[14px] focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-[#9900FF] [&:has([aria-selected].day-range-end)]:rounded-[8px] cursor-pointer',
         ),
-        day: cn(
-          buttonVariants({ variant: 'ghost' }),
-          'size-8 p-0 font-semibold aria-selected:opacity-100',
-        ),
-        day_selected:
-          'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
+        day: cn('size-8 p-0 font-semibold aria-selected:opacity-100'),
         day_today: 'text-[#9900ff]',
         day_outside: 'day-outside text-gray-500',
-        day_disabled: 'text-muted-foreground opacity-50',
+        day_disabled: 'opacity-50',
         day_hidden: 'invisible',
         ...classNames,
       }}
