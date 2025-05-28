@@ -11,6 +11,7 @@ interface DropdownProps {
   surfixIcon?: ReactNode;
   prefixIcon?: ReactNode;
   isProfile?: boolean;
+  width?: string;
 }
 
 export default function Dropdown({
@@ -40,11 +41,11 @@ export default function Dropdown({
   };
 
   return (
-    <div className="h-auto w-auto" ref={dropdownRef}>
+    <div className="h-[2.75rem] w-auto" ref={dropdownRef}>
       <div className="relative">
         <button
           onClick={handleDropdownMenu}
-          className={`flex items-center justify-between gap-[0.625rem] rounded-xl border border-gray-100 px-[0.75rem] py-[0.5rem] text-gray-800 ${isProfile ? 'h-[5rem] w-[5rem] border-none p-0' : ''} `}
+          className={`flex w-[384px] items-center justify-between gap-[0.625rem] rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem] text-gray-100 ${isProfile ? 'h-[5rem] w-[5rem] border-none p-0' : ''} `}
         >
           {isProfile ? (
             singleIcon

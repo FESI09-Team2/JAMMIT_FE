@@ -9,7 +9,7 @@ export default function NumberInput() {
   const increase = () => setCount((prev) => prev + 1);
 
   return (
-    <div className="flex h-[2.75rem] w-[6.6875rem] items-center gap-[1.125rem] rounded-lg bg-[#2C2C32] px-[1rem] py-[0.75rem]">
+    <div className="flex h-[2.75rem] w-[6.6875rem] items-center gap-[1.125rem] rounded-lg bg-[#34343A] px-[1rem] py-[0.75rem]">
       <button onClick={decrease}>
         <MinusIcon />
       </button>

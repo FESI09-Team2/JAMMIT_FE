@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Control,
   UseFormRegister,
@@ -11,10 +11,13 @@ import {
 import Input from '@/components/commons/Input';
 import TextArea from '@/components/commons/Textarea';
 import Button from '@/components/commons/Button';
+import Dropdown from '@/components/commons/Dropdown';
 import TagSelector from '@/components/commons/TagSelector';
 import SearchInput from './SearchInput';
 import NumberInput from './NumberInput';
 import { GENRE_TAGS } from '@/constants/tags';
+import { SESSION_TAGS } from '@/constants/tags';
+import ArrowDown from '@/assets/icons/ic_arrowdown.svg';
 
 interface JamFormData {
   jamName: string;
@@ -53,6 +56,7 @@ export default function JamFormSection({
   const place = watch('place') || '';
   const endDate = watch('end');
   const dayDate = watch('day');
+  const [, setSortOption] = useState(SESSION_TAGS[0]);
 
   useEffect(() => {
     if (endDate && dayDate && dayDate < endDate) {
@@ -126,7 +130,11 @@ export default function JamFormSection({
         <div className="flex justify-between">
           <div className="flex gap-[0.75rem]">
             {/** 드롭다운 자리 */}
-            <input placeholder="드롭다운 자리임" type="number" />
+            <Dropdown
+              onSelect={setSortOption}
+              menuOptions={SESSION_TAGS}
+              surfixIcon={<ArrowDown />}
+            />
 
             {/** 인원 input자리 */}
             <NumberInput />
