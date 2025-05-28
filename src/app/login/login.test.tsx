@@ -27,6 +27,7 @@ describe('LoginPage', () => {
   test('모든 인풋이 유효하면 로그인버튼이 활성화된다.', async () => {
     const user = userEvent.setup();
     render(<Login />);
+
     await user.type(screen.getByLabelText('아이디'), 'testemail@email.com');
     await user.type(screen.getByLabelText('비밀번호'), 'testpassword');
     expect(screen.getByRole('button', { name: '로그인' })).toBeEnabled();

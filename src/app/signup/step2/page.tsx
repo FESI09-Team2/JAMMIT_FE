@@ -1,3 +1,5 @@
+import SignupStep2Page from '@/components/products/signup/step2/SignupStep2Page';
+
 export default function Step2() {
-  return <>회원가입 2페이지입니다.</>;
+  return <SignupStep2Page />;
 }
