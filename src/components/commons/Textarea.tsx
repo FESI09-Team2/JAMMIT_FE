@@ -7,6 +7,7 @@ export interface TextAreaProps {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   className?: string;
   error?: boolean;
+  width?: string;
 }
 
 export default function TextArea({
@@ -15,12 +16,14 @@ export default function TextArea({
   onChange,
   className,
   error,
+  width = 'w-full',
 }: TextAreaProps) {
   return (
     <textarea
       className={clsx(
-        'h-[120px] w-[471px] resize-none rounded-xl border border-gray-300 px-4 py-2.5 text-base font-medium outline-none',
+        'h-[11rem] w-[471px] resize-none rounded-xl border border-gray-300 px-4 py-2.5 text-base font-medium outline-none',
         error && 'border-errorBorder',
+        width,
         className,
       )}
       value={value}
