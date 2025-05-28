@@ -60,14 +60,14 @@ function Input({
     setValue,
     formState: { errors },
   } = useFormContext();
+  const IsError = errors[name];
+  const IsPwd = type === 'password';
+  const [showPassword, setShowPassword] = useState(false);
   const sizeClass = {
     sm: 'w-[25.125rem]',
     md: 'w-[27.9375rem]',
     lg: 'w-auto',
   }[size || 'lg'];
-  const IsError = errors[name];
-  const IsPwd = type === 'password';
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const newValue = e.target.value;
