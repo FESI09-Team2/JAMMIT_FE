@@ -15,29 +15,9 @@ import Dropdown from '@/components/commons/Dropdown';
 import TagSelector from '@/components/commons/TagSelector';
 import SearchInput from './SearchInput';
 import NumberInput from './NumberInput';
-import { GENRE_TAGS } from '@/constants/tags';
-import { SESSION_TAGS } from '@/constants/tags';
+import { GENRE_TAGS, SESSION_TAGS } from '@/constants/tags';
 import ArrowDown from '@/assets/icons/ic_arrowdown.svg';
-
-interface JamFormData {
-  jamName: string;
-  place: string;
-  day: string;
-  image: File;
-  session: {
-    electricGuitar: number;
-    acousticGuitar: number;
-    bass: number;
-    drum: number;
-    vocal: number;
-    keyboard: number;
-    percussion: number;
-    string: number;
-  };
-  end: string;
-  genre: string[];
-  introduction: string;
-}
+import { JamFormData } from '@/types/jam';
 
 interface JamFormSectionProps {
   control: Control<JamFormData>;

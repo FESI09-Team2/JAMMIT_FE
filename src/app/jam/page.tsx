@@ -7,7 +7,7 @@ import Button from '@/components/commons/Button';
 import JamFormSection from '@/components/products/jam/JamFormSection';
 import MemberInfoSection from '@/components/products/group/MemberInfoSection';
 import { FormProvider, useForm } from 'react-hook-form';
-import { JamFormData } from '@/types/modal';
+import { JamFormData } from '@/types/jam';
 import { useQueryTab } from '@/hooks/useQueryTab';
 
 export default function JamPage() {
