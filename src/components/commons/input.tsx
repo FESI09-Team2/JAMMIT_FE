@@ -36,8 +36,6 @@ interface InputProps {
   defaultValue?: string | number;
   /** register에서 받은 ref */
   innerRef?: RefObject<HTMLInputElement | null>;
-  /** input의 너비 */
-  size?: 'sm' | 'md' | 'lg';
 }
 
 function Input({
@@ -53,7 +51,6 @@ function Input({
   placeholder,
   defaultValue,
   innerRef,
-  size,
 }: InputProps) {
   const {
     register,
@@ -63,11 +60,6 @@ function Input({
   const IsError = errors[name];
   const IsPwd = type === 'password';
   const [showPassword, setShowPassword] = useState(false);
-  const sizeClass = {
-    sm: 'w-[25.125rem]',
-    md: 'w-[27.9375rem]',
-    lg: 'w-auto',
-  }[size || 'lg'];
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const newValue = e.target.value;
@@ -103,11 +95,11 @@ function Input({
   });
 
   return (
-    <div className="flex flex-col gap-[0.5rem]">
-      <label htmlFor={name} className="block text-sm text-gray-100">
+    <div>
+      <label htmlFor={name} className="mt-2 mb-2 block">
         {label}
       </label>
-      <div className={`relative ${sizeClass} text-gray-400`}>
+      <div className="relative w-full">
         <input
           type={IsPwd ? (showPassword ? 'text' : 'password') : type}
           onFocus={onInputFocus}
@@ -122,7 +114,7 @@ function Input({
             }
           }}
           {...rest}
-          className={`h-[2.75rem] w-full rounded border-0 bg-[#34343A] px-[1rem] py-[0.625rem] ${
+          className={`w-full rounded border px-3 py-2 pr-10 ${
             IsError
               ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500'
               : 'focus-within:ring-0 focus-within:outline-none'
