@@ -13,6 +13,7 @@ import TextArea from '@/components/commons/Textarea';
 import Button from '@/components/commons/Button';
 import TagSelector from '@/components/commons/TagSelector';
 import SearchInput from './SearchInput';
+import NumberInput from './NumberInput';
 import { GENRE_TAGS } from '@/constants/tags';
 
 interface JamFormData {
@@ -126,13 +127,14 @@ export default function JamFormSection({
           <div className="flex gap-[0.75rem]">
             {/** 드롭다운 자리 */}
             <input placeholder="드롭다운 자리임" type="number" />
+
             {/** 인원 input자리 */}
-            <input placeholder="인원자리임" type="number" />
+            <NumberInput />
           </div>
           {/** 버튼 자리 */}
           <div className="flex gap-[0.75rem]">
             <Button variant="outline" size="small">
-              임시 저장
+              추가
             </Button>
             <Button variant="outline" size="small">
               삭제
