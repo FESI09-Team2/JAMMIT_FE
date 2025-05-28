@@ -14,6 +14,7 @@ import {
 } from 'react-hook-form';
 import { JamFormData } from '@/types/modal';
 import { GENRE_TAGS } from '@/constants/tags';
+import SearchInput from './SearchInput';
 
 interface JamFormSectionProps {
   control: Control<JamFormData>;
@@ -59,19 +60,7 @@ export default function JamFormSection({
 
         {/** TODO: kakaomap 검색 */}
         {/** 장소 */}
-        <Input
-          name="place"
-          type="text"
-          label="장소"
-          placeholder="장소를 작성해주세요."
-          rules={{
-            required: '장소를 입력해주세요.',
-            pattern: {
-              value: /^[가-힣\s]+$/,
-              message: '한글만 입력 가능합니다.',
-            },
-          }}
-        />
+        <SearchInput />
 
         {/** TODO: input과 캘린더 커스텀해야됨 */}
         {/** 날짜 */}
