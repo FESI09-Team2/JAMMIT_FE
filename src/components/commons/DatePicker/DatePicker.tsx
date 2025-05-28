@@ -63,20 +63,20 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
         <button
           type="button"
           className={clsx(
-            'flex h-[44px] w-[209px] items-center justify-center gap-[10px] rounded-[8px] bg-[#34343a] px-[16px] text-[16px] text-gray-100',
+            'flex h-[2.75rem] w-[13.0625rem] items-center justify-center gap-[0.625rem] rounded-[0.5rem] bg-[#34343a] px-[1rem] text-[1rem] text-gray-100',
             isOpen ? 'border border-[#505057]' : 'border-none',
             !date && 'cursor-pointer text-gray-500',
           )}
         >
           {displayValue}
-          <CalendarIcon width="18px" height="20px" />
+          <CalendarIcon width="1.125rem" height="1.25rem" />
         </button>
       </PopoverTrigger>
 
       <PopoverContent
         sideOffset={4}
         align="start"
-        className="box-shadow-lg flex h-[266px] w-auto overflow-hidden border-[1px] border-[#505057] bg-[#34343a] p-[1.5rem] pr-[2px]"
+        className="box-shadow-lg flex h-[16.625rem] w-auto overflow-hidden border-[0.0625rem] border-[#505057] bg-[#34343a] p-[1.5rem] pr-[0.125rem]"
       >
         <Calendar
           mode="single"
@@ -85,17 +85,17 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
           initialFocus
         />
 
-        <div className="mx-[3px] h-full w-0 border-r-[1px] border-[#4a4e55]" />
+        <div className="mx-[0.1875rem] h-full w-0 border-r-[0.0625rem] border-[#4a4e55]" />
 
         <div className="flex justify-between">
           <TimePicker items={HOUR_OPTIONS} selected={hour} onSelect={setHour} />
-          <div className="mx-[3px] h-full w-0 border-r-[1px] border-[#4a4e55]" />
+          <div className="mx-[0.1875rem] h-full w-0 border-r-[0.0625rem] border-[#4a4e55]" />
           <TimePicker
             items={MINUTE_OPTIONS}
             selected={minute}
             onSelect={setMinute}
           />
-          <div className="mx-[3px] h-full w-0 border-r-[1px] border-[#4a4e55]" />
+          <div className="mx-[0.1875rem] h-full w-0 border-r-[0.0625rem] border-[#4a4e55]" />
           <TimePicker
             items={AM_PM_OPTIONS}
             selected={ampm}

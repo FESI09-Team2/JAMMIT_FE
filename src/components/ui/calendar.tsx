@@ -27,11 +27,12 @@ function Calendar({
     <DayPicker
       locale={customKo}
       showOutsideDays={showOutsideDays}
-      className={cn('w-[250px] rounded-[0.5rem] text-gray-100', className)}
+      className={cn('w-[15.625rem] rounded-[0.5rem] text-gray-100', className)}
       classNames={{
         months: 'flex flex-col sm:flex-row',
         month: 'flex flex-col',
-        caption: 'flex justify-center relative items-center w-full py-[5px]',
+        caption:
+          'flex justify-center relative items-center w-full py-[0.3125rem]',
         caption_label: 'text-sm font-medium',
         nav: 'flex items-center',
         nav_button: cn(
@@ -42,10 +43,10 @@ function Calendar({
         table: 'w-full border-collapse space-x-1',
         head_row: 'flex ',
         head_cell:
-          'h-[32px] w-full font-bold text-[14px] text-center flex items-center justify-center',
-        row: 'flex h-[32px] ',
+          'h-[2rem] w-full font-bold text-[0.875rem] text-center flex items-center justify-center',
+        row: 'flex h-[2rem] ',
         cell: cn(
-          'relative w-full rounded-[8px] text-center text-[14px] focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-[#9900FF] [&:has([aria-selected].day-range-end)]:rounded-[8px] cursor-pointer',
+          'relative w-full rounded-[0.5rem] text-center text-[0.875rem] focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-[#9900FF] [&:has([aria-selected].day-range-end)]:rounded-[0.5rem] cursor-pointer',
         ),
         day: cn('size-8 p-0 font-semibold aria-selected:opacity-100'),
         day_today: 'text-[#9900ff]',
