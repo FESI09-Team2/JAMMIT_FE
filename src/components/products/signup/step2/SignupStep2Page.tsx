@@ -37,7 +37,7 @@ export default function SignupStep2Page() {
     control,
   } = methods;
 
-  const handleSeesionTagChange = useCallback(
+  const handleSessionTagChange = useCallback(
     (selected: string[]) => {
       setValue('session', selected);
     },
@@ -57,7 +57,7 @@ export default function SignupStep2Page() {
       label: '담당 세션',
       tags: SESSION_TAGS,
       initialSelected: [],
-      onChange: handleSeesionTagChange,
+      onChange: handleSessionTagChange,
     },
     {
       key: 'genre',
