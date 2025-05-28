@@ -2,7 +2,6 @@
 
 import { format, setHours, setMinutes } from 'date-fns';
 
-import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
@@ -61,16 +60,17 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button
+        <button
+          type="button"
           className={clsx(
-            'w-[209px] rounded-[8px] bg-[#34343a] text-[16px] text-gray-100',
+            'flex h-[44px] w-[209px] items-center justify-center gap-[10px] rounded-[8px] bg-[#34343a] px-[16px] text-[16px] text-gray-100',
             isOpen ? 'border border-[#505057]' : 'border-none',
             !date && 'cursor-pointer text-gray-500',
           )}
         >
           {displayValue}
           <CalendarIcon width="18px" height="20px" />
-        </Button>
+        </button>
       </PopoverTrigger>
 
       <PopoverContent
