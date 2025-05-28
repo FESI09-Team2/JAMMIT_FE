@@ -12,6 +12,10 @@ export default function SearchInput({ value, onChange }: SearchInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    // 이미 로드된 경우 추가 안 함
+    if (document.querySelector('script[src*="postcode.v2.js"]')) {
+      return;
+    }
     const script = document.createElement('script');
     script.src =
       '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
@@ -23,7 +27,6 @@ export default function SearchInput({ value, onChange }: SearchInputProps) {
     const { daum } = window;
 
     if (!daum?.Postcode) {
-      alert('주소 검색 로딩 중입니다. 잠시만 기다려 주세요.');
       return;
     }
 
