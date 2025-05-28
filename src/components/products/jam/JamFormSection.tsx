@@ -134,6 +134,7 @@ export default function JamFormSection({
               onSelect={setSortOption}
               menuOptions={SESSION_TAGS}
               surfixIcon={<ArrowDown />}
+              size="md"
             />
 
             {/** 인원 input자리 */}

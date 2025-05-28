@@ -1,14 +1,26 @@
 interface DropdownMenuListProps {
   menuOptions: string[];
   onSelect: (option: string) => void;
+  /** Dropdownlist의 너비 */
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export default function DropdownMenuList({
   menuOptions,
   onSelect,
+  size,
 }: DropdownMenuListProps) {
+  const sizeClass = {
+    sm: 'w-[9rem]',
+    md: 'w-[26rem]',
+    lg: 'w-auto',
+  }[size || 'lg'];
+
   return (
-    <div className="absolute w-[26rem] gap-[0.625rem] rounded-lg border-1 border-[#505057] bg-[#34343A] text-gray-100">
+    // 384 -> 26rem, 110 -> 9rem
+    <div
+      className={`absolute ${sizeClass} gap-[0.625rem] rounded-lg border-1 border-[#505057] bg-[#34343A] text-gray-100`}
+    >
       {menuOptions.map((option) => (
         <div
           key={option}
