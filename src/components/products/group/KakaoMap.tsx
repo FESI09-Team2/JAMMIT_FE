@@ -12,13 +12,11 @@ export default function KakaoMap({ address }: KakaoMapProps) {
 
   useEffect(() => {
     if (!KAKAO_MAP_API_KEY) {
-      console.error('Kakao Map API key is missing!');
       return;
     }
 
     const loadMap = () => {
       if (!window.kakao || !window.kakao.maps || !window.kakao.maps.services) {
-        console.error('Kakao Map library not loaded yet.');
         return;
       }
 
@@ -63,5 +61,6 @@ export default function KakaoMap({ address }: KakaoMapProps) {
     };
   }, [address, KAKAO_MAP_API_KEY]);
 
+  // MEMO: 여기는 피그마 시안 나오면 은우님이 맞게 교체해주시면 되요.
   return <div ref={mapRef} className="h-[25rem] w-[31.25rem] rounded-md" />;
 }
