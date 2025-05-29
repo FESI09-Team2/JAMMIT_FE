@@ -13,7 +13,7 @@ import TagSelector from '@/components/commons/TagSelector';
 import SearchInput from './SearchInput';
 import { GENRE_TAGS, SESSION_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
 import { JamFormData } from '@/types/jam';
-import SessionSelector from './SeesionSelector';
+import SessionSelector from './SessionSelector';
 
 const DIVIDER = 'mx-auto my-[2.5rem] w-[56rem] border-gray-800';
 
