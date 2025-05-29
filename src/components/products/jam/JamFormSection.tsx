@@ -12,9 +12,9 @@ import TextArea from '@/components/commons/Textarea';
 import TagSelector from '@/components/commons/TagSelector';
 import Button from '@/components/commons/Button';
 import SearchInput from './SearchInput';
+import SessionSelector from './SessionSelector';
 import { GENRE_TAGS, SESSION_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
 import { JamFormData } from '@/types/jam';
-import SessionSelector from './SessionSelector';
 
 const DIVIDER = 'mx-auto my-[2.5rem] w-[56rem] border-gray-800';
 
@@ -140,9 +140,6 @@ export default function JamFormSection({
                 sortOption={sortOption}
                 setSortOption={(val) => handleSortOptionChange(index, val)}
                 onChange={(val) => handleCountChange(index, val)}
-                //disableDelete={sessionList.length === 1}
-                //onDelete={() => handleDeleteSession(index)}
-                //onAdd={handleAddSession}
               />
             ))}
           </div>

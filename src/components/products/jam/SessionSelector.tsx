@@ -1,4 +1,3 @@
-// SessionSelector.tsx
 import { useState } from 'react';
 import Dropdown from '@/components/commons/Dropdown';
 import NumberInput from './NumberInput';
