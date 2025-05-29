@@ -8,12 +8,17 @@ import bannerImages from '@/constants/bannerImages';
 
 const FIRST_RENDERING = 12;
 
-function ModalImgEdit() {
+interface ModalImgEditProps {
+  /** "확인" 버튼 클릭 시 실행할 콜백 */
+  onSubmit: () => void;
+}
+
+function ModalImgEdit({ onSubmit }: ModalImgEditProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   //useClickOutside(modalRef);
 
   return (
-    <div className="fixed inset-0 z-50 h-[410px] w-[924px] justify-center bg-[#242429] px-[52px] py-[44px]">
+    <div className="fixed top-1/2 left-1/2 z-50 h-[410px] w-[924px] -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-[#242429] px-[52px] py-[44px]">
       <div className="flex flex-col items-center gap-[32px]">
         <div className="flex flex-col items-center">
           <h1 className="text-2xl font-semibold">이미지 선택</h1>
@@ -40,7 +45,7 @@ function ModalImgEdit() {
         </button>
       </div>
       <div ref={modalRef} className="absolute top-[52px] right-[44px]">
-        <Button variant="solid" size="small">
+        <Button variant="solid" size="small" onClick={onSubmit}>
           완료
         </Button>
       </div>
