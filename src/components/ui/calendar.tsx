@@ -1,12 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import {
-  DayPicker,
-  getDefaultClassNames,
-  MonthCaptionProps,
-  useDayPicker,
-} from 'react-day-picker';
+import { DayPicker, MonthCaptionProps, useDayPicker } from 'react-day-picker';
 import ArrowRight from '@/assets/icons/ic_arrow_right.svg';
 import ArrowLeft from '@/assets/icons/ic_arrow_left.svg';
 import { format } from 'date-fns';
@@ -59,10 +54,6 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: React.ComponentProps<typeof DayPicker>) {
-  console.log('안녕하세요');
-  const defaultClassNames = getDefaultClassNames();
-  console.log(defaultClassNames);
-
   return (
     <DayPicker
       locale={customKo}
