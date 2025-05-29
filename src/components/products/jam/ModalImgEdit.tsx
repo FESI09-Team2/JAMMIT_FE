@@ -22,9 +22,9 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
   return (
     <div
       ref={modalRef}
-      className="fixed top-1/2 left-1/2 z-50 h-[410px] w-[924px] -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-[#242429] px-[52px] py-[44px]"
+      className="fixed top-1/2 left-1/2 z-50 h-[25.625rem] w-[57.75rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-[#242429] px-[3.25rem] py-[2.75rem]"
     >
-      <div className="flex flex-col items-center gap-[32px]">
+      <div className="flex flex-col items-center gap-[2rem]">
         <div className="flex flex-col items-center">
           <h1 className="text-2xl font-semibold">이미지 선택</h1>
           <h2 className="text-sm font-semibold text-gray-400">
@@ -32,7 +32,7 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
           </h2>
         </div>
 
-        <div className="grid grid-cols-6 gap-[20px]">
+        <div className="grid grid-cols-6 gap-[1.25rem]">
           {[...Array(FIRST_RENDERING)].map((_, idx) => (
             <div
               key={idx}
@@ -58,7 +58,7 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
           더보기
         </button>
       </div>
-      <div className="absolute top-[52px] right-[44px]">
+      <div className="absolute top-[3.25rem] right-[2.75rem]">
         <Button
           variant="solid"
           size="small"

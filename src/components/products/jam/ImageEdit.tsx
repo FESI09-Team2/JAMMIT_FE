@@ -1,8 +1,7 @@
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { useCallback, useState } from 'react';
-import ModalImgEdit from './ModalImgEdit';
-import { StaticImageData } from 'next/image';
 import Button from '@/components/commons/Button';
+import ModalImgEdit from './ModalImgEdit';
 
 export default function ImageEdit() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,11 +19,16 @@ export default function ImageEdit() {
   }, []);
 
   return (
-    <div className="relative mx-auto flex h-[22rem] w-full max-w-[1344px] items-center justify-center overflow-hidden rounded-[0.5rem] bg-[#393A41]">
+    <div className="relative mx-auto flex h-[22rem] w-full max-w-[84rem] items-center justify-center overflow-hidden rounded-[0.5rem] bg-[#393A41]">
       {selectedImage ? (
         <>
-          <Image src={selectedImage} alt="선택된 이미지" fill />
-          <div className="absolute top-[20px] right-[20px]">
+          <Image
+            src={selectedImage}
+            alt="선택된 이미지"
+            fill
+            style={{ objectFit: 'cover' }}
+          />
+          <div className="absolute top-[1.25rem] right-[1.25rem]">
             <Button variant="outline" size="small" onClick={handleOpenModal}>
               이미지 수정
             </Button>
