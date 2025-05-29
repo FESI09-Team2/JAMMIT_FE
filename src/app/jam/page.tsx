@@ -36,6 +36,7 @@ export default function JamPage() {
     'members',
   ]);
 
+  // API 연동
   const onSubmit = (data: JamFormData) => {
     console.log('폼 제출됨:', data);
   };

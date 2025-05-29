@@ -10,6 +10,7 @@ import {
 import Input from '@/components/commons/Input';
 import TextArea from '@/components/commons/Textarea';
 import TagSelector from '@/components/commons/TagSelector';
+import Button from '@/components/commons/Button';
 import SearchInput from './SearchInput';
 import { GENRE_TAGS, SESSION_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
 import { JamFormData } from '@/types/jam';
@@ -130,48 +131,66 @@ export default function JamFormSection({
       {/** 모집 세션 */}
       <div className="flex flex-col gap-[0.5rem]">
         <p className="text-lg font-semibold">모집 세션</p>
-        {sessionList.map(({ sortOption, count }, index) => (
-          <SessionSelector
-            key={index}
-            session={{ [SESSION_KEY_MAP[sortOption]]: count }}
-            sortOption={sortOption}
-            setSortOption={(val) => handleSortOptionChange(index, val)}
-            onChange={(val) => handleCountChange(index, val)}
-            disableDelete={sessionList.length === 1}
-            onDelete={() => handleDeleteSession(index)}
-            onAdd={handleAddSession}
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-col gap-[0.75rem]">
+            {sessionList.map(({ sortOption, count }, index) => (
+              <SessionSelector
+                key={index}
+                session={{ [SESSION_KEY_MAP[sortOption]]: count }}
+                sortOption={sortOption}
+                setSortOption={(val) => handleSortOptionChange(index, val)}
+                onChange={(val) => handleCountChange(index, val)}
+                //disableDelete={sessionList.length === 1}
+                //onDelete={() => handleDeleteSession(index)}
+                //onAdd={handleAddSession}
+              />
+            ))}
+          </div>
+          <div className="flex gap-[0.75rem]">
+            <Button variant="outline" size="small" onClick={handleAddSession}>
+              추가
+            </Button>
+
+            <Button
+              variant="outline"
+              size="small"
+              onClick={() => handleDeleteSession(sessionList.length - 1)}
+              disabled={sessionList.length === 1}
+            >
+              삭제
+            </Button>
+          </div>
+        </div>
+
+        <hr className={DIVIDER} />
+
+        {/* 모임 장르 */}
+        <div className="flex flex-col gap-[0.5rem]">
+          <p className="text-lg font-semibold">모임 장르</p>
+          <TagSelector
+            mode="selectable"
+            tags={GENRE_TAGS}
+            onChange={handleTagChange}
           />
-        ))}
-      </div>
+        </div>
 
-      <hr className={DIVIDER} />
+        <hr className={DIVIDER} />
 
-      {/* 모임 장르 */}
-      <div className="flex flex-col gap-[0.5rem]">
-        <p className="text-lg font-semibold">모임 장르</p>
-        <TagSelector
-          mode="selectable"
-          tags={GENRE_TAGS}
-          onChange={handleTagChange}
-        />
-      </div>
-
-      <hr className={DIVIDER} />
-
-      {/* 소개글 */}
-      <div className="flex flex-col gap-[0.5rem]">
-        <p className="text-lg font-semibold">소개글</p>
-        <Controller
-          name="introduction"
-          control={control}
-          render={({ field }) => (
-            <TextArea
-              placeholder="어떤 일이 일어날까요?"
-              value={field.value}
-              onChange={field.onChange}
-            />
-          )}
-        />
+        {/* 소개글 */}
+        <div className="flex flex-col gap-[0.5rem]">
+          <p className="text-lg font-semibold">소개글</p>
+          <Controller
+            name="introduction"
+            control={control}
+            render={({ field }) => (
+              <TextArea
+                placeholder="어떤 일이 일어날까요?"
+                value={field.value}
+                onChange={field.onChange}
+              />
+            )}
+          />
+        </div>
       </div>
     </div>
   );
