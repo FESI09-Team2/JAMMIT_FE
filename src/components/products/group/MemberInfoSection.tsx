@@ -1,6 +1,5 @@
 'use client';
-import { useState } from 'react';
-import MemberRow from './MemberRow';
+import MemberList from './MemberList';
 
 interface Member {
   id: string;
@@ -39,28 +38,9 @@ const members: Member[] = [
 ];
 
 export default function MemberInfoSection() {
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-
-  const handleSelectChange = (id: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-    );
-  };
-
   return (
     <section className="w-[60rem] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
-      {members.map((member) => (
-        <MemberRow
-          key={member.id}
-          id={member.id}
-          nickname={member.nickname}
-          sessions={member.sessions}
-          introduction={member.introduction}
-          profileImage={member.profileImage}
-          selected={selectedIds.includes(member.id)}
-          onSelectChange={handleSelectChange}
-        />
-      ))}
+      <MemberList title="신청 멤버" members={members} />
     </section>
   );
 }
