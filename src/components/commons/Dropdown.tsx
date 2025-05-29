@@ -19,6 +19,10 @@ interface DropdownProps {
   /** Dropdown의 너비 */
   size?: 'sm' | 'md' | 'lg';
   value?: string;
+  /** 외부에서 관리하는 드롭다운 열림 상태 */
+  isOpen?: boolean;
+  /** 외부에서 드롭다운 상태를 변경하는 함수 */
+  setIsOpen?: (isOpen: boolean) => void;
 }
 
 export default function Dropdown({
@@ -30,6 +34,8 @@ export default function Dropdown({
   isProfile = false,
   size,
   value,
+  isOpen: externalIsOpen,
+  setIsOpen: externalSetIsOpen,
 }: DropdownProps) {
   const sizeClass = {
     sm: 'w-[6.875rem]',
@@ -37,11 +43,15 @@ export default function Dropdown({
     lg: 'w-auto',
   }[size || 'lg'];
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
   const [selectedDropdownMenu, setSelectedDropdownMenu] = useState(
     value || menuOptions[0] || '',
   );
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // 외부 상태가 있으면 외부 상태 사용, 없으면 내부 상태 사용
+  const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
+  const setIsOpen = externalSetIsOpen || setInternalIsOpen;
 
   useClickOutside(dropdownRef, () => setIsOpen(false));
 
@@ -79,11 +89,13 @@ export default function Dropdown({
         </button>
 
         {isOpen && (
-          <DropdownMenuList
-            menuOptions={menuOptions}
-            onSelect={handleSelect}
-            size={size}
-          />
+          <div className="absolute z-50">
+            <DropdownMenuList
+              menuOptions={menuOptions}
+              onSelect={handleSelect}
+              size={size}
+            />
+          </div>
         )}
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Dropdown from '@/components/commons/Dropdown';
 import Button from '@/components/commons/Button';
 import NumberInput from './NumberInput';
@@ -23,6 +24,8 @@ export default function SessionSelector({
   onDelete,
   onAdd,
 }: SessionSelectorProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
     <div className="flex justify-between">
       <div className="flex gap-[0.75rem]">
@@ -32,6 +35,8 @@ export default function SessionSelector({
           surfixIcon={<ArrowDown />}
           size="md"
           value={sortOption}
+          isOpen={isDropdownOpen}
+          setIsOpen={setIsDropdownOpen}
         />
         <NumberInput
           count={session[SESSION_KEY_MAP[sortOption]] || 0}
