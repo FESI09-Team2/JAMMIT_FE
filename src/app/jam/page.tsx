@@ -26,7 +26,6 @@ export default function JamPage() {
   const {
     handleSubmit,
     control,
-    register,
     watch,
     setValue,
     formState: { isValid },
@@ -57,25 +56,19 @@ export default function JamPage() {
             </div>
           }
           actionButtons={
-            <div className="flex flex-col gap-[1.25rem]">
-              <Button variant="outline" className="w-[22.75rem]">
-                임시 저장
-              </Button>
-              <Button
-                variant="solid"
-                className="w-[22.75rem]"
-                type="submit"
-                disabled={!isValid}
-              >
-                모임 만들기
-              </Button>
-            </div>
+            <Button
+              variant="solid"
+              className="w-[22.75rem]"
+              type="submit"
+              disabled={!isValid}
+            >
+              모임 만들기
+            </Button>
           }
         >
           {activeTab === 'recruit' ? (
             <JamFormSection
               control={control}
-              register={register}
               watch={watch}
               setValue={setValue}
               isValid={isValid}
