@@ -47,11 +47,9 @@ export default function Dropdown({
   const [selectedDropdownMenu, setSelectedDropdownMenu] = useState(
     value || menuOptions[0] || '',
   );
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // 외부 상태가 있으면 외부 상태 사용, 없으면 내부 상태 사용
   const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
   const setIsOpen = externalSetIsOpen || setInternalIsOpen;
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useClickOutside(dropdownRef, () => setIsOpen(false));
 
