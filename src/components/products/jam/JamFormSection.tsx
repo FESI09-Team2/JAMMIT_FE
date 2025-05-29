@@ -117,6 +117,7 @@ export default function JamFormSection({
             <Controller
               name="end"
               control={control}
+              rules={{ required: '모집 마감일을 선택하세요.' }}
               render={({ field }) => (
                 <DatePicker
                   value={field.value ? new Date(field.value) : undefined}
@@ -132,6 +133,7 @@ export default function JamFormSection({
             <Controller
               name="day"
               control={control}
+              rules={{ required: '모집 마감일을 선택하세요.' }}
               render={({ field }) => (
                 <DatePicker
                   value={field.value ? new Date(field.value) : undefined}
@@ -196,6 +198,7 @@ export default function JamFormSection({
           <Controller
             name="introduction"
             control={control}
+            rules={{ required: '소개글을 입력하세요.' }}
             render={({ field }) => (
               <TextArea
                 placeholder="어떤 일이 일어날까요?"
