@@ -27,7 +27,7 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
       />
       <div
         ref={modalRef}
-        className="fixed top-1/2 left-1/2 z-50 h-[25.625rem] w-[57.75rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-[#242429] px-[3.25rem] py-[2.75rem]"
+        className="fixed top-1/2 left-1/2 z-50 h-[25.625rem] w-[57.75rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-3xl border-0 bg-[#242429] px-[3.25rem] py-[2.75rem]"
       >
         <div className="flex flex-col items-center gap-[2rem]">
           <div className="flex flex-col items-center">
@@ -41,7 +41,7 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
             {[...Array(FIRST_RENDERING)].map((_, idx) => (
               <div
                 key={idx}
-                className={`cursor-pointer rounded border-2 ${
+                className={`cursor-pointer rounded-lg border-2 ${
                   selectedIndex === idx
                     ? 'border-[#9900FF]'
                     : 'border-transparent'
@@ -70,6 +70,7 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
           <Button
             variant="solid"
             size="small"
+            disabled={selectedIndex === null}
             onClick={() => {
               if (selectedIndex !== null) {
                 onSubmit(bannerImages[selectedIndex]);

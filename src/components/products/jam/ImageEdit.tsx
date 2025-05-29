@@ -37,7 +37,7 @@ export default function ImageEdit() {
       ) : (
         <button
           type="button"
-          className="flex flex-col items-center justify-center"
+          className="flex cursor-pointer flex-col items-center justify-center"
           onClick={handleOpenModal}
         >
           <p className="text-base text-gray-100">이미지</p>
