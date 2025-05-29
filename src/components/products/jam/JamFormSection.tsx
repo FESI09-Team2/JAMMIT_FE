@@ -29,9 +29,10 @@ export default function JamFormSection({
   watch,
   setValue,
 }: JamFormSectionProps) {
-  const [sortOption, setSortOption] = useState(SESSION_TAGS[0]);
+  const [sessionList, setSessionList] = useState([
+    { sortOption: SESSION_TAGS[0], count: 0 },
+  ]);
   const place = watch('place') || '';
-  const session = watch('session') || {};
 
   // 장소 선택
   const handlePlaceChange = useCallback(
@@ -41,13 +42,38 @@ export default function JamFormSection({
     [setValue],
   );
 
-  // 모집 세션 수 입력 변경 시
-  const handleNumberChange = (value: number) => {
-    const sessionKey = SESSION_KEY_MAP[sortOption];
-    setValue(
-      `session.${sessionKey}` as `session.${keyof JamFormData['session']}`,
-      value,
+  // 세션 추가
+  const handleAddSession = () => {
+    setSessionList((prev) => [
+      ...prev,
+      { sortOption: SESSION_TAGS[0], count: 0 },
+    ]);
+  };
+
+  // 세션 삭제
+  const handleDeleteSession = (index: number) => {
+    setSessionList((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // 세션 드롭다운 변경
+  const handleSortOptionChange = (index: number, newSortOption: string) => {
+    setSessionList((prev) =>
+      prev.map((sess, i) =>
+        i === index ? { ...sess, sortOption: newSortOption } : sess,
+      ),
     );
+  };
+
+  // 모집 세션 수 입력 변경 시
+  const handleCountChange = (index: number, newCount: number) => {
+    setSessionList((prev) =>
+      prev.map((sess, i) =>
+        i === index ? { ...sess, count: newCount } : sess,
+      ),
+    );
+    // react-hook-form에 업데이트
+    const sessionKey = SESSION_KEY_MAP[sessionList[index].sortOption];
+    setValue(`session.${sessionKey}`, newCount);
   };
 
   // 장르 태그 선택 시
@@ -102,12 +128,21 @@ export default function JamFormSection({
       <hr className={DIVIDER} />
 
       {/** 모집 세션 */}
-      <SessionSelector
-        session={session}
-        sortOption={sortOption}
-        setSortOption={setSortOption}
-        onChange={handleNumberChange}
-      />
+      <div className="flex flex-col gap-[0.5rem]">
+        <p className="text-lg font-semibold">모집 세션</p>
+        {sessionList.map(({ sortOption, count }, index) => (
+          <SessionSelector
+            key={index}
+            session={{ [SESSION_KEY_MAP[sortOption]]: count }}
+            sortOption={sortOption}
+            setSortOption={(val) => handleSortOptionChange(index, val)}
+            onChange={(val) => handleCountChange(index, val)}
+            disableDelete={sessionList.length === 1}
+            onDelete={() => handleDeleteSession(index)}
+            onAdd={handleAddSession}
+          />
+        ))}
+      </div>
 
       <hr className={DIVIDER} />
 
