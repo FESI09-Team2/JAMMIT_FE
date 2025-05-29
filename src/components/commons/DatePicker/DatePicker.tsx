@@ -1,7 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { format, setHours, setMinutes } from 'date-fns';
-
 import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
@@ -9,10 +9,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { TimePicker } from './TimePicker';
-import { useEffect, useState } from 'react';
+import clsx from 'clsx';
 
 import CalendarIcon from '@/assets/icons/ic_calendar.svg';
-import clsx from 'clsx';
 
 const HOUR_OPTIONS = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 const MINUTE_OPTIONS = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
@@ -30,16 +29,29 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
   const [ampm, setAmPm] = useState<'PM' | 'AM'>('PM');
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleDateChange = (selectedDate?: Date) => {
-    if (!selectedDate) return;
+  function combineDateAndTime(
+    date: Date,
+    hour: number,
+    minute: number,
+    ampm: 'AM' | 'PM',
+  ): Date {
     const hour24 = ampm === 'PM' ? (hour % 12) + 12 : hour % 12;
-    const newDate = setMinutes(setHours(selectedDate, hour24), minute);
+    return setMinutes(setHours(date, hour24), minute);
+  }
+
+  const handleDateChange = (selectedDate?: Date) => {
+    if (!selectedDate) {
+      return;
+    }
+    const newDate = combineDateAndTime(selectedDate, hour, minute, ampm);
     setDate(newDate);
     onChange?.(newDate);
   };
 
   useEffect(() => {
-    if (!date) return;
+    if (!date) {
+      return;
+    }
     handleDateChange(date);
   }, [hour, minute, ampm]);
 
