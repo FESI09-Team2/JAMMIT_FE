@@ -1,9 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   Control,
-  UseFormRegister,
   UseFormWatch,
   UseFormSetValue,
   Controller,
@@ -19,9 +18,10 @@ import { GENRE_TAGS, SESSION_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
 import ArrowDown from '@/assets/icons/ic_arrowdown.svg';
 import { JamFormData } from '@/types/jam';
 
+const DIVIDER = 'mx-auto my-[2.5rem] w-[56rem] border-gray-800';
+
 interface JamFormSectionProps {
   control: Control<JamFormData>;
-  register: UseFormRegister<JamFormData>;
   watch: UseFormWatch<JamFormData>;
   setValue: UseFormSetValue<JamFormData>;
   isValid: boolean;
@@ -29,22 +29,12 @@ interface JamFormSectionProps {
 
 export default function JamFormSection({
   control,
-  register,
   watch,
   setValue,
 }: JamFormSectionProps) {
   const [sortOption, setSortOption] = useState(SESSION_TAGS[0]);
   const place = watch('place') || '';
   const session = watch('session') || {};
-  const endDate = watch('end');
-  const dayDate = watch('day');
-
-  // 마감일 이후 날짜가 모임 날짜보다 빠를 경우 초기화
-  useEffect(() => {
-    if (endDate && dayDate && dayDate < endDate) {
-      setValue('day', '');
-    }
-  }, [endDate, dayDate, setValue]);
 
   // 장르 태그 선택 시
   const handleTagChange = useCallback(
@@ -86,8 +76,7 @@ export default function JamFormSection({
             </label>
             <input
               id="end"
-              type="date"
-              {...register('end')}
+              type="datetime-local"
               className="h-[2.75rem] w-[13.125rem] rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem]"
             />
           </div>
@@ -98,23 +87,13 @@ export default function JamFormSection({
             <input
               id="day"
               type="datetime-local"
-              min={endDate || undefined}
-              {...register('day', {
-                validate: (value) => {
-                  if (!endDate || !value) return true;
-                  return (
-                    value >= endDate ||
-                    '모임 날짜는 모집 마감 날짜 이후여야 합니다.'
-                  );
-                },
-              })}
               className="h-[2.75rem] w-[13.125rem] rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem]"
             />
           </div>
         </div>
       </div>
 
-      <hr className="mx-auto my-[2.5rem] w-[56rem] bg-gray-800" />
+      <hr className={DIVIDER} />
 
       {/* 모집 세션 드롭다운 및 인원 수 */}
       <div className="flex flex-col gap-[0.5rem]">
@@ -144,7 +123,7 @@ export default function JamFormSection({
         </div>
       </div>
 
-      <hr className="mx-auto my-[2.5rem] w-[56rem] bg-gray-800" />
+      <hr className={DIVIDER} />
 
       {/* 장르 태그 선택 */}
       <div className="flex flex-col gap-[0.5rem]">
@@ -156,7 +135,7 @@ export default function JamFormSection({
         />
       </div>
 
-      <hr className="mx-auto my-[2.5rem] w-[56rem] bg-gray-800" />
+      <hr className={DIVIDER} />
 
       {/* 소개글 작성 */}
       <div className="flex flex-col gap-[0.5rem]">

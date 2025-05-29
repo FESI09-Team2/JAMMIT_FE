@@ -13,7 +13,7 @@ export default function SearchInput({ value, onChange }: SearchInputProps) {
 
   useEffect(() => {
     // 이미 로드된 경우 추가 안 함
-    if (document.querySelector('script[src*="postcode.v2.js"]')) {
+    if (window.daum?.Postcode) {
       return;
     }
     const script = document.createElement('script');
@@ -48,7 +48,6 @@ export default function SearchInput({ value, onChange }: SearchInputProps) {
         <input
           ref={inputRef}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
           placeholder="장소명을 검색하세요."
           readOnly
           className="h-[2.75rem] w-full rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem]"

@@ -60,9 +60,7 @@ export default function Dropdown({
       <div className="relative">
         <button
           onClick={handleDropdownMenu}
-          className={`flex ${sizeClass} items-center justify-between gap-[0.625rem] rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem] text-gray-100 ${
-            isProfile ? 'h-[5rem] w-[5rem] border-none p-0' : ''
-          }`}
+          className={`flex items-center justify-between gap-[0.625rem] rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem] text-gray-100 ${sizeClass} ${isProfile ? 'h-[5rem] w-[5rem] border-none p-0' : ''}`}
           type="button"
         >
           {isProfile ? (

@@ -66,8 +66,8 @@ function Input({
   const sizeClass = {
     // 400px
     sm: 'w-[25rem]',
-    // 447px
-    md: 'w-[27.9375rem]',
+    // 448px
+    md: 'w-[28rem]',
     lg: 'w-auto',
   }[size || 'lg'];
 
