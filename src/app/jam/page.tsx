@@ -1,7 +1,6 @@
 'use client';
 
-import Image from 'next/image';
-import bannerImages from '@/constants/bannerImages';
+import ImageEdit from '@/components/products/jam/ImageEdit';
 import GroupPageLayout from '@/components/commons/GroupPageLayout';
 import Button from '@/components/commons/Button';
 import JamFormSection from '@/components/products/jam/JamFormSection';
@@ -45,17 +44,7 @@ export default function JamPage() {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <GroupPageLayout
-          banner={
-            <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
-              <Image
-                src={bannerImages[0]}
-                alt="모임 배너"
-                layout="fill"
-                objectFit="cover"
-                priority
-              />
-            </div>
-          }
+          banner={<ImageEdit />}
           actionButtons={
             <Button
               variant="solid"
