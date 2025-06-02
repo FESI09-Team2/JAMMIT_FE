@@ -1,22 +1,21 @@
 'use client';
-import React, { useState } from 'react';
-import RecruitCard from '../../commons/RecruitCard';
-import Dropdown from '../../commons/Dropdown';
-import ArrowDown from '@/assets/icons/ic_arrowdown.svg';
+import React from 'react';
 import { ImgCard01, ImgCard02, ImgCard03, ImgCard04 } from '@/assets/images';
-import { RecruitCardData } from '@/types/card';
+import { RecruitCardData } from '@/types/card.types';
+import Link from 'next/link';
+import { RecruitCard } from '.';
 
 export default function RecruitList() {
   const mockRecruits = [
     {
       id: '1',
-      title: '그린데이 좋아하시는 분 계세요?',
+      name: '그린데이 좋아하시는 분 계세요?',
       author: '잼잼러',
-      tags: ['얼터너티브', '락', '포크', '어쿠스틱', '하드락', '모던락'],
-      thumbnailUrl: ImgCard01,
-      dday: '2024-06-01T23:59:59.000Z',
-      current: 3,
-      total: 5,
+      genres: ['얼터너티브', '락', '포크', '어쿠스틱', '하드락', '모던락'],
+      thumbnail: ImgCard01,
+      totalRecruit: 5,
+      totalCurrent: 3,
+      recruitDeadline: '2024-06-01T23:59:59.000Z',
       liked: false,
       member: [
         { name: '드럼', Personnel: 1, total: 1 },
@@ -26,13 +25,13 @@ export default function RecruitList() {
     },
     {
       id: '2',
-      title: '재즈 밴드 드러머 구해요!',
+      name: '재즈 밴드 드러머 구해요!',
       author: '몽글몽글',
-      tags: ['재즈', '드럼'],
-      thumbnailUrl: ImgCard02,
-      dday: '2024-06-01T23:59:59.000Z',
-      current: 2,
-      total: 4,
+      genres: ['재즈', '드럼'],
+      thumbnail: ImgCard02,
+      totalRecruit: 4,
+      totalCurrent: 2,
+      recruitDeadline: '2024-06-01T23:59:59.000Z',
       liked: true,
       member: [
         { name: '드럼', Personnel: 1, total: 1 },
@@ -42,13 +41,13 @@ export default function RecruitList() {
     },
     {
       id: '3',
-      title: '여성 보컬 모집합니다 🎤',
+      name: '여성 보컬 모집합니다 🎤',
       author: '하이텐션',
-      tags: ['팝', '보컬'],
-      thumbnailUrl: ImgCard03,
-      dday: '2024-06-01T23:59:59.000Z',
-      current: 1,
-      total: 3,
+      genres: ['팝', '보컬'],
+      thumbnail: ImgCard03,
+      totalRecruit: 3,
+      totalCurrent: 1,
+      recruitDeadline: '2024-06-01T23:59:59.000Z',
       liked: false,
       member: [
         { name: '드럼', Personnel: 1, total: 1 },
@@ -58,13 +57,13 @@ export default function RecruitList() {
     },
     {
       id: '4',
-      title: '홍대에서 매주 합주하실 분!',
+      name: '홍대에서 매주 합주하실 분!',
       author: '루프탑',
-      tags: ['인디', '홍대'],
-      thumbnailUrl: ImgCard04,
-      dday: '2024-06-01T23:59:59.000Z',
-      current: 4,
-      total: 5,
+      genres: ['인디', '홍대'],
+      thumbnail: ImgCard04,
+      totalRecruit: 5,
+      totalCurrent: 4,
+      recruitDeadline: '2024-06-01T23:59:59.000Z',
       liked: true,
       member: [
         { name: '드럼', Personnel: 1, total: 1 },
@@ -73,35 +72,7 @@ export default function RecruitList() {
       ],
     },
   ];
-  const Genre = [
-    '장르',
-    '락',
-    '메탈',
-    '팝',
-    '발라드',
-    'R&B',
-    '인디',
-    '얼터너터브',
-    '재즈',
-    '펑크',
-    '어쿠스틱',
-    '포크',
-  ];
-  const Session = [
-    '세션',
-    '일렉기타',
-    '드럼',
-    '보컬',
-    '일랙기타',
-    '통기타',
-    '건반',
-    '현악기',
-    '그외',
-  ];
-  const [genre, setGenre] = useState(Genre[0]);
-  const [session, setSession] = useState(Session[0]);
-  console.log(genre);
-  console.log(session);
+
   return (
     <div className="pc:max-w-[62.5rem] mx-auto mt-8">
       <div className="relative mb-[65px] h-[240px] overflow-hidden rounded-lg bg-[#2B2B30]">
@@ -112,21 +83,25 @@ export default function RecruitList() {
           </p>
         </div>
       </div>
-      <div className="mt-[65px] mb-[29px] flex gap-2">
-        <Dropdown
-          onSelect={setGenre}
-          menuOptions={Genre}
-          prefixIcon={<ArrowDown />}
-        />
-        <Dropdown
-          onSelect={setSession}
-          menuOptions={Session}
-          prefixIcon={<ArrowDown />}
-        />
-      </div>
-      <div className="pc:grid-cols-3 grid grid-cols-1 gap-[20px]">
+      <div className="mt-[65px] mb-[29px] flex gap-2">ㅇ</div>
+      <div className="pc:grid-cols-3 grid grid-cols-1 gap-x-5 gap-y-10">
         {mockRecruits.map((item: RecruitCardData) => (
-          <RecruitCard key={item.id} data={item} />
+          <Link key={item.id} href={`de/${item.id}`}>
+            <RecruitCard.Thumbnail
+              thumbnail={item.thumbnail}
+              liked={item.liked}
+              alt={item.name}
+            />
+            <RecruitCard.TagList tags={item.genres} />
+            <RecruitCard.TitleBlock title={item.name} author={item.author} />
+            <RecruitCard.Footer
+              status="모집중"
+              totalCurrent={item.totalCurrent}
+              totalRecruit={item.totalRecruit}
+              recruitDeadline={item.recruitDeadline}
+              member={item.member}
+            />
+          </Link>
         ))}
       </div>
     </div>

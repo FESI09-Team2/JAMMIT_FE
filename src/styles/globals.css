@@ -6,8 +6,10 @@
   --background: #1a1a1e;
   --foreground: #f3f4f6;
   --primary: #c179ff;
+  --purple-500:#BF5eff;
   --bg-34343A: #34343a;
   --gray-50: #68696c;
+  --gray-400:#9CA3AF;
 }
 
 @theme {
