@@ -93,7 +93,7 @@ export default function JamFormSection({
   );
 
   return (
-    <div className="flex h-auto w-[61rem] flex-col bg-[#202024] p-[2.5rem]">
+    <div className="mt-[2.5rem] flex h-auto w-[61rem] flex-col bg-[#202024] p-[2.5rem]">
       <div className="flex flex-col gap-[1.5rem]">
         {/** 모임 제목 */}
         <Input
