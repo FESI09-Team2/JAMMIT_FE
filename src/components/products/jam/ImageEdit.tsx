@@ -2,6 +2,7 @@ import Image, { StaticImageData } from 'next/image';
 import { useCallback, useState } from 'react';
 import Button from '@/components/commons/Button';
 import ModalImgEdit from './ModalImgEdit';
+import EmptyImageIcon from '@/assets/icons/ic_emptyimage.svg';
 
 export default function ImageEdit() {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,8 +41,8 @@ export default function ImageEdit() {
           className="flex cursor-pointer flex-col items-center justify-center"
           onClick={handleOpenModal}
         >
-          <p className="text-base text-gray-100">이미지</p>
-          <p className="text-base text-gray-100">이미지선택</p>
+          <EmptyImageIcon />
+          <p className="text-base text-gray-100">이미지 선택</p>
         </button>
       )}
       {isOpen && (
