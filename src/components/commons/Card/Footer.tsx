@@ -2,12 +2,13 @@ import React from 'react';
 import IcListCheck from '@/assets/icons/ic_list_check.svg';
 import { getRecruitStatus } from '@/utils/getRecruitStatus';
 import { getDate } from '@/utils/date';
+import { CardStatus } from '@/constants/card';
 
 interface FooterProps {
-  status: '신청완료' | '모집중' | '합주확정' | '합주완료';
+  status: CardStatus;
   totalCurrent: number;
   totalRecruit: number;
-  member: { name: string; Personnel: number; total: number }[];
+  member: { name: string; personnel: number; total: number }[];
   recruitDeadline?: string;
   onButtonClick?: () => void;
 }
@@ -32,15 +33,15 @@ export default function Footer({
         return (
           <div className="group relative">
             <span className="text-[var(--primary)]">{text}</span> 명{cardStatus}
-            <ul className="absolute right-[-2px] bottom-[39px] hidden rounded-xl bg-[#29292C] group-hover:block">
+            <ul className="absolute right-[0px] bottom-[2.125rem] hidden rounded-xl bg-[#29292C] group-hover:block">
               {member.map((item) => (
                 <li
                   key={item.name}
-                  className="flex w-[142px] items-center border-b border-b-[#3B3B40] px-4 py-2.5 last:border-none"
+                  className="flex w-[8.875rem] items-center border-b border-b-[#3B3B40] px-4 py-2.5 last:border-none"
                 >
                   <p className="w-1/2">{item.name}</p>
                   <span className="w-1/2">
-                    {item.Personnel}/{item.total}
+                    {item.personnel}/{item.total}
                   </span>
                 </li>
               ))}

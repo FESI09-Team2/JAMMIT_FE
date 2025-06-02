@@ -11,5 +11,5 @@ export interface RecruitCardData {
   totalRecruit: number;
   totalCurrent: number;
   recruitDeadline: string;
-  member: { name: string; Personnel: number; total: number }[];
+  member: { name: string; personnel: number; total: number }[];
 }

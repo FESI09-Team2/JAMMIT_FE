@@ -3,7 +3,7 @@ import Thumbnail from './Thumbnail';
 import TagList from './TagList';
 import TitleBlock from './TitleBlock';
 
-export const RecruitCard = {
+export const Card = {
   Footer,
   Thumbnail,
   TagList,

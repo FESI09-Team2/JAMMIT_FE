@@ -1,9 +1,10 @@
 'use client';
 import React from 'react';
 import { ImgCard01, ImgCard02, ImgCard03, ImgCard04 } from '@/assets/images';
-import { RecruitCardData } from '@/types/card.types';
+import { RecruitCardData } from '@/types/card';
 import Link from 'next/link';
-import { RecruitCard } from '.';
+import { Card } from '@/components/commons/Card';
+import { CARD_STATE } from '@/constants/card';
 
 export default function RecruitList() {
   const mockRecruits = [
@@ -18,9 +19,9 @@ export default function RecruitList() {
       recruitDeadline: '2024-06-01T23:59:59.000Z',
       liked: false,
       member: [
-        { name: '드럼', Personnel: 1, total: 1 },
-        { name: '보컬', Personnel: 1, total: 1 },
-        { name: '기타', Personnel: 1, total: 2 },
+        { name: '드럼', personnel: 1, total: 1 },
+        { name: '보컬', personnel: 1, total: 1 },
+        { name: '기타', personnel: 1, total: 2 },
       ],
     },
     {
@@ -34,9 +35,9 @@ export default function RecruitList() {
       recruitDeadline: '2024-06-01T23:59:59.000Z',
       liked: true,
       member: [
-        { name: '드럼', Personnel: 1, total: 1 },
-        { name: '보컬', Personnel: 1, total: 1 },
-        { name: '기타', Personnel: 1, total: 2 },
+        { name: '드럼', personnel: 1, total: 1 },
+        { name: '보컬', personnel: 1, total: 1 },
+        { name: '기타', personnel: 1, total: 2 },
       ],
     },
     {
@@ -50,9 +51,9 @@ export default function RecruitList() {
       recruitDeadline: '2024-06-01T23:59:59.000Z',
       liked: false,
       member: [
-        { name: '드럼', Personnel: 1, total: 1 },
-        { name: '보컬', Personnel: 1, total: 1 },
-        { name: '기타', Personnel: 1, total: 2 },
+        { name: '드럼', personnel: 1, total: 1 },
+        { name: '보컬', personnel: 1, total: 1 },
+        { name: '기타', personnel: 1, total: 2 },
       ],
     },
     {
@@ -66,36 +67,36 @@ export default function RecruitList() {
       recruitDeadline: '2024-06-01T23:59:59.000Z',
       liked: true,
       member: [
-        { name: '드럼', Personnel: 1, total: 1 },
-        { name: '보컬', Personnel: 1, total: 1 },
-        { name: '기타', Personnel: 1, total: 2 },
+        { name: '드럼', personnel: 1, total: 1 },
+        { name: '보컬', personnel: 1, total: 1 },
+        { name: '기타', personnel: 1, total: 2 },
       ],
     },
   ];
 
   return (
-    <div className="pc:max-w-[62.5rem] mx-auto mt-8">
-      <div className="relative mb-[65px] h-[240px] overflow-hidden rounded-lg bg-[#2B2B30]">
-        <div className="absolute top-[77px] left-[62px]">
-          <span className="text-sm">함께 연주할 사함이 없나요?</span>
-          <p className="mt-2 text-2xl font-semibold text-[#D5E9FF]">
+    <div className="pc:max-w-[84rem] mx-auto mt-8">
+      <div className="relative mb-[65px] h-[15rem] overflow-hidden rounded-lg bg-[#2B2B30]">
+        <div className="absolute top-[5.5rem] left-[14.875rem]">
+          <span className="text-sm">함께하면 더 재밌으니까, 재밋! 🤟‍️️</span>
+          <p className="mt-2 text-2xl font-semibold text-[var(--purple-500)]">
             지금 모임에 참여해보세요
           </p>
         </div>
       </div>
       <div className="mt-[65px] mb-[29px] flex gap-2">ㅇ</div>
-      <div className="pc:grid-cols-3 grid grid-cols-1 gap-x-5 gap-y-10">
+      <div className="pc:grid-cols-4 grid grid-cols-1 gap-x-5 gap-y-10">
         {mockRecruits.map((item: RecruitCardData) => (
           <Link key={item.id} href={`de/${item.id}`}>
-            <RecruitCard.Thumbnail
+            <Card.Thumbnail
               thumbnail={item.thumbnail}
               liked={item.liked}
               alt={item.name}
             />
-            <RecruitCard.TagList tags={item.genres} />
-            <RecruitCard.TitleBlock title={item.name} author={item.author} />
-            <RecruitCard.Footer
-              status="합주확정"
+            <Card.TagList tags={item.genres} />
+            <Card.TitleBlock title={item.name} author={item.author} />
+            <Card.Footer
+              status={CARD_STATE.COMPLETED}
               totalCurrent={item.totalCurrent}
               totalRecruit={item.totalRecruit}
               recruitDeadline={item.recruitDeadline}
