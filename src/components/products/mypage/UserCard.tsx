@@ -29,6 +29,7 @@ export default function UserCard() {
         </div>
         <div className="flex flex-col text-gray-100">
           <div className="flex items-center gap-[10px]">
+            {/** API 수정된 후 불러오게 수정 */}
             <p className="text-[24px] leading-[38.4px] font-bold">
               사용자닉네임
             </p>
@@ -38,25 +39,30 @@ export default function UserCard() {
           </div>
           <div className="flex items-center gap-[16px] text-sm font-medium">
             <p>담당 세션</p>
-            <div className="h-[32px] w-[76px] rounded-lg bg-[#34343A] px-[12px] py-[6px]">
+            {/** API 수정된 후 여러개 불러오게 수정 */}
+            <div className="h-[32px] w-auto rounded-lg bg-[#34343A] px-[12px] py-[6px]">
               일렉 기타
             </div>
             <div className="h-[20px] w-[1.5px] bg-gray-500" />
             <p>선호 장르</p>
-            <div className="h-[32px] w-[76px] rounded-lg bg-[#34343A] px-[12px] py-[6px]">
-              일렉 기타
+            {/** API 수정된 후 여러개 불러오게 수정 */}
+            <div className="h-[32px] w-auto rounded-lg bg-[#34343A] px-[12px] py-[6px]">
+              팝
             </div>
             <div className="h-[20px] w-[1.5px] bg-gray-500" />
             <p>개설모임수</p>
+            {/** API 수정된 후 불러오게 수정 아직 없음 */}
             <p>8</p>
             <div className="h-[20px] w-[1.5px] bg-gray-500" />
             <p>작성글수</p>
+            {/** API 수정된 후 불러오게 수정 아직 없음 */}
             <p>20</p>
           </div>
         </div>
       </div>
 
       {isModalOpen && (
+        /** API 수정된 후 불러오게 수정 */
         <ModalEdit
           onCancel={handleModalCancel}
           onSubmit={handleModalSubmit}
