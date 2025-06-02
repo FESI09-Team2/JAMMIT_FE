@@ -28,30 +28,10 @@ export default function Footer({
   );
   const right = () => {
     switch (status) {
-      case '신청완료':
-        return (
-          <p className="text-[color:var(--purple-500) rounded-lg border border-[color:var(--purple-500)] bg-[color:var(--bg-34343A)] px-3 py-1.5 text-sm font-medium">
-            신청완료
-          </p>
-        );
-      case '합주완료':
-        return (
-          <p className="rounded-lg border border-[color:var(--purple-500)] bg-[color:var(--bg-34343A)] px-3 py-1.5 text-sm font-medium text-white">
-            <IcListCheck />
-            합주확정
-          </p>
-        );
-      case '합주확정':
-        return (
-          <p className="text-[color:var(--gray-400) rounded-lg border bg-[color:var(--bg-34343A)] px-3 py-1.5 text-sm font-medium">
-            합주확정
-          </p>
-        );
-      default:
+      case '모집중':
         return (
           <div className="group relative">
-            <span className="text-[color:var(--primary)]">{text}</span> 명
-            {cardStatus}
+            <span className="text-[var(--primary)]">{text}</span> 명{cardStatus}
             <ul className="absolute right-[-2px] bottom-[39px] hidden rounded-xl bg-[#29292C] group-hover:block">
               {member.map((item) => (
                 <li
@@ -67,6 +47,27 @@ export default function Footer({
             </ul>
           </div>
         );
+      case '신청완료':
+        return (
+          <p className="rounded-lg border border-[var(--purple-500)] bg-[var(--bg-34343A)] px-3 py-1.5 text-sm font-medium text-[var(--purple-500)]">
+            신청완료
+          </p>
+        );
+      case '합주확정':
+        return (
+          <p className="flex items-center gap-1 rounded-lg border border-[var(--purple-500)] bg-[var(--bg-34343A)] px-3 py-1.5 text-sm font-medium text-white">
+            <IcListCheck />
+            합주확정
+          </p>
+        );
+      case '합주완료':
+        return (
+          <p className="rounded-lg bg-[var(--bg-34343A)] px-3 py-1.5 text-sm font-medium text-[var(--gray-400)]">
+            합주완료
+          </p>
+        );
+      default:
+        return null;
     }
   };
   const left = () => {
@@ -74,9 +75,9 @@ export default function Footer({
       return <span>{getDate(recruitDeadline as string)}</span>;
     }
     return (
-      <span>
-        {text} 명 {cardStatus}
-      </span>
+      <div>
+        <span className="text-[var(--primary)]">{text}</span> 명 {cardStatus}
+      </div>
     );
   };
   return (
@@ -84,7 +85,14 @@ export default function Footer({
       <div className="flex items-center justify-between">
         {left()} {right()}
       </div>
-      {status === '합주확정' && <button type="button">리뷰쓰기</button>}
+      {status === '합주완료' && (
+        <button
+          type="button"
+          className="mt-5 h-[44px] w-full rounded-lg border border-[var(--purple-500)] bg-[#242429] text-center text-[var(--purple-500)]"
+        >
+          리뷰쓰기
+        </button>
+      )}
     </div>
   );
 }

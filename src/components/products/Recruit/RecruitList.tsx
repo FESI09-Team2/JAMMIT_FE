@@ -95,7 +95,7 @@ export default function RecruitList() {
             <RecruitCard.TagList tags={item.genres} />
             <RecruitCard.TitleBlock title={item.name} author={item.author} />
             <RecruitCard.Footer
-              status="모집중"
+              status="합주확정"
               totalCurrent={item.totalCurrent}
               totalRecruit={item.totalRecruit}
               recruitDeadline={item.recruitDeadline}
