@@ -73,7 +73,7 @@ const mockRecruits = [
 
 export default function Created() {
   return (
-    <div className="pc:grid-cols-4 grid grid-cols-1 gap-x-5 gap-y-10 bg-[#212121] px-[9rem] py-[1.25rem]">
+    <div className="pc:grid-cols-4 grid grid-cols-1 gap-x-5 gap-y-10 px-[9rem] py-[1.25rem]">
       {mockRecruits.map((item: RecruitCardData) => (
         <Link key={item.id} href={`de/${item.id}`}>
           <Card.Thumbnail
