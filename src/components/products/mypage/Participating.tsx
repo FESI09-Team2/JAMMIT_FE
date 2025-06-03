@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { Card } from '@/components/commons/Card';
 import { CARD_STATE } from '@/constants/card';
 import { RecruitCardData } from '@/types/card';
+import InfinityScroll from '@/components/commons/InfinityScroll';
 import { mockCard } from './mockCard';
-import InfinityScroll from './InfinityScroll';
 
 const LOAD_SIZE = 8;
 
