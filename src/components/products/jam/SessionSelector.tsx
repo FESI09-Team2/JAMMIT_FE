@@ -9,6 +9,8 @@ interface SessionSelectorProps {
   sortOption: string;
   setSortOption: (val: string) => void;
   onChange: (value: number) => void;
+  /** 이미 선택된 옵션 */
+  selectedOptions?: string[];
 }
 
 export default function SessionSelector({
@@ -16,14 +18,19 @@ export default function SessionSelector({
   sortOption,
   setSortOption,
   onChange,
+  selectedOptions = [],
 }: SessionSelectorProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const availableOptions = SESSION_TAGS.filter(
+    (tag) => !selectedOptions.includes(tag) || tag === sortOption,
+  );
 
   return (
     <div className="flex gap-[0.75rem]">
       <Dropdown
         onSelect={setSortOption}
-        menuOptions={SESSION_TAGS}
+        menuOptions={availableOptions}
         surfixIcon={<ArrowDown />}
         size="md"
         value={sortOption}

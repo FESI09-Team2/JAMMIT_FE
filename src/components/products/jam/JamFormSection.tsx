@@ -35,6 +35,10 @@ export default function JamFormSection({
     { sortOption: '', count: 0 },
   ]);
   const place = watch('place') || '';
+  // 빈 문자열 제외 이미 선택된 세션 옵션들을 계산
+  const selectedSessions = sessionList
+    .map((session) => session.sortOption)
+    .filter((option) => option !== '');
 
   // 장소 선택
   const handlePlaceChange = useCallback(
@@ -156,6 +160,7 @@ export default function JamFormSection({
                 sortOption={sortOption}
                 setSortOption={(val) => handleSortOptionChange(index, val)}
                 onChange={(val) => handleCountChange(index, val)}
+                selectedOptions={selectedSessions}
               />
             ))}
           </div>
