@@ -5,9 +5,13 @@ import { SESSION_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
 import ArrowDown from '@/assets/icons/ic_arrowdown.svg';
 
 interface SessionSelectorProps {
+  /** 세션별 인원 수 나타냄(TODO: 변경 필요할 수도 있음) */
   session: Record<string, number>;
+  /** 현재 선택된 세션 옵션 */
   sortOption: string;
+  /** 세션 옵션 변경 */
   setSortOption: (val: string) => void;
+  /** 인원 수 변경 */
   onChange: (value: number) => void;
   /** 이미 선택된 옵션 */
   selectedOptions?: string[];

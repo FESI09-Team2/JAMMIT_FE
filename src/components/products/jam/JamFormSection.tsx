@@ -20,10 +20,12 @@ import { JamFormData } from '@/types/jam';
 const DIVIDER = 'mx-auto my-[2.5rem] w-[56rem] border-gray-800';
 
 interface JamFormSectionProps {
+  /** 폼 필드 제어 */
   control: Control<JamFormData>;
+  /** 필드 값 관찰 */
   watch: UseFormWatch<JamFormData>;
+  /** 필드 값을 외부에서 설정 */
   setValue: UseFormSetValue<JamFormData>;
-  isValid: boolean;
 }
 
 export default function JamFormSection({

@@ -50,12 +50,7 @@ export default function JamPage() {
           }
           isTab={false}
         >
-          <JamFormSection
-            control={control}
-            watch={watch}
-            setValue={setValue}
-            isValid={isValid}
-          />
+          <JamFormSection control={control} watch={watch} setValue={setValue} />
         </GroupPageLayout>
       </form>
     </FormProvider>
