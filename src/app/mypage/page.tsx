@@ -81,7 +81,7 @@ export default function MyPage() {
   );
 
   return (
-    <main className="bg-[#212121]">
+    <main className="min-h-screen bg-[#212121]">
       <UserCard />
       <div className="flex w-full gap-[1.25rem] px-[9rem] py-[1.25rem]">
         {tabList.map(({ key, label, count }) =>
