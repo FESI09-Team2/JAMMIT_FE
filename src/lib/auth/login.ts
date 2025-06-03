@@ -1,15 +1,4 @@
-import { UserResponse } from '@/types/user';
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  accessToken: string;
-  refreshToken: string;
-  user: UserResponse;
-}
+import { LoginRequest, LoginResponse } from '@/types/auth';
 
 export async function postLogin({
   email,

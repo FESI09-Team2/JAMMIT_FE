@@ -1,4 +1,5 @@
-import { Genre, BandSession, UserResponse } from '@/types/user';
+import { UserResponse } from '@/types/user';
+import { BandSession, Genre } from './tags';
 
 export interface SignupRequest {
   email: string;
