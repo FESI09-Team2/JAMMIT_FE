@@ -14,7 +14,7 @@ import Button from '@/components/commons/Button';
 import { DatePicker } from '@/components/commons/DatePicker/DatePicker';
 import SearchInput from './SearchInput';
 import SessionSelector from './SessionSelector';
-import { GENRE_TAGS, SESSION_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
+import { GENRE_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
 import { JamFormData } from '@/types/jam';
 
 const DIVIDER = 'mx-auto my-[2.5rem] w-[56rem] border-gray-800';
@@ -32,7 +32,7 @@ export default function JamFormSection({
   setValue,
 }: JamFormSectionProps) {
   const [sessionList, setSessionList] = useState([
-    { sortOption: SESSION_TAGS[0], count: 0 },
+    { sortOption: '', count: 0 },
   ]);
   const place = watch('place') || '';
 
@@ -46,10 +46,7 @@ export default function JamFormSection({
 
   // 세션 추가
   const handleAddSession = useCallback(() => {
-    setSessionList((prev) => [
-      ...prev,
-      { sortOption: SESSION_TAGS[0], count: 0 },
-    ]);
+    setSessionList((prev) => [...prev, { sortOption: '', count: 0 }]);
   }, []);
 
   // 세션 삭제

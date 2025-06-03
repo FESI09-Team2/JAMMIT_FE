@@ -29,6 +29,7 @@ export default function SessionSelector({
         value={sortOption}
         isOpen={isDropdownOpen}
         setIsOpen={setIsDropdownOpen}
+        placeholder="세션을 선택하세요."
       />
       <NumberInput
         count={session[SESSION_KEY_MAP[sortOption]] || 0}
