@@ -18,7 +18,6 @@ export default function Gnb() {
 
   const { data: user, isError, isLoading } = useUserMeQuery();
   const isLoggedIn = !!user && !isError && !isLoading;
-  console.log('로그인여부', isLoggedIn);
 
   const navItems = [
     { href: '/', label: '모임 찾기' },
@@ -61,15 +60,12 @@ export default function Gnb() {
           </nav>
           <div>
             {isLoggedIn ? (
-              <>
-                <Dropdown
-                  menuOptions={PROFILE_OPTIONS}
-                  onSelect={handleProfileSelect}
-                  singleIcon={<DefaultProfileImage width={40} height={40} />}
-                  isProfile
-                />
-                {user.email}
-              </>
+              <Dropdown
+                menuOptions={PROFILE_OPTIONS}
+                onSelect={handleProfileSelect}
+                singleIcon={<DefaultProfileImage width={40} height={40} />}
+                isProfile
+              />
             ) : (
               <Link
                 data-active={pathname === '/login'}
