@@ -9,10 +9,15 @@ import { useInView } from 'react-intersection-observer';
 const INFINITY_SCROLL_THRESHOLD = 0.5;
 
 interface InfinityScrollProps<T> {
+  /** 렌더링할 데이터 리스트 */
   list?: T[];
+  /** 각 아이템을 렌더링하는 함수 */
   item: (itemData: T) => ReactNode;
+  /** 데이터가 없을 때 사용할 문구 */
   emptyText: string;
+  /** 무한스크롤 감지 */
   onInView: () => void;
+  /** 더 불러올 데이터가 있는지 확인 */
   hasMore?: boolean;
 }
 
