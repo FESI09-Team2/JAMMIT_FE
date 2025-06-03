@@ -37,14 +37,12 @@ export default function MultiSelectDropdown<T>({
     if (selected.length === 0) {
       return label;
     }
-    const selectOpstion = options.find(
-      (option) => option.value === selected[0],
-    );
+    const selectOption = options.find((option) => option.value === selected[0]);
 
     if (selected.length === 1) {
-      return selectOpstion?.label || label;
+      return selectOption?.label || label;
     }
-    return `${selectOpstion?.label || ''} 외 ${selected.length - 1}`;
+    return `${selectOption?.label || ''} 외 ${selected.length - 1}`;
   };
   return (
     <div className="relative h-10 w-36 rounded-lg bg-[var(--gray-100)]">
