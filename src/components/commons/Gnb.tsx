@@ -1,22 +1,38 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import DefaultProfileImage from '@/assets/icons/ic_default_profile.svg';
 import JammitLogo from '@/assets/icons/ic_jammit_logo.svg';
+import Dropdown from '@/components/commons/Dropdown';
+import { useRouter } from 'next/navigation';
+import { useUserMeQuery } from '@/hooks/queries/user/useUserMeQuery';
+
+const PROFILE_OPTIONS = ['마이페이지', '로그아웃'];
 
 export default function Gnb() {
+  const router = useRouter();
   const pathname = usePathname();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const { data: user, isError } = useUserMeQuery();
+  console.log('user: ' + user);
+  const isLoggedIn = Boolean(user) && !isError;
+
   const navItems = [
     { href: '/', label: '모임 찾기' },
     { href: '/wishlist', label: '찜한 모임' },
   ];
 
-  // TODO: 로그인 정보 연결
-  const isLoggedIn = false;
+  const handleProfileSelect = (option: string) => {
+    if (option === '마이페이지') {
+      router.push('/mypage');
+    } else if (option === '로그아웃') {
+      handleLogout();
+    }
+  };
+
   const handleLogout = () => {
+    // TODO: 실제 로그아웃 처리
     console.log('로그아웃');
   };
 
@@ -41,30 +57,16 @@ export default function Gnb() {
           </nav>
           <div>
             {isLoggedIn ? (
-              <div className="relative h-[2.5rem] w-[2.5rem]">
-                <button
-                  className="cursor-pointer"
-                  onClick={() => setIsDropdownOpen((prev) => !prev)}
-                >
-                  <DefaultProfileImage />
-                </button>
-                {isDropdownOpen && (
-                  <div className="absolute right-0 w-[8.875rem] overflow-hidden rounded-[0.75rem] bg-white text-base text-black shadow-xl">
-                    <Link
-                      href="/mypage"
-                      className="flex h-[2.75rem] w-full items-center justify-center hover:bg-gray-100"
-                    >
-                      마이페이지
-                    </Link>
-                    <button
-                      className="block h-[2.75rem] w-full cursor-pointer hover:bg-gray-100"
-                      onClick={handleLogout}
-                    >
-                      로그아웃
-                    </button>
+              <Dropdown
+                menuOptions={PROFILE_OPTIONS}
+                onSelect={handleProfileSelect}
+                singleIcon={
+                  <div className="h-[40px] w-[40px]">
+                    <DefaultProfileImage />
                   </div>
-                )}
-              </div>
+                }
+                isProfile
+              />
             ) : (
               <Link
                 data-active={pathname === '/login'}
