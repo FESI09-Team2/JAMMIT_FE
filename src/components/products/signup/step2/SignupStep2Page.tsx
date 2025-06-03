@@ -90,8 +90,7 @@ export default function SignupStep2Page() {
       preferredBandSessions,
     };
 
-    const result = await mutateAsync(fullData);
-    console.log('회원가입 성공', result);
+    await mutateAsync(fullData);
 
     useSignupStore.getState().resetSignupData();
     reset();

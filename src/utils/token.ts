@@ -21,7 +21,6 @@ export const setRefreshTokenToCookie = (token: string) => {
   Cookies.set('refreshToken', token, {
     path: '/',
     expires: 7,
-    secure: true,
     sameSite: 'strict',
   });
 };

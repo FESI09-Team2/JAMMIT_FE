@@ -16,3 +16,14 @@ export interface SignupResponse {
   message: string;
   result: UserResponse;
 }
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: UserResponse;
+}
