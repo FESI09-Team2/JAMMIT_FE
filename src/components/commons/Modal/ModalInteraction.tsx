@@ -21,10 +21,12 @@ export default function ModalInteraction({
   return (
     <ModalWrapper
       onClose={onClose}
-      className="relative w-full bg-white p-6 text-black"
+      className="relative h-[212px] w-[450px] rounded-lg bg-[#242429] p-[24px] text-gray-100"
     >
-      <p className="text-center whitespace-pre-line">{message}</p>
-      <div className="mt-6 flex justify-center gap-3">
+      <p className="mt-[48px] text-center text-base font-medium whitespace-pre-line">
+        {message}
+      </p>
+      <div className="mt-[24px] flex justify-center gap-3">
         {isShowCancel && (
           <Button variant="outline" size="small" onClick={onClose}>
             취소
