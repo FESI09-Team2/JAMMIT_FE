@@ -34,7 +34,9 @@ function ModalWrapper({
         >
           <CancelIcon />
         </button>
-        {title && <h2 className="font- mb-4 text-xl font-bold">{title}</h2>}
+        {title && (
+          <h2 className="mb-4 text-lg font-semibold text-gray-100">{title}</h2>
+        )}
         {children}
       </div>
     </div>
