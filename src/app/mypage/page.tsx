@@ -83,7 +83,7 @@ export default function MyPage() {
   return (
     <>
       <UserCard />
-      <div className="flex w-full gap-[1.25rem] px-[9rem] py-[1.25rem]">
+      <div className="flex w-full gap-[1.25rem] bg-[#212121] px-[9rem] py-[1.25rem]">
         {tabList.map(({ key, label, count }) =>
           renderTabButton(key, label, count, activeTab === key),
         )}
