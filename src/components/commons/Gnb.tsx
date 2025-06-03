@@ -7,6 +7,8 @@ import JammitLogo from '@/assets/icons/ic_jammit_logo.svg';
 import Dropdown from '@/components/commons/Dropdown';
 import { useRouter } from 'next/navigation';
 import { useUserMeQuery } from '@/hooks/queries/user/useUserMeQuery';
+import { clearAccessToken, removeRefreshTokenFromCookie } from '@/utils/token';
+import { queryClient } from '@/lib/react-query';
 
 const PROFILE_OPTIONS = ['마이페이지', '로그아웃'];
 
@@ -14,9 +16,9 @@ export default function Gnb() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { data: user, isError } = useUserMeQuery();
-  console.log('user: ' + user);
-  const isLoggedIn = Boolean(user) && !isError;
+  const { data: user, isError, isLoading } = useUserMeQuery();
+  const isLoggedIn = !!user && !isError && !isLoading;
+  console.log('로그인여부', isLoggedIn);
 
   const navItems = [
     { href: '/', label: '모임 찾기' },
@@ -32,8 +34,10 @@ export default function Gnb() {
   };
 
   const handleLogout = () => {
-    // TODO: 실제 로그아웃 처리
-    console.log('로그아웃');
+    clearAccessToken();
+    removeRefreshTokenFromCookie();
+    queryClient.invalidateQueries({ queryKey: ['me'] });
+    router.push('/');
   };
 
   return (
@@ -57,16 +61,15 @@ export default function Gnb() {
           </nav>
           <div>
             {isLoggedIn ? (
-              <Dropdown
-                menuOptions={PROFILE_OPTIONS}
-                onSelect={handleProfileSelect}
-                singleIcon={
-                  <div className="h-[40px] w-[40px]">
-                    <DefaultProfileImage />
-                  </div>
-                }
-                isProfile
-              />
+              <>
+                <Dropdown
+                  menuOptions={PROFILE_OPTIONS}
+                  onSelect={handleProfileSelect}
+                  singleIcon={<DefaultProfileImage width={40} height={40} />}
+                  isProfile
+                />
+                {user.email}
+              </>
             ) : (
               <Link
                 data-active={pathname === '/login'}
