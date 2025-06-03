@@ -15,8 +15,10 @@ export default function Participating() {
   const [items, setItems] = useState<RecruitCardData[]>([]);
 
   useEffect(() => {
-    const newItems = mockCard.slice(0, LOAD_SIZE * load);
-    setItems(newItems);
+    const start = LOAD_SIZE * (load - 1);
+    const end = LOAD_SIZE * load;
+    const newItems = mockCard.slice(start, end);
+    setItems((prev) => [...prev, ...newItems]);
   }, [load]);
 
   const handleInView = () => {

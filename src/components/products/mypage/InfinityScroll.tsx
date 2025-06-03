@@ -1,12 +1,12 @@
 'use clients';
 
-import { Fragment, ReactNode, useEffect } from 'react';
+import { Fragment, ReactNode, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 // 0.5: 화면에 요소의 절반이 보이면 감지
 // 0: 화면에 요소의 조금이라도 보이면 감지
 // 1: 화면에 요소의 완전히 보이면 감지
-const INFINITY_SCROLL_THRESHOLD = 1;
+const INFINITY_SCROLL_THRESHOLD = 0.5;
 
 interface InfinityScrollProps<T> {
   list?: T[];
@@ -23,15 +23,24 @@ export default function InfinityScroll<T>({
   onInView,
   hasMore = true,
 }: InfinityScrollProps<T>) {
+  const [isFetching, setIsFetching] = useState(false);
   const { ref: observerRef, inView } = useInView({
     threshold: INFINITY_SCROLL_THRESHOLD,
   });
 
   useEffect(() => {
-    if (inView && hasMore) {
-      onInView?.();
+    if (inView && hasMore && !isFetching) {
+      setIsFetching(true);
+      onInView();
     }
-  }, [inView, onInView, hasMore]);
+  }, [inView, onInView, isFetching, hasMore]);
+
+  // 리스트 변화감지
+  useEffect(() => {
+    if (list) {
+      setIsFetching(false);
+    }
+  }, [list]);
 
   if (!list || list.length === 0) {
     return <div className="empty-text">{emptyText}</div>;
