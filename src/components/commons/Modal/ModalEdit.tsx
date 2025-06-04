@@ -3,8 +3,8 @@ import { useForm, FormProvider } from 'react-hook-form';
 import ModalWrapper from './ModalWrapper';
 import ProfileImageUpload from '../ProfileImageUpload';
 import Button from '../Button';
-import { EditFormData } from '@/types/modal';
 import TagSection from '../TagSection';
+import { EditFormData } from '@/types/modal';
 import { SESSION_TAGS, GENRE_TAGS } from '@/constants/tags';
 
 interface ModalEditProps {

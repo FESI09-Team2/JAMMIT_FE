@@ -4,8 +4,8 @@ import ModalWrapper from './ModalWrapper';
 import HeartRating from '../HeartRating';
 import TextArea from '../Textarea';
 import Button from '../Button';
-import { ReviewFormData } from '@/types/modal';
 import TagSection from '../TagSection';
+import { ReviewFormData } from '@/types/modal';
 
 const REVIEW_TAGS = [
   '연주 실력이 좋아요',
