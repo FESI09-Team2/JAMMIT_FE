@@ -4,9 +4,13 @@ import { useState } from 'react';
 import DefaultProfileImage from '@/assets/icons/ic_default_profile.svg';
 import EditIcon from '@/assets/icons/ic_edit.svg';
 import ModalEdit from '@/components/commons/Modal/ModalEdit';
+import { useUpdateProfile } from '@/hooks/queries/user/useUpdateProfile';
+import { EditFormData } from '@/types/modal';
+import { BandSession, Genre } from '@/types/tags';
 
 export default function UserCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const updateProfile = useUpdateProfile();
 
   const handleProfileEdit = () => {
     setIsModalOpen(true);
@@ -16,9 +20,12 @@ export default function UserCard() {
     setIsModalOpen(false);
   };
 
-  const handleModalSubmit = () => {
-    // API연동
-    setIsModalOpen(false);
+  const handleModalSubmit = (data: EditFormData) => {
+    updateProfile.mutate(data, {
+      onSuccess: () => {
+        setIsModalOpen(false);
+      },
+    });
   };
 
   return (
@@ -29,7 +36,7 @@ export default function UserCard() {
         </div>
         <div className="flex flex-col text-gray-100">
           <div className="flex items-center gap-[0.625rem]">
-            {/** API 수정된 후 불러오게 수정 */}
+            {/* TODO: GET API 가져오기*/}
             <p className="text-[1.5rem] leading-[2.4rem] font-bold">
               사용자닉네임
             </p>
@@ -39,38 +46,40 @@ export default function UserCard() {
           </div>
           <div className="flex items-center gap-[1rem] text-sm font-medium">
             <p>담당 세션</p>
-            {/** API 수정된 후 여러개 불러오게 수정 */}
+            {/* TODO: GET API 가져오기*/}
             <div className="h-[2rem] w-auto rounded-lg bg-[#34343A] px-[0.75rem] py-[0.375rem]">
               일렉 기타
             </div>
             <div className="h-[1.25rem] w-[0.0938rem] bg-gray-500" />
             <p>선호 장르</p>
-            {/** API 수정된 후 여러개 불러오게 수정 */}
+            {/* TODO: GET API 가져오기*/}
             <div className="h-[2rem] w-auto rounded-lg bg-[#34343A] px-[0.75rem] py-[0.375rem]">
               팝
             </div>
             <div className="h-[1.25rem] w-[0.0938rem] bg-gray-500" />
             <p>개설모임수</p>
-            {/** API 수정된 후 불러오게 수정 아직 없음 */}
+            {/* TODO: GET API 가져오기*/}
             <p>8</p>
             <div className="h-[1.25rem] w-[0.0938rem] bg-gray-500" />
             <p>작성글수</p>
-            {/** API 수정된 후 불러오게 수정 아직 없음 */}
+            {/* TODO: GET API 가져오기*/}
             <p>20</p>
           </div>
         </div>
       </div>
 
       {isModalOpen && (
-        /** API 수정된 후 불러오게 수정 */
         <ModalEdit
           onCancel={handleModalCancel}
           onSubmit={handleModalSubmit}
+          // TODO: GET API 가져오기
           initialData={{
+            email: 'test@naver.com',
+            password: '1234',
+            username: 'test',
             image: undefined,
-            session: ['일렉 기타'],
-            genre: ['록'],
-            introduction: '',
+            preferredBandSessions: [BandSession.ELECTRIC_GUITAR],
+            preferredGenres: [Genre.ROCK],
           }}
         />
       )}

@@ -5,7 +5,10 @@ import ProfileImageUpload from '../ProfileImageUpload';
 import Button from '../Button';
 import { EditFormData } from '@/types/modal';
 import TagSection from '../TagSection';
-import { SESSION_TAGS, GENRE_TAGS } from '@/constants/tags';
+import { BandSession, Genre } from '@/types/tags';
+
+const BAND_SESSION_TAGS = Object.values(BandSession);
+const GENRE_TAGS = Object.values(Genre);
 
 interface ModalEditProps {
   /** "확인" 버튼 클릭 시 실행할 콜백 */
@@ -13,30 +16,19 @@ interface ModalEditProps {
   /** "x"버튼 클릭 시 실행할 콜백 */
   onCancel: () => void;
   /** 기존 프로필 정보를 가져오기 위한 초기값 */
-  initialData: {
-    image?: File;
-    session: string[];
-    genre: string[];
-    introduction: string;
-  };
+  initialData: EditFormData;
 }
 
 export default function ModalEdit({
   onCancel,
   onSubmit,
-  initialData = {
-    image: undefined,
-    session: [],
-    genre: [],
-    introduction: '',
-  },
+  initialData,
 }: ModalEditProps) {
   const methods = useForm<EditFormData>({
     defaultValues: {
       image: initialData.image,
-      session: initialData.session,
-      genre: initialData.genre,
-      introduction: initialData.introduction,
+      preferredBandSessions: initialData.preferredBandSessions,
+      preferredGenres: initialData.preferredGenres,
     },
     mode: 'onChange',
   });
@@ -49,16 +41,16 @@ export default function ModalEdit({
     setValue('image', file);
   };
 
-  const handleSeesionTagChange = useCallback(
+  const handleSesionTagChange = useCallback(
     (selected: string[]) => {
-      setValue('session', selected);
+      setValue('preferredBandSessions', selected as BandSession[]);
     },
     [setValue],
   );
 
   const handleGenreTagChange = useCallback(
     (selected: string[]) => {
-      setValue('genre', selected);
+      setValue('preferredGenres', selected as Genre[]);
     },
     [setValue],
   );
@@ -66,16 +58,16 @@ export default function ModalEdit({
   const tagSections = [
     {
       key: 'session',
-      label: '선호장르',
-      tags: SESSION_TAGS,
-      initialSelected: initialData.session,
-      onChange: handleSeesionTagChange,
+      label: '세션',
+      tags: BAND_SESSION_TAGS,
+      initialSelected: initialData.preferredBandSessions,
+      onChange: handleSesionTagChange,
     },
     {
       key: 'genre',
       label: '세션',
       tags: GENRE_TAGS,
-      initialSelected: initialData.genre,
+      initialSelected: initialData.preferredGenres,
       onChange: handleGenreTagChange,
     },
   ];
