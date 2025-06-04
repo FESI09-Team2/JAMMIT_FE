@@ -26,6 +26,9 @@ export default function ModalEdit({
 }: ModalEditProps) {
   const methods = useForm<EditFormData>({
     defaultValues: {
+      email: initialData.email,
+      username: initialData.username,
+      password: initialData.password,
       image: initialData.image,
       preferredBandSessions: initialData.preferredBandSessions,
       preferredGenres: initialData.preferredGenres,

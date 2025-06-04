@@ -25,14 +25,21 @@ export default function UserCard() {
   const handleModalSubmit = (data: EditFormData) => {
     updateProfile.mutate(data, {
       onSuccess: () => {
+        console.log(data);
         setIsModalOpen(false);
       },
     });
   };
 
+  // 중복 제거된 세션/장르
+  const uniqueSessions = [
+    ...new Set(user.preferredBandSessions),
+  ] as BandSession[];
+  const uniqueGenres = [...new Set(user.preferredGenres)] as Genre[];
+
   return (
     <>
-      <div className="flex h-[15.625rem] w-[full] items-center justify-center gap-[3.3125rem] bg-[#36114E]">
+      <div className="flex h-[15.625rem] w-full items-center justify-center gap-[3.3125rem] bg-[#36114E]">
         <div>
           <DefaultProfileImage width={128} height={128} />
         </div>
@@ -47,17 +54,17 @@ export default function UserCard() {
           </div>
           <div className="flex items-center gap-[0.5rem] text-sm font-medium">
             <p>담당 세션</p>
-            {user.preferredBandSessions.map((session: BandSession) => (
+            {uniqueSessions.map((session: BandSession) => (
               <div
                 key={session}
                 className="h-[2rem] rounded-lg bg-[#34343A] px-[0.75rem] py-[0.375rem]"
               >
-                {session.replace('_', ' ')}{' '}
+                {session.replace('_', ' ')}
               </div>
             ))}
             <div className="h-[1.25rem] w-[0.0938rem] bg-gray-500" />
             <p>선호 장르</p>
-            {user.preferredGenres.map((genre: Genre) => (
+            {uniqueGenres.map((genre: Genre) => (
               <div
                 key={genre}
                 className="h-[2rem] rounded-lg bg-[#34343A] px-[0.75rem] py-[0.375rem]"
@@ -67,11 +74,9 @@ export default function UserCard() {
             ))}
             <div className="h-[1.25rem] w-[0.0938rem] bg-gray-500" />
             <p>개설모임수</p>
-            {/* TODO: API 업데이트 후 GET API 가져오기*/}
             <p>8</p>
             <div className="h-[1.25rem] w-[0.0938rem] bg-gray-500" />
             <p>작성글수</p>
-            {/* TODO: API 업데이트 후 GET API 가져오기*/}
             <p>20</p>
           </div>
         </div>
@@ -81,10 +86,9 @@ export default function UserCard() {
         <ModalEdit
           onCancel={handleModalCancel}
           onSubmit={handleModalSubmit}
-          // TODO: GET API 가져오기
           initialData={{
             email: user.email,
-            password: 'undefined',
+            password: '87654321',
             username: user.username,
             image: user.profileImagePath,
             preferredBandSessions: user.preferredBandSessions,
