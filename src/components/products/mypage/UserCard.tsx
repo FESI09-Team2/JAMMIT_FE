@@ -7,6 +7,7 @@ import ModalEdit from '@/components/commons/Modal/ModalEdit';
 import { useUpdateProfile } from '@/hooks/queries/user/useUpdateProfile';
 import { useUserMeQuery } from '@/hooks/queries/user/useUserMeQuery';
 import { EditFormData } from '@/types/modal';
+import { BandSession, Genre } from '@/types/tags';
 
 export default function UserCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,16 +45,26 @@ export default function UserCard() {
               <EditIcon width={18} height={18} />
             </button>
           </div>
-          <div className="flex items-center gap-[1rem] text-sm font-medium">
+          <div className="flex items-center gap-[0.5rem] text-sm font-medium">
             <p>담당 세션</p>
-            <div className="h-[2rem] w-auto rounded-lg bg-[#34343A] px-[0.75rem] py-[0.375rem]">
-              {user.preferredBandSessions}
-            </div>
+            {user.preferredBandSessions.map((session: BandSession) => (
+              <div
+                key={session}
+                className="h-[2rem] rounded-lg bg-[#34343A] px-[0.75rem] py-[0.375rem]"
+              >
+                {session.replace('_', ' ')}{' '}
+              </div>
+            ))}
             <div className="h-[1.25rem] w-[0.0938rem] bg-gray-500" />
             <p>선호 장르</p>
-            <div className="h-[2rem] w-auto rounded-lg bg-[#34343A] px-[0.75rem] py-[0.375rem]">
-              {user.preferredGenres}
-            </div>
+            {user.preferredGenres.map((genre: Genre) => (
+              <div
+                key={genre}
+                className="h-[2rem] rounded-lg bg-[#34343A] px-[0.75rem] py-[0.375rem]"
+              >
+                {genre}
+              </div>
+            ))}
             <div className="h-[1.25rem] w-[0.0938rem] bg-gray-500" />
             <p>개설모임수</p>
             {/* TODO: API 업데이트 후 GET API 가져오기*/}
