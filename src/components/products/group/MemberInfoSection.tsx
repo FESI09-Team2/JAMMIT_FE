@@ -11,6 +11,7 @@ interface Member {
   profileImage?: File | null;
 }
 
+// TODO: 신청 멤버 데이터 받아오는 API 연결
 const members1: Member[] = [
   {
     id: 'm1',
@@ -58,6 +59,7 @@ const members2: Member[] = [
 export default function MemberInfoSection() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
+  // TODO: 수락, 거절 API 연결
   const handleAccept = () => {
     console.log('수락한 멤버 ID:', selectedIds);
   };
@@ -69,9 +71,9 @@ export default function MemberInfoSection() {
   return (
     <>
       <section className="flex w-[60rem] flex-col gap-[40px] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
-        <MemberList title="신청 멤버" members={members1} isSelectable={false} />
+        <MemberList title="확정 멤버" members={members1} isSelectable={false} />
         <MemberList
-          title="확정 멤버"
+          title="신청 멤버"
           members={members2}
           selectedIds={selectedIds}
           setSelectedIds={setSelectedIds}

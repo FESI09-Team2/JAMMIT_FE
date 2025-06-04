@@ -38,6 +38,13 @@ export default function MemberList({
 
   const allSelected = selectedIds.length === members.length;
 
+  const emptyMessage =
+    title === '신청 멤버'
+      ? '아직 모임 신청 멤버가 없어요~'
+      : title === '확정 멤버'
+        ? '아직 참여 확정된 멤버가 없어요~'
+        : '표시할 멤버가 없어요.';
+
   return (
     <div>
       <div className="mb-[0.5rem] text-[1.5rem] font-bold">
@@ -46,31 +53,39 @@ export default function MemberList({
           <span className="font-medium text-[#A339FF]">{members.length}</span>
         )}
       </div>
-      <div className="flex h-[3rem] items-center gap-[1.25rem] bg-[#25252a] px-[1.0625rem] text-[0.9375rem] font-bold">
-        {isSelectable ? (
-          <div onClick={handleSelectAll} className="cursor-pointer">
-            {allSelected ? <Checkbox /> : <CheckboxEmpty />}
+      {members.length === 0 ? (
+        <div className="h-[24px] w-full pt-[8px] text-center text-gray-400">
+          {emptyMessage}
+        </div>
+      ) : (
+        <>
+          <div className="flex h-[3rem] items-center gap-[1.25rem] bg-[#25252a] px-[1.0625rem] text-[0.9375rem] font-bold">
+            {isSelectable ? (
+              <div onClick={handleSelectAll} className="cursor-pointer">
+                {allSelected ? <Checkbox /> : <CheckboxEmpty />}
+              </div>
+            ) : (
+              <div className="w-[1rem]" />
+            )}
+            <p className="ml-[4.25rem] w-[8.6875rem]">닉네임</p>
+            <p className="w-[10.4375rem]">신청 세션</p>
+            <p className="w-[22.875rem]">소개</p>
           </div>
-        ) : (
-          <div className="w-[1rem]" />
-        )}
-        <p className="ml-[4.25rem] w-[8.6875rem]">닉네임</p>
-        <p className="w-[10.4375rem]">신청 세션</p>
-        <p className="w-[22.875rem]">소개</p>
-      </div>
-      {members.map((member) => (
-        <MemberRow
-          key={member.id}
-          id={member.id}
-          nickname={member.nickname}
-          sessions={member.sessions}
-          introduction={member.introduction}
-          profileImage={member.profileImage}
-          selected={selectedIds.includes(member.id)}
-          onSelectChange={handleSelectChange}
-          isSelectable={isSelectable}
-        />
-      ))}
+          {members.map((member) => (
+            <MemberRow
+              key={member.id}
+              id={member.id}
+              nickname={member.nickname}
+              sessions={member.sessions}
+              introduction={member.introduction}
+              profileImage={member.profileImage}
+              selected={selectedIds.includes(member.id)}
+              onSelectChange={handleSelectChange}
+              isSelectable={isSelectable}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 }
