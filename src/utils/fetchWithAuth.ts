@@ -9,8 +9,11 @@ export const fetchWithAuth = async (
     Authorization: token ? `Bearer ${token}` : '',
     'Content-Type': 'application/json',
   };
-  return fetch(url, {
-    headers,
-    ...options,
-  });
+  const res = await fetch(url, { headers, ...options });
+  const data = await res.json();
+  if (!res.ok) {
+    throw data;
+  }
+
+  return data.result;
 };

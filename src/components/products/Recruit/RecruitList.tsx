@@ -3,9 +3,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Card } from '@/components/commons/Card';
 import MultiSelectDropdown from '@/components/commons/MultiSelectDropdown';
-import { GENRE_OPTIONS, SESSION_OPTIONS } from '@/constants/checkbox';
+import {
+  GENRE_OPTIONS,
+  mockRecruits,
+  SESSION_OPTIONS,
+} from '@/constants/checkbox';
 import { CARD_STATE } from '@/constants/card';
-import { mockCard } from '../mypage/mockCard';
 import { BandSession, Genre } from '@/types/tags';
 import { RecruitCardData } from '@/types/card';
 
@@ -41,7 +44,7 @@ export default function RecruitList() {
         </div>
       </div>
       <div className="pc:grid-cols-4 grid grid-cols-2 gap-x-5 gap-y-10">
-        {mockCard.map((item: RecruitCardData) => (
+        {mockRecruits.map((item: RecruitCardData) => (
           <Link key={item.id} href={`de/${item.id}`}>
             <Card.Thumbnail
               thumbnail={item.thumbnail}
@@ -51,7 +54,7 @@ export default function RecruitList() {
             <Card.TagList tags={item.genres} />
             <Card.TitleBlock title={item.name} author={item.author} />
             <Card.Footer
-              status={CARD_STATE.COMPLETED}
+              status={CARD_STATE.PROGRESS}
               totalCurrent={item.totalCurrent}
               totalRecruit={item.totalRecruit}
               recruitDeadline={item.recruitDeadline}
