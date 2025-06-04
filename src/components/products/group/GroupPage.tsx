@@ -4,7 +4,6 @@ import Image from 'next/image';
 import GroupInfoSection from './GroupInfoSection';
 import bannerImages from '@/constants/bannerImages';
 import GroupPageLayout from '@/components/commons/GroupPageLayout';
-import Button from '@/components/commons/Button';
 import { useQueryTab } from '@/hooks/useQueryTab';
 import MemberInfoSection from './MemberInfoSection';
 
@@ -51,16 +50,6 @@ export default function GroupPage() {
             objectFit="cover"
             priority
           />
-        </div>
-      }
-      actionButtons={
-        <div className="flex flex-col gap-[1.25rem]">
-          <Button variant="solid" className="w-[22.75rem]">
-            수정하기
-          </Button>
-          <Button variant="outline" className="w-[22.75rem]">
-            삭제하기
-          </Button>
         </div>
       }
     >

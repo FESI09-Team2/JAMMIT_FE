@@ -1,5 +1,7 @@
 'use client';
+import Button from '@/components/commons/Button';
 import MemberList from './MemberList';
+import { useState } from 'react';
 
 interface Member {
   id: string;
@@ -9,11 +11,27 @@ interface Member {
   profileImage?: File | null;
 }
 
-const members: Member[] = [
+const members1: Member[] = [
   {
     id: 'm1',
     nickname: '내가왔다',
-    sessions: ['보컬', '일렉기타'],
+    sessions: ['일렉기타'],
+    introduction:
+      '안녕하세요, 기타치고 노래하는 내가 왔다입니다~! 저는 빠르고 경쾌한 곡에 잘 어울리는 목소리이고 프로페셔널한 마인드입니다. ',
+  },
+  {
+    id: 'm2',
+    nickname: '리버스캥거루',
+    sessions: ['건반'],
+    introduction: '피아노 치는 캥거루입니다!',
+  },
+];
+
+const members2: Member[] = [
+  {
+    id: 'm1',
+    nickname: '내가왔다',
+    sessions: ['일렉기타'],
     introduction:
       '안녕하세요, 기타치고 노래하는 내가 왔다입니다~! 저는 빠르고 경쾌한 곡에 잘 어울리는 목소리이고 프로페셔널한 마인드입니다. ',
   },
@@ -38,9 +56,41 @@ const members: Member[] = [
 ];
 
 export default function MemberInfoSection() {
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  const handleAccept = () => {
+    console.log('수락한 멤버 ID:', selectedIds);
+  };
+
+  const handleReject = () => {
+    console.log('거절한 멤버 ID:', selectedIds);
+  };
+
   return (
-    <section className="w-[60rem] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
-      <MemberList title="신청 멤버" members={members} />
-    </section>
+    <>
+      <section className="flex w-[60rem] flex-col gap-[40px] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
+        <MemberList title="신청 멤버" members={members1} isSelectable={false} />
+        <MemberList
+          title="확정 멤버"
+          members={members2}
+          selectedIds={selectedIds}
+          setSelectedIds={setSelectedIds}
+          isSelectable={true}
+        />
+      </section>
+
+      <div className="flex flex-col gap-[1.25rem]">
+        <Button variant="solid" className="w-[22.75rem]" onClick={handleAccept}>
+          {selectedIds.length}명 수락
+        </Button>
+        <Button
+          variant="outline"
+          className="w-[22.75rem]"
+          onClick={handleReject}
+        >
+          {selectedIds.length}명 거절
+        </Button>
+      </div>
+    </>
   );
 }

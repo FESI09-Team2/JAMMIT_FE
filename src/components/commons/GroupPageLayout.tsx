@@ -5,7 +5,7 @@ import { useQueryTab } from '@/hooks/useQueryTab';
 
 interface GroupPageLayoutProps {
   banner: ReactNode;
-  actionButtons: ReactNode;
+  actionButtons?: ReactNode;
   children: ReactNode;
   isTab?: boolean;
 }
