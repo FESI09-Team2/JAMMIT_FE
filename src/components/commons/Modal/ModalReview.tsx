@@ -85,13 +85,13 @@ export default function ModalReview({ onCancel, onSubmit }: ModalReviewProps) {
 
             <div className="flex flex-col gap-[0.75rem]">
               <div className="flex flex-col gap-[0.5rem]">
-                {tagSections.map(({ key, tags, initialSelected, onChange }) => (
+                {tagSections.map(({ tags }) => (
                   <TagSection
-                    key={key}
-                    label={'##님과의 합주 경험은 어땠나요?'} // TODO: API 사용자 정보 불러와서 교체 필요
+                    key={watch('tags')?.join(',')} // 상태값이 바뀔 때마다 강제로 새로 마운트
+                    label="##님과의 합주 경험은 어땠나요?" // TODO: API 연동
                     tags={tags}
-                    initialSelected={initialSelected}
-                    onChange={onChange}
+                    initialSelected={watch('tags') ?? []}
+                    onChange={(selectedTags) => setValue('tags', selectedTags)}
                   />
                 ))}
               </div>
