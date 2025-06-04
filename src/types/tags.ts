@@ -21,5 +21,5 @@ export enum BandSession {
   BASS = 'BASS',
   STRING_INSTRUMENT = 'STRING_INSTRUMENT',
   PERCUSSION = 'PERCUSSION',
-  //건반 추가 필요
+  KEYBOARD = 'KEYBOARD',
 }

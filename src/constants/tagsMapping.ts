@@ -19,7 +19,7 @@ export const SESSION_KR_TO_ENUM: Record<string, BandSession> = {
   일렉기타: BandSession.ELECTRIC_GUITAR,
   통기타: BandSession.ACOUSTIC_GUITAR,
   베이스: BandSession.BASS,
-  // '건반': BandSession.KEYBOARD, <- 추가 필요
+  건반: BandSession.KEYBOARD,
   드럼: BandSession.DRUM,
   타악기: BandSession.PERCUSSION,
   현악기: BandSession.STRING_INSTRUMENT,
