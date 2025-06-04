@@ -82,13 +82,19 @@ export default function MemberInfoSection() {
       </section>
 
       <div className="flex flex-col gap-[1.25rem]">
-        <Button variant="solid" className="w-[22.75rem]" onClick={handleAccept}>
+        <Button
+          variant="solid"
+          className="w-[22.75rem]"
+          onClick={handleAccept}
+          disabled={selectedIds.length === 0}
+        >
           {selectedIds.length}명 수락
         </Button>
         <Button
           variant="outline"
           className="w-[22.75rem]"
           onClick={handleReject}
+          disabled={selectedIds.length === 0}
         >
           {selectedIds.length}명 거절
         </Button>
