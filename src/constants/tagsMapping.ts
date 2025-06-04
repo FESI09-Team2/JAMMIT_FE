@@ -1,8 +1,8 @@
 import { Genre, BandSession } from '@/types/tags';
 
 export const GENRE_KR_TO_ENUM: Record<string, Genre> = {
-  락: Genre.ROCK_METAL,
-  메탈: Genre.ROCK_METAL, // 락, 메탈 일단 동일하게 설정
+  락: Genre.ROCK,
+  메탈: Genre.METAL,
   팝: Genre.POP,
   발라드: Genre.BALLAD,
   'R&B': Genre.RNB,

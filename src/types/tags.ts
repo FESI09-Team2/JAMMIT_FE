@@ -1,5 +1,6 @@
 export enum Genre {
-  ROCK_METAL = 'ROCK_METAL', //락, 메탈 분리 필요
+  ROCK = 'ROCK',
+  METAL = 'METAL',
   POP = 'POP',
   BALLAD = 'BALLAD',
   INDIE = 'INDIE',
