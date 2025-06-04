@@ -1,5 +1,5 @@
 export enum Genre {
-  ROCK = 'ROCK', //락, 메탈 분리 필요
+  ROCK = 'ROCK',
   METAL = 'METAL',
   POP = 'POP',
   BALLAD = 'BALLAD',
@@ -21,5 +21,5 @@ export enum BandSession {
   BASS = 'BASS',
   STRING_INSTRUMENT = 'STRING_INSTRUMENT',
   PERCUSSION = 'PERCUSSION',
-  //건반 추가 필요
+  KEYBOARD = 'KEYBOARD',
 }
