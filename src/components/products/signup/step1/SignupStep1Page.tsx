@@ -12,7 +12,7 @@ import {
 } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import debounce from 'lodash.debounce';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { checkEmailDuplicate } from '@/lib/auth/signup';
 
 interface FormValues {
@@ -43,19 +43,8 @@ export default function SignUpStep1Page() {
   const isValidEmailFormat = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  useEffect(() => {
-    if (!email) {
-      setDuplicateMessage(null);
-      return;
-    }
-    const isValidFormat = isValidEmailFormat(email);
-    if (!isValidFormat) {
-      setDuplicateMessage(null);
-      setIsDuplicate(null);
-      return;
-    }
-
-    const debounceCheck = debounce(async (emailToCheck: string) => {
+  const debounceCheckEmail = useCallback(
+    debounce(async (emailToCheck: string) => {
       setChecking(true);
       try {
         const exists = await checkEmailDuplicate(emailToCheck);
@@ -71,10 +60,26 @@ export default function SignUpStep1Page() {
       } finally {
         setChecking(false);
       }
-    }, 500);
+    }, 500),
+    [],
+  );
 
-    debounceCheck(email);
-    return () => debounceCheck.cancel();
+  useEffect(() => {
+    if (!email) {
+      setDuplicateMessage(null);
+      return;
+    }
+    const isValidFormat = isValidEmailFormat(email);
+    if (!isValidFormat) {
+      setDuplicateMessage(null);
+      setIsDuplicate(null);
+      return;
+    }
+
+    debounceCheckEmail(email);
+    return () => {
+      debounceCheckEmail.cancel();
+    };
   }, [email, setError, clearErrors]);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
