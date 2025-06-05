@@ -40,6 +40,7 @@ export default function ModalEdit({
   const imageFile = watch('image');
   const password = watch('password');
 
+  // TODO: PROFILEI_MAGE PUT API 연동 필요
   const handleFileChange = (file: File) => {
     setValue('image', file);
   };
