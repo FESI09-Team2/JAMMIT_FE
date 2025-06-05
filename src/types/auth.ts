@@ -10,13 +10,6 @@ export interface SignupRequest {
   preferredBandSessions: BandSession[];
 }
 
-export interface SignupResponse {
-  success: boolean;
-  code: number;
-  message: string;
-  result: UserResponse;
-}
-
 export interface LoginRequest {
   email: string;
   password: string;

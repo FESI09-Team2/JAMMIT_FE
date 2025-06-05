@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { useAuthStore } from '@/stores/useAuthStore';
 
-export const tokenServicie = {
+export const tokenService = {
   getAccessToken(): string | null {
     return useAuthStore.getState().accessToken;
   },
