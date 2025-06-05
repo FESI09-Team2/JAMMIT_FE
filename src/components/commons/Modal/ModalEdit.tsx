@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import ModalWrapper from './ModalWrapper';
 import ProfileImageUpload from '../ProfileImageUpload';
+import Input from '../Input';
 import Button from '../Button';
 import { EditFormData } from '@/types/modal';
 import TagSection from '../TagSection';
@@ -75,8 +76,6 @@ export default function ModalEdit({
     },
   ];
 
-  const isValid = !!imageFile;
-
   return (
     <ModalWrapper
       title="프로필 수정하기"
@@ -94,6 +93,12 @@ export default function ModalEdit({
           />
 
           <div className="flex flex-col gap-[1.5rem]">
+            <Input name="email" type="text" label="이메일" />
+            <Input name="username" type="text" label="이름" />
+            <Input name="password" type="password" label="비밀번호" />
+          </div>
+
+          <div className="flex flex-col gap-[1.5rem]">
             {tagSections.map(
               ({ key, label, tags, initialSelected, onChange }) => (
                 <TagSection
@@ -107,12 +112,7 @@ export default function ModalEdit({
             )}
           </div>
 
-          <Button
-            variant="solid"
-            size="large"
-            type="submit"
-            disabled={!isValid}
-          >
+          <Button variant="solid" size="large" type="submit">
             확인
           </Button>
         </form>

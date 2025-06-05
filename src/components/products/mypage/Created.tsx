@@ -14,6 +14,7 @@ export default function Created() {
   const [load, setLoad] = useState(1);
   const [items, setItems] = useState<RecruitCardData[]>([]);
 
+  // 계산은 안좋음 개선필요
   useEffect(() => {
     const start = LOAD_SIZE * (load - 1);
     const end = LOAD_SIZE * load;
