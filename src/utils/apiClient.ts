@@ -1,11 +1,5 @@
 import { tokenService } from './tokenService';
 
-interface ApiResponse<T = unknown> {
-  success: boolean;
-  result: T;
-  message?: string;
-}
-
 class ApiClient {
   private baseURL: string;
 
@@ -41,13 +35,20 @@ class ApiClient {
       }
     }
 
-    const data: ApiResponse<T> = await response.json();
+    const data = await response.json();
 
-    if (!response.ok || !data.success) {
+    if (!('success' in data)) {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return data as T;
+    }
+
+    if (!data.success) {
       throw new Error(data.message || `HTTP ${response.status}`);
     }
 
-    return data.result;
+    return data;
   }
 
   private async refreshToken(): Promise<boolean> {
@@ -66,7 +67,7 @@ class ApiClient {
         return false;
       }
 
-      const data: ApiResponse<{ accessToken: string }> = await response.json();
+      const data = await response.json();
       if (data.success && data.result.accessToken) {
         tokenService.setAccessToken(data.result.accessToken);
         return true;
