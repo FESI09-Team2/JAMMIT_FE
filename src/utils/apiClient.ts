@@ -37,6 +37,7 @@ class ApiClient {
 
     const data = await response.json();
 
+    // result를 바로 주는 경우
     if (!('success' in data)) {
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
@@ -44,11 +45,11 @@ class ApiClient {
       return data as T;
     }
 
+    // success, code, message, result 따로 주는 경우
     if (!data.success) {
       throw new Error(data.message || `HTTP ${response.status}`);
     }
-
-    return data;
+    return data.result;
   }
 
   private async refreshToken(): Promise<boolean> {
