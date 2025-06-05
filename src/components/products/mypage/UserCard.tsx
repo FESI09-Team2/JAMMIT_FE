@@ -17,7 +17,11 @@ export default function UserCard() {
 
   // TODO: 토큰 로직 리팩토링 이후 작업 시작
   if (isLoading || !user) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-[15.625rem] w-[full] items-center justify-center gap-[3.3125rem] bg-[#36114E]">
+        Loading...
+      </div>
+    );
   }
 
   const handleProfileEdit = () => {
