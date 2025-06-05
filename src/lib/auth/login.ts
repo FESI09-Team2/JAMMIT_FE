@@ -15,8 +15,4 @@ export async function postLogin({
   }
 
   return data.result;
-  // return await apiClient.post<LoginResponse>('/auth/login', {
-  //   email,
-  //   password,
-  // });
 }
