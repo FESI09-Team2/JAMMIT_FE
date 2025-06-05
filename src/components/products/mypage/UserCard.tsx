@@ -8,14 +8,16 @@ import { useUpdateProfile } from '@/hooks/queries/user/useUpdateProfile';
 import { useUserMeQuery } from '@/hooks/queries/user/useUserMeQuery';
 import { EditFormData } from '@/types/modal';
 import { BandSession, Genre } from '@/types/tags';
+import { SESSION_ENUM_TO_KR, GENRE_ENUM_TO_KR } from '@/constants/tagsMapping';
 
 export default function UserCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const updateProfile = useUpdateProfile();
   const { data: user, isLoading } = useUserMeQuery();
 
+  // TODO: 토큰 로직 리팩토링 이후 작업 시작
   if (isLoading || !user) {
-    return <div>Loading...</div>; // 또는 스켈레톤 등으로 처리
+    return <div>Loading...</div>;
   }
 
   const handleProfileEdit = () => {
@@ -57,7 +59,7 @@ export default function UserCard() {
                 key={session}
                 className="h-[2rem] rounded-lg bg-[#34343A] px-[0.75rem] py-[0.375rem]"
               >
-                {session.replace('_', ' ')}{' '}
+                {SESSION_ENUM_TO_KR[session]}
               </div>
             ))}
             <div className="h-[1.25rem] w-[0.0938rem] bg-gray-500" />
@@ -67,7 +69,7 @@ export default function UserCard() {
                 key={genre}
                 className="h-[2rem] rounded-lg bg-[#34343A] px-[0.75rem] py-[0.375rem]"
               >
-                {genre}
+                {GENRE_ENUM_TO_KR[genre]}
               </div>
             ))}
             <div className="h-[1.25rem] w-[0.0938rem] bg-gray-500" />

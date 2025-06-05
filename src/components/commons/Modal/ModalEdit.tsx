@@ -7,9 +7,13 @@ import Button from '../Button';
 import { EditFormData } from '@/types/modal';
 import TagSection from '../TagSection';
 import { BandSession, Genre } from '@/types/tags';
-
-const BAND_SESSION_TAGS = Object.values(BandSession);
-const GENRE_TAGS = Object.values(Genre);
+import { GENRE_TAGS, SESSION_TAGS } from '@/constants/tags';
+import {
+  GENRE_KR_TO_ENUM,
+  SESSION_KR_TO_ENUM,
+  SESSION_ENUM_TO_KR,
+  GENRE_ENUM_TO_KR,
+} from '@/constants/tagsMapping';
 
 interface ModalEditProps {
   /** "확인" 버튼 클릭 시 실행할 콜백 */
@@ -25,6 +29,15 @@ export default function ModalEdit({
   onSubmit,
   initialData,
 }: ModalEditProps) {
+  // 영어 enum을 한글로 변환
+  const initialSessionsKr =
+    initialData.preferredBandSessions?.map(
+      (session) => SESSION_ENUM_TO_KR[session],
+    ) || [];
+
+  const initialGenresKr =
+    initialData.preferredGenres?.map((genre) => GENRE_ENUM_TO_KR[genre]) || [];
+
   const methods = useForm<EditFormData>({
     defaultValues: {
       email: initialData.email,
@@ -36,25 +49,30 @@ export default function ModalEdit({
     },
     mode: 'onChange',
   });
+
   const { handleSubmit, setValue, watch } = methods;
   const imageFile = watch('image');
   const password = watch('password');
 
-  // TODO: PROFILEI_MAGE PUT API 연동 필요
+  // TODO: PROFILE_IMAGE PUT API 연동 필요
   const handleFileChange = (file: File) => {
     setValue('image', file);
   };
 
-  const handleSesionTagChange = useCallback(
+  const handleSessionTagChange = useCallback(
     (selected: string[]) => {
-      setValue('preferredBandSessions', selected as BandSession[]);
+      // 한글을 영어 enum으로 변환하여 저장
+      const enumValues = selected.map((kr) => SESSION_KR_TO_ENUM[kr]);
+      setValue('preferredBandSessions', enumValues as BandSession[]);
     },
     [setValue],
   );
 
   const handleGenreTagChange = useCallback(
     (selected: string[]) => {
-      setValue('preferredGenres', selected as Genre[]);
+      // 한글을 영어 enum으로 변환하여 저장
+      const enumValues = selected.map((kr) => GENRE_KR_TO_ENUM[kr]);
+      setValue('preferredGenres', enumValues as Genre[]);
     },
     [setValue],
   );
@@ -62,16 +80,16 @@ export default function ModalEdit({
   const tagSections = [
     {
       key: 'session',
-      label: '세션',
-      tags: BAND_SESSION_TAGS,
-      initialSelected: initialData.preferredBandSessions,
-      onChange: handleSesionTagChange,
+      label: '담당 세션',
+      tags: SESSION_TAGS, // 한글 태그 사용
+      initialSelected: initialSessionsKr, // 한글로 변환된 초기값
+      onChange: handleSessionTagChange,
     },
     {
       key: 'genre',
-      label: '세션',
-      tags: GENRE_TAGS,
-      initialSelected: initialData.preferredGenres,
+      label: '선호 장르',
+      tags: GENRE_TAGS, // 한글 태그 사용
+      initialSelected: initialGenresKr, // 한글로 변환된 초기값
       onChange: handleGenreTagChange,
     },
   ];
