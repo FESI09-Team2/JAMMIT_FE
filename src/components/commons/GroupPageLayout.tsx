@@ -69,7 +69,7 @@ export default function GroupPageLayout({
         </div>
       )}
 
-      <div className="flex gap-[1.25rem] pb-[3.875rem]">
+      <div className="flex justify-between pb-[3.875rem]">
         {/* 메인 본문 */}
         {children}
 

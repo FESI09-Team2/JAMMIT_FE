@@ -76,7 +76,7 @@ export default function ParticipationForm() {
           type="submit"
           variant="solid"
           disabled={!isValid}
-          className="w-full"
+          className="w-[364px]"
         >
           신청 완료
         </Button>

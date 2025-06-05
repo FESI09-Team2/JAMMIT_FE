@@ -81,7 +81,7 @@ export default function MemberInfoSection() {
         />
       </section>
 
-      <div className="flex flex-col gap-[1.25rem]">
+      <div className="ml-[1.25rem] flex flex-col gap-[1.25rem]">
         <Button
           variant="solid"
           className="w-[22.75rem]"

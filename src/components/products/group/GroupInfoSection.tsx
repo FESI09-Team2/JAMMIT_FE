@@ -1,7 +1,9 @@
+'use client';
 import TagSelector from '@/components/commons/TagSelector';
 import { GENRE_TAGS } from '@/constants/tags';
 import Button from '@/components/commons/Button';
 import ParticipationForm from './ParticipationForm';
+import { useState } from 'react';
 
 interface GroupInfoSectionProps {
   title: string;
@@ -28,6 +30,9 @@ export default function GroupInfoSection({
   genres,
   description,
 }: GroupInfoSectionProps) {
+  const isHost = false;
+  const [showParticipationForm, setShowParticipationForm] = useState(false);
+
   const actionButtons = [
     {
       label: '수정하기',
@@ -120,21 +125,35 @@ export default function GroupInfoSection({
         <div className="group-info-text whitespace-pre-line">{description}</div>
       </section>
 
-      <div className="flex flex-col gap-10">
-        <div className="flex flex-col gap-[1.25rem]">
-          {actionButtons.map(({ label, variant, onClick }) => (
-            <Button
-              key={label}
-              variant={variant as 'solid' | 'outline'}
-              className="w-[22.75rem]"
-              onClick={onClick}
-            >
-              {label}
-            </Button>
-          ))}
-        </div>
+      <div className="ml-[1.25rem]">
+        {isHost ? (
+          <div className="flex flex-col gap-[1.25rem]">
+            {actionButtons.map(({ label, variant, onClick }) => (
+              <Button
+                key={label}
+                variant={variant as 'solid' | 'outline'}
+                className="w-[22.75rem]"
+                onClick={onClick}
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
+        ) : (
+          <div>
+            {!showParticipationForm && (
+              <Button
+                variant="solid"
+                className="w-[22.75rem]"
+                onClick={() => setShowParticipationForm(true)}
+              >
+                함께하기
+              </Button>
+            )}
 
-        <ParticipationForm />
+            {showParticipationForm && <ParticipationForm />}
+          </div>
+        )}
       </div>
     </>
   );
