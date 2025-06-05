@@ -83,12 +83,12 @@ export default function MyPage() {
   return (
     <main className="min-h-screen bg-[#212121] pb-[3.75rem]">
       <UserCard />
-      <div className="mx-auto flex h-[4.625rem] w-[84rem] gap-[1.25rem]">
+      <div className="w-[84rem] mx-auto flex h-[4.625rem] gap-[1.25rem]">
         {tabList.map(({ key, label, count }) =>
           renderTabButton(key, label, count, activeTab === key),
         )}
       </div>
-      <div className="mx-auto h-auto w-[84rem]">
+      <div className="w-[84rem] mx-auto h-auto">
         {tabList.find((tab) => tab.key === activeTab)?.component}
       </div>
     </main>
