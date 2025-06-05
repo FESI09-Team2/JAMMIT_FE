@@ -1,9 +1,9 @@
-import { getUserParicipantsGatherings } from '@/lib/gathering/participants';
+import { getUserParticipantsGatherings } from '@/lib/gathering/participants';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGatherMeCreate = () =>
+export const useGatherMeParticipants = () =>
   useQuery({
-    queryKey: ['me'],
-    queryFn: getUserParicipantsGatherings,
+    queryKey: ['me', 'participants'],
+    queryFn: getUserParticipantsGatherings,
     retry: true,
   });
