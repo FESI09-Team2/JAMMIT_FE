@@ -36,3 +36,8 @@ export interface UpdateProfileResponse {
     preferredBandSessions: BandSession[];
   };
 }
+
+export interface UpdateProfileImageRequest {
+  orgFileName: string;
+  profileImagePath: string;
+}
