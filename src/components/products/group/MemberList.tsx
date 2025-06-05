@@ -19,15 +19,18 @@ export default function MemberList({
   setSelectedIds,
 }: MemberListProps) {
   const handleSelectChange = (id: string) => {
-    if (!isSelectable || !setSelectedIds) return;
-
+    if (!isSelectable || !setSelectedIds) {
+      return;
+    }
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
   };
 
   const handleSelectAll = () => {
-    if (!isSelectable || !setSelectedIds) return;
+    if (!isSelectable || !setSelectedIds) {
+      return;
+    }
 
     if (selectedIds.length === members.length) {
       setSelectedIds([]);
@@ -38,12 +41,12 @@ export default function MemberList({
 
   const allSelected = selectedIds.length === members.length;
 
-  const emptyMessage =
-    title === '신청 멤버'
-      ? '아직 모임 신청 멤버가 없어요~'
-      : title === '확정 멤버'
-        ? '아직 참여 확정된 멤버가 없어요~'
-        : '표시할 멤버가 없어요.';
+  const messageMap: Record<string, string> = {
+    '신청 멤버': '아직 모임 신청 멤버가 없어요~',
+    '확정 멤버': '아직 참여 확정된 멤버가 없어요~',
+  };
+
+  const emptyMessage = messageMap[title] ?? '표시할 멤버가 없어요.';
 
   return (
     <div>

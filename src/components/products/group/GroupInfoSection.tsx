@@ -27,6 +27,25 @@ export default function GroupInfoSection({
   genres,
   description,
 }: GroupInfoSectionProps) {
+  const actionButtons = [
+    {
+      label: '수정하기',
+      variant: 'solid',
+      onClick: () => {
+        // TODO: 수정하기 로직
+        console.log('수정하기 클릭');
+      },
+    },
+    {
+      label: '삭제하기',
+      variant: 'outline',
+      onClick: () => {
+        // TODO: 삭제하기 로직
+        console.log('삭제하기 클릭');
+      },
+    },
+  ];
+
   return (
     <>
       <section className="w-[60rem] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
@@ -47,18 +66,15 @@ export default function GroupInfoSection({
             {location}
           </div>
           <div className="mt-[1.25rem] flex gap-[2.5rem]">
-            <div className="group-info-text">
-              <span className="group-info-subtitle mr-[0.5rem]">
-                모임 날짜{' '}
-              </span>
-              {meetingDate}
-            </div>
-            <div className="group-info-text">
-              <span className="group-info-subtitle mr-[0.5rem]">
-                모집 종료{' '}
-              </span>
-              {closingDate}
-            </div>
+            {[
+              { label: '모임 날짜', value: meetingDate },
+              { label: '모집 종료', value: closingDate },
+            ].map(({ label, value }) => (
+              <div key={label} className="group-info-text">
+                <span className="group-info-subtitle mr-[0.5rem]">{label}</span>
+                {value}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -104,12 +120,17 @@ export default function GroupInfoSection({
       </section>
 
       <div className="flex flex-col gap-[1.25rem]">
-        <Button variant="solid" className="w-[22.75rem]">
-          수정하기
-        </Button>
-        <Button variant="outline" className="w-[22.75rem]">
-          삭제하기
-        </Button>
+        {/* TODO: 주최자가 아니면 신청 UI 보이게 */}
+        {actionButtons.map(({ label, variant, onClick }) => (
+          <Button
+            key={label}
+            variant={variant as 'solid' | 'outline'}
+            className="w-[22.75rem]"
+            onClick={onClick}
+          >
+            {label}
+          </Button>
+        ))}
       </div>
     </>
   );
