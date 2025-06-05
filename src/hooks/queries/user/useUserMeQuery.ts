@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useUserMeQuery = () =>
   useQuery({
-    queryKey: ['me'], // Query Key Factory 사용 고민 필요
+    queryKey: ['me'],
     queryFn: getUserMe,
     retry: true,
   });

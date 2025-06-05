@@ -10,6 +10,7 @@ class ApiClient {
   private async request<T>(
     endpoint: string,
     options: RequestInit = {},
+    retryCount = 1,
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
 
@@ -28,10 +29,10 @@ class ApiClient {
       headers,
     });
 
-    if (response.status === 401 && accessToken) {
+    if (response.status === 401 && accessToken && retryCount > 0) {
       const refreshed = await this.refreshToken();
       if (refreshed) {
-        return this.request<T>(endpoint, options);
+        return this.request<T>(endpoint, options, retryCount - 1);
       }
     }
 
