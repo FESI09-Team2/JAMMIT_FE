@@ -1,6 +1,7 @@
 import TagSelector from '@/components/commons/TagSelector';
 import { GENRE_TAGS } from '@/constants/tags';
 import Button from '@/components/commons/Button';
+import ParticipationForm from './ParticipationForm';
 
 interface GroupInfoSectionProps {
   title: string;
@@ -119,18 +120,21 @@ export default function GroupInfoSection({
         <div className="group-info-text whitespace-pre-line">{description}</div>
       </section>
 
-      <div className="flex flex-col gap-[1.25rem]">
-        {/* TODO: 주최자가 아니면 신청 UI 보이게 */}
-        {actionButtons.map(({ label, variant, onClick }) => (
-          <Button
-            key={label}
-            variant={variant as 'solid' | 'outline'}
-            className="w-[22.75rem]"
-            onClick={onClick}
-          >
-            {label}
-          </Button>
-        ))}
+      <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-[1.25rem]">
+          {actionButtons.map(({ label, variant, onClick }) => (
+            <Button
+              key={label}
+              variant={variant as 'solid' | 'outline'}
+              className="w-[22.75rem]"
+              onClick={onClick}
+            >
+              {label}
+            </Button>
+          ))}
+        </div>
+
+        <ParticipationForm />
       </div>
     </>
   );
