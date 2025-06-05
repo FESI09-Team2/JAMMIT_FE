@@ -15,7 +15,7 @@ export default function UserCard() {
   const { data: user, isLoading } = useUserMeQuery();
 
   if (isLoading || !user) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; // 또는 스켈레톤 등으로 처리
   }
 
   const handleProfileEdit = () => {
