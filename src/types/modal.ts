@@ -3,7 +3,7 @@ import { BandSession, Genre } from './tags';
 export interface EditFormData {
   email: string;
   username: string;
-  password: string;
+  password: string | null;
   image?: File;
   preferredGenres: Genre[];
   preferredBandSessions: BandSession[];

@@ -12,7 +12,11 @@ import { BandSession, Genre } from '@/types/tags';
 export default function UserCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const updateProfile = useUpdateProfile();
-  const { data: user } = useUserMeQuery();
+  const { data: user, isLoading } = useUserMeQuery();
+
+  if (isLoading || !user) {
+    return <div>Loading...</div>;
+  }
 
   const handleProfileEdit = () => {
     setIsModalOpen(true);
@@ -85,7 +89,7 @@ export default function UserCard() {
           // TODO: GET API 가져오기
           initialData={{
             email: user.email,
-            password: '87654321',
+            password: null,
             username: user.username,
             image: user.profileImagePath,
             preferredBandSessions: user.preferredBandSessions,

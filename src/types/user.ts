@@ -15,7 +15,7 @@ export interface UserResponse {
 export interface UpdateProfileRequest {
   email: string;
   username: string;
-  password: string;
+  password: string | null;
   preferredGenres: Genre[];
   preferredBandSessions: BandSession[];
 }
