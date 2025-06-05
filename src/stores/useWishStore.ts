@@ -12,8 +12,8 @@ export const useWishStore = create<WishState>()(
     (set, get) => ({
       items: [],
       toggle: (item) => {
-        const exisit = get().items.find((i) => i.id === item.id);
-        const update = exisit
+        const exist = get().items.find((i) => i.id === item.id);
+        const update = exist
           ? get().items.filter((i) => i.id !== item.id)
           : [...get().items, item];
         set({ items: update });
