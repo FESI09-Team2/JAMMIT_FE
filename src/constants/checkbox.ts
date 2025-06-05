@@ -64,7 +64,6 @@ export const mockRecruits: RecruitCardData[] = Array.from({ length: 40 }).map(
       author: authors[i % authors.length],
       genres: genrePool[i % genrePool.length],
       thumbnail: thumbnails[i % thumbnails.length],
-      liked: i % 3 === 0,
       totalCurrent: (i % 5) + 1,
     };
   },
