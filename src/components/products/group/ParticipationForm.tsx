@@ -51,6 +51,7 @@ export default function ParticipationForm() {
               mode="selectable"
               tags={SESSION_TAGS}
               onChange={handleSessionChange}
+              disabledTags={['보컬', '통기타']}
             />
           </div>
 
