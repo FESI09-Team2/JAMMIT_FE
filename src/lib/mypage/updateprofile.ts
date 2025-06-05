@@ -25,7 +25,6 @@ export async function putUpdateProfile({
   });
 
   const data = await res.json();
-  console.log(data);
 
   if (!res.ok || !data.success) {
     throw new Error(data.message || '프로필 정보 수정에 실패했습니다');
