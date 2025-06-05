@@ -34,7 +34,7 @@ export default function ReviewsReceived() {
 
   if (isLoading)
     return (
-      <div className="pc:max-w-[84rem] mx-auto mt-5 flex items-start gap-5">
+      <div className="mt-5 flex items-start gap-5">
         <ReviewsReceivedSkeleton />
         <SkeletonReviewList />
       </div>
@@ -42,7 +42,7 @@ export default function ReviewsReceived() {
   if (isError || isEmpty) return <div>오류가 발생했어요 😥</div>;
 
   return (
-    <div className="pc:max-w-[84rem] mx-auto mt-5 flex items-start gap-5">
+    <div className="mt-5 flex items-start gap-5">
       <div className="w-[23rem] rounded-lg bg-[#28282a] px-[2.375rem] pt-[3.75rem] pb-[2.375rem]">
         <div className="mx-auto h-[18.5rem] w-[18.5rem]">
           <Radar
