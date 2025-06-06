@@ -6,8 +6,10 @@ import bannerImages from '@/constants/bannerImages';
 import GroupPageLayout from '@/components/commons/GroupPageLayout';
 import { useQueryTab } from '@/hooks/useQueryTab';
 import MemberInfoSection from './MemberInfoSection';
+import ParticipantsSection from './ParticipantsSection';
 
 export default function GroupPage() {
+  const isHost = false;
   const { activeTab } = useQueryTab<'recruit' | 'members'>('tab', 'recruit', [
     'recruit',
     'members',
@@ -64,8 +66,13 @@ export default function GroupPage() {
           genres={groupData.genres}
           description={groupData.description}
         />
-      ) : (
+      ) : isHost ? (
         <MemberInfoSection />
+      ) : (
+        <ParticipantsSection
+          title={groupData.title}
+          hostName={groupData.hostName}
+        />
       )}
     </GroupPageLayout>
   );
