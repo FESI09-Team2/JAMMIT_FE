@@ -6,24 +6,34 @@ import { Card } from '@/components/commons/Card';
 import { CARD_STATE } from '@/constants/card';
 import { RecruitCardData } from '@/types/card';
 import InfinityScroll from '@/components/commons/InfinityScroll';
-import { mockCard } from './mockCard';
+import { useGatherMeParticipants } from '@/hooks/queries/gather/useGatherMeParticipants';
 
 const LOAD_SIZE = 8;
 
 export default function Participating() {
-  const [load, setLoad] = useState(1);
+  const [page, setPage] = useState(0);
   const [items, setItems] = useState<RecruitCardData[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+  const { data, isLoading } = useGatherMeParticipants({
+    page,
+    size: LOAD_SIZE,
+    includeCanceled: false,
+  });
 
   useEffect(() => {
-    const start = LOAD_SIZE * (load - 1);
-    const end = LOAD_SIZE * load;
-    const newItems = mockCard.slice(start, end);
-    setItems((prev) => [...prev, ...newItems]);
-  }, [load]);
+    if (data?.result?.gatherings) {
+      // Card interface 수정되면 다음 코드로 변경
+      // setItems((prev) => [...prev, ...data.result.gatherings]);
+      setItems((prev) => prev);
+
+      const isLastPage = data.result.currentPage + 1 >= data.result.totalPage;
+      setHasMore(!isLastPage);
+    }
+  }, [data]);
 
   const handleInView = () => {
-    if (items.length < mockCard.length) {
-      setLoad((prev) => prev + 1);
+    if (!isLoading && hasMore) {
+      setPage((prev) => prev + 1);
     }
   };
 
@@ -52,7 +62,7 @@ export default function Participating() {
       item={renderCard}
       emptyText="참여 중인 모집이 없습니다."
       onInView={handleInView}
-      hasMore={items.length < mockCard.length}
+      hasMore={hasMore}
     />
   );
 }
