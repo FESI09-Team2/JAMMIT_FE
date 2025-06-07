@@ -20,3 +20,9 @@ export interface GatheringsResponse {
     totalElements: number;
   };
 }
+
+export interface GetUserGatheringsParams {
+  page: number;
+  size: number;
+  includeCanceled?: boolean;
+}
