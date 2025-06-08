@@ -17,13 +17,18 @@ export default function GroupPage() {
   ]);
   const { groupId } = useParams();
   const numericId = Number(groupId);
-  const { data, isLoading, error } = useGatheringDetailQuery(numericId);
+  const {
+    data: gatheringDetailData,
+    isLoading,
+    error,
+  } = useGatheringDetailQuery(numericId);
 
+  // TODO: 스켈레톤 적용
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생</div>;
-  if (!data) return <div>모임 정보를 찾을 수 없습니다.</div>;
+  if (!gatheringDetailData) return <div>모임 정보를 찾을 수 없습니다.</div>;
 
-  console.log('group data: ', data);
+  console.log('group data: ', gatheringDetailData);
 
   const isHost = true;
 
@@ -68,7 +73,7 @@ export default function GroupPage() {
       }
     >
       {activeTab === 'recruit' ? (
-        <GroupInfoSection gathering={data} />
+        <GroupInfoSection gathering={gatheringDetailData} />
       ) : isHost ? (
         <MemberInfoSection />
       ) : (

@@ -26,7 +26,8 @@ export default function GroupInfoSection({ gathering }: GroupInfoSectionProps) {
     sessions,
     description,
   } = gathering;
-  const hostName = '현호박';
+
+  const hostName = '현호박'; // TODO: hostName 추가되면 삭제
 
   const actionButtons = [
     {
@@ -50,6 +51,7 @@ export default function GroupInfoSection({ gathering }: GroupInfoSectionProps) {
   return (
     <>
       <section className="w-[60rem] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
+        {/* TODO: 공유하기 버튼 추가 */}
         {/* TODO: 하트 컴포넌트 추가 */}
 
         {/* 모임 제목, 주최자 */}
@@ -152,7 +154,9 @@ export default function GroupInfoSection({ gathering }: GroupInfoSectionProps) {
               </Button>
             )}
 
-            {showParticipationForm && <ParticipationForm />}
+            {showParticipationForm && gathering && (
+              <ParticipationForm gathering={gathering} />
+            )}
           </div>
         )}
       </div>

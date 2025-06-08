@@ -4,14 +4,21 @@ import { Controller, useForm } from 'react-hook-form';
 import Button from '@/components/commons/Button';
 import TextArea from '@/components/commons/Textarea';
 import TagSelector from '@/components/commons/TagSelector';
-import { SESSION_TAGS } from '@/constants/tags';
+import { GatheringDetailResponse } from '@/types/gathering';
+import { SESSION_ENUM_TO_KR } from '@/constants/tagsMapping';
 
 interface ParticipationFormData {
   session: string[];
   introduction: string;
 }
 
-export default function ParticipationForm() {
+interface ParticipationFormProps {
+  gathering: GatheringDetailResponse;
+}
+
+export default function ParticipationForm({
+  gathering,
+}: ParticipationFormProps) {
   const {
     handleSubmit,
     control,
@@ -24,6 +31,14 @@ export default function ParticipationForm() {
       introduction: '',
     },
   });
+
+  const { sessions } = gathering;
+
+  const availableTags = sessions.map((s) => SESSION_ENUM_TO_KR[s.bandSession]);
+
+  const disabledTags = sessions
+    .filter((s) => s.currentCount >= s.recruitCount)
+    .map((s) => SESSION_ENUM_TO_KR[s.bandSession]);
 
   const handleSessionChange = (selected: string[]) => {
     setValue('session', selected);
@@ -49,9 +64,9 @@ export default function ParticipationForm() {
             <p className="mb-[8px] text-[16px] font-semibold">신청 세션</p>
             <TagSelector
               mode="selectable"
-              tags={SESSION_TAGS}
+              tags={availableTags}
+              disabledTags={disabledTags}
               onChange={handleSessionChange}
-              disabledTags={['보컬', '통기타']}
             />
           </div>
 

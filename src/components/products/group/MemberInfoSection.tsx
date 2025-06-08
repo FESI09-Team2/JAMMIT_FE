@@ -80,7 +80,7 @@ export default function MemberInfoSection() {
           <p className="group-info-subtitle">{hostName}</p>
         </div>
 
-        <div className="group-info-divider-line" />
+        <div className="border-b-[0.0625rem] border-[#2D3035]" />
         <MemberList title="확정 멤버" members={members1} isSelectable={false} />
         <MemberList
           title="신청 멤버"
