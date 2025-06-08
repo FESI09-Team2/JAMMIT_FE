@@ -4,34 +4,29 @@ import { GENRE_TAGS } from '@/constants/tags';
 import Button from '@/components/commons/Button';
 import ParticipationForm from './ParticipationForm';
 import { useState } from 'react';
+import { GatheringDetailResponse } from '@/types/gathering';
+import { GENRE_ENUM_TO_KR, SESSION_ENUM_TO_KR } from '@/constants/tagsMapping';
+import { formatDateToKoreanStyle } from '@/utils/formatDate';
 
 interface GroupInfoSectionProps {
-  title: string;
-  hostName: string;
-  location: string;
-  meetingDate: string;
-  closingDate: string;
-  sessions: {
-    name: string;
-    current: number;
-    max: number;
-  }[];
-  genres: string[];
-  description: string;
+  gathering: GatheringDetailResponse;
 }
 
-export default function GroupInfoSection({
-  title,
-  hostName,
-  location,
-  meetingDate,
-  closingDate,
-  sessions,
-  genres,
-  description,
-}: GroupInfoSectionProps) {
+export default function GroupInfoSection({ gathering }: GroupInfoSectionProps) {
   const isHost = false;
   const [showParticipationForm, setShowParticipationForm] = useState(false);
+
+  const {
+    name,
+    // hostName, <- 추가 필요
+    place,
+    gatheringDateTime,
+    recruitDeadline,
+    genres,
+    sessions,
+    description,
+  } = gathering;
+  const hostName = '현호박';
 
   const actionButtons = [
     {
@@ -59,7 +54,7 @@ export default function GroupInfoSection({
 
         {/* 모임 제목, 주최자 */}
         <div className="flex h-[4.375rem] flex-col justify-between">
-          <h1 className="group-info-title">{title}</h1>
+          <h1 className="group-info-title">{name}</h1>
           <p className="group-info-subtitle">{hostName}</p>
         </div>
 
@@ -69,12 +64,18 @@ export default function GroupInfoSection({
         <div className="flex flex-col gap-2 text-sm">
           <div className="group-info-text">
             <span className="group-info-subtitle mr-[0.5rem]">모임 장소 </span>
-            {location}
+            {place}
           </div>
           <div className="mt-[1.25rem] flex gap-[2.5rem]">
             {[
-              { label: '모임 날짜', value: meetingDate },
-              { label: '모집 종료', value: closingDate },
+              {
+                label: '모임 날짜',
+                value: formatDateToKoreanStyle(gatheringDateTime),
+              },
+              {
+                label: '모집 종료',
+                value: formatDateToKoreanStyle(recruitDeadline),
+              },
             ].map(({ label, value }) => (
               <div key={label} className="group-info-text">
                 <span className="group-info-subtitle mr-[0.5rem]">{label}</span>
@@ -91,16 +92,16 @@ export default function GroupInfoSection({
           <div>
             <p className="group-info-subtitle mb-[1.25rem]">모집 현황</p>
             <div className="grid w-[18.813rem] grid-cols-2 gap-x-[2rem] gap-y-[0.5rem]">
-              {sessions.map(({ name, current, max }) => (
+              {sessions.map(({ bandSession, currentCount, recruitCount }) => (
                 <div
-                  key={name}
+                  key={bandSession}
                   className="flex w-[8.875rem] items-center justify-between"
                 >
                   <span className="rounded-[0.5rem] bg-[#34343a] px-[0.75rem] py-[0.375rem] text-sm text-[0.875rem] text-white">
-                    {name}
+                    {SESSION_ENUM_TO_KR[bandSession]}
                   </span>
                   <span className="group-info-text w-[2.875rem]">
-                    {current}/{max}
+                    {currentCount}/{recruitCount}
                   </span>
                 </div>
               ))}
@@ -113,7 +114,7 @@ export default function GroupInfoSection({
             <TagSelector
               tags={GENRE_TAGS}
               mode="readonly"
-              initialSelected={genres}
+              initialSelected={genres.map((genre) => GENRE_ENUM_TO_KR[genre])}
             />
           </div>
         </div>

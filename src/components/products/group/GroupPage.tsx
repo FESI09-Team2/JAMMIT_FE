@@ -68,16 +68,7 @@ export default function GroupPage() {
       }
     >
       {activeTab === 'recruit' ? (
-        <GroupInfoSection
-          title={groupData.title}
-          hostName={groupData.hostName}
-          location={groupData.location}
-          meetingDate={groupData.meetingDate}
-          closingDate={groupData.closingDate}
-          sessions={groupData.sessions}
-          genres={groupData.genres}
-          description={groupData.description}
-        />
+        <GroupInfoSection gathering={data} />
       ) : isHost ? (
         <MemberInfoSection />
       ) : (
