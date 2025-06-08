@@ -6,28 +6,28 @@ import { Card } from '@/components/commons/Card';
 import { CARD_STATE } from '@/constants/card';
 import { GatheringCard } from '@/types/card';
 import InfinityScroll from '@/components/commons/InfinityScroll';
-import { InitialDataProps } from '@/types/gather';
+import { GatheringsResponse } from '@/types/gather';
 import { StaticImageData } from 'next/image';
 
 // TODO: Recruit interface 변경이후 변경 필요
-export default function Participating({ initialData }: InitialDataProps) {
-  const [page, setPage] = useState(initialData?.currentPage ?? 0);
-  const [items, setItems] = useState<GatheringCard[]>(
-    initialData?.gatherings ?? [],
-  );
-  const [hasMore, setHasMore] = useState(
-    (initialData?.currentPage ?? 0) + 1 < (initialData?.totalPage ?? 1),
-  );
+export default function Participating({
+  gatherings,
+  currentPage,
+  totalPage,
+}: GatheringsResponse) {
+  const [page, setPage] = useState(currentPage);
+  const [items, setItems] = useState<GatheringCard[]>(gatherings);
+  const [hasMore, setHasMore] = useState(currentPage + 1 < totalPage);
 
   useEffect(() => {
-    if (page !== 0 && initialData?.gatherings) {
+    if (page !== 0) {
       // interface교체 후 아래 코드로 반영 필요
       // setItems((prev) => [...prev, ...data.gatherings]);
       setItems((prev) => prev);
-      const isLastPage = initialData.currentPage + 1 >= initialData.totalPage;
+      const isLastPage = currentPage + 1 >= totalPage;
       setHasMore(!isLastPage);
     }
-  }, [initialData, page]);
+  }, [page, currentPage, totalPage]);
 
   const handleInView = () => {
     if (hasMore) {

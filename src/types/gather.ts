@@ -22,8 +22,3 @@ export interface GetUserGatheringsParams {
   /** 취소된 모임 포함 여부 */
   includeCanceled?: boolean;
 }
-
-/** mypage에서 gather에 대한 props 전달 값 */
-export interface InitialDataProps {
-  initialData: GatheringsResponse;
-}
