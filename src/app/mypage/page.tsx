@@ -25,12 +25,16 @@ export default function MyPage() {
     'reviews_towrite',
   ]);
 
+  const { data: participatingData } = useGatherMeParticipants({
+    page: 0,
+    size: 8,
+    includeCanceled: true,
+  });
   const { data: createdData } = useGatherMeCreate({
     page: 0,
     size: 8,
-    includeCanceled: false,
+    includeCanceled: true,
   });
-  const { data: participatingData } = useGatherMeParticipants();
 
   const tabList = useMemo(
     () => [
@@ -38,7 +42,7 @@ export default function MyPage() {
         key: 'participating',
         label: '참여 모임',
         count: participatingData?.totalElements ?? 0,
-        component: <Participating />,
+        component: <Participating initialData={participatingData} />,
       },
       {
         key: 'created',

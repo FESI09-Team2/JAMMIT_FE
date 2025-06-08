@@ -6,10 +6,7 @@ import { Card } from '@/components/commons/Card';
 import { CARD_STATE } from '@/constants/card';
 import { GatheringCard } from '@/types/card';
 import InfinityScroll from '@/components/commons/InfinityScroll';
-import { useGatherMeCreate } from '@/hooks/queries/gather/useGatherMeCreate';
 import { StaticImageData } from 'next/image';
-
-const LOAD_SIZE = 8;
 
 type CreatedProps = {
   initialData?: {
@@ -30,24 +27,18 @@ export default function Created({ initialData }: CreatedProps) {
     (initialData?.currentPage ?? 0) + 1 < (initialData?.totalPage ?? 1),
   );
 
-  const { data, isLoading } = useGatherMeCreate({
-    page,
-    size: LOAD_SIZE,
-    includeCanceled: false,
-  });
-
   useEffect(() => {
-    if (page !== 0 && data?.gatherings) {
+    if (page !== 0 && initialData?.gatherings) {
       // interface교체 후 아래 코드로 반영 필요
       // setItems((prev) => [...prev, ...data.gatherings]);
       setItems((prev) => prev);
-      const isLastPage = data.currentPage + 1 >= data.totalPage;
+      const isLastPage = initialData.currentPage + 1 >= initialData.totalPage;
       setHasMore(!isLastPage);
     }
-  }, [data, page]);
+  }, [initialData, page]);
 
   const handleInView = () => {
-    if (!isLoading && hasMore) {
+    if (hasMore) {
       setPage((prev) => prev + 1);
     }
   };
@@ -67,6 +58,7 @@ export default function Created({ initialData }: CreatedProps) {
         totalCurrent={item.totalCurrent}
         totalRecruit={item.totalRecruit}
         recruitDeadline={item.recruitDeadline}
+        //member={item.member}
       />
     </Link>
   );
