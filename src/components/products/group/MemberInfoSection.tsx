@@ -68,9 +68,19 @@ export default function MemberInfoSection() {
     console.log('거절한 멤버 ID:', selectedIds);
   };
 
+  const title = 'KPOP 위주로 합주해보실 세션 모집';
+  const hostName = '현호박';
+
   return (
     <>
       <section className="flex w-[60rem] flex-col gap-[40px] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
+        {/* 모임 제목, 주최자 */}
+        <div className="flex h-[4.375rem] flex-col justify-between">
+          <h1 className="group-info-title">{title}</h1>
+          <p className="group-info-subtitle">{hostName}</p>
+        </div>
+
+        <div className="group-info-divider-line" />
         <MemberList title="확정 멤버" members={members1} isSelectable={false} />
         <MemberList
           title="신청 멤버"

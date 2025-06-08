@@ -7,13 +7,25 @@ import GroupPageLayout from '@/components/commons/GroupPageLayout';
 import { useQueryTab } from '@/hooks/useQueryTab';
 import MemberInfoSection from './MemberInfoSection';
 import ParticipantsSection from './ParticipantsSection';
+import { useParams } from 'next/navigation';
+import { useGatheringDetailQuery } from '@/hooks/queries/gatherings/useGatheringsDetailQuery';
 
 export default function GroupPage() {
-  const isHost = false;
   const { activeTab } = useQueryTab<'recruit' | 'members'>('tab', 'recruit', [
     'recruit',
     'members',
   ]);
+  const { groupId } = useParams();
+  const numericId = Number(groupId);
+  const { data, isLoading, error } = useGatheringDetailQuery(numericId);
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>에러 발생</div>;
+  if (!data) return <div>모임 정보를 찾을 수 없습니다.</div>;
+
+  console.log('group data: ', data);
+
+  const isHost = true;
 
   const groupData = {
     bannerImageIndex: 0,

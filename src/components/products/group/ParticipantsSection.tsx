@@ -25,7 +25,6 @@ const mockParticipants: Participant[] = [
   },
   {
     id: 2,
-    // profileImageUrl: '/images/user1.jpg',
     nickname: '기타왕',
     sessions: ['일렉 기타', '통기타'],
     introduction: '화려한 솔로 기대해주세요.',
