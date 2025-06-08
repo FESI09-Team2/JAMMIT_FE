@@ -33,6 +33,11 @@ export interface GatheringSessionInfo {
   currentCount: number;
 }
 
+export interface CreatorInfo {
+  id: number;
+  nickname: string;
+}
+
 export interface GatheringDetailResponse {
   id: number;
   name: string;
@@ -44,4 +49,5 @@ export interface GatheringDetailResponse {
   status: GatheringStatus;
   genres: Genre[];
   sessions: GatheringSessionInfo[];
+  creator: CreatorInfo;
 }

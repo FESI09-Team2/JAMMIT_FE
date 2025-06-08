@@ -9,12 +9,14 @@ import MemberInfoSection from './MemberInfoSection';
 import ParticipantsSection from './ParticipantsSection';
 import { useParams } from 'next/navigation';
 import { useGatheringDetailQuery } from '@/hooks/queries/gatherings/useGatheringsDetailQuery';
+import { useUserStore } from '@/stores/useUserStore';
 
 export default function GroupPage() {
   const { activeTab } = useQueryTab<'recruit' | 'members'>('tab', 'recruit', [
     'recruit',
     'members',
   ]);
+  const user = useUserStore((state) => state.user);
   const { groupId } = useParams();
   const numericId = Number(groupId);
   const {
@@ -28,9 +30,7 @@ export default function GroupPage() {
   if (error) return <div>에러 발생</div>;
   if (!gatheringDetailData) return <div>모임 정보를 찾을 수 없습니다.</div>;
 
-  console.log('group data: ', gatheringDetailData);
-
-  const isHost = true;
+  const isHost = user?.id === gatheringDetailData.creator.id;
 
   const groupData = {
     bannerImageIndex: 0,
@@ -73,7 +73,7 @@ export default function GroupPage() {
       }
     >
       {activeTab === 'recruit' ? (
-        <GroupInfoSection gathering={gatheringDetailData} />
+        <GroupInfoSection gathering={gatheringDetailData} isHost={isHost} />
       ) : isHost ? (
         <MemberInfoSection />
       ) : (

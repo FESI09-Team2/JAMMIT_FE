@@ -10,24 +10,25 @@ import { formatDateToKoreanStyle } from '@/utils/formatDate';
 
 interface GroupInfoSectionProps {
   gathering: GatheringDetailResponse;
+  isHost: boolean;
 }
 
-export default function GroupInfoSection({ gathering }: GroupInfoSectionProps) {
-  const isHost = false;
+export default function GroupInfoSection({
+  gathering,
+  isHost,
+}: GroupInfoSectionProps) {
   const [showParticipationForm, setShowParticipationForm] = useState(false);
 
   const {
     name,
-    // hostName, <- 추가 필요
     place,
     gatheringDateTime,
     recruitDeadline,
     genres,
     sessions,
     description,
+    creator,
   } = gathering;
-
-  const hostName = '현호박'; // TODO: hostName 추가되면 삭제
 
   const actionButtons = [
     {
@@ -57,7 +58,7 @@ export default function GroupInfoSection({ gathering }: GroupInfoSectionProps) {
         {/* 모임 제목, 주최자 */}
         <div className="flex h-[4.375rem] flex-col justify-between">
           <h1 className="group-info-title">{name}</h1>
-          <p className="group-info-subtitle">{hostName}</p>
+          <p className="group-info-subtitle">{creator.nickname}</p>
         </div>
 
         <div className="group-info-divider-line" />
