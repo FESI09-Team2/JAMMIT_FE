@@ -6,11 +6,11 @@ import { Card } from '@/components/commons/Card';
 import { CARD_STATE } from '@/constants/card';
 import { GatheringCard } from '@/types/card';
 import InfinityScroll from '@/components/commons/InfinityScroll';
-import { InitialGatherData } from '@/types/gather';
+import { InitialDataProps } from '@/types/gather';
 import { StaticImageData } from 'next/image';
 
 // TODO: Recruit interface 변경이후 변경 필요
-export default function Created({ initialData }: InitialGatherData) {
+export default function Created({ initialData }: InitialDataProps) {
   const [page, setPage] = useState(initialData?.currentPage ?? 0);
   const [items, setItems] = useState<GatheringCard[]>(
     initialData?.gatherings ?? [],

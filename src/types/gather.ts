@@ -4,46 +4,26 @@ import { GatheringCard } from '@/types/card';
 
 /** gather에 대한 get을 했을때 오는 response */
 export interface GatheringsResponse {
-  gatherings: {
-    id: number;
-    name: string;
-    place: string;
-    thumbnail: string;
-    gatheringDateTime: string;
-    totalRecruit: number;
-    totalCurrent: number;
-    viewCount: number;
-    recruitDeadline: string;
-    status: 'RECRUITING' | 'CLOSED' | string;
-    genres: string[];
-    creator: {
-      id: number;
-      nickname: string;
-    };
-    sessions: {
-      bandSession: string;
-      recruitCount: number;
-      currentCount: number;
-    };
-  }[];
+  gatherings: GatheringCard[];
+  /** 현재 페이지 */
   currentPage: number;
+  /** 전체 페이지 */
   totalPage: number;
+  /** 전체 수 */
   totalElements: number;
 }
 
 /** gather에 대한 get을 했을때 보내야하는 parameter */
 export interface GetUserGatheringsParams {
+  /** 페이지 번호 */
   page: number;
+  /** 페이지 크기 */
   size: number;
+  /** 취소된 모임 포함 여부 */
   includeCanceled?: boolean;
 }
 
 /** mypage에서 gather에 대한 props 전달 값 */
-export interface InitialGatherData {
-  initialData: {
-    gatherings: GatheringCard[];
-    currentPage: number;
-    totalPage: number;
-    totalElements: number;
-  };
+export interface InitialDataProps {
+  initialData: GatheringsResponse;
 }
