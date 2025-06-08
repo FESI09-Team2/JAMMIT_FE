@@ -1,4 +1,8 @@
-import { RecruitCardData } from '@/types/card';
+// import { RecruitCardData } from '@/types/card';
+// MEMO: 임시 방편, recurit 변경되면 맞출게요
+import { GatheringCard } from '@/types/card';
+
+/** gather에 대한 get을 했을때 오는 response */
 export interface GatheringsResponse {
   gatherings: {
     id: number;
@@ -27,19 +31,19 @@ export interface GatheringsResponse {
   totalElements: number;
 }
 
+/** gather에 대한 get을 했을때 보내야하는 parameter */
 export interface GetUserGatheringsParams {
   page: number;
   size: number;
   includeCanceled?: boolean;
 }
 
-export interface GatheringListData {
-  gatherings: RecruitCardData[];
-  currentPage: number;
-  totalPage: number;
-  totalElements: number;
-}
-
-export interface CreatedProps {
-  initialData?: GatheringListData;
+/** mypage에서 gather에 대한 props 전달 값 */
+export interface InitialGatherData {
+  initialData: {
+    gatherings: GatheringCard[];
+    currentPage: number;
+    totalPage: number;
+    totalElements: number;
+  };
 }

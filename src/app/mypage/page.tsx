@@ -42,13 +42,31 @@ export default function MyPage() {
         key: 'participating',
         label: '참여 모임',
         count: participatingData?.totalElements ?? 0,
-        component: <Participating initialData={participatingData} />,
+        component: (
+          <Participating
+            initialData={{
+              gatherings: participatingData?.gatherings ?? [],
+              currentPage: participatingData?.currentPage ?? 0,
+              totalPage: participatingData?.totalPage ?? 1,
+              totalElements: participatingData?.totalElements ?? 0,
+            }}
+          />
+        ),
       },
       {
         key: 'created',
         label: '내가 만든 모임',
         count: createdData?.totalElements ?? 0,
-        component: <Created initialData={createdData} />,
+        component: (
+          <Created
+            initialData={{
+              gatherings: createdData?.gatherings ?? [],
+              currentPage: createdData?.currentPage ?? 0,
+              totalPage: createdData?.totalPage ?? 1,
+              totalElements: createdData?.totalElements ?? 0,
+            }}
+          />
+        ),
       },
       {
         key: 'reviews_received',
