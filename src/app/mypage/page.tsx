@@ -33,13 +33,13 @@ export default function MyPage() {
       {
         key: 'participating',
         label: '참여 모임',
-        count: participatingData?.result?.totalElements ?? 0,
+        count: participatingData?.totalElements ?? 0,
         component: <Participating />,
       },
       {
         key: 'created',
         label: '내가 만든 모임',
-        count: createdData?.result?.totalElements ?? 0,
+        count: createdData?.totalElements ?? 0,
         component: <Created />,
       },
       {

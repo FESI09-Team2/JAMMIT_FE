@@ -15,5 +15,6 @@ export const getUserParticipantsGatherings = async ({
   const result = await apiClient.get<GatheringsResponse>(
     `/gatherings/{gatheringId}/participants/my?${query}`,
   );
+  console.log('이건 participants', result);
   return result;
 };
