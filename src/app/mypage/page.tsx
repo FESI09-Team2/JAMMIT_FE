@@ -25,7 +25,11 @@ export default function MyPage() {
     'reviews_towrite',
   ]);
 
-  const { data: createdData } = useGatherMeCreate();
+  const { data: createdData } = useGatherMeCreate({
+    page: 0,
+    size: 8,
+    includeCanceled: false,
+  });
   const { data: participatingData } = useGatherMeParticipants();
 
   const tabList = useMemo(
@@ -40,7 +44,7 @@ export default function MyPage() {
         key: 'created',
         label: '내가 만든 모임',
         count: createdData?.totalElements ?? 0,
-        component: <Created />,
+        component: <Created initialData={createdData} />,
       },
       {
         key: 'reviews_received',

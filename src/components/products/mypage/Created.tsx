@@ -4,17 +4,32 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Card } from '@/components/commons/Card';
 import { CARD_STATE } from '@/constants/card';
-import { RecruitCardData } from '@/types/card';
+import { GatheringCard } from '@/types/card';
 import InfinityScroll from '@/components/commons/InfinityScroll';
 import { useGatherMeCreate } from '@/hooks/queries/gather/useGatherMeCreate';
+import { StaticImageData } from 'next/image';
 
 const LOAD_SIZE = 8;
 
-// TODO: RecruitCardData interface 변경필요
-export default function Created() {
-  const [page, setPage] = useState(0);
-  const [items, setItems] = useState<RecruitCardData[]>([]);
-  const [hasMore, setHasMore] = useState(true);
+type CreatedProps = {
+  initialData?: {
+    gatherings: GatheringCard[];
+    currentPage: number;
+    totalPage: number;
+    totalElements: number;
+  };
+};
+
+// TODO: Recruit interface 변경필요
+export default function Created({ initialData }: CreatedProps) {
+  const [page, setPage] = useState(initialData?.currentPage ?? 0);
+  const [items, setItems] = useState<GatheringCard[]>(
+    initialData?.gatherings ?? [],
+  );
+  const [hasMore, setHasMore] = useState(
+    (initialData?.currentPage ?? 0) + 1 < (initialData?.totalPage ?? 1),
+  );
+
   const { data, isLoading } = useGatherMeCreate({
     page,
     size: LOAD_SIZE,
@@ -22,15 +37,14 @@ export default function Created() {
   });
 
   useEffect(() => {
-    if (data?.result?.gatherings) {
-      // Card interface 수정되면 다음 코드로 변경
-      // setItems((prev) => [...prev, ...data.result.gatherings]);
+    if (page !== 0 && data?.gatherings) {
+      // interface교체 후 아래 코드로 반영 필요
+      // setItems((prev) => [...prev, ...data.gatherings]);
       setItems((prev) => prev);
-
-      const isLastPage = data.result.currentPage + 1 >= data.result.totalPage;
+      const isLastPage = data.currentPage + 1 >= data.totalPage;
       setHasMore(!isLastPage);
     }
-  }, [data]);
+  }, [data, page]);
 
   const handleInView = () => {
     if (!isLoading && hasMore) {
@@ -38,27 +52,27 @@ export default function Created() {
     }
   };
 
-  const renderCard = (item: RecruitCardData) => (
+  const renderCard = (item: GatheringCard) => (
     <Link key={item.id} href={`de/${item.id}`}>
       <Card.Thumbnail
-        thumbnail={item.thumbnail}
+        // 임시 추가
+        thumbnail={item.thumbnail as unknown as StaticImageData}
         alt={item.name}
         isLike={false}
       />
       <Card.TagList tags={item.genres} />
-      <Card.TitleBlock title={item.name} author={item.author} />
+      <Card.TitleBlock title={item.name} author={item.creator.nickname} />
       <Card.Footer
         status={CARD_STATE.COMPLETED}
         totalCurrent={item.totalCurrent}
         totalRecruit={item.totalRecruit}
         recruitDeadline={item.recruitDeadline}
-        member={item.member}
       />
     </Link>
   );
 
   return (
-    <InfinityScroll<RecruitCardData>
+    <InfinityScroll<GatheringCard>
       list={items}
       item={renderCard}
       emptyText="참여 중인 모집이 없습니다."
