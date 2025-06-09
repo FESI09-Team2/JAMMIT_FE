@@ -1,34 +1,12 @@
-export type GatheringStatus =
-  | 'RECRUITING'
-  | 'CONFIRMED'
-  | 'COMPLETED'
-  | 'CANCELED';
-
-export type Genre =
-  | 'ROCK'
-  | 'METAL'
-  | 'POP'
-  | 'BALLAD'
-  | 'INDIE'
-  | 'ALTERNATIVE'
-  | 'JAZZ'
-  | 'PUNK'
-  | 'ACOUSTIC'
-  | 'FOLK'
-  | 'RNB';
-
-export type BandSession =
-  | 'VOCAL'
-  | 'ELECTRIC_GUITAR'
-  | 'DRUM'
-  | 'ACOUSTIC_GUITAR'
-  | 'BASS'
-  | 'STRING_INSTRUMENT'
-  | 'PERCUSSION'
-  | 'KEYBOARD';
+import {
+  BandSessionType,
+  GatheringStatus,
+  GenreType,
+  ParticipantStatus,
+} from './tags';
 
 export interface GatheringSessionInfo {
-  bandSession: BandSession;
+  bandSession: BandSessionType;
   recruitCount: number;
   currentCount: number;
 }
@@ -47,24 +25,17 @@ export interface GatheringDetailResponse {
   gatheringDateTime: string;
   recruitDeadline: string;
   status: GatheringStatus;
-  genres: Genre[];
+  genres: GenreType[];
   sessions: GatheringSessionInfo[];
   creator: CreatorInfo;
 }
-
-export type ParticipantStatus =
-  | 'PENDING'
-  | 'APPROVED'
-  | 'REJECTED'
-  | 'COMPLETED'
-  | 'CANCELED';
 
 export interface Participant {
   participantId: number;
   userId: number;
   userNickname: string;
   userEmail: string;
-  bandSession: BandSession;
+  bandSession: BandSessionType;
   status: ParticipantStatus;
   createdAt: string;
   introduction: string;
