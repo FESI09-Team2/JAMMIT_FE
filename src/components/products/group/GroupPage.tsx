@@ -47,9 +47,9 @@ export default function GroupPage() {
   const approvedParticipants = participants.filter(
     (participant) => participant.status === 'APPROVED',
   );
-  // const pendingParticipants = participants.filter(
-  //   (participant) => participant.status === 'PENDING',
-  // );
+  const pendingParticipants = participants.filter(
+    (participant) => participant.status === 'PENDING',
+  );
 
   const groupData = {
     bannerImageIndex: 0,
@@ -95,11 +95,15 @@ export default function GroupPage() {
       {activeTab === 'recruit' ? (
         <GroupInfoSection gathering={gatheringDetailData} isHost={isHost} />
       ) : isHost ? (
-        <MemberInfoSection />
+        <MemberInfoSection
+          gathering={gatheringDetailData}
+          approvedParticipants={approvedParticipants}
+          pendingParticipants={pendingParticipants}
+        />
       ) : (
         <ParticipantsSection
-          title={groupData.title}
-          hostName={groupData.hostName}
+          gathering={gatheringDetailData}
+          participants={approvedParticipants}
         />
       )}
     </GroupPageLayout>
