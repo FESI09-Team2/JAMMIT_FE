@@ -63,3 +63,7 @@ export const approveParticipant = async (
     `/gatherings/${gatheringId}/participants/${participantId}/approve`,
   );
 };
+
+export const deleteGathering = async (id: number): Promise<void> => {
+  await apiClient.delete(`/gatherings/${id}`);
+};

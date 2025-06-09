@@ -5,6 +5,7 @@ import Button from '@/components/commons/Button';
 import { GatheringDetailResponse } from '@/types/gathering';
 import { GENRE_ENUM_TO_KR, SESSION_ENUM_TO_KR } from '@/constants/tagsMapping';
 import { formatDateToKoreanStyle } from '@/utils/formatDate';
+import { useDeleteGatheringMutation } from '@/hooks/queries/gatherings/useDeleteGatheringMutation';
 
 interface GroupInfoSectionProps {
   gathering: GatheringDetailResponse;
@@ -26,6 +27,8 @@ export default function GroupInfoSection({
     creator,
   } = gathering;
 
+  const deleteMutation = useDeleteGatheringMutation();
+
   const actionButtons = [
     {
       label: '수정하기',
@@ -38,9 +41,10 @@ export default function GroupInfoSection({
     {
       label: '삭제하기',
       variant: 'outline',
+      // TODO: 확인 모달 적용
       onClick: () => {
-        // TODO: 삭제하기 로직
-        console.log('삭제하기 클릭');
+        if (!confirm('정말로 이 모임을 취소하시겠습니까?')) return;
+        deleteMutation.mutate(gathering.id);
       },
     },
   ];
