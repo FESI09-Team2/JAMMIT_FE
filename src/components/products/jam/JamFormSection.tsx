@@ -135,7 +135,13 @@ export default function JamFormSection({
               render={({ field }) => (
                 <DatePicker
                   value={field.value ? new Date(field.value) : undefined}
-                  onChange={(date) => field.onChange(date?.toISOString() ?? '')}
+                  onChange={(date) => {
+                    if (!date) {
+                      return field.onChange('');
+                    }
+                    date.setHours(23, 59, 59, 0);
+                    field.onChange(date.toISOString());
+                  }}
                 />
               )}
             />
@@ -151,7 +157,13 @@ export default function JamFormSection({
               render={({ field }) => (
                 <DatePicker
                   value={field.value ? new Date(field.value) : undefined}
-                  onChange={(date) => field.onChange(date?.toISOString() ?? '')}
+                  onChange={(date) => {
+                    if (!date) {
+                      return field.onChange('');
+                    }
+                    date.setHours(23, 59, 59, 0);
+                    field.onChange(date.toISOString());
+                  }}
                 />
               )}
             />
