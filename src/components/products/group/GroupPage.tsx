@@ -38,13 +38,10 @@ export default function GroupPage() {
   } = useGatheringParticipantsQuery(numericId);
 
   // TODO: 스켈레톤 적용
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>에러 발생</div>;
-  if (!gatheringDetailData) return <div>모임 정보를 찾을 수 없습니다.</div>;
-
-  if (isParticipantsLoading) return <div>참여자 정보를 불러오는 중...</div>;
-  if (participantsError) return <div>참여자 정보 불러오기 실패</div>;
-  if (!participantsData) return <div>참여자 정보가 없습니다.</div>;
+  if (isLoading || isParticipantsLoading) return <div>로딩 중...</div>;
+  if (error || participantsError) return <div>에러 발생</div>;
+  if (!gatheringDetailData || !participantsData)
+    return <div>모임 정보를 찾을 수 없습니다.</div>;
 
   const isHost = user?.id === gatheringDetailData.creator.id;
 
@@ -61,8 +58,42 @@ export default function GroupPage() {
   );
 
   // TODO: 참여 취소 로직 추가
-  const handleCancleParticipation = () => {
+  const handleCanceleParticipation = () => {
     console.log('참여 취소');
+  };
+
+  const renderActionButtons = () => {
+    if (showParticipationForm) {
+      return <ParticipationForm gathering={gatheringDetailData} />;
+    }
+
+    if (isHost) return null;
+
+    if (!isParticipating) {
+      return (
+        <Button
+          variant="solid"
+          className="w-[22.75rem]"
+          onClick={() => setShowParticipationForm(true)}
+        >
+          함께하기
+        </Button>
+      );
+    }
+
+    return (
+      <div>
+        <Button variant="solid" disabled className="w-[22.75rem]">
+          참여 완료
+        </Button>
+        <button
+          className="mt-[18px] w-full text-center text-[15px] font-medium text-[#BF5EFF] underline underline-offset-2"
+          onClick={handleCanceleParticipation}
+        >
+          참여 취소
+        </button>
+      </div>
+    );
   };
 
   return (
@@ -79,37 +110,7 @@ export default function GroupPage() {
           />
         </div>
       }
-      actionButtons={
-        <div>
-          {!showParticipationForm && !isHost && !isParticipating && (
-            <Button
-              variant="solid"
-              className="w-[22.75rem]"
-              onClick={() => setShowParticipationForm(true)}
-            >
-              함께하기
-            </Button>
-          )}
-
-          {showParticipationForm && gatheringDetailData && (
-            <ParticipationForm gathering={gatheringDetailData} />
-          )}
-
-          {isParticipating && !isHost && (
-            <div>
-              <Button variant="solid" disabled className="w-[22.75rem]">
-                참여 완료
-              </Button>
-              <button
-                className="mt-[18px] w-full text-center text-[15px] font-medium text-[#BF5EFF] underline underline-offset-2"
-                onClick={handleCancleParticipation}
-              >
-                참여 취소
-              </button>
-            </div>
-          )}
-        </div>
-      }
+      actionButtons={renderActionButtons()}
     >
       {activeTab === 'recruit' ? (
         <GroupInfoSection gathering={gatheringDetailData} isHost={isHost} />
