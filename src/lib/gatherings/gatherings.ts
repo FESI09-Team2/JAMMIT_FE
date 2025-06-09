@@ -45,3 +45,21 @@ export const cancelParticipateGathering = async (
   );
   return result;
 };
+
+export const rejectParticipant = async (
+  gatheringId: number,
+  participantId: number,
+) => {
+  return await apiClient.put(
+    `/gatherings/${gatheringId}/participants/${participantId}/reject`,
+  );
+};
+
+export const approveParticipant = async (
+  gatheringId: number,
+  participantId: number,
+) => {
+  return await apiClient.post(
+    `/gatherings/${gatheringId}/participants/${participantId}/approve`,
+  );
+};
