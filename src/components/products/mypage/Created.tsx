@@ -6,7 +6,7 @@ import { Card } from '@/components/commons/Card';
 import { CARD_STATE } from '@/constants/card';
 import { RecruitCardData } from '@/types/card';
 import InfinityScroll from '@/components/commons/InfinityScroll';
-import { mockCard } from './mockCard';
+import { mockRecruits } from '@/constants/checkbox';
 
 const LOAD_SIZE = 8;
 
@@ -18,12 +18,12 @@ export default function Created() {
   useEffect(() => {
     const start = LOAD_SIZE * (load - 1);
     const end = LOAD_SIZE * load;
-    const newItems = mockCard.slice(start, end);
+    const newItems = mockRecruits.slice(start, end);
     setItems((prev) => [...prev, ...newItems]);
   }, [load]);
 
   const handleInView = () => {
-    if (items.length < mockCard.length) {
+    if (items.length < mockRecruits.length) {
       setLoad((prev) => prev + 1);
     }
   };
@@ -36,13 +36,13 @@ export default function Created() {
         isLike={false}
       />
       <Card.TagList tags={item.genres} />
-      <Card.TitleBlock title={item.name} author={item.author} />
+      <Card.TitleBlock title={item.name} author={item.creator.nickname} />
       <Card.Footer
         status={CARD_STATE.COMPLETED}
         totalCurrent={item.totalCurrent}
         totalRecruit={item.totalRecruit}
         recruitDeadline={item.recruitDeadline}
-        member={item.member}
+        member={item.sessions}
       />
     </Link>
   );
@@ -53,7 +53,7 @@ export default function Created() {
       item={renderCard}
       emptyText="참여 중인 모집이 없습니다."
       onInView={handleInView}
-      hasMore={items.length < mockCard.length}
+      hasMore={items.length < mockRecruits.length}
     />
   );
 }
