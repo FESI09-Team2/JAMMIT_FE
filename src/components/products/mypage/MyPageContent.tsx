@@ -1,3 +1,4 @@
+// MEMO: 서버컴포넌트로 변경 예정
 'use client';
 
 import clsx from 'clsx';
