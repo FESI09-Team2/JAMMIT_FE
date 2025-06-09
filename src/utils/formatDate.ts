@@ -7,7 +7,6 @@ dayjs.locale('ko');
 dayjs.extend(weekday);
 dayjs.extend(localizedFormat);
 
-// 2025년 5월 31일 토요일 PM 2시
 export const formatDateToKoreanStyle = (date: string): string => {
   const d = dayjs(date);
   const ampm = d.hour() < 12 ? 'AM' : 'PM';

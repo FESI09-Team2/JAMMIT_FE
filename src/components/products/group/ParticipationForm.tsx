@@ -6,6 +6,7 @@ import TextArea from '@/components/commons/Textarea';
 import TagSelector from '@/components/commons/TagSelector';
 import { GatheringDetailResponse } from '@/types/gathering';
 import { SESSION_ENUM_TO_KR } from '@/constants/tagsMapping';
+import { ParticipationFormTitle } from '@/components/products/group/Typographys';
 
 interface ParticipationFormData {
   session: string[];
@@ -34,11 +35,16 @@ export default function ParticipationForm({
 
   const { sessions } = gathering;
 
-  const availableTags = sessions.map((s) => SESSION_ENUM_TO_KR[s.bandSession]);
+  const availableTags: string[] = [];
+  const disabledTags: string[] = [];
 
-  const disabledTags = sessions
-    .filter((s) => s.currentCount >= s.recruitCount)
-    .map((s) => SESSION_ENUM_TO_KR[s.bandSession]);
+  sessions.forEach((s) => {
+    const tag = SESSION_ENUM_TO_KR[s.bandSession];
+    availableTags.push(tag);
+    if (s.currentCount >= s.recruitCount) {
+      disabledTags.push(tag);
+    }
+  });
 
   const handleSessionChange = (selected: string[]) => {
     setValue('session', selected);
@@ -50,18 +56,18 @@ export default function ParticipationForm({
   };
 
   return (
-    <div className="w-[362px]">
+    <div className="w-[22.625rem]">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-[20px]"
+        className="flex flex-col gap-[1.25rem]"
       >
-        <div className="flex flex-col gap-[20px] rounded-[8px] bg-[#212226] p-[28px]">
-          <h2 className="w-full text-center text-[16px] font-semibold text-white">
-            함께하기
-          </h2>
+        <div className="flex flex-col gap-[1.25rem] rounded-[0.5rem] bg-[#212226] p-[1.75rem]">
+          <div className="w-full text-center">
+            <ParticipationFormTitle>함께하기</ParticipationFormTitle>
+          </div>
 
           <div>
-            <p className="mb-[8px] text-[16px] font-semibold">신청 세션</p>
+            <ParticipationFormTitle>신청 세션</ParticipationFormTitle>
             <TagSelector
               mode="selectable"
               tags={availableTags}
@@ -72,7 +78,7 @@ export default function ParticipationForm({
           </div>
 
           <div>
-            <p className="mb-[8px] text-[16px] font-semibold">간단 소개</p>
+            <ParticipationFormTitle>간단 소개</ParticipationFormTitle>
             <Controller
               name="introduction"
               control={control}
@@ -92,7 +98,7 @@ export default function ParticipationForm({
           type="submit"
           variant="solid"
           disabled={!isValid}
-          className="w-[364px]"
+          className="w-[22.75rem]"
         >
           신청 완료
         </Button>

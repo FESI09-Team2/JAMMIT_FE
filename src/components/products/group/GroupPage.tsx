@@ -87,7 +87,7 @@ export default function GroupPage() {
           참여 완료
         </Button>
         <button
-          className="mt-[18px] w-full text-center text-[15px] font-medium text-[#BF5EFF] underline underline-offset-2"
+          className="mt-[1.125rem] w-full text-center text-[0.9375rem] font-medium text-[#BF5EFF] underline underline-offset-2"
           onClick={handleCanceleParticipation}
         >
           참여 취소

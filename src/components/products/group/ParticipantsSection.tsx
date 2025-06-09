@@ -66,7 +66,9 @@ export default function ParticipantsSection({
               >
                 {introduction}
               </div>
-              {isCompleted && <Button className="w-[124px]">리뷰 쓰기</Button>}
+              {isCompleted && (
+                <Button className="w-[7.75rem]">리뷰 쓰기</Button>
+              )}
             </div>
             <div className="border-b-[0.0625rem] border-[#2D3035]" />
           </div>
