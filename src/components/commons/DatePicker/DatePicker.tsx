@@ -46,9 +46,7 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
       setDate(newDate);
       onChange?.(newDate);
     },
-    // TODO: 의존성 무시 주석 제거가 목표
-    // eslint-disable-next-line
-    [hour, minute, ampm],
+    [hour, minute, ampm, onChange],
   );
 
   useEffect(() => {
@@ -60,9 +58,7 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
       setDate(newDate);
       onChange?.(newDate);
     }
-    // TODO: 의존성 무시 주석 제거가 목표
-    // eslint-disable-next-line
-  }, [hour, minute, ampm]);
+  }, [hour, minute, ampm, date, onChange]);
 
   useEffect(() => {
     if (value) {
