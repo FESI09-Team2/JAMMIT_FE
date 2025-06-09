@@ -50,6 +50,7 @@ export default function GroupPage() {
     return <div>모임 정보를 찾을 수 없습니다.</div>;
 
   const isHost = user?.id === gatheringDetailData.creator.id;
+  const isCanceled = gatheringDetailData.status === 'CANCELED';
 
   const participants = participantsData.participants;
   const approvedParticipants = participants.filter(
@@ -99,6 +100,14 @@ export default function GroupPage() {
   };
 
   const renderActionButtons = () => {
+    if (isCanceled) {
+      return (
+        <Button variant="solid" disabled className="w-[22.75rem]">
+          취소된 모임입니다
+        </Button>
+      );
+    }
+
     if (showParticipationForm) {
       return (
         <ParticipationForm

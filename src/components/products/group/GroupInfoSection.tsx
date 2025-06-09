@@ -25,7 +25,12 @@ export default function GroupInfoSection({
     sessions,
     description,
     creator,
+    status,
   } = gathering;
+
+  const isCanceled = status === 'CANCELED';
+  const isHostAndCanceled = isHost && isCanceled;
+  const isHostAndActive = isHost && !isCanceled;
 
   const deleteMutation = useDeleteGatheringMutation();
 
@@ -130,7 +135,13 @@ export default function GroupInfoSection({
       </section>
 
       <div className="ml-[1.25rem]">
-        {isHost && (
+        {isHostAndCanceled && (
+          <Button variant="solid" disabled className="w-[22.75rem]">
+            취소된 모임입니다
+          </Button>
+        )}
+
+        {isHostAndActive && (
           <div className="flex flex-col gap-[1.25rem]">
             {actionButtons.map(({ label, variant, onClick }) => (
               <Button
