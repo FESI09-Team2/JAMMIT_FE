@@ -36,7 +36,7 @@ export default function Participating({
   };
 
   const renderCard = (item: GatheringCard) => (
-    <Link key={item.id} href={`de/${item.id}`}>
+    <Link key={item.id} href={`group/${item.id}`}>
       <Card.Thumbnail
         // 임시 추가
         thumbnail={item.thumbnail as unknown as StaticImageData}
