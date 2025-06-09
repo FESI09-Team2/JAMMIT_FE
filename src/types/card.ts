@@ -1,4 +1,5 @@
 import { StaticImageData } from 'next/image';
+import { GenreType, BandSessionType, GatheringStatus } from './tags';
 
 export interface RecruitCardData {
   id: number;
@@ -34,9 +35,9 @@ export interface GatheringCard {
   /** 모집 마감 날짜 */
   recruitDeadline: string;
   /** 모임 상태 */
-  status: 'RECRUITING' | 'CLOSED' | string;
+  status: GatheringStatus;
   /** 장르 */
-  genres: string[];
+  genres: GenreType[];
   /** 작성자 */
   creator: {
     id: number;
@@ -44,7 +45,7 @@ export interface GatheringCard {
   };
   /** 세션 */
   sessions: {
-    bandSession: string;
+    bandSession: BandSessionType;
     recruitCount: number;
     currentCount: number;
   };
