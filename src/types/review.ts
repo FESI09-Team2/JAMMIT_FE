@@ -1,11 +1,17 @@
+import { StaticImageData } from 'next/image';
+import { BandSession } from './tags';
+
 export interface ReviewItem {
   id: number;
   reviewerId: number;
   reviewerNickname: string;
+  reviewerBandSessions: BandSession[];
   revieweeId: number;
   revieweeNickname: string;
   gatheringId: number;
   gatheringName: string;
+  gatheringThumbnail: StaticImageData;
+  gatheringHostNickname: string;
   content: string;
   createdAt: string;
   updatedAt: string;

@@ -18,7 +18,7 @@ export default function ReviewList({ data }: ReviewListProps) {
             <div className="mb-6 flex items-center gap-3">
               <DefaultProfileImage width={56} height={56} />
               <p>{item.reviewerNickname}</p>
-              <span>보컬</span>
+              <span>{item.reviewerBandSessions}</span>
             </div>
             <ul className="flex flex-wrap gap-1.5">
               {REVIEW_METRICS.filter(
@@ -39,7 +39,9 @@ export default function ReviewList({ data }: ReviewListProps) {
               className="block w-full rounded-lg border border-[#464141] px-[27px] py-[22px]"
             >
               <p className="leading-6">{item.gatheringName}</p>
-              <p className="mt-1 leading-6 opacity-60">데이터 바꿀꺼</p>
+              <p className="mt-1 leading-6 opacity-60">
+                {item.gatheringHostNickname}
+              </p>
             </Link>
           </li>
         ))
