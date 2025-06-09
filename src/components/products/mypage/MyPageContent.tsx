@@ -6,7 +6,7 @@ import UserCard from '@/components/products/mypage/UserCard';
 import Participating from '@/components/products/mypage/Participating';
 import Created from '@/components/products/mypage/Created';
 import ReviewsReceived from '@/components/products/mypage/ReviewsReceived';
-import ReviewsToWrite from '@/components/products/mypage/ReviewsToWrite';
+import ReviewsToWrite from '@/components/products/mypage/towrite/ReviewsToWrite';
 
 type TabKey =
   | 'participating'
