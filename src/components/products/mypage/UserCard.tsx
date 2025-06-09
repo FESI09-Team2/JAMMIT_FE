@@ -95,7 +95,7 @@ export default function UserCard() {
             email: user.email,
             password: null,
             username: user.username,
-            image: user.profileImagePath,
+            // image: user.profileImagePath,
             preferredBandSessions: user.preferredBandSessions,
             preferredGenres: user.preferredGenres,
           }}

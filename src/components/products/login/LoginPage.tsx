@@ -1,12 +1,10 @@
 'use client';
-
-import AuthCard from '@/components/commons/AuthCard';
-import Button from '@/components/commons/Button';
-import Input from '@/components/commons/Input';
-import { useLoginMutation } from '@/hooks/queries/auth/useLoginMutaion';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { queryClient } from '@/lib/react-query';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import AuthCard from '@/components/commons/AuthCard';
+import Input from '@/components/commons/Input';
+import Button from '@/components/commons/Button';
+import { useLoginMutation } from '@/hooks/queries/auth/useLoginMutaion';
 
 interface FormValues {
   email: string;
@@ -30,7 +28,6 @@ export default function LoginPage() {
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     await mutateAsync(data);
     router.push('/');
-    queryClient.invalidateQueries({ queryKey: ['me'] });
     reset();
   };
 
