@@ -14,6 +14,8 @@ import { useGatheringParticipantsQuery } from '@/hooks/queries/gatherings/useGat
 import { useState } from 'react';
 import Button from '@/components/commons/Button';
 import ParticipationForm from './ParticipationForm';
+import { useParticipateGatheringMutation } from '@/hooks/queries/gatherings/useParticipateGatheringsMutation';
+import { SESSION_KR_TO_ENUM } from '@/constants/tagsMapping';
 
 export default function GroupPage() {
   const { activeTab } = useQueryTab<'recruit' | 'members'>('tab', 'recruit', [
@@ -36,6 +38,8 @@ export default function GroupPage() {
     isLoading: isParticipantsLoading,
     error: participantsError,
   } = useGatheringParticipantsQuery(numericId);
+
+  const mutation = useParticipateGatheringMutation();
 
   // TODO: 스켈레톤 적용
   if (isLoading || isParticipantsLoading) return <div>로딩 중...</div>;
@@ -62,9 +66,32 @@ export default function GroupPage() {
     console.log('참여 취소');
   };
 
+  const handleSubmitParticipation = ({
+    session,
+    introduction,
+  }: {
+    session: string;
+    introduction: string;
+  }) => {
+    const sessionEnum = SESSION_KR_TO_ENUM[session];
+
+    mutation.mutate({
+      id: numericId,
+      bandSession: sessionEnum,
+      introduction,
+    });
+
+    setShowParticipationForm(false);
+  };
+
   const renderActionButtons = () => {
     if (showParticipationForm) {
-      return <ParticipationForm gathering={gatheringDetailData} />;
+      return (
+        <ParticipationForm
+          gathering={gatheringDetailData}
+          onComplete={handleSubmitParticipation}
+        />
+      );
     }
 
     if (isHost) return null;
