@@ -10,12 +10,13 @@ import { JamFormData } from '@/types/jam';
 export default function JamPage() {
   const methods = useForm<JamFormData>({
     defaultValues: {
-      jamName: '',
+      name: '',
       place: '',
-      day: '',
-      end: '',
-      genre: [],
-      introduction: '',
+      gatheringDateTime: '',
+      recruitDateTime: '',
+      gatheringSessions: [],
+      genres: [],
+      description: '',
     },
     mode: 'onChange',
   });

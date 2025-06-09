@@ -15,7 +15,9 @@ import { DatePicker } from '@/components/commons/DatePicker/DatePicker';
 import SearchInput from './SearchInput';
 import SessionSelector from './SessionSelector';
 import { GENRE_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
+import { GENRE_KR_TO_ENUM } from '@/constants/tagsMapping';
 import { JamFormData } from '@/types/jam';
+import { GenreType } from '@/types/tags';
 
 const DIVIDER = 'mx-auto my-[2.5rem] w-[56rem] border-gray-800';
 
@@ -65,28 +67,29 @@ export default function JamFormSection({
   const handleSortOptionChange = useCallback(
     (index: number, newSortOption: string) => {
       setSessionList((prev) =>
-        prev.map((sess, i) =>
-          i === index ? { ...sess, sortOption: newSortOption } : sess,
+        prev.map((session, idx) =>
+          idx === index ? { ...session, sortOption: newSortOption } : session,
         ),
       );
     },
     [],
   );
 
-  // 모집 세션 수 입력 변경 시
   const handleCountChange = useCallback(
     (index: number, newCount: number) => {
       setSessionList((prev) => {
         const newList = prev.map((sess, i) =>
           i === index ? { ...sess, count: newCount } : sess,
         );
-        //const sessionKey = SESSION_KEY_MAP[newList[index].sortOption];
+
         setValue(
           `gatheringSessions`,
-          newList.map((s) => ({
-            bandSession: SESSION_KEY_MAP[s.sortOption],
-            recruitCount: s.count,
-          })),
+          newList
+            .filter((s) => s.sortOption !== '')
+            .map((s) => ({
+              bandSession: SESSION_KEY_MAP[s.sortOption],
+              recruitCount: s.count,
+            })),
         );
         return newList;
       });
@@ -94,10 +97,12 @@ export default function JamFormSection({
     [setValue],
   );
 
-  // 장르 태그 선택 시
   const handleTagChange = useCallback(
     (selectedTags: string[]) => {
-      setValue('genres', selectedTags);
+      const convertedTags = selectedTags
+        .map((tag) => GENRE_KR_TO_ENUM[tag])
+        .filter(Boolean) as GenreType[];
+      setValue('genres', convertedTags);
     },
     [setValue],
   );
@@ -117,7 +122,6 @@ export default function JamFormSection({
         {/** 모임 장소 */}
         <SearchInput value={place} onChange={handlePlaceChange} />
 
-        {/** TODO: 이 부분은 나중에 시간을 어떤 시간으로 받을지 정한 후 결정 */}
         {/** 모집 마감일 / 모임 날짜 */}
         <div className="flex gap-[1.25rem]">
           <div className="flex flex-col gap-[0.5rem]">
