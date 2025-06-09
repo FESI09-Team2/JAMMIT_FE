@@ -2,8 +2,6 @@
 import TagSelector from '@/components/commons/TagSelector';
 import { GENRE_TAGS } from '@/constants/tags';
 import Button from '@/components/commons/Button';
-import ParticipationForm from './ParticipationForm';
-import { useState } from 'react';
 import { GatheringDetailResponse } from '@/types/gathering';
 import { GENRE_ENUM_TO_KR, SESSION_ENUM_TO_KR } from '@/constants/tagsMapping';
 import { formatDateToKoreanStyle } from '@/utils/formatDate';
@@ -17,8 +15,6 @@ export default function GroupInfoSection({
   gathering,
   isHost,
 }: GroupInfoSectionProps) {
-  const [showParticipationForm, setShowParticipationForm] = useState(false);
-
   const {
     name,
     place,
@@ -130,7 +126,7 @@ export default function GroupInfoSection({
       </section>
 
       <div className="ml-[1.25rem]">
-        {isHost ? (
+        {isHost && (
           <div className="flex flex-col gap-[1.25rem]">
             {actionButtons.map(({ label, variant, onClick }) => (
               <Button
@@ -142,22 +138,6 @@ export default function GroupInfoSection({
                 {label}
               </Button>
             ))}
-          </div>
-        ) : (
-          <div>
-            {!showParticipationForm && (
-              <Button
-                variant="solid"
-                className="w-[22.75rem]"
-                onClick={() => setShowParticipationForm(true)}
-              >
-                함께하기
-              </Button>
-            )}
-
-            {showParticipationForm && gathering && (
-              <ParticipationForm gathering={gathering} />
-            )}
           </div>
         )}
       </div>
