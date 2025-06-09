@@ -10,6 +10,7 @@ import ParticipantsSection from './ParticipantsSection';
 import { useParams } from 'next/navigation';
 import { useGatheringDetailQuery } from '@/hooks/queries/gatherings/useGatheringsDetailQuery';
 import { useUserStore } from '@/stores/useUserStore';
+import { useGatheringParticipantsQuery } from '@/hooks/queries/gatherings/useGatheringsParticipantsQuery';
 
 export default function GroupPage() {
   const { activeTab } = useQueryTab<'recruit' | 'members'>('tab', 'recruit', [
@@ -25,12 +26,30 @@ export default function GroupPage() {
     error,
   } = useGatheringDetailQuery(numericId);
 
+  const {
+    data: participantsData,
+    isLoading: isParticipantsLoading,
+    error: participantsError,
+  } = useGatheringParticipantsQuery(numericId);
+
   // TODO: 스켈레톤 적용
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생</div>;
   if (!gatheringDetailData) return <div>모임 정보를 찾을 수 없습니다.</div>;
 
+  if (isParticipantsLoading) return <div>참여자 정보를 불러오는 중...</div>;
+  if (participantsError) return <div>참여자 정보 불러오기 실패</div>;
+  if (!participantsData) return <div>참여자 정보가 없습니다.</div>;
+
   const isHost = user?.id === gatheringDetailData.creator.id;
+
+  const participants = participantsData.participants;
+  const approvedParticipants = participants.filter(
+    (participant) => participant.status === 'APPROVED',
+  );
+  // const pendingParticipants = participants.filter(
+  //   (participant) => participant.status === 'PENDING',
+  // );
 
   const groupData = {
     bannerImageIndex: 0,
@@ -60,6 +79,7 @@ export default function GroupPage() {
 
   return (
     <GroupPageLayout
+      participantsNumber={approvedParticipants.length}
       banner={
         <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
           <Image

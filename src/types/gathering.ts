@@ -51,3 +51,26 @@ export interface GatheringDetailResponse {
   sessions: GatheringSessionInfo[];
   creator: CreatorInfo;
 }
+
+export type ParticipantStatus =
+  | 'PENDING'
+  | 'APPROVED'
+  | 'REJECTED'
+  | 'COMPLETED'
+  | 'CANCELED';
+
+export interface Participant {
+  participantId: number;
+  userId: number;
+  userNickname: string;
+  userEmail: string;
+  bandSession: BandSession;
+  status: ParticipantStatus;
+  createdAt: string;
+  introduction: string;
+}
+
+export interface ParticipantsResponse {
+  participants: Participant[];
+  total: number;
+}
