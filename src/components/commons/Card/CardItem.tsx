@@ -9,6 +9,7 @@ interface CardItemProps {
   item: GatheringCard;
   isLike?: boolean;
   status: CardStatus;
+  link?: string;
 }
 
 export default function CardItem({
@@ -31,6 +32,7 @@ export default function CardItem({
         totalRecruit={item.totalRecruit}
         recruitDeadline={item.recruitDeadline}
         member={item.sessions}
+        id={item.id}
       />
     </Link>
   );

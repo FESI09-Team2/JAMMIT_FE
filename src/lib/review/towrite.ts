@@ -1,7 +1,7 @@
 import { WishResponse } from '@/types/wish';
 import { apiClient } from '@/utils/apiClient';
 
-export async function getReview({
+export async function getReviewWrite({
   queryKey,
   pageParam,
   size,
