@@ -37,6 +37,7 @@ export default function JamFormSection({
     { sortOption: '', count: 0 },
   ]);
   const place = watch('place') || '';
+
   // 빈 문자열 제외 이미 선택된 세션 옵션들을 계산
   const selectedSessions = sessionList
     .map((session) => session.sortOption)
@@ -79,8 +80,14 @@ export default function JamFormSection({
         const newList = prev.map((sess, i) =>
           i === index ? { ...sess, count: newCount } : sess,
         );
-        const sessionKey = SESSION_KEY_MAP[newList[index].sortOption];
-        setValue(`session.${sessionKey}`, newCount);
+        //const sessionKey = SESSION_KEY_MAP[newList[index].sortOption];
+        setValue(
+          `gatheringSessions`,
+          newList.map((s) => ({
+            bandSession: SESSION_KEY_MAP[s.sortOption],
+            recruitCount: s.count,
+          })),
+        );
         return newList;
       });
     },
@@ -90,7 +97,7 @@ export default function JamFormSection({
   // 장르 태그 선택 시
   const handleTagChange = useCallback(
     (selectedTags: string[]) => {
-      setValue('genre', selectedTags);
+      setValue('genres', selectedTags);
     },
     [setValue],
   );
@@ -100,7 +107,7 @@ export default function JamFormSection({
       <div className="flex flex-col gap-[1.5rem]">
         {/** 모임 제목 */}
         <Input
-          name="jamName"
+          name="name"
           type="text"
           label="모임 제목"
           placeholder="모임 제목을 작성하세요."
@@ -118,7 +125,7 @@ export default function JamFormSection({
               모집 마감일
             </label>
             <Controller
-              name="end"
+              name="recruitDateTime"
               control={control}
               rules={{ required: '모집 마감일을 선택하세요.' }}
               render={({ field }) => (
@@ -134,7 +141,7 @@ export default function JamFormSection({
               모임 날짜
             </label>
             <Controller
-              name="day"
+              name="gatheringDateTime"
               control={control}
               rules={{ required: '모집 마감일을 선택하세요.' }}
               render={({ field }) => (
@@ -200,7 +207,7 @@ export default function JamFormSection({
         <div className="flex flex-col gap-[0.5rem]">
           <p className="text-lg font-semibold">소개글</p>
           <Controller
-            name="introduction"
+            name="description"
             control={control}
             rules={{ required: '소개글을 입력하세요.' }}
             render={({ field }) => (
