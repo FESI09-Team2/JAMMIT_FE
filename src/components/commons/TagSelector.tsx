@@ -10,11 +10,13 @@ interface TagSelectorProps {
   initialSelected?: string[];
   onChange?: (selected: string[]) => void;
   disabledTags?: string[];
+  selectMode?: 'single' | 'multiple';
 }
 
 export default function TagSelector({
   tags,
   mode = 'selectable',
+  selectMode = 'multiple',
   initialSelected = [],
   disabledTags = [],
   onChange,
@@ -33,9 +35,15 @@ export default function TagSelector({
         return;
       }
       setSelected((prev) => {
-        const newSelected = prev.includes(tag)
-          ? prev.filter((t) => t !== tag)
-          : [...prev, tag];
+        let newSelected: string[];
+
+        if (selectMode === 'single') {
+          newSelected = prev.includes(tag) ? [] : [tag];
+        } else {
+          newSelected = prev.includes(tag)
+            ? prev.filter((t) => t !== tag)
+            : [...prev, tag];
+        }
 
         onChange?.(newSelected);
         return newSelected;

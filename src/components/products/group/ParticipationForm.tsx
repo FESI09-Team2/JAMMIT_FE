@@ -66,6 +66,7 @@ export default function ParticipationForm({
               mode="selectable"
               tags={availableTags}
               disabledTags={disabledTags}
+              selectMode="single"
               onChange={handleSessionChange}
             />
           </div>
