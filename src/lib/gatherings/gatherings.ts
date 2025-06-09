@@ -35,3 +35,13 @@ export const postParticipateGatherings = async (
   );
   return result;
 };
+
+export const cancelParticipateGathering = async (
+  gatheringId: number,
+  participantId: number,
+): Promise<ParticipateGatheringResponse> => {
+  const result = await apiClient.put<ParticipateGatheringResponse>(
+    `/gatherings/${gatheringId}/participants/${participantId}/cancel`,
+  );
+  return result;
+};

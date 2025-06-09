@@ -6,5 +6,8 @@ export const useGatheringParticipantsQuery = (id: number) => {
     queryKey: ['gatheringParticipants', id],
     queryFn: () => getGatheringParticipants(id),
     enabled: !!id,
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 };

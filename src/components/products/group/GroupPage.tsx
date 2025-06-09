@@ -16,6 +16,7 @@ import Button from '@/components/commons/Button';
 import ParticipationForm from './ParticipationForm';
 import { useParticipateGatheringMutation } from '@/hooks/queries/gatherings/useParticipateGatheringsMutation';
 import { SESSION_KR_TO_ENUM } from '@/constants/tagsMapping';
+import { useCancelParticipateGatheringMutation } from '@/hooks/queries/gatherings/useCancelParticipateGathering';
 
 export default function GroupPage() {
   const { activeTab } = useQueryTab<'recruit' | 'members'>('tab', 'recruit', [
@@ -39,7 +40,8 @@ export default function GroupPage() {
     error: participantsError,
   } = useGatheringParticipantsQuery(numericId);
 
-  const mutation = useParticipateGatheringMutation();
+  const participateMutation = useParticipateGatheringMutation();
+  const cancelMutation = useCancelParticipateGatheringMutation();
 
   // TODO: 스켈레톤 적용
   if (isLoading || isParticipantsLoading) return <div>로딩 중...</div>;
@@ -57,13 +59,25 @@ export default function GroupPage() {
     (participant) => participant.status === 'PENDING',
   );
 
-  const isParticipating = participants.some(
+  const isParticipating = pendingParticipants.some(
     (participant) => participant.userId === user?.id,
   );
 
-  // TODO: 참여 취소 로직 추가
+  const currentUserParticipation = pendingParticipants.find(
+    (participant) => participant.userId === user?.id,
+  );
+
+  const myParticipantId = currentUserParticipation?.participantId;
+
   const handleCanceleParticipation = () => {
-    console.log('참여 취소');
+    if (!myParticipantId) {
+      console.warn('참여 정보를 찾을 수 없습니다.');
+      return;
+    }
+    cancelMutation.mutate({
+      gatheringId: numericId,
+      participantId: myParticipantId,
+    });
   };
 
   const handleSubmitParticipation = ({
@@ -75,7 +89,7 @@ export default function GroupPage() {
   }) => {
     const sessionEnum = SESSION_KR_TO_ENUM[session];
 
-    mutation.mutate({
+    participateMutation.mutate({
       id: numericId,
       bandSession: sessionEnum,
       introduction,
