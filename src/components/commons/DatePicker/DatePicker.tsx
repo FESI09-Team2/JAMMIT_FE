@@ -46,15 +46,23 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
       setDate(newDate);
       onChange?.(newDate);
     },
-    [hour, minute, ampm, onChange],
+    // TODO: 의존성 무시 주석 제거가 목표
+    // eslint-disable-next-line
+    [hour, minute, ampm],
   );
 
   useEffect(() => {
     if (!date) {
       return;
     }
-    handleDateChange(date);
-  }, [date, handleDateChange]);
+    const newDate = combineDateAndTime(date, hour, minute, ampm);
+    if (newDate.getTime() !== date.getTime()) {
+      setDate(newDate);
+      onChange?.(newDate);
+    }
+    // TODO: 의존성 무시 주석 제거가 목표
+    // eslint-disable-next-line
+  }, [hour, minute, ampm]);
 
   useEffect(() => {
     if (value) {
