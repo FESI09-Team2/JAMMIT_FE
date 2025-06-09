@@ -9,7 +9,6 @@ interface CardItemProps {
   item: GatheringCard;
   isLike?: boolean;
   status: CardStatus;
-  link?: string;
 }
 
 export default function CardItem({

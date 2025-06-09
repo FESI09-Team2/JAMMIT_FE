@@ -16,7 +16,7 @@ interface FooterProps {
     currentCount: number;
   }[];
   recruitDeadline?: string;
-  id: number;
+  id?: number;
 }
 
 export default function Footer({
