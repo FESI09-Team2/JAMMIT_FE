@@ -7,6 +7,7 @@ import { makeWishQueryKey, RecruitPageProps } from '@/types/wish';
 import RecruitHeader from '@/components/commons/RecruitHeader';
 import InfinityScroll from '@/components/commons/InfinityScroll';
 import CardItem from '@/components/commons/Card/CardItem';
+import { CARD_STATE } from '@/constants/card';
 
 export default function RecruitPage({
   defaultGenres,
@@ -47,7 +48,9 @@ export default function RecruitPage({
       />
       <InfinityScroll
         list={flatData}
-        item={(item) => <CardItem item={item} isLike={true} />}
+        item={(item) => (
+          <CardItem item={item} isLike={true} status={CARD_STATE.PROGRESS} />
+        )}
         emptyText=""
         hasMore={!!hasNextPage && !isFetching}
         onInView={() => {

@@ -29,11 +29,7 @@ export default function Participating() {
 
   const renderCard = (item: RecruitCardData) => (
     <Link key={item.id} href={`de/${item.id}`}>
-      <Card.Thumbnail
-        thumbnail={item.thumbnail}
-        alt={item.name}
-        isLike={false}
-      />
+      <Card.Thumbnail thumbnail={item.thumbnail} alt={item.name} />
       <Card.TagList tags={item.genres} />
       <Card.TitleBlock title={item.name} author={item.creator.nickname} />
       <Card.Footer

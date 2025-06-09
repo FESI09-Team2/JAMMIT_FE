@@ -3,14 +3,19 @@ import Link from 'next/link';
 import { Card } from '.';
 import Like from '../Like';
 import { RecruitCardData } from '@/types/card';
-import { CARD_STATE } from '@/constants/card';
+import { CardStatus } from '@/constants/card';
 
 interface CardItemProps {
   item: RecruitCardData;
   isLike?: boolean;
+  status: CardStatus;
 }
 
-export default function CardItem({ item, isLike = false }: CardItemProps) {
+export default function CardItem({
+  item,
+  isLike = false,
+  status,
+}: CardItemProps) {
   return (
     <Link key={item.id} href={`/group/${item.id}`}>
       <div className="relative h-[12.5rem] overflow-hidden rounded-lg">
@@ -21,7 +26,7 @@ export default function CardItem({ item, isLike = false }: CardItemProps) {
       <Card.TagList tags={item.genres} />
       <Card.TitleBlock title={item.name} author={item.creator.nickname} />
       <Card.Footer
-        status={CARD_STATE.PROGRESS}
+        status={status}
         totalCurrent={item.totalCurrent}
         totalRecruit={item.totalRecruit}
         recruitDeadline={item.recruitDeadline}

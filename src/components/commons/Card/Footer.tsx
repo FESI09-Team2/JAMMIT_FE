@@ -1,7 +1,7 @@
 import React from 'react';
 import IcListCheck from '@/assets/icons/ic_list_check.svg';
 import { getRecruitStatus } from '@/utils/getRecruitStatus';
-import { getDate } from '@/utils/date';
+import { deadline } from '@/utils/deadline';
 import { CardStatus } from '@/constants/card';
 import { SESSION_ENUM_TO_KR } from '@/constants/tagsMapping';
 
@@ -82,7 +82,7 @@ export default function Footer({
   };
   const left = () => {
     if (status === '모집중') {
-      return <span>{getDate(recruitDeadline as string)}</span>;
+      return <span>{deadline(recruitDeadline as string)}</span>;
     }
     return (
       <div>
