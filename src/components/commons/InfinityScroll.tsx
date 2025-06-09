@@ -1,4 +1,4 @@
-'use clients';
+'use client';
 
 import { forwardRef, Fragment, ReactNode, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -57,7 +57,11 @@ export default function InfinityScroll<T>({
   }, [list]);
 
   if (!list || list.length === 0) {
-    return <div className="empty-text">{emptyText}</div>;
+    return (
+      <div className="rounded-lg bg-[#28282a] px-[3.75rem] py-[3.75rem] text-center">
+        {emptyText}
+      </div>
+    );
   }
 
   return (

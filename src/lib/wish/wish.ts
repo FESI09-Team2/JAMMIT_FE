@@ -1,16 +1,27 @@
-import { WishQueryKey, WishResponse } from '@/types/wish';
+import { apiClient } from '@/utils/apiClient';
+import { BandSession, Genre } from '@/types/tags';
+import { WishResponse } from '@/types/wish';
 
 export async function getLiked({
   queryKey,
+  pageParam,
+  size,
 }: {
-  queryKey: WishQueryKey;
-  pageParam?: number;
+  queryKey: [
+    string,
+    { genres: Genre[]; sessions: BandSession[]; includeCanceled: boolean },
+  ];
+  pageParam: number;
+  size: number;
 }): Promise<WishResponse> {
   const [, { genres, sessions, includeCanceled }] = queryKey;
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/gatherings?genres=${genres}&sessions=${sessions}&includeCanceled=${includeCanceled}`,
+  const params = new URLSearchParams();
+  genres.forEach((g) => params.append('genres', g));
+  sessions.forEach((s) => params.append('sessions', s));
+  params.append('includeCanceled', includeCanceled.toString());
+  params.append('page', pageParam.toString());
+  params.append('size', size.toString());
+  return await apiClient.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/gatherings?${params.toString()}`,
   );
-
-  if (!res.ok) throw new Error('찜한 목록 불러오기 실패');
-  return res.json();
 }

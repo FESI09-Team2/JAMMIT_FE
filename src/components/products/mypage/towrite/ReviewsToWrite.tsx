@@ -1,9 +1,10 @@
 'use client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getReview } from '@/lib/review/towrite';
-import { Page } from '@/types/wish';
 import InfinityScroll from '@/components/commons/InfinityScroll';
 import CardItem from '@/components/commons/Card/CardItem';
+import { CARD_STATE } from '@/constants/card';
+import { Page } from '@/types/wish';
 
 export default function ReviewsToWrite() {
   const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
@@ -12,7 +13,7 @@ export default function ReviewsToWrite() {
       { includeCanceled: boolean },
     ],
     queryFn: ({ queryKey, pageParam = 0 }) =>
-      getReview({ queryKey, pageParam }),
+      getReview({ queryKey, pageParam, size: 8 }),
     initialPageParam: 0,
     getNextPageParam: (lastPage: Page) => {
       return lastPage.currentPage + 1 < lastPage.totalPage
@@ -24,7 +25,7 @@ export default function ReviewsToWrite() {
   return (
     <InfinityScroll
       list={flatData}
-      item={(item) => <CardItem item={item} />}
+      item={(item) => <CardItem item={item} status={CARD_STATE.ENSEMBLE} />}
       emptyText=""
       hasMore={!!hasNextPage && !isFetching}
       onInView={() => {

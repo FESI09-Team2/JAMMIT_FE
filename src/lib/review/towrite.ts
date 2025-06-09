@@ -3,14 +3,19 @@ import { apiClient } from '@/utils/apiClient';
 
 export async function getReview({
   queryKey,
-  pageParam = 0,
+  pageParam,
+  size,
 }: {
   queryKey: [string, { includeCanceled: boolean }];
   pageParam: number;
+  size: number;
 }): Promise<WishResponse> {
   const [, { includeCanceled }] = queryKey;
-
+  const params = new URLSearchParams();
+  params.append('includeCanceled', includeCanceled.toString());
+  params.append('page', pageParam.toString());
+  params.append('size', size.toString());
   return await apiClient.get(
-    `/gatherings/{gatheringId}/participants/my?includeCanceled=${includeCanceled}&page=${pageParam}&size=8`,
+    `/gatherings/{gatheringId}/participants/my?${params.toString()}`,
   );
 }
