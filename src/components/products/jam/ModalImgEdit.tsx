@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { memo, useRef, useState } from 'react';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import Button from '@/components/commons/Button';
-import bannerImages from '@/constants/bannerImages';
+import { imgChange } from '@/utils/imgChange';
 
 const FIRST_RENDERING = 12;
 
@@ -18,6 +18,12 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   useClickOutside(modalRef, onClose);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  // 배너 이미지 파일명 생성 함수
+  const getBannerFileName = (index: number): string => {
+    const num = (index + 1).toString().padStart(2, '0');
+    return `img_banner_${num}`;
+  };
 
   return (
     <>
@@ -38,25 +44,30 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
           </div>
 
           <div className="grid grid-cols-6 gap-[1.25rem]">
-            {[...Array(FIRST_RENDERING)].map((_, idx) => (
-              <div
-                key={idx}
-                className={`cursor-pointer rounded-lg border-2 ${
-                  selectedIndex === idx
-                    ? 'border-[#9900FF]'
-                    : 'border-transparent'
-                }`}
-                onClick={() => setSelectedIndex(idx)}
-              >
-                <Image
-                  src={bannerImages[idx].src}
-                  alt={`모임 배너 ${idx + 1}`}
-                  priority
-                  width={120}
-                  height={75}
-                />
-              </div>
-            ))}
+            {[...Array(FIRST_RENDERING)].map((_, idx) => {
+              const fileName = getBannerFileName(idx);
+              const imageData = imgChange(fileName, 'banner');
+
+              return (
+                <div
+                  key={idx}
+                  className={`cursor-pointer rounded-lg border-2 ${
+                    selectedIndex === idx
+                      ? 'border-[#9900FF]'
+                      : 'border-transparent'
+                  }`}
+                  onClick={() => setSelectedIndex(idx)}
+                >
+                  <Image
+                    src={imageData}
+                    alt={`모임 배너 ${idx + 1}`}
+                    priority
+                    width={120}
+                    height={75}
+                  />
+                </div>
+              );
+            })}
           </div>
 
           <button
@@ -73,7 +84,8 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
             disabled={selectedIndex === null}
             onClick={() => {
               if (selectedIndex !== null) {
-                onSubmit(bannerImages[selectedIndex].fileName);
+                const fileName = getBannerFileName(selectedIndex);
+                onSubmit(fileName);
               }
             }}
           >
