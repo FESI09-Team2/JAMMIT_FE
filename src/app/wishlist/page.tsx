@@ -39,6 +39,7 @@ export default function Page() {
         setGenres={setGenres}
         sessions={sessions}
         setSessions={setSessions}
+        page="wish"
       />
       <VirtualGrid
         list={filteredData}

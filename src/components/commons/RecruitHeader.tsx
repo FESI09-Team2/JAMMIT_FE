@@ -13,6 +13,7 @@ interface FilterHeaderProps {
   sessions: BandSession[];
   setSessions: React.Dispatch<React.SetStateAction<BandSession[]>>;
   setSort?: React.Dispatch<React.SetStateAction<string>>;
+  page?: string;
 }
 
 export default function RecruitHeader({
@@ -21,6 +22,7 @@ export default function RecruitHeader({
   sessions,
   setSessions,
   setSort,
+  page = 'main',
 }: FilterHeaderProps) {
   const handleSort = useCallback(() => {
     setSort?.('recruitDeadline,asc');
@@ -58,20 +60,24 @@ export default function RecruitHeader({
             selected={sessions}
             onChange={setSessions}
           />
-          <button
-            onClick={handleSort}
-            className="flex h-10 w-[6.875rem] items-center justify-center gap-1 rounded-lg bg-[var(--gray-100)] text-sm"
-          >
-            <IcSort />
-            마감임박
-          </button>
+          {page !== 'wish' && (
+            <button
+              onClick={handleSort}
+              className="flex h-10 w-[6.875rem] items-center justify-center gap-1 rounded-lg bg-[var(--gray-100)] text-sm"
+            >
+              <IcSort />
+              마감임박
+            </button>
+          )}
         </div>
-        <Link
-          href="/jam"
-          className="h-11 w-[9.25rem] rounded-lg bg-[var(--purple-700)] text-center leading-11 font-semibold text-white"
-        >
-          모임만들기
-        </Link>
+        {page !== 'wish' && (
+          <Link
+            href="/jam"
+            className="h-11 w-[9.25rem] rounded-lg bg-[var(--purple-700)] text-center leading-11 font-semibold text-white"
+          >
+            모임만들기
+          </Link>
+        )}
       </div>
     </Fragment>
   );
