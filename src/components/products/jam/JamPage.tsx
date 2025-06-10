@@ -5,10 +5,10 @@ import GroupPageLayout from '@/components/commons/GroupPageLayout';
 import Button from '@/components/commons/Button';
 import JamFormSection from '@/components/products/jam/JamFormSection';
 import { FormProvider, useForm } from 'react-hook-form';
-import { JamFormData } from '@/types/jam';
+import { RegisterGatheringsRequest } from '@/types/gather';
 
 export default function JamPage() {
-  const methods = useForm<JamFormData>({
+  const methods = useForm<RegisterGatheringsRequest>({
     defaultValues: {
       name: '',
       place: '',
@@ -30,7 +30,7 @@ export default function JamPage() {
   } = methods;
 
   // API 연동
-  const onSubmit = (data: JamFormData) => {
+  const onSubmit = (data: RegisterGatheringsRequest) => {
     console.log('폼 제출됨:', data);
   };
 

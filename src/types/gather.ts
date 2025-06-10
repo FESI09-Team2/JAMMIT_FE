@@ -45,10 +45,9 @@ export interface RegisterGatheringsRequest {
   /** 모집 인원 */
   totalRecruitCount: number;
   /** 세션 */
-  gatheringsessions: {
+  gatheringSessions: {
     bandSession: BandSessionType;
     recruitCount: number;
-    currentCount: number;
   }[];
 }
 

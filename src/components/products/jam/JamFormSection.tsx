@@ -16,18 +16,18 @@ import SearchInput from './SearchInput';
 import SessionSelector from './SessionSelector';
 import { GENRE_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
 import { GENRE_KR_TO_ENUM } from '@/constants/tagsMapping';
-import { JamFormData } from '@/types/jam';
+import { RegisterGatheringsRequest } from '@/types/gather';
 import { GenreType } from '@/types/tags';
 
 const DIVIDER = 'mx-auto my-[2.5rem] w-[56rem] border-gray-800';
 
 interface JamFormSectionProps {
   /** 폼 필드 제어 */
-  control: Control<JamFormData>;
+  control: Control<RegisterGatheringsRequest>;
   /** 필드 값 관찰 */
-  watch: UseFormWatch<JamFormData>;
+  watch: UseFormWatch<RegisterGatheringsRequest>;
   /** 필드 값을 외부에서 설정 */
-  setValue: UseFormSetValue<JamFormData>;
+  setValue: UseFormSetValue<RegisterGatheringsRequest>;
 }
 
 export default function JamFormSection({
