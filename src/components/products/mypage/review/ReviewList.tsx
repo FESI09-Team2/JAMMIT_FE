@@ -8,7 +8,7 @@ import { getDate } from '@/utils/date';
 import InfinityScroll from '@/components/commons/InfinityScroll';
 import { useReviewInfiniteQuery } from '@/hooks/queries/review/useSuspenseReview';
 import DefaultProfileImage from '@/assets/icons/ic_default_profile.svg';
-import { ImgCard01 } from '@/assets/images';
+import { imgChange } from '@/utils/imgChange';
 
 export default function ReviewList() {
   const { data, fetchNextPage, hasNextPage, isFetching } =
@@ -57,8 +57,9 @@ export default function ReviewList() {
               </p>
             </div>
             <div className="h-[73px] w-[117px] overflow-hidden rounded-lg">
+              {}
               <Image
-                src={ImgCard01}
+                src={imgChange(item.gatheringThumbnail, 'card')}
                 alt={item.gatheringName}
                 width={117}
                 height={73}

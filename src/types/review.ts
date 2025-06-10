@@ -1,4 +1,3 @@
-import { StaticImageData } from 'next/image';
 import { BandSession } from './tags';
 
 export interface ReviewItem {
@@ -10,7 +9,7 @@ export interface ReviewItem {
   revieweeNickname: string;
   gatheringId: number;
   gatheringName: string;
-  gatheringThumbnail: StaticImageData;
+  gatheringThumbnail: string;
   gatheringHostNickname: string;
   content: string;
   createdAt: string;
