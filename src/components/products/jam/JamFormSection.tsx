@@ -21,6 +21,19 @@ import { GenreType } from '@/types/tags';
 
 const DIVIDER = 'mx-auto my-[2.5rem] w-[56rem] border-gray-800';
 
+const DATE_FIELDS = [
+  {
+    name: 'recruitDateTime' as const,
+    label: '모집 마감일',
+    htmlFor: 'end',
+  },
+  {
+    name: 'gatheringDateTime' as const,
+    label: '모임 날짜',
+    htmlFor: 'day',
+  },
+] as const;
+
 interface JamFormSectionProps {
   /** 폼 필드 제어 */
   control: Control<RegisterGatheringsRequest>;
@@ -130,49 +143,29 @@ export default function JamFormSection({
 
         {/** 모집 마감일 / 모임 날짜 */}
         <div className="flex gap-[1.25rem]">
-          <div className="flex flex-col gap-[0.5rem]">
-            <label htmlFor="end" className="font-semibold">
-              모집 마감일
-            </label>
-            <Controller
-              name="recruitDateTime"
-              control={control}
-              rules={{ required: '모집 마감일을 선택하세요.' }}
-              render={({ field }) => (
-                <DatePicker
-                  value={field.value ? new Date(field.value) : undefined}
-                  onChange={(date) => {
-                    if (!date) {
-                      return field.onChange('');
-                    }
-
-                    field.onChange(date.toISOString());
-                  }}
-                />
-              )}
-            />
-          </div>
-          <div className="flex flex-col gap-[0.5rem]">
-            <label htmlFor="day" className="font-semibold">
-              모임 날짜
-            </label>
-            <Controller
-              name="gatheringDateTime"
-              control={control}
-              rules={{ required: '모집 마감일을 선택하세요.' }}
-              render={({ field }) => (
-                <DatePicker
-                  value={field.value ? new Date(field.value) : undefined}
-                  onChange={(date) => {
-                    if (!date) {
-                      return field.onChange('');
-                    }
-                    field.onChange(date.toISOString());
-                  }}
-                />
-              )}
-            />
-          </div>
+          {DATE_FIELDS.map(({ name, label, htmlFor }) => (
+            <div key={name} className="flex flex-col gap-[0.5rem]">
+              <label htmlFor={htmlFor} className="font-semibold">
+                {label}
+              </label>
+              <Controller
+                name={name}
+                control={control}
+                rules={{ required: `${label}을 선택하세요.` }}
+                render={({ field }) => (
+                  <DatePicker
+                    value={field.value ? new Date(field.value) : undefined}
+                    onChange={(date) => {
+                      if (!date) {
+                        return field.onChange('');
+                      }
+                      field.onChange(date.toISOString());
+                    }}
+                  />
+                )}
+              />
+            </div>
+          ))}
         </div>
       </div>
 
