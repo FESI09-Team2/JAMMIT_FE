@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import GroupInfoSection from './GroupInfoSection';
-import bannerImages from '@/constants/bannerImages';
 import GroupPageLayout from '@/components/commons/GroupPageLayout';
 import { useQueryTab } from '@/hooks/useQueryTab';
 import MemberInfoSection from './MemberInfoSection';
@@ -17,6 +16,7 @@ import ParticipationForm from './ParticipationForm';
 import { useParticipateGatheringMutation } from '@/hooks/queries/gatherings/useParticipateGatheringsMutation';
 import { SESSION_KR_TO_ENUM } from '@/constants/tagsMapping';
 import { useCancelParticipateGatheringMutation } from '@/hooks/queries/gatherings/useCancelParticipateGathering';
+import { imgChange } from '@/utils/imgChange';
 
 export default function GroupPage() {
   const { activeTab } = useQueryTab<'recruit' | 'members'>('tab', 'recruit', [
@@ -159,21 +159,13 @@ export default function GroupPage() {
     );
   };
 
-  // 임시 이미지 매핑
-  // TODO: 주훈님 pr 머지시 적용
-  const bannerIndex = (() => {
-    const match = gatheringDetailData.thumbnail?.match(/img_banner_(\d+)\.jpg/);
-    const index = match ? parseInt(match[1], 10) - 1 : 0;
-    return bannerImages[index] ?? bannerImages[0];
-  })();
-
   return (
     <GroupPageLayout
       participantsNumber={approvedParticipants.length}
       banner={
         <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
           <Image
-            src={bannerIndex}
+            src={imgChange(gatheringDetailData.thumbnail, 'banner')}
             alt="모임 배너"
             layout="fill"
             objectFit="cover"
