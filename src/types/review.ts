@@ -45,6 +45,11 @@ export interface ReviewStatusPros {
   keepingPromisesPercentage: number;
 }
 
-export interface ReviewListProps {
-  data: ReviewItem[];
+export interface ReviewResponse {
+  content: ReviewItem[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  last: boolean;
 }

@@ -20,6 +20,7 @@ export const SESSION_OPTIONS = [
   { label: '일렉기타', value: BandSession.ELECTRIC_GUITAR },
   { label: '통기타', value: BandSession.ACOUSTIC_GUITAR },
   { label: '베이스', value: BandSession.BASS },
+  { label: '건반', value: BandSession.KEYBOARD },
   { label: '드럼', value: BandSession.DRUM },
   { label: '타악기', value: BandSession.PERCUSSION },
   { label: '현악기', value: BandSession.STRING_INSTRUMENT },
