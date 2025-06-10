@@ -11,12 +11,13 @@ export default function JamPage() {
   const methods = useForm<RegisterGatheringsRequest>({
     defaultValues: {
       name: '',
+      thumbnail: '',
       place: '',
+      description: '',
       gatheringDateTime: '',
       recruitDateTime: '',
-      gatheringSessions: [],
       genres: [],
-      description: '',
+      gatheringSessions: [],
     },
     mode: 'onChange',
   });
