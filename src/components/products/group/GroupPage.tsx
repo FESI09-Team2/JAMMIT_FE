@@ -159,13 +159,21 @@ export default function GroupPage() {
     );
   };
 
+  // 임시 이미지 매핑
+  // TODO: 주훈님 pr 머지시 적용
+  const bannerIndex = (() => {
+    const match = gatheringDetailData.thumbnail?.match(/img_banner_(\d+)\.jpg/);
+    const index = match ? parseInt(match[1], 10) - 1 : 0;
+    return bannerImages[index] ?? bannerImages[0];
+  })();
+
   return (
     <GroupPageLayout
       participantsNumber={approvedParticipants.length}
       banner={
         <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
           <Image
-            src={bannerImages[1]}
+            src={bannerIndex}
             alt="모임 배너"
             layout="fill"
             objectFit="cover"
