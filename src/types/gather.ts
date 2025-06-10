@@ -1,5 +1,3 @@
-// import { RecruitCardData } from '@/types/card';
-// MEMO: 임시 방편, recurit 변경되면 맞출게요
 import { GatheringCard } from '@/types/card';
 import { GenreType, BandSessionType, GatheringStatus } from './tags';
 

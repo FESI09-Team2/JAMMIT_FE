@@ -1,7 +1,5 @@
-// 카드의 리팩토링 완료 후 다음으로 수정import { GenreType, BandSessionType, GatheringStatus } from './tags';
-import { GenreType, GatheringStatus } from './tags';
+import { GenreType, BandSessionType, GatheringStatus } from './tags';
 
-// TODO: 진환님 다음과 같이 맞혀야될것 같아요
 export interface GatheringCard {
   /** 모임 id */
   id: number;
@@ -32,7 +30,7 @@ export interface GatheringCard {
   };
   /** 세션 */
   sessions: {
-    bandSession: string;
+    bandSession: BandSessionType;
     recruitCount: number;
     currentCount: number;
   }[];
