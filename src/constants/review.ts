@@ -1,4 +1,5 @@
 import { ReviewItem } from '@/types/review';
+import { BandSession } from '@/types/tags';
 
 export const mockReviews: ReviewItem[] = Array.from({ length: 5 }).map(
   (_, i) => {
@@ -24,13 +25,29 @@ export const mockReviews: ReviewItem[] = Array.from({ length: 5 }).map(
       '어쿠스틱 모임',
       '잼연습 정기모임',
     ];
-
+    const thumbnails = [
+      'img_banner_01',
+      'img_banner_02',
+      'img_banner_03',
+      'img_banner_04',
+      'img_banner_05',
+      'img_banner_06',
+      'img_banner_07',
+      'img_banner_08',
+      'img_banner_09',
+      'img_banner_10',
+      'img_banner_11',
+      'img_banner_12',
+    ];
     return {
       id: i + 1,
       reviewerId: i + 100,
       reviewerNickname: nicknames[i],
       revieweeId: 1,
       revieweeNickname: '리뷰당한넘',
+      reviewerBandSessions: [BandSession.BASS, BandSession.ELECTRIC_GUITAR],
+      gatheringThumbnail: thumbnails[i % thumbnails.length],
+      gatheringHostNickname: '호스트',
       gatheringId: i + 200,
       gatheringName: gatherings[i],
       content: contents[i],
@@ -51,26 +68,26 @@ export const mockReviews: ReviewItem[] = Array.from({ length: 5 }).map(
 );
 
 export const dummyReviewData = {
-  goodWithMusicCount: 0,
-  goodWithMusicPercentage: 0,
+  goodWithMusicCount: 1,
+  goodWithMusicPercentage: 1,
 
-  practiceHelpedCount: 0,
-  practiceHelpedPercentage: 0,
+  practiceHelpedCount: 10,
+  practiceHelpedPercentage: 10,
 
-  keepingPromisesCount: 0,
-  keepingPromisesPercentage: 0,
+  keepingPromisesCount: 8,
+  keepingPromisesPercentage: 8,
 
-  goodWithOthersCount: 0,
-  goodWithOthersPercentage: 0,
+  goodWithOthersCount: 60,
+  goodWithOthersPercentage: 60,
 
-  managingWellCount: 0,
-  managingWellPercentage: 0,
+  managingWellCount: 20,
+  managingWellPercentage: 20,
 
   sharesPracticeResourcesCount: 0,
   sharesPracticeResourcesPercentage: 0,
 
-  helpfulCount: 0,
-  helpfulPercentage: 0,
+  helpfulCount: 5,
+  helpfulPercentage: 5,
 
   goodLearnerCount: 0,
   goodLearnerPercentage: 0,
@@ -126,3 +143,39 @@ export const REVIEW_METRICS = [
     countKey: 'goodLearnerCount',
   },
 ] as const;
+
+export const REVIEW_FIELDS = [
+  'isGoodWithMusic',
+  'isPracticeHelped',
+  'isGoodWithOthers',
+  'isSharesPracticeResources',
+  'isManagingWell',
+  'isHelpful',
+  'isGoodLearner',
+  'isKeepingPromises',
+] as const;
+
+export type ReviewField = (typeof REVIEW_FIELDS)[number];
+
+export const REVIEW_TAGS = [
+  '연주 실력이 좋아요',
+  '곡 준비를 잘 해왔어요',
+  '다른 파트와의 호흡이 잘 맞아요',
+  '악보나 연습 자료를 잘 공유해줬어요',
+  '분위기를 잘 이끌어요',
+  '팀워크가 좋고 함께 연주하기 편했어요',
+  '볼륨이나 톤을 배려해줘요',
+  '합주 시간 약속을 잘 지켜요',
+] as const;
+
+export const tagToFieldMap: Record<(typeof REVIEW_TAGS)[number], ReviewField> =
+  {
+    '연주 실력이 좋아요': 'isGoodWithMusic',
+    '곡 준비를 잘 해왔어요': 'isPracticeHelped',
+    '다른 파트와의 호흡이 잘 맞아요': 'isGoodWithOthers',
+    '악보나 연습 자료를 잘 공유해줬어요': 'isSharesPracticeResources',
+    '분위기를 잘 이끌어요': 'isManagingWell',
+    '팀워크가 좋고 함께 연주하기 편했어요': 'isHelpful',
+    '볼륨이나 톤을 배려해줘요': 'isGoodLearner',
+    '합주 시간 약속을 잘 지켜요': 'isKeepingPromises',
+  };
