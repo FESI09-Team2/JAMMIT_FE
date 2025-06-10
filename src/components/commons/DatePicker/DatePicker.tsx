@@ -38,6 +38,7 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
     const hour24 = ampm === 'PM' ? (hour % 12) + 12 : hour % 12;
     return setMinutes(setHours(date, hour24), minute);
   }
+
   const handleDateChange = useCallback(
     (selectedDate?: Date) => {
       if (!selectedDate) return;
@@ -49,26 +50,40 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
     [hour, minute, ampm, onChange],
   );
 
-  useEffect(() => {
-    if (!date) {
-      return;
-    }
+  // 시간 변경 핸들러들
+  const handleTimeChange = useCallback(() => {
+    if (!date) return;
     const newDate = combineDateAndTime(date, hour, minute, ampm);
     if (newDate.getTime() !== date.getTime()) {
       setDate(newDate);
       onChange?.(newDate);
     }
-  }, [hour, minute, ampm, date, onChange]);
+  }, [date, hour, minute, ampm, onChange]);
 
+  // 시간이 변경될 때만 실행
+  useEffect(() => {
+    handleTimeChange();
+  }, [hour, minute, ampm, handleTimeChange]);
+
+  // value prop이 변경될 때만 내부 상태 업데이트
   useEffect(() => {
     if (value) {
-      setDate(value);
-      const h = value.getHours();
-      setHour(h % 12 === 0 ? 12 : h % 12);
-      setAmPm(h >= 12 ? 'PM' : 'AM');
-      setMinute(value.getMinutes());
+      // 현재 date와 새로운 value가 다를 때만 업데이트
+      if (!date || value.getTime() !== date.getTime()) {
+        setDate(value);
+        const h = value.getHours();
+        setHour(h % 12 === 0 ? 12 : h % 12);
+        setAmPm(h >= 12 ? 'PM' : 'AM');
+        setMinute(value.getMinutes());
+      }
+    } else if (value === undefined && date) {
+      // value가 undefined로 변경된 경우 초기화
+      setDate(undefined);
+      setHour(12);
+      setMinute(0);
+      setAmPm('PM');
     }
-  }, [value]);
+  }, [value, date]);
 
   const displayValue = date
     ? format(date, 'yy-MM-dd hh:mm a')

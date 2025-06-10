@@ -139,7 +139,7 @@ export default function JamFormSection({
                     if (!date) {
                       return field.onChange('');
                     }
-                    date.setHours(23, 59, 59, 0);
+
                     field.onChange(date.toISOString());
                   }}
                 />
@@ -161,7 +161,6 @@ export default function JamFormSection({
                     if (!date) {
                       return field.onChange('');
                     }
-                    date.setHours(23, 59, 59, 0);
                     field.onChange(date.toISOString());
                   }}
                 />
