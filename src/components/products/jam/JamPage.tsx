@@ -6,6 +6,7 @@ import Button from '@/components/commons/Button';
 import JamFormSection from '@/components/products/jam/JamFormSection';
 import { FormProvider, useForm } from 'react-hook-form';
 import { RegisterGatheringsRequest } from '@/types/gather';
+import { useGatherRegister } from '@/hooks/queries/gather/useGatherRegister';
 
 export default function JamPage() {
   const methods = useForm<RegisterGatheringsRequest>({
@@ -30,9 +31,10 @@ export default function JamPage() {
     formState: { isValid },
   } = methods;
 
-  // API 연동
+  const { mutate: registerGathering } = useGatherRegister();
+
   const onSubmit = (data: RegisterGatheringsRequest) => {
-    console.log('폼 제출됨:', data);
+    registerGathering(data);
   };
 
   return (

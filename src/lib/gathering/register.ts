@@ -14,7 +14,7 @@ export async function postRegisterGatherings({
   genres,
   status,
   totalRecruitCount,
-  gatheringsessions,
+  gatheringSessions,
 }: RegisterGatheringsRequest): Promise<RegisterGatheringsResponse> {
   const result = await apiClient.post<RegisterGatheringsResponse>(
     '/gatherings',
@@ -28,7 +28,7 @@ export async function postRegisterGatherings({
       genres,
       status,
       totalRecruitCount,
-      gatheringsessions,
+      gatheringSessions,
     },
   );
 
