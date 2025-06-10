@@ -8,9 +8,19 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { RegisterGatheringsRequest } from '@/types/gather';
 import { useGatherRegister } from '@/hooks/queries/gather/useGatherRegister';
 
-export default function JamPage() {
+interface JamPageProps {
+  formType?: 'register' | 'edit';
+  groupId?: number;
+  initialData?: RegisterGatheringsRequest;
+}
+
+export default function JamPage({
+  formType = 'register',
+  groupId,
+  initialData,
+}: JamPageProps) {
   const methods = useForm<RegisterGatheringsRequest>({
-    defaultValues: {
+    defaultValues: initialData ?? {
       name: '',
       thumbnail: '',
       place: '',
@@ -34,7 +44,11 @@ export default function JamPage() {
   const { mutate: registerGathering } = useGatherRegister();
 
   const onSubmit = (data: RegisterGatheringsRequest) => {
-    registerGathering(data);
+    if (formType === 'edit' && groupId) {
+      // edit put
+    } else {
+      registerGathering(data);
+    }
   };
 
   return (
@@ -49,7 +63,7 @@ export default function JamPage() {
               type="submit"
               disabled={!isValid}
             >
-              모임 만들기
+              {formType === 'edit' ? '모임 수정하기' : '모임 만들기'}
             </Button>
           }
           isTab={false}
