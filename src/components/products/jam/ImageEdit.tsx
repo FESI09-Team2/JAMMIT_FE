@@ -5,7 +5,7 @@ import ModalImgEdit from './ModalImgEdit';
 import { useFormContext } from 'react-hook-form';
 import { RegisterGatheringsRequest } from '@/types/gather';
 import EmptyImageIcon from '@/assets/icons/ic_emptyimage.svg';
-import { useBannerImage } from '@/hooks/useBannerImage';
+import { imgChange } from '@/utils/imgChange';
 
 export default function ImageEdit() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +25,9 @@ export default function ImageEdit() {
     [setValue],
   );
 
-  const selectedImageSrc = useBannerImage(selectedFileName);
+  const selectedImageSrc = selectedFileName
+    ? imgChange(selectedFileName, 'banner')
+    : null;
 
   return (
     <div className="relative mx-auto flex h-[22rem] w-full max-w-[84rem] items-center justify-center overflow-hidden rounded-[0.5rem] bg-[#393A41]">
