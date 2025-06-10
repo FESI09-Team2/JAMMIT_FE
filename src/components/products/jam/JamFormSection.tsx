@@ -116,7 +116,13 @@ export default function JamFormSection({
           type="text"
           label="모임 제목"
           placeholder="모임 제목을 작성하세요."
-          rules={{ required: '모임 제목을 입력하세요.' }}
+          rules={{
+            required: '모임 제목을 입력하세요.',
+            maxLength: {
+              value: 30,
+              message: '모임 제목은 30자 이하로 입력해주세요.',
+            },
+          }}
         />
 
         {/** 모임 장소 */}
