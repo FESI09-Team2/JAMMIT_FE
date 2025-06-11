@@ -1,8 +1,7 @@
-// MEMO: 서버컴포넌트로 변경 예정
 'use client';
 
 import clsx from 'clsx';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import { useQueryTab } from '@/hooks/useQueryTab';
 import UserCard from '@/components/products/mypage/UserCard';
 import Participating from '@/components/products/mypage/gather/Participating';
@@ -35,7 +34,7 @@ export default function MyPage() {
     [],
   );
   const { data: participatingData } = useGatherMeParticipants({
-    page: 0,
+    page: participatingPage,
     size: 8,
     includeCanceled: true,
   });
@@ -43,23 +42,38 @@ export default function MyPage() {
   useEffect(() => {
     if (participatingData) {
       setParticipatingList((prev) =>
-        participatingPage == 0
+        participatingPage === 0
           ? participatingData.gatherings
           : [...prev, ...participatingData.gatherings],
       );
     }
-  }, [participatingData, participatingPage]);
+  }, [participatingPage, participatingData]);
 
-  const { data: createdData } = useGatherMeCreate({
-    page: 0,
+  // 만든 모임
+  const [createdPage, setCreatedPage] = useState(0);
+  const [createdList, setCreatedList] = useState<GatheringCard[]>([]);
+  const { data: createdData, isSuccess: createdSuccess } = useGatherMeCreate({
+    page: createdPage,
     size: 8,
     includeCanceled: true,
   });
+
+  useEffect(() => {
+    if (createdSuccess && createdData) {
+      setCreatedList((prev) =>
+        createdPage === 0
+          ? createdData.gatherings
+          : [...prev, ...createdData.gatherings],
+      );
+    }
+  }, [createdPage, createdData, createdSuccess]);
+
   const { data: write } = useReviewToWriteInfiniteQuery({
     size: 8,
     includeCanceled: true,
   });
   const writeCount = write?.pages[0].totalElements ?? 0;
+
   const { data: review } = useReviewInfiniteQuery({ size: 8 });
   const reviewCount = review?.pages[0].totalElements ?? 0;
 
@@ -88,23 +102,27 @@ export default function MyPage() {
         count: createdData?.totalElements ?? 0,
         component: (
           <Created
-            gatherings={createdData?.gatherings ?? []}
-            currentPage={createdData?.currentPage ?? 0}
+            gatherings={createdList}
+            currentPage={createdPage}
             totalPage={createdData?.totalPage ?? 1}
-            totalElements={createdData?.totalElements ?? 0}
+            onLoadMore={() => {
+              if (createdPage + 1 < (createdData?.totalPage ?? 1)) {
+                setCreatedPage((prev) => prev + 1);
+              }
+            }}
           />
         ),
       },
       {
         key: 'reviews_received',
         label: '내가 받은 리뷰',
-        count: reviewCount, // API 연결 시 수정
+        count: reviewCount,
         component: <ReviewsReceived />,
       },
       {
         key: 'reviews_towrite',
         label: '작성 가능한 리뷰',
-        count: writeCount, // API 연결 시 수정
+        count: writeCount,
         component: <ReviewsToWrite />,
       },
     ],
@@ -112,9 +130,11 @@ export default function MyPage() {
       participatingList,
       participatingPage,
       participatingData,
+      createdList,
+      createdPage,
       createdData,
-      writeCount,
       reviewCount,
+      writeCount,
     ],
   );
 

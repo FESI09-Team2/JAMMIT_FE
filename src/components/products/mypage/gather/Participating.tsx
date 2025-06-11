@@ -1,5 +1,3 @@
-'use client';
-
 import InfinityScroll from '@/components/commons/InfinityScroll';
 import CardItem from '@/components/commons/Card/CardItem';
 import { CARD_STATE } from '@/constants/card';
