@@ -2,17 +2,18 @@
 'use client';
 
 import clsx from 'clsx';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQueryTab } from '@/hooks/useQueryTab';
 import UserCard from '@/components/products/mypage/UserCard';
-import Participating from './gather/Participating';
-import Created from './gather/Created';
+import Participating from '@/components/products/mypage/gather/Participating';
+import Created from '@/components/products/mypage/gather/Created';
 import ReviewsReceived from '@/components/products/mypage/review/ReviewsReceived';
 import ReviewsToWrite from '@/components/products/mypage/towrite/ReviewsToWrite';
 import { useGatherMeCreate } from '@/hooks/queries/gather/useGatherMeCreate';
 import { useGatherMeParticipants } from '@/hooks/queries/gather/useGatherMeParticipants';
 import { useReviewToWriteInfiniteQuery } from '@/hooks/queries/review/useReviewInfiniteQuery';
 import { useReviewInfiniteQuery } from '@/hooks/queries/review/useSuspenseReview';
+import { GatheringCard } from '@/types/card';
 
 type TabKey =
   | 'participating'
@@ -28,11 +29,27 @@ export default function MyPage() {
     'reviews_towrite',
   ]);
 
+  // 참가한 모임
+  const [participatingPage, setParticipatingPage] = useState(0);
+  const [participatingList, setParticipatingList] = useState<GatheringCard[]>(
+    [],
+  );
   const { data: participatingData } = useGatherMeParticipants({
     page: 0,
     size: 8,
     includeCanceled: true,
   });
+
+  useEffect(() => {
+    if (participatingData) {
+      setParticipatingList((prev) =>
+        participatingPage == 0
+          ? participatingData.gatherings
+          : [...prev, ...participatingData.gatherings],
+      );
+    }
+  }, [participatingData, participatingPage]);
+
   const { data: createdData } = useGatherMeCreate({
     page: 0,
     size: 8,
@@ -54,10 +71,14 @@ export default function MyPage() {
         count: participatingData?.totalElements ?? 0,
         component: (
           <Participating
-            gatherings={participatingData?.gatherings ?? []}
-            currentPage={participatingData?.currentPage ?? 0}
+            gatherings={participatingList}
+            currentPage={participatingPage}
             totalPage={participatingData?.totalPage ?? 1}
-            totalElements={participatingData?.totalElements ?? 0}
+            onLoadMore={() => {
+              if (participatingPage + 1 < (participatingData?.totalPage ?? 1)) {
+                setParticipatingPage((prev) => prev + 1);
+              }
+            }}
           />
         ),
       },
@@ -87,7 +108,14 @@ export default function MyPage() {
         component: <ReviewsToWrite />,
       },
     ],
-    [participatingData, createdData, writeCount, reviewCount],
+    [
+      participatingList,
+      participatingPage,
+      participatingData,
+      createdData,
+      writeCount,
+      reviewCount,
+    ],
   );
 
   const tabClass = (isActive: boolean) =>
