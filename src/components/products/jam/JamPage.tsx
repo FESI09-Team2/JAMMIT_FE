@@ -72,13 +72,9 @@ export default function JamPage({
         description: data.description,
         gatheringSessions: data.gatheringSessions,
       });
-      // 지워!!
-      console.log('이건 수정했을때', data);
       router.push(`/group/${groupId}`);
     } else {
       registerGathering(data);
-      // 지워!!
-      console.log('이건 등록했을때', data);
     }
   };
 
