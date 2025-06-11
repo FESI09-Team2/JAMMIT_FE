@@ -41,7 +41,6 @@ export default function EditPage() {
   const initialData = gatherDetailData
     ? transformDetailToFormData(gatherDetailData)
     : undefined;
-  console.log('이니셜벨류', initialData);
 
   return (
     <Suspense fallback={'Loading...'}>
