@@ -9,6 +9,9 @@ import { useDeleteGatheringMutation } from '@/hooks/queries/gatherings/useDelete
 import { useRouter } from 'next/navigation';
 import { GatheringCard } from '@/types/card';
 import Like from '@/components/commons/Like';
+import ShareIcon from '@/assets/icons/ic_share.svg';
+import ShareLinkModal from './ShareLinkModal';
+import { useState } from 'react';
 
 interface GroupInfoSectionProps {
   gathering: GatheringDetailResponse;
@@ -20,6 +23,7 @@ export default function GroupInfoSection({
   isHost,
 }: GroupInfoSectionProps) {
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     name,
     place,
@@ -68,7 +72,10 @@ export default function GroupInfoSection({
           <div className="flex w-full justify-between">
             <h1 className="group-info-title">{name}</h1>
             <div className="relative">
-              <span className="absolute top-2 right-15 w-7">공유</span>
+              <ShareIcon
+                className="absolute top-1.5 right-[40px] w-7 cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
+              />
               <Like item={convertToCardItem(gathering)} />
             </div>
           </div>
@@ -159,6 +166,12 @@ export default function GroupInfoSection({
           </div>
         )}
       </div>
+      {isModalOpen && (
+        <ShareLinkModal
+          inviteLink={`https://jammit-fe-six.vercel.app/group/${id}`}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </>
   );
 }
