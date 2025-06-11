@@ -71,7 +71,7 @@ export default function GroupInfoSection({
             <h1 className="group-info-title">{name}</h1>
             <div className="relative">
               <ShareIcon
-                className="absolute top-1.5 right-[40px] w-7 cursor-pointer"
+                className="absolute top-1.5 right-[2.5rem] w-7 cursor-pointer"
                 onClick={() => setIsModalOpen(true)}
               />
               <Like item={convertToCardItem(gathering)} />
