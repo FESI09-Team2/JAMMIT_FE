@@ -43,16 +43,26 @@ interface JamFormSectionProps {
   watch: UseFormWatch<RegisterGatheringsRequest>;
   /** 필드 값을 외부에서 설정 */
   setValue: UseFormSetValue<RegisterGatheringsRequest>;
+  /** 초기값 */
+  initialData?: RegisterGatheringsRequest;
 }
 
 export default function JamFormSection({
   control,
   watch,
   setValue,
+  initialData,
 }: JamFormSectionProps) {
-  const [sessionList, setSessionList] = useState([
-    { sortOption: '', count: 0 },
-  ]);
+  const [sessionList, setSessionList] = useState(() => {
+    if (initialData?.gatheringSessions?.length) {
+      return initialData.gatheringSessions.map((s) => ({
+        sortOption: SESSION_ENUM_TO_KR[s.bandSession] || '',
+        count: s.recruitCount,
+      }));
+    }
+    return [{ sortOption: '', count: 0 }];
+  });
+
   const place = watch('place') || '';
 
   // 빈 문자열 제외 이미 선택된 세션 옵션들을 계산
@@ -94,8 +104,8 @@ export default function JamFormSection({
   const handleCountChange = useCallback(
     (index: number, newCount: number) => {
       setSessionList((prev) => {
-        const newList = prev.map((sess, i) =>
-          i === index ? { ...sess, count: newCount } : sess,
+        const newList = prev.map((session, i) =>
+          i === index ? { ...session, count: newCount } : session,
         );
 
         setValue(
@@ -123,7 +133,7 @@ export default function JamFormSection({
     [setValue],
   );
 
-  const gatheringSessions = useWatch({ name: 'gatheringSessions' });
+  const gatheringSessions = useWatch({ name: 'gatheringSessions', control });
 
   useEffect(() => {
     if (gatheringSessions?.length) {
