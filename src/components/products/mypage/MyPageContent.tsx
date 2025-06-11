@@ -4,15 +4,14 @@ import clsx from 'clsx';
 import { useMemo, useEffect, useState } from 'react';
 import { useQueryTab } from '@/hooks/useQueryTab';
 import UserCard from '@/components/products/mypage/UserCard';
-import Participating from '@/components/products/mypage/gather/Participating';
 import Created from '@/components/products/mypage/gather/Created';
 import ReviewsReceived from '@/components/products/mypage/review/ReviewsReceived';
 import ReviewsToWrite from '@/components/products/mypage/towrite/ReviewsToWrite';
 import { useGatherMeCreate } from '@/hooks/queries/gather/useGatherMeCreate';
-import { useGatherMeParticipants } from '@/hooks/queries/gather/useGatherMeParticipants';
 import { useReviewToWriteInfiniteQuery } from '@/hooks/queries/review/useReviewInfiniteQuery';
 import { useReviewInfiniteQuery } from '@/hooks/queries/review/useSuspenseReview';
 import { GatheringCard } from '@/types/card';
+import ParticipatingList from './gather/ParticipatingList';
 
 type TabKey =
   | 'participating'
@@ -28,26 +27,7 @@ export default function MyPage() {
     'reviews_towrite',
   ]);
 
-  // 참가한 모임
-  const [participatingPage, setParticipatingPage] = useState(0);
-  const [participatingList, setParticipatingList] = useState<GatheringCard[]>(
-    [],
-  );
-  const { data: participatingData } = useGatherMeParticipants({
-    page: participatingPage,
-    size: 8,
-    includeCanceled: true,
-  });
-
-  useEffect(() => {
-    if (participatingData) {
-      setParticipatingList((prev) =>
-        participatingPage === 0
-          ? participatingData.gatherings
-          : [...prev, ...participatingData.gatherings],
-      );
-    }
-  }, [participatingPage, participatingData]);
+  const [participatingCount, setParticipatingCount] = useState(0);
 
   // 만든 모임
   const [createdPage, setCreatedPage] = useState(0);
@@ -82,19 +62,8 @@ export default function MyPage() {
       {
         key: 'participating',
         label: '참여 모임',
-        count: participatingData?.totalElements ?? 0,
-        component: (
-          <Participating
-            gatherings={participatingList}
-            currentPage={participatingPage}
-            totalPage={participatingData?.totalPage ?? 1}
-            onLoadMore={() => {
-              if (participatingPage + 1 < (participatingData?.totalPage ?? 1)) {
-                setParticipatingPage((prev) => prev + 1);
-              }
-            }}
-          />
-        ),
+        count: participatingCount,
+        component: <ParticipatingList onCountChange={setParticipatingCount} />,
       },
       {
         key: 'created',
@@ -127,9 +96,7 @@ export default function MyPage() {
       },
     ],
     [
-      participatingList,
-      participatingPage,
-      participatingData,
+      participatingCount,
       createdList,
       createdPage,
       createdData,
