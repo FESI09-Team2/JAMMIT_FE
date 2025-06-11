@@ -1,17 +1,15 @@
 'use client';
 
 import clsx from 'clsx';
-import { useMemo, useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQueryTab } from '@/hooks/useQueryTab';
 import UserCard from '@/components/products/mypage/UserCard';
-import Created from '@/components/products/mypage/gather/Created';
 import ReviewsReceived from '@/components/products/mypage/review/ReviewsReceived';
 import ReviewsToWrite from '@/components/products/mypage/towrite/ReviewsToWrite';
-import { useGatherMeCreate } from '@/hooks/queries/gather/useGatherMeCreate';
 import { useReviewToWriteInfiniteQuery } from '@/hooks/queries/review/useReviewInfiniteQuery';
 import { useReviewInfiniteQuery } from '@/hooks/queries/review/useSuspenseReview';
-import { GatheringCard } from '@/types/card';
 import ParticipatingList from './gather/ParticipatingList';
+import CreatedList from './gather/CreatedList';
 
 type TabKey =
   | 'participating'
@@ -28,25 +26,7 @@ export default function MyPage() {
   ]);
 
   const [participatingCount, setParticipatingCount] = useState(0);
-
-  // 만든 모임
-  const [createdPage, setCreatedPage] = useState(0);
-  const [createdList, setCreatedList] = useState<GatheringCard[]>([]);
-  const { data: createdData, isSuccess: createdSuccess } = useGatherMeCreate({
-    page: createdPage,
-    size: 8,
-    includeCanceled: true,
-  });
-
-  useEffect(() => {
-    if (createdSuccess && createdData) {
-      setCreatedList((prev) =>
-        createdPage === 0
-          ? createdData.gatherings
-          : [...prev, ...createdData.gatherings],
-      );
-    }
-  }, [createdPage, createdData, createdSuccess]);
+  const [createdCount, setCreatedCount] = useState(0);
 
   const { data: write } = useReviewToWriteInfiniteQuery({
     size: 8,
@@ -68,19 +48,8 @@ export default function MyPage() {
       {
         key: 'created',
         label: '내가 만든 모임',
-        count: createdData?.totalElements ?? 0,
-        component: (
-          <Created
-            gatherings={createdList}
-            currentPage={createdPage}
-            totalPage={createdData?.totalPage ?? 1}
-            onLoadMore={() => {
-              if (createdPage + 1 < (createdData?.totalPage ?? 1)) {
-                setCreatedPage((prev) => prev + 1);
-              }
-            }}
-          />
-        ),
+        count: createdCount,
+        component: <CreatedList onCountChange={setCreatedCount} />,
       },
       {
         key: 'reviews_received',
@@ -95,14 +64,7 @@ export default function MyPage() {
         component: <ReviewsToWrite />,
       },
     ],
-    [
-      participatingCount,
-      createdList,
-      createdPage,
-      createdData,
-      reviewCount,
-      writeCount,
-    ],
+    [participatingCount, createdCount, reviewCount, writeCount],
   );
 
   const tabClass = (isActive: boolean) =>
