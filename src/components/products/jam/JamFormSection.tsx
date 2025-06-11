@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Control,
   UseFormWatch,
@@ -15,10 +15,11 @@ import { DatePicker } from '@/components/commons/DatePicker/DatePicker';
 import SearchInput from './SearchInput';
 import SessionSelector from './SessionSelector';
 import { GENRE_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
-import { GENRE_KR_TO_ENUM } from '@/constants/tagsMapping';
+import { GENRE_KR_TO_ENUM, SESSION_ENUM_TO_KR } from '@/constants/tagsMapping';
 import { RegisterGatheringsRequest } from '@/types/gather';
 import { GenreType } from '@/types/tags';
 import { formatDateToLocal } from '@/utils/formatDateToLocal';
+import { useWatch } from 'react-hook-form';
 
 const DIVIDER = 'mx-auto my-[2.5rem] w-[56rem] border-gray-800';
 
@@ -89,6 +90,7 @@ export default function JamFormSection({
     [],
   );
 
+  // 세션 드롭다운 인원 변경
   const handleCountChange = useCallback(
     (index: number, newCount: number) => {
       setSessionList((prev) => {
@@ -120,6 +122,19 @@ export default function JamFormSection({
     },
     [setValue],
   );
+
+  const gatheringSessions = useWatch({ name: 'gatheringSessions' });
+
+  useEffect(() => {
+    if (gatheringSessions?.length) {
+      setSessionList(
+        gatheringSessions.map((s) => ({
+          sortOption: SESSION_ENUM_TO_KR[s.bandSession],
+          count: s.recruitCount,
+        })),
+      );
+    }
+  }, [gatheringSessions]);
 
   return (
     <div className="mt-[2.5rem] flex h-auto w-[61rem] flex-col bg-[#202024] p-[2.5rem]">
@@ -213,6 +228,12 @@ export default function JamFormSection({
             mode="selectable"
             tags={GENRE_TAGS}
             onChange={handleTagChange}
+            initialSelected={(watch('genres') || []).map(
+              (enumVal) =>
+                Object.keys(GENRE_KR_TO_ENUM).find(
+                  (k) => GENRE_KR_TO_ENUM[k] === enumVal,
+                ) || '',
+            )}
           />
         </div>
 
