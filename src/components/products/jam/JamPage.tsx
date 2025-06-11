@@ -1,13 +1,15 @@
 'use client';
 
+import { useEffect } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import ImageEdit from '@/components/products/jam/ImageEdit';
 import GroupPageLayout from '@/components/commons/GroupPageLayout';
 import Button from '@/components/commons/Button';
 import JamFormSection from '@/components/products/jam/JamFormSection';
-import { FormProvider, useForm } from 'react-hook-form';
 import { RegisterGatheringsRequest } from '@/types/gather';
 import { useGatherRegister } from '@/hooks/queries/gather/useGatherRegister';
-import { useEffect } from 'react';
+import { useGatherModify } from '@/hooks/queries/gather/useGatherModify';
 
 interface JamPageProps {
   formType?: 'register' | 'edit';
@@ -20,6 +22,7 @@ export default function JamPage({
   groupId,
   initialData,
 }: JamPageProps) {
+  const router = useRouter();
   const methods = useForm<RegisterGatheringsRequest>({
     defaultValues: initialData ?? {
       name: '',
@@ -50,13 +53,30 @@ export default function JamPage({
   }, [initialData, reset]);
 
   const { mutate: registerGathering } = useGatherRegister();
+  const { mutate: modifyGathering } = useGatherModify();
 
   const onSubmit = (data: RegisterGatheringsRequest) => {
     if (formType === 'edit' && groupId) {
-      // modify put
+      modifyGathering({
+        id: groupId,
+        name: data.name,
+        thumbnail: data.thumbnail,
+        place: data.place,
+        gatheringDateTime: data.gatheringDateTime,
+        totalRecruitCount: data.gatheringSessions.reduce(
+          (sum, session) => sum + session.recruitCount,
+          0,
+        ),
+        recruitDeadline: data.recruitDateTime,
+        genres: data.genres,
+        description: data.description,
+        gatheringSessions: data.gatheringSessions,
+      });
+      console.log('이건 수정했을때', data);
+      router.push(`/group/${groupId}`);
     } else {
       registerGathering(data);
-      console.log(data);
+      console.log('이건 등록했을때', data);
     }
   };
 

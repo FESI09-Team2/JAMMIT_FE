@@ -18,6 +18,7 @@ import { GENRE_TAGS, SESSION_KEY_MAP } from '@/constants/tags';
 import { GENRE_KR_TO_ENUM } from '@/constants/tagsMapping';
 import { RegisterGatheringsRequest } from '@/types/gather';
 import { GenreType } from '@/types/tags';
+import { formatDateToLocal } from '@/utils/formatDateToLocal';
 
 const DIVIDER = 'mx-auto my-[2.5rem] w-[56rem] border-gray-800';
 
@@ -159,7 +160,7 @@ export default function JamFormSection({
                       if (!date) {
                         return field.onChange('');
                       }
-                      field.onChange(date.toISOString());
+                      field.onChange(formatDateToLocal(date));
                     }}
                   />
                 )}
