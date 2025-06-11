@@ -65,8 +65,6 @@ export default function GroupInfoSection({
   return (
     <>
       <section className="w-[60rem] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
-        {/* TODO: 공유하기 버튼 추가 */}
-
         {/* 모임 제목, 주최자 */}
         <div className="flex h-[4.375rem] flex-col justify-between">
           <div className="flex w-full justify-between">

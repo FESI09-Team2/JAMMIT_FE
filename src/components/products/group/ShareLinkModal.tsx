@@ -25,7 +25,7 @@ export default function ShareLinkModal({
   return (
     <ModalWrapper
       onClose={onClose}
-      className="relative w-[488px] rounded-[24px] bg-[#242429] p-[52px]"
+      className="relative w-[30.5rem] rounded-[1.5rem] bg-[#242429] p-[3.25rem]"
     >
       <div className="flex flex-col items-center">
         <Image
@@ -34,21 +34,23 @@ export default function ShareLinkModal({
           width={128}
           height={128}
         />
-        <div className="mt-[8px] text-center">
-          <p className="text-[24px] font-semibold">이제 합주를 소문내보세요!</p>
-          <p className="mt-[8px] text-sm font-semibold text-gray-400">
+        <div className="mt-[0.5rem] text-center">
+          <p className="text-[1.5rem] font-semibold">
+            이제 합주를 소문내보세요!
+          </p>
+          <p className="mt-[0.5rem] text-sm font-semibold text-gray-400">
             아래 링크를 복사해서 합주를 알려보세요.
           </p>
         </div>
 
-        <div className="mt-[22px] flex w-full items-center rounded-[8px] bg-[#34343a] p-[16px] pl-[24px]">
-          <p className="w-[167px] flex-1 truncate bg-transparent text-[16px]">
+        <div className="mt-[1.375rem] flex w-full items-center rounded-[0.5rem] bg-[#34343a] p-[1rem] pl-[1.5rem]">
+          <p className="w-[10.4375rem] flex-1 truncate bg-transparent text-[1rem]">
             {inviteLink}
           </p>
           <Button
             variant="solid"
             size="small"
-            className="ml-2 w-[5rem]"
+            className="ml-5"
             onClick={handleCopy}
           >
             {copied ? '복사됨' : '복사'}
