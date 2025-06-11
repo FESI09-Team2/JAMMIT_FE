@@ -4,8 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 export const useLoginMutation = () =>
   useMutation({
     mutationFn: login,
-
-    onSuccess: () => {
-      alert('로그인이 완료되었습니다!');
+    meta: {
+      successMessage: '로그인 성공!',
     },
   });
