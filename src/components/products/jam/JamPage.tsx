@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import ImageEdit from '@/components/products/jam/ImageEdit';
@@ -41,16 +40,9 @@ export default function JamPage({
     handleSubmit,
     control,
     watch,
-    reset,
     setValue,
     formState: { isValid },
   } = methods;
-
-  useEffect(() => {
-    if (initialData) {
-      reset(initialData);
-    }
-  }, [initialData, reset]);
 
   const { mutate: registerGathering } = useGatherRegister();
   const { mutate: modifyGathering } = useGatherModify();
