@@ -29,3 +29,14 @@ export const uploadProfileImage = async (
 
   return data.result as string;
 };
+
+export interface UpdateProfileImageRequest {
+  orgFileName: string;
+  profileImagePath: string;
+}
+
+export const updateProfileImage = async (
+  profileImagedata: UpdateProfileImageRequest,
+): Promise<void> => {
+  await apiClient.put('/user/image', profileImagedata);
+};

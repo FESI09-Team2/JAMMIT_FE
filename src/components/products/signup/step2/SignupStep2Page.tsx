@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Controller,
@@ -16,6 +16,7 @@ import { useSignupStore } from '@/stores/useSignupStore';
 import { useSignupMutation } from '@/hooks/queries/user/useSignupMutation';
 import { GENRE_KR_TO_ENUM, SESSION_KR_TO_ENUM } from '@/constants/tagsMapping';
 import { GENRE_TAGS, SESSION_TAGS } from '@/constants/tags';
+import { useUploadProfileImageMutation } from '@/hooks/queries/user/useUploadProfileImageMutation';
 
 interface FormValues {
   image: File;
@@ -26,15 +27,10 @@ interface FormValues {
 
 export default function SignupStep2Page() {
   const router = useRouter();
-  const { email, name, password } = useSignupStore();
-
-  useEffect(() => {
-    if (!email || !name || !password) {
-      // TODO: 모달 반영
-      alert('이전 단계 정보를 확인할 수 없어, 다시 입력이 필요합니다.');
-      router.replace('/signup/step1');
-    }
-  }, []);
+  const { email, name, password, resetSignupData } = useSignupStore();
+  const profileImageUrlRef = useRef<string | null>(null);
+  const { mutateAsync: uploadImage } = useUploadProfileImageMutation();
+  const { mutateAsync: signup } = useSignupMutation();
 
   const methods = useForm<FormValues>({
     mode: 'all',
@@ -48,6 +44,15 @@ export default function SignupStep2Page() {
     setValue,
     control,
   } = methods;
+
+  const handleFileUpload = async (file: File) => {
+    try {
+      const uploadedUrl = await uploadImage({ userId: 1, file });
+      profileImageUrlRef.current = uploadedUrl;
+    } catch {
+      alert('프로필 이미지 업로드에 실패했습니다.');
+    }
+  };
 
   const handleSessionTagChange = (selected: string[]) => {
     setValue('session', selected);
@@ -73,8 +78,6 @@ export default function SignupStep2Page() {
     },
   ];
 
-  const { mutateAsync } = useSignupMutation();
-
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (!email || !name || !password) {
       // TODO: 모달 반영
@@ -89,7 +92,6 @@ export default function SignupStep2Page() {
     const preferredBandSessions = data.session.map(
       (kr) => SESSION_KR_TO_ENUM[kr],
     );
-
     // TODO: 프로필 업데이트 기능 추가
     const fullData = {
       email,
@@ -100,13 +102,19 @@ export default function SignupStep2Page() {
       preferredBandSessions,
     };
 
-    await mutateAsync(fullData);
-
+    await signup(fullData);
     router.push('/login');
-
-    useSignupStore.getState().resetSignupData();
+    resetSignupData();
     reset();
   };
+
+  useEffect(() => {
+    if (!email || !name || !password) {
+      // TODO: 모달 반영
+      alert('이전 단계 정보를 확인할 수 없어, 다시 입력이 필요합니다.');
+      router.replace('/signup/step1');
+    }
+  }, []);
 
   return (
     <AuthCard title="프로필 만들기">
@@ -124,7 +132,10 @@ export default function SignupStep2Page() {
                 render={({ field }) => (
                   <ProfileImageUpload
                     imageFile={field.value}
-                    onFileChange={field.onChange}
+                    onFileChange={(file) => {
+                      field.onChange(file);
+                      handleFileUpload(file);
+                    }}
                     profileSize={128}
                     editIconSize={41}
                     offsetX={80}
