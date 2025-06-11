@@ -7,6 +7,7 @@ import JamFormSection from '@/components/products/jam/JamFormSection';
 import { FormProvider, useForm } from 'react-hook-form';
 import { RegisterGatheringsRequest } from '@/types/gather';
 import { useGatherRegister } from '@/hooks/queries/gather/useGatherRegister';
+import { useEffect } from 'react';
 
 interface JamPageProps {
   formType?: 'register' | 'edit';
@@ -37,9 +38,16 @@ export default function JamPage({
     handleSubmit,
     control,
     watch,
+    reset,
     setValue,
     formState: { isValid },
   } = methods;
+
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    }
+  }, [initialData, reset]);
 
   const { mutate: registerGathering } = useGatherRegister();
 
@@ -48,6 +56,7 @@ export default function JamPage({
       // edit put
     } else {
       registerGathering(data);
+      console.log(data);
     }
   };
 
