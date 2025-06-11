@@ -2,7 +2,7 @@ import { putModifiedGatherings } from '@/lib/gathering/modified';
 import { handleAuthApiError } from '@/utils/authApiError';
 import { useMutation } from '@tanstack/react-query';
 
-export const useUpdateProfileImage = () =>
+export const useGatherModify = () =>
   useMutation({
     mutationFn: putModifiedGatherings,
 

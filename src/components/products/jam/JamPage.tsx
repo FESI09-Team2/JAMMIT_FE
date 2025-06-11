@@ -53,7 +53,7 @@ export default function JamPage({
 
   const onSubmit = (data: RegisterGatheringsRequest) => {
     if (formType === 'edit' && groupId) {
-      // edit put
+      // modify put
     } else {
       registerGathering(data);
       console.log(data);
