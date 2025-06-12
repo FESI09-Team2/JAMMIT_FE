@@ -25,6 +25,8 @@ export default function CreatedList({
     includeCanceled,
   });
 
+  console.log(data);
+
   useEffect(() => {
     if (data) {
       setList((prev) =>
