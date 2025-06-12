@@ -7,12 +7,12 @@ import {
 
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error, query) => {
-      const metaMessage = extractMetaErrorMessage(query?.meta);
-      const errorMessage =
-        extractErrorMessage(error) || metaMessage || '데이터 로드 실패';
-      useErrorModalStore.getState().open(errorMessage);
-    },
+    // onError: (error, query) => {
+    //   const metaMessage = extractMetaErrorMessage(query?.meta);
+    //   const errorMessage =
+    //     extractErrorMessage(error) || metaMessage || '데이터 로드 실패';
+    //   useErrorModalStore.getState().open(errorMessage);
+    // },
   }),
   mutationCache: new MutationCache({
     onError: (error, variables, context, mutation) => {
