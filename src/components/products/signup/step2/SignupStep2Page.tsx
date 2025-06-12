@@ -58,12 +58,8 @@ export default function SignupStep2Page() {
   } = methods;
 
   const handleFileUpload = async (file: File) => {
-    try {
-      const uploadedUrl = await uploadImage({ userId: 1, file });
-      setProfileImageUrl(uploadedUrl);
-    } catch {
-      alert('프로필 이미지 업로드에 실패했습니다.');
-    }
+    const uploadedUrl = await uploadImage({ userId: 1, file });
+    setProfileImageUrl(uploadedUrl);
   };
 
   const handleSessionTagChange = (selected: string[]) => {

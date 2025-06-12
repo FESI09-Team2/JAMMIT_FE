@@ -40,7 +40,6 @@ export default function UserCard() {
   };
 
   const handleModalSubmit = async (data: EditFormData) => {
-    console.log('data: ', data);
     const imageUrl =
       typeof data.image === 'string' ? data.image : user.profileImagePath;
 

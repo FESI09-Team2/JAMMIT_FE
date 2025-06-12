@@ -32,7 +32,6 @@ export default function ModalEdit({
 }: ModalEditProps) {
   const { mutateAsync: uploadImage } = useUploadProfileImageMutation();
 
-  console.log('initial data: ', initialData);
   // 영어 enum을 한글로 변환
   const initialSessionsKr =
     initialData.preferredBandSessions?.map(
@@ -59,12 +58,8 @@ export default function ModalEdit({
   const password = watch('password');
 
   const handleFileChange = async (file: File) => {
-    try {
-      const uploadedUrl = await uploadImage({ userId: 1, file });
-      setValue('image', uploadedUrl);
-    } catch {
-      alert('프로필 이미지 업로드에 실패했습니다.');
-    }
+    const uploadedUrl = await uploadImage({ userId: 1, file });
+    setValue('image', uploadedUrl);
   };
 
   const handleSessionTagChange = useCallback(
