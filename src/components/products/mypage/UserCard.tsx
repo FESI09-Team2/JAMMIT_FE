@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import DefaultProfileImage from '@/assets/icons/ic_default_profile.svg';
 import EditIcon from '@/assets/icons/ic_edit.svg';
 import ModalEdit from '@/components/commons/Modal/ModalEdit';
 import { useUpdateProfile } from '@/hooks/queries/user/useUpdateProfile';
@@ -10,6 +9,7 @@ import { useUserStore } from '@/stores/useUserStore';
 import { EditFormData } from '@/types/modal';
 import { BandSession, Genre } from '@/types/tags';
 import { SESSION_ENUM_TO_KR, GENRE_ENUM_TO_KR } from '@/constants/tagsMapping';
+import ProfileImage from '@/components/commons/ProfileImage';
 
 export default function UserCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -55,7 +55,7 @@ export default function UserCard() {
     <>
       <div className="flex h-[15.625rem] w-[full] items-center justify-center gap-[3.3125rem] bg-[#36114E]">
         <div>
-          <DefaultProfileImage width={128} height={128} />
+          <ProfileImage src={user.profileImagePath} size={8} />
         </div>
         <div className="flex flex-col text-gray-100">
           <div className="flex items-center gap-[0.625rem]">

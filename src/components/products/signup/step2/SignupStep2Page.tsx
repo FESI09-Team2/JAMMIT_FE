@@ -31,7 +31,7 @@ export default function SignupStep2Page() {
   const router = useRouter();
   const { email, name, password, resetSignupData } = useSignupStore();
   const [missingInfoModalOpen, setMissingInfoModalOpen] = useState(false);
-  const profileImageUrlRef = useRef<string | null>(null);
+  const [profileImageUrl, setProfileImageUrl] = useState<string>('');
   const { mutateAsync: uploadImage } = useUploadProfileImageMutation();
   const { mutateAsync: signup } = useSignupMutation();
 
@@ -60,7 +60,7 @@ export default function SignupStep2Page() {
   const handleFileUpload = async (file: File) => {
     try {
       const uploadedUrl = await uploadImage({ userId: 1, file });
-      profileImageUrlRef.current = uploadedUrl;
+      setProfileImageUrl(uploadedUrl);
     } catch {
       alert('프로필 이미지 업로드에 실패했습니다.');
     }
@@ -100,7 +100,8 @@ export default function SignupStep2Page() {
     const preferredBandSessions = data.session.map(
       (kr) => SESSION_KR_TO_ENUM[kr],
     );
-    const profileImagePath = profileImageUrlRef.current ?? '';
+
+    const profileImagePath = profileImageUrl;
 
     const fullData = {
       email,
