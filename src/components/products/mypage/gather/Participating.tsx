@@ -1,6 +1,6 @@
 import InfinityScroll from '@/components/commons/InfinityScroll';
 import CardItem from '@/components/commons/Card/CardItem';
-import { CARD_STATE } from '@/constants/card';
+import { STATUS_ENUM_TO_KR } from '@/constants/cardMapping';
 import { GatheringCard } from '@/types/card';
 
 interface ParticipatingProps {
@@ -21,7 +21,9 @@ export default function Participating({
   return (
     <InfinityScroll<GatheringCard>
       list={gatherings}
-      item={(item) => <CardItem item={item} status={CARD_STATE.COMPLETED} />}
+      item={(item) => (
+        <CardItem item={item} status={STATUS_ENUM_TO_KR(item.status)} />
+      )}
       emptyText="참여 중인 모집이 없습니다."
       onInView={onLoadMore}
       hasMore={hasMore}
