@@ -44,7 +44,6 @@ export function useCreatedCount() {
       if (cachedData && typeof cachedData.totalElements === 'number') {
         setCreatedCount(cachedData.totalElements);
       }
-      console.log('캐시데이턴데', cachedData);
     });
   }, [queryClient]);
 
