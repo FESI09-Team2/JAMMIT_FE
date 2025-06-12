@@ -14,6 +14,7 @@ import {
   SESSION_ENUM_TO_KR,
   GENRE_ENUM_TO_KR,
 } from '@/constants/tagsMapping';
+import { useUploadProfileImageMutation } from '@/hooks/queries/user/useUploadProfileImageMutaion';
 
 interface ModalEditProps {
   /** "확인" 버튼 클릭 시 실행할 콜백 */
@@ -29,6 +30,9 @@ export default function ModalEdit({
   onSubmit,
   initialData,
 }: ModalEditProps) {
+  const { mutateAsync: uploadImage } = useUploadProfileImageMutation();
+
+  console.log('initial data: ', initialData);
   // 영어 enum을 한글로 변환
   const initialSessionsKr =
     initialData.preferredBandSessions?.map(
@@ -51,12 +55,16 @@ export default function ModalEdit({
   });
 
   const { handleSubmit, setValue, watch } = methods;
-  const imageFile = watch('image');
+  const imageUrl = watch('image');
   const password = watch('password');
 
-  // TODO: PROFILE_IMAGE PUT API 연동 필요
-  const handleFileChange = (file: File) => {
-    setValue('image', file);
+  const handleFileChange = async (file: File) => {
+    try {
+      const uploadedUrl = await uploadImage({ userId: 1, file });
+      setValue('image', uploadedUrl);
+    } catch {
+      alert('프로필 이미지 업로드에 실패했습니다.');
+    }
   };
 
   const handleSessionTagChange = useCallback(
@@ -106,7 +114,7 @@ export default function ModalEdit({
           className="flex flex-col gap-[1.5rem]"
         >
           <ProfileImageUpload
-            imageFile={imageFile instanceof File ? imageFile : null} // MEMO: 이미지 업로드 api 수정 후 imageFile={imageFile}로 수정
+            imageFile={typeof imageUrl === 'string' ? imageUrl : null}
             onFileChange={handleFileChange}
           />
 
@@ -152,7 +160,7 @@ export default function ModalEdit({
             )}
           </div>
 
-          <Button variant="solid" size="large" type="submit">
+          <Button variant="solid" size="large" type="submit" className="w-full">
             확인
           </Button>
         </form>

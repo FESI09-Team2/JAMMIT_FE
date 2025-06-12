@@ -10,10 +10,13 @@ import { EditFormData } from '@/types/modal';
 import { BandSession, Genre } from '@/types/tags';
 import { SESSION_ENUM_TO_KR, GENRE_ENUM_TO_KR } from '@/constants/tagsMapping';
 import ProfileImage from '@/components/commons/ProfileImage';
+import { useUpdateProfileImage } from '@/hooks/queries/user/useUpdateProfileImage';
+import { useToastStore } from '@/stores/useToastStore';
 
 export default function UserCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const updateProfile = useUpdateProfile();
+  const updateProfileImage = useUpdateProfileImage();
   const { data: user, isLoading } = useUserMeQuery();
   const { user: storeUser, setUser } = useUserStore();
 
@@ -36,9 +39,25 @@ export default function UserCard() {
     setIsModalOpen(false);
   };
 
-  const handleModalSubmit = (data: EditFormData) => {
+  const handleModalSubmit = async (data: EditFormData) => {
+    console.log('data: ', data);
+    const imageUrl =
+      typeof data.image === 'string' ? data.image : user.profileImagePath;
+
     updateProfile.mutate(data, {
       onSuccess: () => {
+        updateProfileImage.mutate(
+          {
+            orgFileName: 'profile.jpg',
+            profileImagePath: imageUrl,
+          },
+          {
+            onSuccess: () => {
+              useToastStore.getState().show('프로필 수정이 완료되었습니다!');
+            },
+          },
+        );
+
         const updatedUser = {
           ...displayUser,
           username: data.username,
@@ -105,7 +124,7 @@ export default function UserCard() {
             email: displayUser.email,
             password: null,
             username: displayUser.username,
-            // image: displayUser.profileImagePath,
+            image: displayUser.profileImagePath,
             preferredBandSessions: displayUser.preferredBandSessions,
             preferredGenres: displayUser.preferredGenres,
           }}

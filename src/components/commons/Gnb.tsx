@@ -33,8 +33,8 @@ export default function Gnb() {
   };
 
   const handleLogout = async () => {
-    await logout();
     router.push('/');
+    await logout();
   };
 
   return (
