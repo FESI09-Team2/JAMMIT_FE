@@ -8,11 +8,19 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 
-export default async function Home() {
+interface HomeProps {
+  searchParams: {
+    showShareModal?: string;
+    groupId?: string;
+  };
+}
+
+export default async function Home({ searchParams }: HomeProps) {
   const queryClient = new QueryClient();
   const defaultGenres: Genre[] = [];
   const defaultSessions: BandSession[] = [];
   const defaultSort = '';
+
   await prefetchCommonInfiniteQuery({
     queryClient,
     key: 'list',
@@ -22,11 +30,14 @@ export default async function Home() {
     includeCanceled: false,
     fetchFn: getRecruit,
   });
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <RecruitPage
         defaultGenres={defaultGenres}
         defaultSessions={defaultSessions}
+        showShareModal={searchParams.showShareModal === 'true'}
+        shareGroupId={searchParams.groupId}
       />
     </HydrationBoundary>
   );
