@@ -139,62 +139,88 @@ export default function GroupPage() {
     setShowParticipationForm(false);
   };
 
+  type ButtonState =
+    | 'CANCELED'
+    | 'COMPLETED'
+    | 'CONFIRMED_REJECTED'
+    | 'CONFIRMED_APPROVED'
+    | 'CONFIRMED_HOST'
+    | 'CONFIRMED_DEFAULT'
+    | 'RECRUITING_HOST'
+    | 'RECRUITING_PARTICIPATING'
+    | 'RECRUITING_FORM'
+    | 'RECRUITING_JOIN';
+
+  let buttonState: ButtonState;
+
+  if (isCanceled) {
+    buttonState = 'CANCELED';
+  } else if (isCompleted) {
+    buttonState = 'COMPLETED';
+  } else if (isConfirmed) {
+    if (isMyParticipantRejected || isMyParticipantPending) {
+      buttonState = 'CONFIRMED_REJECTED';
+    } else if (isMyParticipantApproved) {
+      buttonState = 'CONFIRMED_APPROVED';
+    } else if (isHost) {
+      buttonState = 'CONFIRMED_HOST';
+    } else {
+      buttonState = 'CONFIRMED_DEFAULT';
+    }
+  } else if (isRecruiting) {
+    if (isHost) {
+      buttonState = 'RECRUITING_HOST';
+    } else if (isParticipating) {
+      buttonState = 'RECRUITING_PARTICIPATING';
+    } else if (showParticipationForm) {
+      buttonState = 'RECRUITING_FORM';
+    } else {
+      buttonState = 'RECRUITING_JOIN';
+    }
+  }
+
   const renderActionButtons = () => {
-    // 취소된 모임일 때
-    if (isCanceled) {
-      return (
-        <Button variant="solid" disabled className="w-[22.75rem]">
-          취소된 모임입니다
-        </Button>
-      );
-    }
-
-    // 완료된 모임일 때
-    if (isCompleted) {
-      return (
-        <Button variant="solid" disabled className="w-[22.75rem]">
-          완료된 모임입니다
-        </Button>
-      );
-    }
-
-    // 모집 마감일 때
-    if (isConfirmed) {
-      if (isMyParticipantPending || isMyParticipantRejected) {
+    switch (buttonState) {
+      case 'CANCELED':
         return (
-          <Button variant="solid" disabled className="w-[22.75rem]">
+          <Button disabled className="w-[22.75rem]">
+            취소된 모임입니다
+          </Button>
+        );
+      case 'COMPLETED':
+        return (
+          <Button disabled className="w-[22.75rem]">
+            완료된 모임입니다
+          </Button>
+        );
+      case 'CONFIRMED_REJECTED':
+        return (
+          <Button disabled className="w-[22.75rem]">
             신청 거절된 모임입니다
           </Button>
         );
-      }
-      if (isMyParticipantApproved) {
+      case 'CONFIRMED_APPROVED':
         return (
-          <Button variant="solid" disabled className="w-[22.75rem]">
+          <Button disabled className="w-[22.75rem]">
             참여 예정인 모임입니다
           </Button>
         );
-      }
-      if (isHost) {
+      case 'CONFIRMED_HOST':
         return (
-          <Button variant="solid" disabled className="w-[22.75rem]">
+          <Button disabled className="w-[22.75rem]">
             개설 확정된 모임입니다
           </Button>
         );
-      }
-      return (
-        <Button variant="solid" disabled className="w-[22.75rem]">
-          모집 마감된 모임입니다
-        </Button>
-      );
-    }
-
-    // 모집 중일 때
-    if (isRecruiting) {
-      if (isHost) return null;
-      if (isParticipating) {
+      case 'CONFIRMED_DEFAULT':
+        return (
+          <Button disabled className="w-[22.75rem]">
+            모집 마감된 모임입니다
+          </Button>
+        );
+      case 'RECRUITING_PARTICIPATING':
         return (
           <div>
-            <Button variant="solid" disabled className="w-[22.75rem]">
+            <Button disabled className="w-[22.75rem]">
               참여 완료
             </Button>
             <button
@@ -205,25 +231,26 @@ export default function GroupPage() {
             </button>
           </div>
         );
-      }
-      if (showParticipationForm) {
+      case 'RECRUITING_FORM':
         return (
           <ParticipationForm
             gathering={gatheringDetailData}
             onComplete={handleSubmitParticipation}
           />
         );
-      }
-      return (
-        <Button
-          variant="solid"
-          className="w-[22.75rem]"
-          onClick={() => setShowParticipationForm(true)}
-          disabled={!user}
-        >
-          함께하기
-        </Button>
-      );
+      case 'RECRUITING_JOIN':
+        return (
+          <Button
+            variant="solid"
+            className="w-[22.75rem]"
+            onClick={() => setShowParticipationForm(true)}
+            disabled={!user}
+          >
+            함께하기
+          </Button>
+        );
+      default:
+        return null;
     }
   };
 
