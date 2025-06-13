@@ -127,6 +127,7 @@ export default function UserCard() {
             preferredBandSessions: displayUser.preferredBandSessions,
             preferredGenres: displayUser.preferredGenres,
           }}
+          userId={displayUser.id}
         />
       )}
     </>

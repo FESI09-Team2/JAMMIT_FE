@@ -23,12 +23,14 @@ interface ModalEditProps {
   onCancel: () => void;
   /** 기존 프로필 정보를 가져오기 위한 초기값 */
   initialData: EditFormData;
+  userId: number;
 }
 
 export default function ModalEdit({
   onCancel,
   onSubmit,
   initialData,
+  userId,
 }: ModalEditProps) {
   const { mutateAsync: uploadImage } = useUploadProfileImageMutation();
 
@@ -58,7 +60,7 @@ export default function ModalEdit({
   const password = watch('password');
 
   const handleFileChange = async (file: File) => {
-    const uploadedUrl = await uploadImage({ userId: 1, file });
+    const uploadedUrl = await uploadImage({ userId: userId, file });
     setValue('image', uploadedUrl);
   };
 
