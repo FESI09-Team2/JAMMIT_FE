@@ -45,7 +45,7 @@ export default function GroupPage() {
       newParams.set('tab', 'recruit');
       router.replace(`?${newParams.toString()}`);
     }
-  }, [activeTab, user, router, searchParams]);
+  }, [activeTab, user, router, searchParams, isLoaded]);
 
   const {
     data: gatheringDetailData,
@@ -77,11 +77,22 @@ export default function GroupPage() {
     return <div>모임 정보를 찾을 수 없습니다.</div>;
 
   const isHost = user?.id === gatheringDetailData.creator.id;
+
+  const isRecruiting = gatheringDetailData.status === 'RECRUITING';
   const isCanceled = gatheringDetailData.status === 'CANCELED';
   const isCompleted = gatheringDetailData.status === 'COMPLETED';
   const isConfirmed = gatheringDetailData.status === 'CONFIRMED';
 
   const participants = participantsData?.participants ?? [];
+
+  const myParticipant = participants.find(
+    (participant) => participant.userId === user?.id,
+  );
+  const myParticipantStatus = myParticipant?.status ?? null;
+  const isMyParticipantPending = myParticipantStatus === 'PENDING';
+  const isMyParticipantApproved = myParticipantStatus === 'APPROVED';
+  const isMyParticipantRejected = myParticipantStatus === 'REJECTED';
+  const myParticipantId = myParticipant?.participantId;
 
   const approvedParticipants = participants.filter(
     (participant) => participant.status === 'APPROVED',
@@ -98,11 +109,6 @@ export default function GroupPage() {
       (participant) => participant.userId === user?.id,
     ) ||
     approvedParticipants.some((participant) => participant.userId === user?.id);
-  const currentUserParticipation = pendingParticipants.find(
-    (participant) => participant.userId === user?.id,
-  );
-
-  const myParticipantId = currentUserParticipation?.participantId;
 
   const handleCanceleParticipation = () => {
     if (!myParticipantId) {
@@ -134,6 +140,7 @@ export default function GroupPage() {
   };
 
   const renderActionButtons = () => {
+    // 취소된 모임일 때
     if (isCanceled) {
       return (
         <Button variant="solid" disabled className="w-[22.75rem]">
@@ -142,26 +149,71 @@ export default function GroupPage() {
       );
     }
 
-    if (isCompleted || isConfirmed) {
+    // 완료된 모임일 때
+    if (isCompleted) {
       return (
         <Button variant="solid" disabled className="w-[22.75rem]">
-          모집 마감
+          완료된 모임입니다
         </Button>
       );
     }
 
-    if (showParticipationForm) {
+    // 모집 마감일 때
+    if (isConfirmed) {
+      if (isMyParticipantPending || isMyParticipantRejected) {
+        return (
+          <Button variant="solid" disabled className="w-[22.75rem]">
+            신청 거절된 모임입니다
+          </Button>
+        );
+      }
+      if (isMyParticipantApproved) {
+        return (
+          <Button variant="solid" disabled className="w-[22.75rem]">
+            참여 예정인 모임입니다
+          </Button>
+        );
+      }
+      if (isHost) {
+        return (
+          <Button variant="solid" disabled className="w-[22.75rem]">
+            개설 확정된 모임입니다
+          </Button>
+        );
+      }
       return (
-        <ParticipationForm
-          gathering={gatheringDetailData}
-          onComplete={handleSubmitParticipation}
-        />
+        <Button variant="solid" disabled className="w-[22.75rem]">
+          모집 마감된 모임입니다
+        </Button>
       );
     }
 
-    if (isHost) return null;
-
-    if (!isParticipating) {
+    // 모집 중일 때
+    if (isRecruiting) {
+      if (isHost) return null;
+      if (isParticipating) {
+        return (
+          <div>
+            <Button variant="solid" disabled className="w-[22.75rem]">
+              참여 완료
+            </Button>
+            <button
+              className="mt-[1.125rem] w-full text-center text-[0.9375rem] font-medium text-[#BF5EFF] underline underline-offset-2"
+              onClick={handleCanceleParticipation}
+            >
+              참여 취소
+            </button>
+          </div>
+        );
+      }
+      if (showParticipationForm) {
+        return (
+          <ParticipationForm
+            gathering={gatheringDetailData}
+            onComplete={handleSubmitParticipation}
+          />
+        );
+      }
       return (
         <Button
           variant="solid"
@@ -173,20 +225,6 @@ export default function GroupPage() {
         </Button>
       );
     }
-
-    return (
-      <div>
-        <Button variant="solid" disabled className="w-[22.75rem]">
-          참여 완료
-        </Button>
-        <button
-          className="mt-[1.125rem] w-full text-center text-[0.9375rem] font-medium text-[#BF5EFF] underline underline-offset-2"
-          onClick={handleCanceleParticipation}
-        >
-          참여 취소
-        </button>
-      </div>
-    );
   };
 
   return (

@@ -20,7 +20,7 @@ export default function MemberInfoSection({
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const approveMutation = useApproveParticipantMutation();
   const rejectMutation = useRejectParticipantMutation();
-  const isCanceled = gathering.status === 'CANCELED';
+  const isRecruiting = gathering.status === 'RECRUITING';
 
   const handleAccept = async () => {
     await Promise.all(
@@ -70,7 +70,7 @@ export default function MemberInfoSection({
         />
       </section>
 
-      {!isCanceled && (
+      {isRecruiting && (
         <div className="ml-[1.25rem] flex flex-col gap-[1.25rem]">
           <Button
             variant="solid"
