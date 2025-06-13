@@ -27,14 +27,24 @@ export const logout = async (): Promise<void> => {
 };
 
 export const refreshAccessToken = async (): Promise<void> => {
-  const refreshToken = tokenService.getRefreshToken();
-  if (!refreshToken) return;
+  const store = useUserStore.getState();
+  store.startRefresh();
 
-  const { accessToken } = await apiClient.post<{ accessToken: string }>(
-    '/auth/refresh',
-    { refreshToken },
-  );
+  try {
+    const refreshToken = tokenService.getRefreshToken();
+    if (!refreshToken) {
+      store.endRefresh();
+      return;
+    }
 
-  tokenService.setAccessToken(accessToken);
-  queryClient.invalidateQueries({ queryKey: ['me'] });
+    const { accessToken } = await apiClient.post<{ accessToken: string }>(
+      '/auth/refresh',
+      { refreshToken },
+    );
+
+    tokenService.setAccessToken(accessToken);
+    queryClient.invalidateQueries({ queryKey: ['me'] });
+  } finally {
+    store.endRefresh();
+  }
 };

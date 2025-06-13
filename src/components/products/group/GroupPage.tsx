@@ -27,12 +27,17 @@ export default function GroupPage() {
     'recruit',
     'members',
   ]);
-  const user = useUserStore((state) => state.user);
+  const { user, isLoaded, isRefreshing } = useUserStore();
+  const isQueryReady = isLoaded && !isRefreshing && !!user;
+
   const { groupId } = useParams();
   const numericId = Number(groupId);
   const [showParticipationForm, setShowParticipationForm] = useState(false);
 
   useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
     if (activeTab === 'members' && !user) {
       alert('로그인 후 이용 가능한 기능입니다.');
       router.push('/login');
@@ -53,7 +58,7 @@ export default function GroupPage() {
     isLoading: isParticipantsLoading,
     error: participantsError,
   } = useGatheringParticipantsQuery(numericId, {
-    enabled: !!user,
+    enabled: isQueryReady,
   });
 
   const participateMutation = useParticipateGatheringMutation();
