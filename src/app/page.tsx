@@ -9,13 +9,14 @@ import {
 } from '@tanstack/react-query';
 
 interface HomeProps {
-  searchParams: {
+  searchParams: Promise<{
     showShareModal?: string;
     groupId?: string;
-  };
+  }>;
 }
 
 export default async function Home({ searchParams }: HomeProps) {
+  const resolvedSearchParams = await searchParams;
   const queryClient = new QueryClient();
   const defaultGenres: Genre[] = [];
   const defaultSessions: BandSession[] = [];
@@ -36,8 +37,8 @@ export default async function Home({ searchParams }: HomeProps) {
       <RecruitPage
         defaultGenres={defaultGenres}
         defaultSessions={defaultSessions}
-        showShareModal={searchParams.showShareModal === 'true'}
-        shareGroupId={searchParams.groupId}
+        showShareModal={resolvedSearchParams.showShareModal === 'true'}
+        shareGroupId={resolvedSearchParams.groupId}
       />
     </HydrationBoundary>
   );
