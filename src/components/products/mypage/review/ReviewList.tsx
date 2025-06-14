@@ -15,13 +15,11 @@ export default function ReviewList() {
     useReviewInfiniteQuery({
       size: 8,
     });
-
+  if (!data) return <SkeletonReviewList />;
   const flatData = data?.pages.flatMap((page) => page.content) ?? [];
 
   return (
     <InfinityScroll
-      skeletonItem={() => <SkeletonReviewList />}
-      skeletonCount={3}
       className="flex flex-auto"
       variant="list"
       list={flatData}
