@@ -9,9 +9,9 @@
   --purple-500: #BF5eff;
   --purple-700: #9900ff;
   --bg-34343A: #34343a;
-  --gray-50: #68696c;
+  --gray-50: #9CA3AF;
   --gray-100: #29292C;
-  --gray-400: #9CA3AF;
+  --gray-400: #D1D5DB;
   --gray-500: #6b7280;
   --gray-600: #4b5563;
 }
@@ -27,7 +27,9 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #f3f4f6;
+    --gray-50: #9CA3AF;
+    --gray-400: #D1D5DB;
   }
 }
 
