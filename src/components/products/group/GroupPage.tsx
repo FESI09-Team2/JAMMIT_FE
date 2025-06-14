@@ -108,6 +108,7 @@ export default function GroupPage() {
   const isMyParticipantApproved = myParticipantStatus === 'APPROVED';
   const isMyParticipantRejected = myParticipantStatus === 'REJECTED';
   const myParticipantId = myParticipant?.participantId;
+  console.log('my status: ', myParticipantStatus);
 
   const approvedParticipants = participants.filter(
     (participant) => participant.status === 'APPROVED',
@@ -164,7 +165,8 @@ export default function GroupPage() {
     | 'RECRUITING_HOST'
     | 'RECRUITING_PARTICIPATING'
     | 'RECRUITING_FORM'
-    | 'RECRUITING_JOIN';
+    | 'RECRUITING_JOIN'
+    | 'RECRUITING_REJECTED';
 
   let buttonState: ButtonState;
 
@@ -185,6 +187,8 @@ export default function GroupPage() {
   } else if (isRecruiting) {
     if (isHost) {
       buttonState = 'RECRUITING_HOST';
+    } else if (isMyParticipantRejected) {
+      buttonState = 'RECRUITING_REJECTED';
     } else if (isParticipating) {
       buttonState = 'RECRUITING_PARTICIPATING';
     } else if (showParticipationForm) {
@@ -245,6 +249,12 @@ export default function GroupPage() {
               참여 취소
             </button>
           </div>
+        );
+      case 'RECRUITING_REJECTED':
+        return (
+          <Button disabled className="w-[22.75rem]">
+            신청 거절된 모임입니다
+          </Button>
         );
       case 'RECRUITING_FORM':
         return (
