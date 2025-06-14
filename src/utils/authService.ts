@@ -5,6 +5,7 @@ import { postSignup } from '@/lib/auth/signup';
 import { queryClient } from '@/lib/react-query';
 import { apiClient } from './apiClient';
 import { useUserStore } from '@/stores/useUserStore';
+import { useErrorModalStore } from '@/stores/useErrorModalStore';
 
 export const login = async (loginRequest: LoginRequest): Promise<void> => {
   const result = await postLogin(loginRequest);
@@ -33,8 +34,7 @@ export const refreshAccessToken = async (): Promise<void> => {
   try {
     const refreshToken = tokenService.getRefreshToken();
     if (!refreshToken) {
-      store.endRefresh();
-      return;
+      throw new Error('No refresh token');
     }
 
     const { accessToken } = await apiClient.post<{ accessToken: string }>(
@@ -44,6 +44,12 @@ export const refreshAccessToken = async (): Promise<void> => {
 
     tokenService.setAccessToken(accessToken);
     queryClient.invalidateQueries({ queryKey: ['me'] });
+  } catch {
+    useErrorModalStore
+      .getState()
+      .open('세션이 만료되었습니다. 다시 로그인 해주세요.');
+    tokenService.clearAllTokens();
+    store.clearUser();
   } finally {
     store.endRefresh();
   }
