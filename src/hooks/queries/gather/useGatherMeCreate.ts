@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { GetUserGatheringsParams } from '@/types/gather';
@@ -30,22 +30,20 @@ export function useCreatedCount() {
   const [createdCount, setCreatedCount] = useState(0);
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const { queryKey, queryFn } = gatherMeCreateQuery({
-      page: 0,
-      size: 1,
-      includeCanceled: true,
-    });
+  const { queryKey, queryFn } = gatherMeCreateQuery({
+    page: 0,
+    size: 1,
+    includeCanceled: true,
+  });
 
-    queryClient.prefetchQuery({ queryKey, queryFn }).then(() => {
-      const cachedData = queryClient.getQueryData<{ totalElements: number }>(
-        queryKey,
-      );
-      if (cachedData && typeof cachedData.totalElements === 'number') {
-        setCreatedCount(cachedData.totalElements);
-      }
-    });
-  }, [queryClient]);
+  queryClient.prefetchQuery({ queryKey, queryFn }).then(() => {
+    const cachedData = queryClient.getQueryData<{ totalElements: number }>(
+      queryKey,
+    );
+    if (cachedData && typeof cachedData.totalElements === 'number') {
+      setCreatedCount(cachedData.totalElements);
+    }
+  });
 
   return createdCount;
 }
