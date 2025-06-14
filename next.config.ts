@@ -32,28 +32,6 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
-
-  // gzip 압축
-  compress: true,
-  // 보안을 위해 X-Powered-By 헤더 제거
-  poweredByHeader: false,
-  headers: async () => {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Content-Encoding',
-            value: 'gzip',
-          },
-          {
-            key: 'Vary',
-            value: 'Accept-Encoding',
-          },
-        ],
-      },
-    ];
-  },
 };
 
 export default nextConfig;

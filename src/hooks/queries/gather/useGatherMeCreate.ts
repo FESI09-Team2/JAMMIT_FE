@@ -16,7 +16,7 @@ export const gatherMeCreateQuery = ({
 export const useGatherMeCreate = (
   { page, size, includeCanceled = false }: GetUserGatheringsParams = {
     page: 0,
-    size: 8,
+    size: 4,
     includeCanceled: true,
   },
 ) =>
@@ -24,8 +24,8 @@ export const useGatherMeCreate = (
     queryKey: ['me', 'created', page, size, includeCanceled],
     queryFn: () => getUserCreatedGatherings({ page, size, includeCanceled }),
     retry: true,
-    staleTime: 5 * 60 * 1000, // 5분
-    cacheTime: 10 * 60 * 1000, // 10분
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
