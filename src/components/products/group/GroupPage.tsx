@@ -18,6 +18,8 @@ import { SESSION_KR_TO_ENUM } from '@/constants/tagsMapping';
 import { useCancelParticipateGatheringMutation } from '@/hooks/queries/gatherings/useCancelParticipateGathering';
 import { imgChange } from '@/utils/imgChange';
 import { useRouter } from 'next/navigation';
+import { useWrittenReviewsQuery } from '@/hooks/queries/review/useWrittenReviewsQuery';
+import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
 
 export default function GroupPage() {
   const router = useRouter();
@@ -28,22 +30,19 @@ export default function GroupPage() {
     'members',
   ]);
   const { user, isLoaded, isRefreshing } = useUserStore();
-  const isQueryReady = isLoaded && !isRefreshing && !!user;
+  const isGatheringParticipantsQueryReady = isLoaded && !isRefreshing && !!user;
 
   const { groupId } = useParams();
   const numericId = Number(groupId);
   const [showParticipationForm, setShowParticipationForm] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
 
   useEffect(() => {
     if (!isLoaded) {
       return;
     }
     if (activeTab === 'members' && !user) {
-      alert('로그인 후 이용 가능한 기능입니다.');
-      router.push('/login');
-      const newParams = new URLSearchParams(searchParams.toString());
-      newParams.set('tab', 'recruit');
-      router.replace(`?${newParams.toString()}`);
+      setLoginModalOpen(true);
     }
   }, [activeTab, user, router, searchParams, isLoaded]);
 
@@ -58,7 +57,17 @@ export default function GroupPage() {
     isLoading: isParticipantsLoading,
     error: participantsError,
   } = useGatheringParticipantsQuery(numericId, {
-    enabled: isQueryReady,
+    enabled: isGatheringParticipantsQueryReady,
+  });
+
+  const isWrittenReviewsQueryReady = isGatheringParticipantsQueryReady;
+
+  const {
+    data: writtenReviewsData,
+    isLoading: isWrittenReviewLoading,
+    error: wittenReviewError,
+  } = useWrittenReviewsQuery({
+    enabled: isWrittenReviewsQueryReady,
   });
 
   const participateMutation = useParticipateGatheringMutation();
@@ -69,12 +78,18 @@ export default function GroupPage() {
   if (error) return <div>에러 발생</div>;
   if (!gatheringDetailData) return <div>모임 정보를 찾을 수 없습니다.</div>;
 
-  if (activeTab === 'members' && user && isParticipantsLoading)
-    return <div>로딩 중...</div>;
-  if (activeTab === 'members' && user && participantsError)
-    return <div>에러 발생</div>;
-  if (activeTab === 'members' && user && !participantsData)
-    return <div>모임 정보를 찾을 수 없습니다.</div>;
+  if (activeTab === 'members') {
+    if (!user) {
+    } else {
+      if (isParticipantsLoading || isWrittenReviewLoading)
+        return <div>로딩 중...</div>;
+
+      if (participantsError || wittenReviewError) return <div>에러 발생</div>;
+
+      if (!participantsData)
+        return <div>모임 참가자 정보를 찾을 수 없습니다.</div>;
+    }
+  }
 
   const isHost = user?.id === gatheringDetailData.creator.id;
 
@@ -254,40 +269,61 @@ export default function GroupPage() {
     }
   };
 
+  const handleLoginModalClose = () => {
+    setLoginModalOpen(false);
+    router.push('/login');
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.set('tab', 'recruit');
+    router.replace(`?${newParams.toString()}`);
+  };
+
   return (
-    <GroupPageLayout
-      participantsNumber={
-        isCompleted ? completedParticipants.length : approvedParticipants.length
-      }
-      banner={
-        <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
-          <Image
-            src={imgChange(gatheringDetailData.thumbnail, 'banner')}
-            alt="모임 배너"
-            layout="fill"
-            objectFit="cover"
-            priority
+    <>
+      <GroupPageLayout
+        participantsNumber={
+          isCompleted
+            ? completedParticipants.length
+            : approvedParticipants.length
+        }
+        banner={
+          <div className="relative h-[22rem] w-full overflow-hidden rounded-[0.5rem]">
+            <Image
+              src={imgChange(gatheringDetailData.thumbnail, 'banner')}
+              alt="모임 배너"
+              layout="fill"
+              objectFit="cover"
+              priority
+            />
+          </div>
+        }
+        actionButtons={renderActionButtons()}
+      >
+        {activeTab === 'recruit' ? (
+          <GroupInfoSection gathering={gatheringDetailData} isHost={isHost} />
+        ) : isHost && !isCompleted ? (
+          <MemberInfoSection
+            gathering={gatheringDetailData}
+            approvedParticipants={approvedParticipants}
+            pendingParticipants={pendingParticipants}
           />
-        </div>
-      }
-      actionButtons={renderActionButtons()}
-    >
-      {activeTab === 'recruit' ? (
-        <GroupInfoSection gathering={gatheringDetailData} isHost={isHost} />
-      ) : isHost && !isCompleted ? (
-        <MemberInfoSection
-          gathering={gatheringDetailData}
-          approvedParticipants={approvedParticipants}
-          pendingParticipants={pendingParticipants}
-        />
-      ) : (
-        <ParticipantsSection
-          gathering={gatheringDetailData}
-          participants={
-            isCompleted ? completedParticipants : approvedParticipants
-          }
+        ) : (
+          <ParticipantsSection
+            writtenReviews={writtenReviewsData}
+            gathering={gatheringDetailData}
+            participants={
+              isCompleted ? completedParticipants : approvedParticipants
+            }
+          />
+        )}
+      </GroupPageLayout>
+      {loginModalOpen && (
+        <ModalInteraction
+          message="로그인 후 이용 가능한 기능입니다."
+          onConfirm={handleLoginModalClose}
+          onClose={handleLoginModalClose}
+          isShowCancel={false}
         />
       )}
-    </GroupPageLayout>
+    </>
   );
 }
