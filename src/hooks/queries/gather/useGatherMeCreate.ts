@@ -24,6 +24,11 @@ export const useGatherMeCreate = (
     queryKey: ['me', 'created', page, size, includeCanceled],
     queryFn: () => getUserCreatedGatherings({ page, size, includeCanceled }),
     retry: true,
+    staleTime: 5 * 60 * 1000, // 5분
+    cacheTime: 10 * 60 * 1000, // 10분
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 
 export function useCreatedCount() {
