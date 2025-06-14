@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { GetUserGatheringsParams } from '@/types/gather';
@@ -36,14 +36,16 @@ export function useCreatedCount() {
     includeCanceled: true,
   });
 
-  queryClient.prefetchQuery({ queryKey, queryFn }).then(() => {
-    const cachedData = queryClient.getQueryData<{ totalElements: number }>(
-      queryKey,
-    );
-    if (cachedData && typeof cachedData.totalElements === 'number') {
-      setCreatedCount(cachedData.totalElements);
-    }
-  });
+  useEffect(() => {
+    queryClient.prefetchQuery({ queryKey, queryFn }).then(() => {
+      const cachedData = queryClient.getQueryData<{ totalElements: number }>(
+        queryKey,
+      );
+      if (cachedData && typeof cachedData.totalElements === 'number') {
+        setCreatedCount(cachedData.totalElements);
+      }
+    });
+  }, [queryClient, queryKey, queryFn]);
 
   return createdCount;
 }
