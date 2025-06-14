@@ -4,18 +4,14 @@ import { UserResponse } from '@/types/user';
 
 interface UserState {
   user: UserResponse | null;
-  isLoaded: boolean; // 추가
+  isLoaded: boolean;
   isRefreshing: boolean;
   isLoggedIn: boolean;
 
   setUser: (user: UserResponse) => void;
   clearUser: () => void;
-
-  // setLoaded: () => void; // 추가
-  // setRefreshing: (value: boolean) => void;
   startRefresh: () => void;
   endRefresh: () => void;
-
   setLoaded: () => void;
 }
 
@@ -29,15 +25,9 @@ export const useUserStore = create<UserState>()(
 
       setUser: (user) => set({ user, isLoggedIn: true }),
       clearUser: () => set({ user: null, isLoggedIn: false }),
-
       startRefresh: () => set({ isRefreshing: true }),
       endRefresh: () => set({ isRefreshing: false }),
-
       setLoaded: () => set({ isLoaded: true }),
-
-      // setUser: (user) => set({ user, isLoggedIn: true }),
-      // clearUser: () => set({ user: null, isLoggedIn: false),
-      // setLoaded: () => set({ isLoaded: true }),
     }),
     {
       name: 'user',
