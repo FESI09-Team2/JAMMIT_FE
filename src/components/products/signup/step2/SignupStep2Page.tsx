@@ -19,6 +19,7 @@ import { GENRE_TAGS, SESSION_TAGS } from '@/constants/tags';
 import { useToastStore } from '@/stores/useToastStore';
 import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
 import { useUploadProfileImageMutation } from '@/hooks/queries/user/useUploadProfileImageMutaion';
+import { useErrorModalStore } from '@/stores/useErrorModalStore';
 
 interface FormValues {
   image: File;
@@ -57,7 +58,14 @@ export default function SignupStep2Page() {
     control,
   } = methods;
 
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
   const handleFileUpload = async (file: File) => {
+    if (file.size > MAX_FILE_SIZE) {
+      useErrorModalStore
+        .getState()
+        .open('파일 크기는 최대 5MB까지 업로드 가능합니다.');
+      return;
+    }
     const uploadedUrl = await uploadImage({ userId: 1, file });
     setProfileImageUrl(uploadedUrl);
   };
@@ -132,7 +140,7 @@ export default function SignupStep2Page() {
                   control={control}
                   render={({ field }) => (
                     <ProfileImageUpload
-                      imageFile={field.value}
+                      imageFile={profileImageUrl}
                       onFileChange={(file) => {
                         field.onChange(file);
                         handleFileUpload(file);

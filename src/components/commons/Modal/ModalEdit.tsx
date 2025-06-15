@@ -15,6 +15,8 @@ import {
   GENRE_ENUM_TO_KR,
 } from '@/constants/tagsMapping';
 import { useUploadProfileImageMutation } from '@/hooks/queries/user/useUploadProfileImageMutaion';
+import { useErrorModalStore } from '@/stores/useErrorModalStore';
+import ErrorModal from './ErrorModal';
 
 interface ModalEditProps {
   /** "확인" 버튼 클릭 시 실행할 콜백 */
@@ -33,6 +35,7 @@ export default function ModalEdit({
   userId,
 }: ModalEditProps) {
   const { mutateAsync: uploadImage } = useUploadProfileImageMutation();
+  const { message, isOpen, close } = useErrorModalStore();
 
   // 영어 enum을 한글로 변환
   const initialSessionsKr =
@@ -59,7 +62,14 @@ export default function ModalEdit({
   const imageUrl = watch('image');
   const password = watch('password');
 
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
   const handleFileChange = async (file: File) => {
+    if (file.size > MAX_FILE_SIZE) {
+      useErrorModalStore
+        .getState()
+        .open('파일 크기는 최대 5MB까지 업로드 가능합니다.');
+      return;
+    }
     const uploadedUrl = await uploadImage({ userId: userId, file });
     setValue('image', uploadedUrl);
   };
@@ -100,68 +110,76 @@ export default function ModalEdit({
   ];
 
   return (
-    <ModalWrapper
-      title="프로필 수정하기"
-      onClose={onCancel}
-      className="relative h-auto w-[32.5rem] max-w-md overflow-y-auto rounded-lg bg-[#242429] p-[1.5rem]"
-    >
-      <FormProvider {...methods}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-[1.5rem]"
-        >
-          <ProfileImageUpload
-            imageFile={typeof imageUrl === 'string' ? imageUrl : null}
-            onFileChange={handleFileChange}
-          />
-
-          <div className="flex flex-col gap-[1.5rem]">
-            <Input name="username" type="text" label="이름" />
-            <Input
-              name="password"
-              type="password"
-              label="비밀번호"
-              placeholder="비밀번호를 입력해주세요."
-              rules={{
-                required: '비밀번호는 필수 입력입니다.',
-                minLength: {
-                  value: 8,
-                  message: '비밀번호는 최소 8자 이상이어야 합니다.',
-                },
-              }}
+    <>
+      <ModalWrapper
+        title="프로필 수정하기"
+        onClose={onCancel}
+        className="relative h-auto w-[32.5rem] max-w-md overflow-y-auto rounded-lg bg-[#242429] p-[1.5rem]"
+      >
+        <FormProvider {...methods}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-[1.5rem]"
+          >
+            <ProfileImageUpload
+              imageFile={typeof imageUrl === 'string' ? imageUrl : null}
+              onFileChange={handleFileChange}
             />
-            <Input
-              name="passwordConfirm"
-              type="password"
-              label="비밀번호 확인"
-              placeholder="비밀번호를 다시 한 번 입력해주세요."
-              rules={{
-                required: '비밀번호 확인은 필수 입력입니다.',
-                validate: (value) =>
-                  value === password || '비밀번호가 일치하지 않습니다.',
-              }}
-            />
-          </div>
 
-          <div className="flex flex-col gap-[1.5rem]">
-            {tagSections.map(
-              ({ key, label, tags, initialSelected, onChange }) => (
-                <TagSection
-                  key={key}
-                  label={label}
-                  tags={tags}
-                  initialSelected={initialSelected}
-                  onChange={onChange}
-                />
-              ),
-            )}
-          </div>
+            <div className="flex flex-col gap-[1.5rem]">
+              <Input name="username" type="text" label="이름" />
+              <Input
+                name="password"
+                type="password"
+                label="비밀번호"
+                placeholder="비밀번호를 입력해주세요."
+                rules={{
+                  required: '비밀번호는 필수 입력입니다.',
+                  minLength: {
+                    value: 8,
+                    message: '비밀번호는 최소 8자 이상이어야 합니다.',
+                  },
+                }}
+              />
+              <Input
+                name="passwordConfirm"
+                type="password"
+                label="비밀번호 확인"
+                placeholder="비밀번호를 다시 한 번 입력해주세요."
+                rules={{
+                  required: '비밀번호 확인은 필수 입력입니다.',
+                  validate: (value) =>
+                    value === password || '비밀번호가 일치하지 않습니다.',
+                }}
+              />
+            </div>
 
-          <Button variant="solid" size="large" type="submit" className="w-full">
-            확인
-          </Button>
-        </form>
-      </FormProvider>
-    </ModalWrapper>
+            <div className="flex flex-col gap-[1.5rem]">
+              {tagSections.map(
+                ({ key, label, tags, initialSelected, onChange }) => (
+                  <TagSection
+                    key={key}
+                    label={label}
+                    tags={tags}
+                    initialSelected={initialSelected}
+                    onChange={onChange}
+                  />
+                ),
+              )}
+            </div>
+
+            <Button
+              variant="solid"
+              size="large"
+              type="submit"
+              className="w-full"
+            >
+              확인
+            </Button>
+          </form>
+        </FormProvider>
+      </ModalWrapper>
+      {isOpen && <ErrorModal message={message} onClose={close} />}
+    </>
   );
 }
