@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { memo, useRef, useState } from 'react';
+import { memo, useRef, useState, useEffect } from 'react';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import Button from '@/components/commons/Button';
 import { imgChange } from '@/utils/imgChange';
@@ -19,6 +19,13 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState(FIRST_RENDERING);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
   useClickOutside(modalRef, onClose);
 
