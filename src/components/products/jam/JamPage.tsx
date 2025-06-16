@@ -1,14 +1,15 @@
 'use client';
 
-import { FormProvider, useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import ImageEdit from '@/components/products/jam/ImageEdit';
-import GroupPageLayout from '@/components/commons/GroupPageLayout';
 import Button from '@/components/commons/Button';
+import GroupPageLayout from '@/components/commons/GroupPageLayout';
+import ImageEdit from '@/components/products/jam/ImageEdit';
 import JamFormSection from '@/components/products/jam/JamFormSection';
-import { RegisterGatheringsRequest } from '@/types/gather';
-import { useGatherRegister } from '@/hooks/queries/gather/useGatherRegister';
 import { useGatherModify } from '@/hooks/queries/gather/useGatherModify';
+import { useGatherRegister } from '@/hooks/queries/gather/useGatherRegister';
+import { RegisterGatheringsRequest } from '@/types/gather';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { FormProvider, useForm } from 'react-hook-form';
 
 interface JamPageProps {
   formType?: 'register' | 'edit';
@@ -21,6 +22,7 @@ export default function JamPage({
   groupId,
   initialData,
 }: JamPageProps) {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const methods = useForm<RegisterGatheringsRequest>({
     defaultValues: initialData ?? {
@@ -68,6 +70,9 @@ export default function JamPage({
     } else {
       registerGathering(data, {
         onSuccess: (response) => {
+          queryClient.refetchQueries({
+            queryKey: ['list'],
+          });
           router.push(`/?showShareModal=true&groupId=${response.id}`);
         },
       });
