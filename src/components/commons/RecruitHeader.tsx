@@ -98,7 +98,7 @@ export default function RecruitHeader({
             href="/jam"
             className="pc:static pc:w-[9.25rem] tab:w-[calc(100%-48px)] fixed bottom-[1.375rem] z-30 h-11 w-[calc(100%-32px)] rounded-lg bg-[var(--purple-700)] text-center leading-11 font-semibold text-white"
           >
-            모임만들기
+            모임 만들기
           </Link>
         )}
       </div>
