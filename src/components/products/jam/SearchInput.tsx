@@ -38,21 +38,24 @@ export default function SearchInput({ value, onChange }: SearchInputProps) {
       <div className="flex flex-col gap-[0.5rem]">
         <label className="block text-sm text-gray-100">모임 장소</label>
         <div className="relative w-[27.9375rem] text-gray-400">
-          <input
-            ref={inputRef}
-            value={value}
-            placeholder="장소명을 검색하세요."
-            readOnly
-            className="h-[2.75rem] w-full rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem]"
-          />
-          <button
-            type="button"
-            className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
-            onClick={handleSearchClick}
-            aria-label="모임 장소 찾기 버튼"
-          >
-            <SearchIcon />
-          </button>
+          <label className="block cursor-pointer">
+            <input
+              ref={inputRef}
+              value={value}
+              placeholder="장소명을 검색하세요."
+              readOnly
+              className="h-[2.75rem] w-full rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem]"
+              onClick={handleSearchClick}
+            />
+            <button
+              type="button"
+              className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
+              onClick={handleSearchClick}
+              aria-label="모임 장소 찾기 버튼"
+            >
+              <SearchIcon />
+            </button>
+          </label>
         </div>
       </div>
     </>
