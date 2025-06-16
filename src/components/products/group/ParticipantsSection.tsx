@@ -12,6 +12,7 @@ import { GatheringDetailResponse, Participant } from '@/types/gathering';
 import { ReviewItem } from '@/types/review';
 import { handleAuthApiError } from '@/utils/authApiError';
 import clsx from 'clsx';
+import Image from 'next/image';
 import { useState } from 'react';
 
 interface ParticipantsSectionProps {
@@ -89,6 +90,19 @@ export default function ParticipantsSection({
       </div>
 
       <div className="group-info-divider-line" />
+      {participants.length === 0 && (
+        <div className="flex w-full flex-col items-center justify-center">
+          <Image
+            src="/images/img_character01.png"
+            alt="링크 공유 캐릭터 이미지"
+            width={128}
+            height={128}
+          />
+          <div className="h-[1.5rem] w-full pt-[8px] text-center text-gray-400">
+            아직 참여 멤버가 없어요~
+          </div>
+        </div>
+      )}
       {participants.map(
         ({
           participantId,
