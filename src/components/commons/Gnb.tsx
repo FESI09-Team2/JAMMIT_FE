@@ -52,7 +52,7 @@ export default function Gnb() {
                 key={href}
                 href={href}
                 data-active={pathname === href}
-                className="pc:text-[16px] text-[14px] font-semibold text-gray-300 data-[active=true]:font-bold data-[active=true]:text-gray-100"
+                className="pc:text-[1rem] text-[0.875rem] font-semibold text-gray-300 data-[active=true]:font-bold data-[active=true]:text-gray-100"
                 aria-label={`${label} 페이지로 이동`}
               >
                 {label}
@@ -70,7 +70,7 @@ export default function Gnb() {
             ) : (
               <Link
                 data-active={pathname === '/login'}
-                className="pc:text-[16px] text-[14px] font-semibold opacity-80 data-[active=true]:font-bold data-[active=true]:opacity-100"
+                className="pc:text-[1rem] text-[0.875rem] font-semibold opacity-80 data-[active=true]:font-bold data-[active=true]:opacity-100"
                 href="/login"
                 aria-label="로그인 페이지로 이동"
               >
