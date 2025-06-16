@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, ReactNode, useRef } from 'react';
+import { memo, ReactNode, useRef, useEffect } from 'react';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import CancelIcon from '@/assets/icons/ic_x.svg';
 
@@ -23,6 +23,13 @@ function ModalWrapper({
 }: ModalWrapperProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   useClickOutside(modalRef, onClose);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50">
