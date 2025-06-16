@@ -54,7 +54,9 @@ function ModalWrapper({
     </div>
   );
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return null;
+  }
 
   return createPortal(
     modalContent,
