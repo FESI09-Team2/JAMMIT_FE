@@ -48,15 +48,15 @@ export default function GroupPageLayout({
           >
             모집글
           </button>
+          {isLoggedIn && (
+            <div className="flex items-center gap-[0.2rem]">
+              <button
+                onClick={() => setTab('members')}
+                className={tabClass(activeTab === 'members')}
+              >
+                참여멤버
+              </button>
 
-          <div className="flex items-center gap-[0.2rem]">
-            <button
-              onClick={() => setTab('members')}
-              className={tabClass(activeTab === 'members')}
-            >
-              참여멤버
-            </button>
-            {isLoggedIn && (
               <span
                 className={clsx(
                   'flex h-[1.25rem] w-[1.25rem] items-center justify-center rounded-full text-[0.75rem]',
@@ -67,8 +67,8 @@ export default function GroupPageLayout({
               >
                 {participantsNumber}
               </span>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       )}
 

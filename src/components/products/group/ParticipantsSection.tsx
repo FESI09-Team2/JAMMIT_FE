@@ -92,7 +92,7 @@ export default function ParticipantsSection({
             width={128}
             height={128}
           />
-          <div className="h-[24px] w-full pt-[8px] text-center text-gray-400">
+          <div className="h-[1.5rem] w-full pt-[8px] text-center text-gray-400">
             아직 참여 멤버가 없어요~
           </div>
         </div>
