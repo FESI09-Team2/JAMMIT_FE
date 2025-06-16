@@ -12,7 +12,7 @@ import { useUserStore } from '@/stores/useUserStore';
 import ProfileImage from '@/components/commons/ProfileImage';
 import { ReviewItem } from '@/types/review';
 import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
-import CharacterImage from '@/assets/images/img_character01.png';
+import CharacterImage from '../../../../public/images/img_character01.png';
 import Image from 'next/image';
 
 interface ParticipantsSectionProps {

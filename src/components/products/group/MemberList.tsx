@@ -3,7 +3,7 @@ import CheckboxEmpty from '@/assets/icons/ic_checkbox_empty.svg';
 import MemberRow from './MemberRow';
 import { Participant } from '@/types/gathering';
 import Image from 'next/image';
-import CharacterImage from '@/assets/images/img_character01.png';
+import CharacterImage from '../../../../public/images/img_character01.png';
 
 interface MemberListProps {
   title: string;
