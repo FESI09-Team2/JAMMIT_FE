@@ -14,9 +14,9 @@ import {
   SESSION_ENUM_TO_KR,
   GENRE_ENUM_TO_KR,
 } from '@/constants/tagsMapping';
-import { useUploadProfileImageMutation } from '@/hooks/queries/user/useUploadProfileImageMutaion';
 import { useErrorModalStore } from '@/stores/useErrorModalStore';
 import ErrorModal from './ErrorModal';
+import { useImageUpload } from '@/hooks/useImageUpload';
 
 interface ModalEditProps {
   /** "확인" 버튼 클릭 시 실행할 콜백 */
@@ -34,8 +34,8 @@ export default function ModalEdit({
   initialData,
   userId,
 }: ModalEditProps) {
-  const { mutateAsync: uploadImage } = useUploadProfileImageMutation();
   const { message, isOpen, close } = useErrorModalStore();
+  const { handleImageUpload } = useImageUpload();
 
   // 영어 enum을 한글로 변환
   const initialSessionsKr =
@@ -62,16 +62,11 @@ export default function ModalEdit({
   const imageUrl = watch('image');
   const password = watch('password');
 
-  const MAX_FILE_SIZE = 5 * 1024 * 1024;
   const handleFileChange = async (file: File) => {
-    if (file.size > MAX_FILE_SIZE) {
-      useErrorModalStore
-        .getState()
-        .open('파일 크기는 최대 5MB까지 업로드 가능합니다.');
-      return;
+    const uploadedUrl = await handleImageUpload(userId, file);
+    if (uploadedUrl) {
+      setValue('image', uploadedUrl);
     }
-    const uploadedUrl = await uploadImage({ userId: userId, file });
-    setValue('image', uploadedUrl);
   };
 
   const handleSessionTagChange = useCallback(

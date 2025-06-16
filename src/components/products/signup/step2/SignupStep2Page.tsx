@@ -18,8 +18,7 @@ import { GENRE_KR_TO_ENUM, SESSION_KR_TO_ENUM } from '@/constants/tagsMapping';
 import { GENRE_TAGS, SESSION_TAGS } from '@/constants/tags';
 import { useToastStore } from '@/stores/useToastStore';
 import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
-import { useUploadProfileImageMutation } from '@/hooks/queries/user/useUploadProfileImageMutaion';
-import { useErrorModalStore } from '@/stores/useErrorModalStore';
+import { useImageUpload } from '@/hooks/useImageUpload';
 
 interface FormValues {
   image: File;
@@ -33,8 +32,8 @@ export default function SignupStep2Page() {
   const { email, name, password, resetSignupData } = useSignupStore();
   const [missingInfoModalOpen, setMissingInfoModalOpen] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState<string>('');
-  const { mutateAsync: uploadImage } = useUploadProfileImageMutation();
   const { mutateAsync: signup } = useSignupMutation();
+  const { handleImageUpload } = useImageUpload();
 
   const hasCheckedRef = useRef(false);
 
@@ -58,16 +57,11 @@ export default function SignupStep2Page() {
     control,
   } = methods;
 
-  const MAX_FILE_SIZE = 5 * 1024 * 1024;
   const handleFileUpload = async (file: File) => {
-    if (file.size > MAX_FILE_SIZE) {
-      useErrorModalStore
-        .getState()
-        .open('파일 크기는 최대 5MB까지 업로드 가능합니다.');
-      return;
+    const uploadedUrl = await handleImageUpload(1, file);
+    if (uploadedUrl) {
+      setProfileImageUrl(uploadedUrl);
     }
-    const uploadedUrl = await uploadImage({ userId: 1, file });
-    setProfileImageUrl(uploadedUrl);
   };
 
   const handleSessionTagChange = (selected: string[]) => {
