@@ -126,9 +126,13 @@
     border-spacing: 0;
   }
 
-  input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 1000px #34343a inset;
-    -webkit-text-fill-color: white;
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #34343a inset !important;
+    -webkit-text-fill-color: gray-400 !important;
+    transition: background-color 5000s ease-in-out 0s;
   }
 
 }
