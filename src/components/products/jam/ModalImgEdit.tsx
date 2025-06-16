@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { memo, useRef, useState, useEffect } from 'react';
+import { memo, useRef, useState } from 'react';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import Button from '@/components/commons/Button';
 import { imgChange } from '@/utils/imgChange';
@@ -21,16 +21,8 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState(FIRST_RENDERING);
 
-  usePreventScroll();
-
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, []);
-
   useClickOutside(modalRef, onClose);
+  usePreventScroll();
 
   // 배너 이미지 파일명 생성 함수
   const getBannerFileName = (index: number): string => {
