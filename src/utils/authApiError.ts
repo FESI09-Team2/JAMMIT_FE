@@ -18,6 +18,7 @@ export const handleAuthApiError = (
     extra: {
       fallbackMessage,
       ...context?.extra,
+      rawError: error,
       timestamp: new Date().toISOString(),
     },
   });
