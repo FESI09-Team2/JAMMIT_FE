@@ -14,14 +14,12 @@ describe('ModalReview 렌데링 테스트', () => {
   beforeEach(() => {
     onCancelMock.mockClear();
     onSubmitMock.mockClear();
-    // 테스트 환경에 modal-root div 추가
     const modalRoot = document.createElement('div');
     modalRoot.setAttribute('id', 'modal-root');
     document.body.appendChild(modalRoot);
   });
 
   afterEach(() => {
-    // 테스트 후 modal-root div 제거
     const modalRoot = document.getElementById('modal-root');
     if (modalRoot) {
       document.body.removeChild(modalRoot);
