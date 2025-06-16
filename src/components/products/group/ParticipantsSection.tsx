@@ -1,17 +1,18 @@
 'use client';
 
 import Button from '@/components/commons/Button';
-import { GatheringDetailResponse, Participant } from '@/types/gathering';
-import { SESSION_ENUM_TO_KR } from '@/constants/tagsMapping';
-import clsx from 'clsx';
-import { useState } from 'react';
+import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
 import ModalReview from '@/components/commons/Modal/ModalReview';
+import ProfileImage from '@/components/commons/ProfileImage';
 import { ReviewField, tagToFieldMap } from '@/constants/review';
+import { SESSION_ENUM_TO_KR } from '@/constants/tagsMapping';
 import { usePostReviewMutation } from '@/hooks/queries/review/usePostReviewMutation';
 import { useUserStore } from '@/stores/useUserStore';
-import ProfileImage from '@/components/commons/ProfileImage';
+import { GatheringDetailResponse, Participant } from '@/types/gathering';
 import { ReviewItem } from '@/types/review';
-import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
+import { handleAuthApiError } from '@/utils/authApiError';
+import clsx from 'clsx';
+import { useState } from 'react';
 
 interface ParticipantsSectionProps {
   gathering: GatheringDetailResponse;
@@ -69,6 +70,12 @@ export default function ParticipantsSection({
       onSuccess: () => {
         handleCloseReviewModal();
         setSuccessModalOpen(true);
+      },
+      onError: (error) => {
+        handleAuthApiError(error, '리뷰 작성 중 오류가 발생했습니다.', {
+          section: 'review',
+          action: 'create_review',
+        });
       },
     });
     handleCloseReviewModal();
