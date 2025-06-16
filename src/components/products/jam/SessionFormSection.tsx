@@ -87,7 +87,7 @@ export default function SessionFormSection({
 
   return (
     <div className="flex flex-col gap-[0.5rem]">
-      <p className="text-lg font-semibold">모집 세션</p>
+      <p className="text-sm font-semibold">모집 세션</p>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-[0.75rem]">
           {sessionList.map(({ sortOption, count }, index) => (
