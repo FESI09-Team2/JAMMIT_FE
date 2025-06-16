@@ -2,13 +2,16 @@
 
 import Button from '@/components/commons/Button';
 import GroupPageLayout from '@/components/commons/GroupPageLayout';
+import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
 import ImageEdit from '@/components/products/jam/ImageEdit';
 import JamFormSection from '@/components/products/jam/JamFormSection';
 import { useGatherModify } from '@/hooks/queries/gather/useGatherModify';
 import { useGatherRegister } from '@/hooks/queries/gather/useGatherRegister';
+import { useUserStore } from '@/stores/useUserStore';
 import { RegisterGatheringsRequest } from '@/types/gather';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 interface JamPageProps {
@@ -24,6 +27,20 @@ export default function JamPage({
 }: JamPageProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const isLoggedIn = useUserStore((state) => state.isLoggedIn);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setShowLoginModal(true);
+    }
+  }, [isLoggedIn]);
+
+  const handleLoginModalClose = () => {
+    setShowLoginModal(false);
+    router.push('/login');
+  };
+
   const methods = useForm<RegisterGatheringsRequest>({
     defaultValues: initialData ?? {
       name: '',
@@ -104,6 +121,14 @@ export default function JamPage({
           />
         </GroupPageLayout>
       </form>
+      {showLoginModal && (
+        <ModalInteraction
+          message="로그인 페이지로 이동하시겠습니까?"
+          onConfirm={handleLoginModalClose}
+          onClose={handleLoginModalClose}
+          isShowCancel={false}
+        />
+      )}
     </FormProvider>
   );
 }
