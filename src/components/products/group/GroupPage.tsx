@@ -2,7 +2,6 @@
 
 import Button from '@/components/commons/Button';
 import GroupPageLayout from '@/components/commons/GroupPageLayout';
-import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
 import { SESSION_KR_TO_ENUM } from '@/constants/tagsMapping';
 import { useCancelParticipateGatheringMutation } from '@/hooks/queries/gatherings/useCancelParticipateGathering';
 import { useGatheringDetailQuery } from '@/hooks/queries/gatherings/useGatheringsDetailQuery';
@@ -20,6 +19,8 @@ import GroupInfoSection from './GroupInfoSection';
 import MemberInfoSection from './MemberInfoSection';
 import ParticipantsSection from './ParticipantsSection';
 import ParticipationForm from './ParticipationForm';
+import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
+import GroupPageSkeleton from './GroupPageSkeleton';
 
 export default function GroupPage() {
   const router = useRouter();
@@ -94,7 +95,10 @@ export default function GroupPage() {
     extra: { gatheringId: numericId },
   });
   // TODO: 스켈레톤 적용
-  if (isLoading) return <div>로딩 중...</div>;
+  // if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) {
+    return <GroupPageSkeleton />;
+  }
   if (error) return <div>에러 발생</div>;
   if (!gatheringDetailData) return <div>모임 정보를 찾을 수 없습니다.</div>;
 
@@ -124,6 +128,7 @@ export default function GroupPage() {
     (participant) => participant.userId === user?.id,
   );
   const myParticipantStatus = myParticipant?.status ?? null;
+  console.log('my: ', myParticipantStatus);
   const isMyParticipantPending = myParticipantStatus === 'PENDING';
   const isMyParticipantApproved = myParticipantStatus === 'APPROVED';
   const isMyParticipantRejected = myParticipantStatus === 'REJECTED';
@@ -178,6 +183,7 @@ export default function GroupPage() {
   type ButtonState =
     | 'CANCELED'
     | 'COMPLETED'
+    | 'COMPLETED_REJECTED'
     | 'CONFIRMED_REJECTED'
     | 'CONFIRMED_APPROVED'
     | 'CONFIRMED_HOST'
@@ -193,7 +199,11 @@ export default function GroupPage() {
   if (isCanceled) {
     buttonState = 'CANCELED';
   } else if (isCompleted) {
-    buttonState = 'COMPLETED';
+    if (isMyParticipantRejected) {
+      buttonState = 'COMPLETED_REJECTED';
+    } else {
+      buttonState = 'COMPLETED';
+    }
   } else if (isConfirmed) {
     if (isMyParticipantRejected || isMyParticipantPending) {
       buttonState = 'CONFIRMED_REJECTED';
@@ -230,6 +240,12 @@ export default function GroupPage() {
         return (
           <Button disabled className="pc:w-[22.75rem] w-full">
             완료된 모임입니다
+          </Button>
+        );
+      case 'COMPLETED_REJECTED':
+        return (
+          <Button disabled className="pc:w-[22.75rem] w-full">
+            신청 거절된 모임입니다
           </Button>
         );
       case 'CONFIRMED_REJECTED':
