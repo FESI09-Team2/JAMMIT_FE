@@ -62,14 +62,14 @@ export default function GroupInfoSection({
 
   return (
     <>
-      <section className="w-[60rem] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
+      <section className="pc:max-w-[960px] w-full rounded-[8px] bg-[#202024] p-[40px]">
         {/* 모임 제목, 주최자 */}
-        <div className="flex h-[4.375rem] flex-col justify-between">
+        <div className="flex h-[70px] flex-col justify-between">
           <div className="flex w-full justify-between">
             <h1 className="group-info-title">{name}</h1>
             <div className="relative">
               <ShareIcon
-                className="absolute top-1.5 right-[2.5rem] w-7 cursor-pointer"
+                className="absolute top-1.5 right-[40px] w-7 cursor-pointer"
                 onClick={() => setIsModalOpen(true)}
               />
               <Like item={convertToCardItem(gathering)} />
@@ -81,12 +81,12 @@ export default function GroupInfoSection({
         <div className="group-info-divider-line" />
 
         {/* 모임 장소, 날짜, 모집 종료일 */}
-        <div className="flex flex-col gap-2 text-sm">
+        <div className="pc:gap-2 flex flex-col text-sm">
           <div className="group-info-text">
-            <span className="group-info-subtitle mr-[0.5rem]">모임 장소 </span>
+            <span className="group-info-subtitle mr-[8px]">모임 장소 </span>
             {place}
           </div>
-          <div className="mt-[1.25rem] flex gap-[2.5rem]">
+          <div className="pc:flex-row pc:gap-[40px] mt-[20px] flex flex-col gap-[20px]">
             {[
               {
                 label: '모임 날짜',
@@ -98,7 +98,7 @@ export default function GroupInfoSection({
               },
             ].map(({ label, value }) => (
               <div key={label} className="group-info-text">
-                <span className="group-info-subtitle mr-[0.5rem]">{label}</span>
+                <span className="group-info-subtitle mr-[8px]">{label}</span>
                 {value}
               </div>
             ))}
@@ -108,19 +108,19 @@ export default function GroupInfoSection({
         <div className="group-info-divider-line" />
 
         {/* 모집 현황 */}
-        <div className="flex gap-[1.25rem]">
+        <div className="pc:flex-row flex flex-col gap-[20px]">
           <div>
-            <p className="group-info-subtitle mb-[1.25rem]">모집 현황</p>
-            <div className="grid w-[18.813rem] grid-cols-2 gap-x-[2rem] gap-y-[0.5rem]">
+            <p className="group-info-subtitle mb-[20px]">모집 현황</p>
+            <div className="grid w-[301.008px] grid-cols-2 gap-x-[32px] gap-y-[8px]">
               {sessions.map(({ bandSession, currentCount, recruitCount }) => (
                 <div
                   key={bandSession}
-                  className="flex w-[8.875rem] items-center justify-between"
+                  className="flex w-[142px] items-center justify-between"
                 >
-                  <span className="rounded-[0.5rem] bg-[#34343a] px-[0.75rem] py-[0.375rem] text-sm text-[0.875rem] text-white">
+                  <span className="rounded-[8px] bg-[#34343a] px-[12px] py-[6px] text-sm text-[14px] text-white">
                     {SESSION_ENUM_TO_KR[bandSession]}
                   </span>
-                  <span className="group-info-text w-[2.875rem]">
+                  <span className="group-info-text w-[46px]">
                     {currentCount}/{recruitCount}
                   </span>
                 </div>
@@ -129,8 +129,8 @@ export default function GroupInfoSection({
           </div>
 
           {/* 모임 장르 */}
-          <div className="w-[32.438rem]">
-            <p className="group-info-subtitle mb-[1.25rem]">모임 장르</p>
+          <div className="pc:w-[519.008px] w-full">
+            <p className="group-info-subtitle mb-[20px]">모임 장르</p>
             <TagSelector
               tags={GENRE_TAGS}
               mode="readonly"
@@ -142,18 +142,18 @@ export default function GroupInfoSection({
         <div className="group-info-divider-line" />
 
         {/* 모임 소개글 */}
-        <p className="group-info-subtitle mb-[1.25rem]">모임 소개글</p>
+        <p className="group-info-subtitle mb-[20px]">모임 소개글</p>
         <div className="group-info-text whitespace-pre-line">{description}</div>
       </section>
 
-      <div className="ml-[1.25rem]">
+      <div className="ml-[20px]">
         {isRecruiting && isHost && (
-          <div className="flex flex-col gap-[1.25rem]">
+          <div className="flex flex-col gap-[20px]">
             {actionButtons.map(({ label, variant, onClick }) => (
               <Button
                 key={label}
                 variant={variant as 'solid' | 'outline'}
-                className="w-[22.75rem]"
+                className="w-[364px]"
                 onClick={onClick}
               >
                 {label}

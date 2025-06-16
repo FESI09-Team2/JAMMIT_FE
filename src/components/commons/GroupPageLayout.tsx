@@ -35,7 +35,7 @@ export default function GroupPageLayout({
     );
 
   return (
-    <div className="mx-auto w-[84rem] pt-[1.5rem]">
+    <div className="mx-auto w-full max-w-[84rem] pt-[1.5rem]">
       {/* 상단 베너 */}
       {banner}
 
@@ -72,7 +72,7 @@ export default function GroupPageLayout({
         </div>
       )}
 
-      <div className="flex justify-between pb-[3.875rem]">
+      <div className="pc:flex-row pc:px-0 mx-auto flex w-full max-w-[84rem] flex-col justify-between px-5 pb-[3.875rem]">
         {/* 메인 본문 */}
         {children}
 
