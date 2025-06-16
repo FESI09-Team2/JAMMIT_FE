@@ -58,6 +58,7 @@ export default function SearchInput({ value, onChange }: SearchInputProps) {
           type="button"
           className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer"
           onClick={handleSearchClick}
+          aria-label="모임 장소 찾기 버튼"
         >
           <SearchIcon />
         </button>
