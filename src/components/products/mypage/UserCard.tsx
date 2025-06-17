@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import EditIcon from '@/assets/icons/ic_edit.svg';
 import ModalEdit from '@/components/commons/Modal/ModalEdit';
 import ProfileImage from '@/components/commons/ProfileImage';
@@ -11,7 +12,7 @@ import { useUserStore } from '@/stores/useUserStore';
 import { EditFormData } from '@/types/modal';
 import { BandSession, Genre } from '@/types/tags';
 import { handleAuthApiError } from '@/utils/authApiError';
-import { useState } from 'react';
+import SkeletonUserCard from './SkeletonUserCard';
 
 export default function UserCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,11 +22,7 @@ export default function UserCard() {
   const { setUser } = useUserStore();
 
   if (isLoading || !user) {
-    return (
-      <div className="flex h-[15.625rem] w-[full] items-center justify-center gap-[3.3125rem] bg-[#36114E]">
-        Loading...
-      </div>
-    );
+    return <SkeletonUserCard />;
   }
 
   const handleProfileEdit = () => {
