@@ -94,8 +94,7 @@ export default function GroupPage() {
     tags: { section: 'gather', action: 'fetch_written_reviews' },
     extra: { gatheringId: numericId },
   });
-  // TODO: 스켈레톤 적용
-  // if (isLoading) return <div>로딩 중...</div>;
+
   if (isLoading) {
     return <GroupPageSkeleton />;
   }

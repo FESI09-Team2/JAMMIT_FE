@@ -41,6 +41,21 @@ export default function ParticipantsSection({
   } | null>(null);
   const reviewMutation = usePostReviewMutation();
 
+  const participantsWithHost: Participant[] = [
+    {
+      participantId: -1, // 임의의 숫자 (중복 안되게 음수 추천)
+      userId: gathering.creator.id,
+      userNickname: gathering.creator.nickname,
+      userEmail: 'host@example.com', // 임의 이메일
+      bandSession: 'VOCAL', // 빈 배열
+      status: 'COMPLETED',
+      createdAt: new Date().toISOString(), // 현재 시각 사용
+      introduction: '',
+      profileImagePath: '',
+    },
+    ...participants,
+  ];
+
   const handleOpenReviewModal = (userId: number, nickname: string) => {
     setSelectedParticipant({ userId, nickname });
   };
@@ -103,7 +118,7 @@ export default function ParticipantsSection({
           </div>
         </div>
       )}
-      {participants.map(
+      {participantsWithHost.map(
         ({
           participantId,
           userNickname,
