@@ -35,7 +35,6 @@ interface GatheringListProps {
 export default function GatheringList({
   size = 8,
   includeCanceled = true,
-  onCountChange,
   useHook,
   renderComponent: RenderComponent,
   errorConfig,
@@ -60,11 +59,8 @@ export default function GatheringList({
       setList((prev) =>
         page === 0 ? data.gatherings : [...prev, ...data.gatherings],
       );
-      if (onCountChange) {
-        onCountChange(data.totalElements);
-      }
     }
-  }, [page, data, onCountChange]);
+  }, [page, data]);
 
   const loadMore = () => {
     if (page + 1 < (data?.totalPage ?? 1)) {
