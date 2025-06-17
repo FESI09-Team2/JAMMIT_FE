@@ -127,12 +127,10 @@ export default function GroupPage() {
     (participant) => participant.userId === user?.id,
   );
   const myParticipantStatus = myParticipant?.status ?? null;
-  console.log('my: ', myParticipantStatus);
   const isMyParticipantPending = myParticipantStatus === 'PENDING';
   const isMyParticipantApproved = myParticipantStatus === 'APPROVED';
   const isMyParticipantRejected = myParticipantStatus === 'REJECTED';
   const myParticipantId = myParticipant?.participantId;
-  console.log('my status: ', myParticipantStatus);
 
   const approvedParticipants = participants.filter(
     (participant) => participant.status === 'APPROVED',
