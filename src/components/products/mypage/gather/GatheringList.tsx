@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { GatheringCard } from '@/types/card';
 import { GatheringsResponse, GetUserGatheringsParams } from '@/types/gather';
 import { useSentryErrorLogger } from '@/utils/useSentryErrorLogger';
+import SkeletonGatheringList from './SkeletonGatheringList';
 
 interface UseGatheringHook {
   (params: GetUserGatheringsParams): {
@@ -67,6 +68,10 @@ export default function GatheringList({
       setPage((prev) => prev + 1);
     }
   }, [page, data?.totalPage]);
+
+  if (!data && !isError) {
+    return <SkeletonGatheringList />;
+  }
 
   return (
     <RenderComponent
