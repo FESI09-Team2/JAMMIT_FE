@@ -18,10 +18,12 @@ export default function UserCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const updateProfile = useUpdateProfile();
   const updateProfileImage = useUpdateProfileImage();
+  const { isLoaded, isRefreshing, setUser } = useUserStore();
   const { data: user, isLoading } = useUserMeQuery();
-  const { setUser } = useUserStore();
 
-  if (isLoading || !user) {
+  const isQueryReady = isLoaded && !isRefreshing && !!user;
+
+  if (isLoading || !isQueryReady) {
     return <SkeletonUserCard />;
   }
 
