@@ -129,16 +129,23 @@ export default function ParticipantsSection({
               <div className="my-[0.75rem] flex items-center gap-[1.25rem]">
                 <ProfileImage src={profileImagePath} size={3} />
 
-                <div className="w-[8.6875rem] underline underline-offset-2">
-                  {userNickname}
+                <div className="flex w-[8.6875rem] items-center">
+                  <span className="text-[16px] underline underline-offset-2">
+                    {userNickname}
+                  </span>
+                  {isHostItem && (
+                    <div className="ml-[7px] flex h-[16px] w-[46px] items-center justify-center rounded-[8.5px] bg-purple-700 text-center text-[12px] font-semibold">
+                      주최자
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex w-[10.4375rem] gap-[0.25rem]">
-                  <div className="rounded-[0.5rem] bg-[#34343A] px-[0.75rem] py-[0.375rem] text-gray-100">
-                    {isHostItem
-                      ? '모임 주최자'
-                      : SESSION_ENUM_TO_KR[bandSession]}
-                  </div>
+                  {!isHostItem && (
+                    <div className="rounded-[0.5rem] bg-[#34343A] px-[0.75rem] py-[0.375rem] text-gray-100">
+                      {SESSION_ENUM_TO_KR[bandSession]}
+                    </div>
+                  )}
                 </div>
 
                 <div
