@@ -7,7 +7,7 @@ import ReviewItems from '../mypage/review/ReviewItems';
 import ReviewStatusItem from '../mypage/review/ReviewsReceived';
 import SkeletonReviewList from '../mypage/review/SkeletonReviewList';
 import SkeletonStatus from '../mypage/review/SkeletonStatus';
-import SkeletonUser from '../mypage/SkeletonUser';
+import SkeletonUserCard from '../mypage/SkeletonUserCard';
 import UserCardItem from '../mypage/UserCardItem';
 
 export default function ReviewPageClient({
@@ -18,7 +18,7 @@ export default function ReviewPageClient({
   if (!data || isLoading) {
     return (
       <div>
-        <SkeletonUser />
+        <SkeletonUserCard />
         <div className="pc:max-w-[84rem] mx-auto flex items-start gap-5">
           <SkeletonStatus />
           <SkeletonReviewList />

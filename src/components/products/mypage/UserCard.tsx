@@ -1,6 +1,7 @@
 'use client';
 
 import ModalEdit from '@/components/commons/Modal/ModalEdit';
+import { useState } from 'react';
 
 import { useUpdateProfile } from '@/hooks/queries/user/useUpdateProfile';
 import { useUpdateProfileImage } from '@/hooks/queries/user/useUpdateProfileImage';
@@ -8,22 +9,20 @@ import { useUserMeQuery } from '@/hooks/queries/user/useUserMeQuery';
 import { useUserStore } from '@/stores/useUserStore';
 import { EditFormData } from '@/types/modal';
 import { handleAuthApiError } from '@/utils/authApiError';
-import { useState } from 'react';
+import SkeletonUserCard from './SkeletonUserCard';
 import UserCardItem from './UserCardItem';
 
 export default function UserCard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const updateProfile = useUpdateProfile();
   const updateProfileImage = useUpdateProfileImage();
+  const { isLoaded, isRefreshing, setUser } = useUserStore();
   const { data: user, isLoading } = useUserMeQuery();
-  const { setUser } = useUserStore();
 
-  if (isLoading || !user) {
-    return (
-      <div className="flex h-[15.625rem] w-[full] items-center justify-center gap-[3.3125rem] bg-[#36114E]">
-        Loading...
-      </div>
-    );
+  const isQueryReady = isLoaded && !isRefreshing && !!user;
+
+  if (isLoading || !isQueryReady) {
+    return <SkeletonUserCard />;
   }
 
   const handleModalCancel = () => {
