@@ -325,8 +325,8 @@ export default function GroupPage() {
       <GroupPageLayout
         participantsNumber={
           isCompleted
-            ? completedParticipants.length
-            : approvedParticipants.length
+            ? completedParticipants.length + 1
+            : approvedParticipants.length + 1
         }
         banner={
           <div className="pc:rounded-[0.5rem] relative h-[22rem] w-full overflow-hidden">
