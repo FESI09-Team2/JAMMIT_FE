@@ -3,15 +3,15 @@
 import UserCard from '@/components/products/mypage/UserCard';
 import CreatedList from '@/components/products/mypage/gather/CreatedList';
 import ParticipatingList from '@/components/products/mypage/gather/ParticipatingList';
-import ReviewsReceived from '@/components/products/mypage/review/ReviewsReceived';
 import ReviewsToWrite from '@/components/products/mypage/towrite/ReviewsToWrite';
 import { useCreatedCount } from '@/hooks/queries/gather/useGatherMeCreate';
-import { useReviewToWriteInfiniteQuery } from '@/hooks/queries/review/useReviewInfiniteQuery';
-import { useReviewInfiniteQuery } from '@/hooks/queries/review/useSuspenseReview';
+import { useReviewInfiniteQuery } from '@/hooks/queries/review/useReviewInfiniteQuery';
 import { useUserMeQuery } from '@/hooks/queries/user/useUserMeQuery';
 import { useQueryTab } from '@/hooks/useQueryTab';
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
+import ReviewList from './review/ReviewList';
+import ReviewStatus from './review/ReviewStatus';
 
 type TabKey =
   | 'participating'
@@ -30,14 +30,10 @@ export default function MyPage() {
   const [participatingCount, setParticipatingCount] = useState(0);
   const createdCount = useCreatedCount();
   const { data: user } = useUserMeQuery();
-  const { data: write } = useReviewToWriteInfiniteQuery({
-    size: 8,
-    includeCanceled: false,
-    id: user?.id as number,
-  });
-  const writeCount =
-    write?.pages[0].gatherings.filter((item) => item.status === 'COMPLETED')
-      .length ?? 0;
+  // const { data: write } = useReviewWrite({  id: user?.id as number,});
+  // const writeCount =
+  //   write?.pages[0].gatherings.filter((item) => item.status === 'COMPLETED')
+  //     .length ?? 0;
   const { data: review } = useReviewInfiniteQuery({
     size: 8,
     id: user?.id as number,
@@ -62,16 +58,21 @@ export default function MyPage() {
         key: 'reviews_received',
         label: '내가 받은 리뷰',
         count: reviewCount,
-        component: <ReviewsReceived />,
+        component: (
+          <div className="flex items-start gap-5">
+            <ReviewStatus />
+            <ReviewList />
+          </div>
+        ),
       },
       {
         key: 'reviews_towrite',
         label: '작성 가능한 리뷰',
-        count: writeCount,
+        count: 0,
         component: <ReviewsToWrite />,
       },
     ],
-    [participatingCount, createdCount, writeCount, reviewCount],
+    [participatingCount, createdCount, reviewCount],
   );
 
   const tabClass = (isActive: boolean) =>
