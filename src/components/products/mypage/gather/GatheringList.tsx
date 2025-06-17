@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { GatheringCard } from '@/types/card';
 import { GatheringsResponse, GetUserGatheringsParams } from '@/types/gather';
 import { useSentryErrorLogger } from '@/utils/useSentryErrorLogger';
@@ -42,11 +42,11 @@ export default function GatheringList({
   const [page, setPage] = useState(0);
   const [list, setList] = useState<GatheringCard[]>([]);
 
-  const { data, isError, error } = useHook({
-    page,
-    size,
-    includeCanceled,
-  });
+  const params = useMemo(
+    () => ({ page, size, includeCanceled }),
+    [page, size, includeCanceled],
+  );
+  const { data, isError, error } = useHook(params);
 
   useSentryErrorLogger({
     isError: !!isError,
@@ -62,11 +62,11 @@ export default function GatheringList({
     }
   }, [page, data]);
 
-  const loadMore = () => {
+  const loadMore = useCallback(() => {
     if (page + 1 < (data?.totalPage ?? 1)) {
       setPage((prev) => prev + 1);
     }
-  };
+  }, [page, data?.totalPage]);
 
   return (
     <RenderComponent
