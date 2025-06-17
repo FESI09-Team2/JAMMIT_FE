@@ -1,17 +1,19 @@
 'use client';
 
+import { useMemo, useState } from 'react';
+import clsx from 'clsx';
 import UserCard from '@/components/products/mypage/UserCard';
-import CreatedList from '@/components/products/mypage/gather/CreatedList';
-import ParticipatingList from '@/components/products/mypage/gather/ParticipatingList';
+import GatheringList from '@/components/products/mypage/gather/GatheringList';
+import GatheringListComponents from '@/components/products/mypage/gather/GatheringListComponents';
 import ReviewsReceived from '@/components/products/mypage/review/ReviewsReceived';
 import ReviewsToWrite from '@/components/products/mypage/towrite/ReviewsToWrite';
 import { useCreatedCount } from '@/hooks/queries/gather/useGatherMeCreate';
+import { useGatherMeCreate } from '@/hooks/queries/gather/useGatherMeCreate';
+import { useGatherMeParticipants } from '@/hooks/queries/gather/useGatherMeParticipants';
 import { useReviewToWriteInfiniteQuery } from '@/hooks/queries/review/useReviewInfiniteQuery';
 import { useReviewInfiniteQuery } from '@/hooks/queries/review/useSuspenseReview';
 import { useUserMeQuery } from '@/hooks/queries/user/useUserMeQuery';
 import { useQueryTab } from '@/hooks/useQueryTab';
-import clsx from 'clsx';
-import { useMemo, useState } from 'react';
 
 type TabKey =
   | 'participating'
@@ -50,13 +52,36 @@ export default function MyPage() {
         key: 'participating',
         label: '참여 모임',
         count: participatingCount,
-        component: <ParticipatingList onCountChange={setParticipatingCount} />,
+        component: (
+          <GatheringList
+            onCountChange={setParticipatingCount}
+            useHook={useGatherMeParticipants}
+            renderComponent={(props) => (
+              <GatheringListComponents
+                {...props}
+                emptyText="참여 중인 모집이 없습니다."
+              />
+            )}
+            errorConfig={{ section: 'participating', action: 'participating' }}
+          />
+        ),
       },
       {
         key: 'created',
         label: '내가 만든 모임',
         count: createdCount,
-        component: <CreatedList />,
+        component: (
+          <GatheringList
+            useHook={useGatherMeCreate}
+            renderComponent={(props) => (
+              <GatheringListComponents
+                {...props}
+                emptyText="생성한 모집이 없습니다."
+              />
+            )}
+            errorConfig={{ section: 'created', action: 'created' }}
+          />
+        ),
       },
       {
         key: 'reviews_received',
