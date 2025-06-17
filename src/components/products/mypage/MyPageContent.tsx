@@ -1,15 +1,21 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import clsx from 'clsx';
 import UserCard from '@/components/products/mypage/UserCard';
 import GatheringList from '@/components/products/mypage/gather/GatheringList';
 import GatheringListComponents from '@/components/products/mypage/gather/GatheringListComponents';
 import ReviewsReceived from '@/components/products/mypage/review/ReviewsReceived';
 import ReviewsToWrite from '@/components/products/mypage/towrite/ReviewsToWrite';
-import { useCreatedCount } from '@/hooks/queries/gather/useGatherMeCreate';
-import { useGatherMeCreate } from '@/hooks/queries/gather/useGatherMeCreate';
-import { useGatherMeParticipants } from '@/hooks/queries/gather/useGatherMeParticipants';
+import { usePrefetchedCount } from '@/hooks/queries/gather/usePrefetchedCoint';
+import {
+  gatherMeParticipantsQuery,
+  useGatherMeParticipants,
+} from '@/hooks/queries/gather/useGatherMeParticipants';
+import {
+  gatherMeCreateQuery,
+  useGatherMeCreate,
+} from '@/hooks/queries/gather/useGatherMeCreate';
 import { useReviewToWriteInfiniteQuery } from '@/hooks/queries/review/useReviewInfiniteQuery';
 import { useReviewInfiniteQuery } from '@/hooks/queries/review/useSuspenseReview';
 import { useUserMeQuery } from '@/hooks/queries/user/useUserMeQuery';
@@ -29,14 +35,24 @@ export default function MyPage() {
     'reviews_towrite',
   ]);
 
-  const [participatingCount, setParticipatingCount] = useState(0);
-  const createdCount = useCreatedCount();
+  const participatingCount = usePrefetchedCount({
+    ...gatherMeParticipantsQuery({ page: 0, size: 1, includeCanceled: true }),
+    selector: (data) => data.totalElements,
+  });
+
+  const createdCount = usePrefetchedCount({
+    ...gatherMeCreateQuery({ page: 0, size: 1, includeCanceled: true }),
+    selector: (data) => data.totalElements,
+  });
+
   const { data: user } = useUserMeQuery();
+
   const { data: write } = useReviewToWriteInfiniteQuery({
     size: 8,
     includeCanceled: false,
     id: user?.id as number,
   });
+
   const writeCount =
     write?.pages[0].gatherings.filter((item) => item.status === 'COMPLETED')
       .length ?? 0;
@@ -44,6 +60,7 @@ export default function MyPage() {
     size: 8,
     id: user?.id as number,
   });
+
   const reviewCount = review?.pages[0].totalElements ?? 0;
 
   const tabList = useMemo(
@@ -54,7 +71,6 @@ export default function MyPage() {
         count: participatingCount,
         component: (
           <GatheringList
-            onCountChange={setParticipatingCount}
             useHook={useGatherMeParticipants}
             renderComponent={(props) => (
               <GatheringListComponents
