@@ -130,11 +130,11 @@ export default function ParticipantsSection({
                 <ProfileImage src={profileImagePath} size={3} />
 
                 <div className="flex w-[8.6875rem] items-center">
-                  <span className="text-[16px] underline underline-offset-2">
+                  <span className="text-[1rem] underline underline-offset-2">
                     {userNickname}
                   </span>
                   {isHostItem && (
-                    <div className="ml-[7px] flex h-[16px] w-[46px] items-center justify-center rounded-[8.5px] bg-purple-700 text-center text-[12px] font-semibold">
+                    <div className="ml-[0.4375rem] flex h-[1rem] w-[2.875rem] items-center justify-center rounded-[0.5313rem] bg-purple-700 text-center text-[0.75rem] font-semibold">
                       주최자
                     </div>
                   )}
@@ -181,14 +181,14 @@ export default function ParticipantsSection({
         },
       )}
       {participants.length === 0 && (
-        <div className="mt-[40px] flex w-full flex-col items-center justify-center">
+        <div className="mt-[2.5rem] flex w-full flex-col items-center justify-center">
           <Image
             src="/images/img_character01.png"
             alt="링크 공유 캐릭터 이미지"
             width={128}
             height={128}
           />
-          <div className="h-[1.5rem] w-full pt-[8px] text-center text-gray-400">
+          <div className="h-[1.5rem] w-full pt-[0.5rem] text-center text-gray-400">
             아직 참여 멤버가 없어요~
           </div>
         </div>
