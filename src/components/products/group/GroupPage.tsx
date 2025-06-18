@@ -25,6 +25,7 @@ import GroupInfoSection from './GroupInfoSection';
 import MemberInfoSection from './MemberInfoSection';
 import ParticipantsSection from './ParticipantsSection';
 import { GatheringDetailResponse } from '@/types/gathering';
+import MemberTabSkeleton from './MemberTabSkeleton';
 
 export default function GroupPage({
   id,
@@ -106,21 +107,19 @@ export default function GroupPage({
     extra: { gatheringId: groupId },
   });
 
+  if (isRefreshing) {
+    return <MemberTabSkeleton />;
+  }
   if (isLoading) {
     return <GroupPageSkeleton />;
   }
-  if (error) return <div>에러 발생</div>;
   if (!gatheringDetailData) return <div>모임 정보를 찾을 수 없습니다.</div>;
 
   if (activeTab === 'members') {
     if (!user) {
     } else {
       if (isParticipantsLoading || isWrittenReviewLoading)
-        return <div>로딩 중...</div>;
-      if (participantsError || wittenReviewError) return <div>에러 발생</div>;
-
-      if (!participantsData)
-        return <div>모임 참가자 정보를 찾을 수 없습니다.</div>;
+        return <MemberTabSkeleton />;
     }
   }
 
