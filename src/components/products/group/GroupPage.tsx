@@ -188,7 +188,7 @@ export default function GroupPage({
             : totalCurrentParticipants + 1
         }
         banner={
-          <div className="pc:rounded-[0.5rem] pc:h-[22rem] tab:h-[352px] relative h-[232px] w-full overflow-hidden">
+          <div className="pc:rounded-[0.5rem] pc:h-[22rem] tab:h-[22rem] relative h-[14.5rem] w-full overflow-hidden">
             <Image
               src={imgChange(gatheringDetailData.thumbnail, 'banner')}
               alt="모임 배너"
