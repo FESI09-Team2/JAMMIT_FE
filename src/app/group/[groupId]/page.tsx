@@ -1,12 +1,31 @@
+// import GroupPage from '@/components/products/group/GroupPage';
+// import { getGatheringDetail } from '@/lib/gatherings/gatherings';
+
+// interface Params {
+//   params: {
+//     groupId: string;
+//   };
+// }
+
+// export default async function Group({ params }: Params) {
+//   const numericId = Number(params.groupId);
+//   const data = await getGatheringDetail(numericId);
+
+//   return <GroupPage initialData={data} id={numericId} />;
+// }
+
 import GroupPage from '@/components/products/group/GroupPage';
 import { getGatheringDetail } from '@/lib/gatherings/gatherings';
 
-export default async function Group({
-  params,
-}: {
-  params: { groupId: string };
-}) {
-  const numericId = Number(params.groupId);
+interface Params {
+  params: Promise<{
+    groupId: string;
+  }>;
+}
+
+export default async function Group({ params }: Params) {
+  const { groupId } = await params;
+  const numericId = Number(groupId);
   const data = await getGatheringDetail(numericId);
 
   return <GroupPage initialData={data} id={numericId} />;
