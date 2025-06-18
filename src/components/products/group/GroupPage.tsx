@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { SESSION_KR_TO_ENUM } from '@/constants/tagsMapping';
 
@@ -22,24 +21,28 @@ import GroupPageLayout from '@/components/commons/GroupPageLayout';
 import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
 import GroupPageSkeleton from './GroupPageSkeleton';
 import RenderActionButtons from './RenderActionButtons';
+import GroupInfoSection from './GroupInfoSection';
+import MemberInfoSection from './MemberInfoSection';
+import ParticipantsSection from './ParticipantsSection';
+import { GatheringDetailResponse } from '@/types/gathering';
 
-const GroupInfoSection = dynamic(() => import('./GroupInfoSection'));
-const MemberInfoSection = dynamic(() => import('./MemberInfoSection'));
-const ParticipantsSection = dynamic(() => import('./ParticipantsSection'));
-
-export default function GroupPage() {
+export default function GroupPage({
+  id,
+  initialData,
+}: {
+  id: number;
+  initialData: GatheringDetailResponse;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const groupId = id;
 
   const { activeTab } = useQueryTab<'recruit' | 'members'>('tab', 'recruit', [
     'recruit',
     'members',
   ]);
   const { user, isLoaded, isRefreshing } = useUserStore();
-  const isGatheringParticipantsQueryReady = isLoaded && !isRefreshing && !!user;
 
-  const { groupId } = useParams();
-  const numericId = Number(groupId);
   const [showParticipationForm, setShowParticipationForm] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
 
@@ -56,24 +59,26 @@ export default function GroupPage() {
     data: gatheringDetailData,
     isLoading,
     error,
-  } = useGatheringDetailQuery(numericId);
+  } = useGatheringDetailQuery(groupId, {
+    initialData,
+  });
+
+  const isMembersTabQueryReady = isLoaded && !isRefreshing && !!user;
 
   const {
     data: participantsData,
     isLoading: isParticipantsLoading,
     error: participantsError,
-  } = useGatheringParticipantsQuery(numericId, {
-    enabled: isGatheringParticipantsQueryReady,
+  } = useGatheringParticipantsQuery(groupId, {
+    enabled: isMembersTabQueryReady,
   });
-
-  const isWrittenReviewsQueryReady = isGatheringParticipantsQueryReady;
 
   const {
     data: writtenReviewsData,
     isLoading: isWrittenReviewLoading,
     error: wittenReviewError,
   } = useWrittenReviewsQuery({
-    enabled: isWrittenReviewsQueryReady,
+    enabled: isMembersTabQueryReady,
   });
 
   const participateMutation = useParticipateGatheringMutation();
@@ -84,21 +89,21 @@ export default function GroupPage() {
     isError: !!error,
     error,
     tags: { section: 'gather', action: 'fetch_detail' },
-    extra: { gatheringId: numericId },
+    extra: { gatheringId: groupId },
   });
 
   useSentryErrorLogger({
     isError: !!participantsError,
     error: participantsError,
     tags: { section: 'gather', action: 'fetch_participants' },
-    extra: { gatheringId: numericId },
+    extra: { gatheringId: groupId },
   });
 
   useSentryErrorLogger({
     isError: !!wittenReviewError,
     error: wittenReviewError,
     tags: { section: 'gather', action: 'fetch_written_reviews' },
-    extra: { gatheringId: numericId },
+    extra: { gatheringId: groupId },
   });
 
   if (isLoading) {
@@ -136,6 +141,10 @@ export default function GroupPage() {
   const completedParticipants = participants.filter(
     (participant) => participant.status === 'COMPLETED',
   );
+  const totalCurrentParticipants = gatheringDetailData.sessions.reduce(
+    (sum, session) => sum + session.currentCount,
+    0,
+  );
 
   const handleCanceleParticipation = () => {
     if (!myParticipantId) {
@@ -143,7 +152,7 @@ export default function GroupPage() {
       return;
     }
     cancelMutation.mutate({
-      gatheringId: numericId,
+      gatheringId: groupId,
       participantId: myParticipantId,
     });
   };
@@ -156,13 +165,11 @@ export default function GroupPage() {
     introduction: string;
   }) => {
     const sessionEnum = SESSION_KR_TO_ENUM[session];
-
     participateMutation.mutate({
-      id: numericId,
+      id: groupId,
       bandSession: sessionEnum,
       introduction,
     });
-
     setShowParticipationForm(false);
   };
 
@@ -179,8 +186,8 @@ export default function GroupPage() {
       <GroupPageLayout
         participantsNumber={
           isCompleted
-            ? completedParticipants.length + 1
-            : approvedParticipants.length + 1
+            ? totalCurrentParticipants + 1
+            : totalCurrentParticipants + 1
         }
         banner={
           <div className="pc:rounded-[0.5rem] pc:h-[22rem] tab:h-[352px] relative h-[232px] w-full overflow-hidden">
@@ -209,19 +216,23 @@ export default function GroupPage() {
         {activeTab === 'recruit' ? (
           <GroupInfoSection gathering={gatheringDetailData} isHost={isHost} />
         ) : isHost && !isCompleted ? (
-          <MemberInfoSection
-            gathering={gatheringDetailData}
-            approvedParticipants={approvedParticipants}
-            pendingParticipants={pendingParticipants}
-          />
+          <Suspense>
+            <MemberInfoSection
+              gathering={gatheringDetailData}
+              approvedParticipants={approvedParticipants}
+              pendingParticipants={pendingParticipants}
+            />
+          </Suspense>
         ) : (
-          <ParticipantsSection
-            writtenReviews={writtenReviewsData}
-            gathering={gatheringDetailData}
-            participants={
-              isCompleted ? completedParticipants : approvedParticipants
-            }
-          />
+          <Suspense>
+            <ParticipantsSection
+              writtenReviews={writtenReviewsData}
+              gathering={gatheringDetailData}
+              participants={
+                isCompleted ? completedParticipants : approvedParticipants
+              }
+            />
+          </Suspense>
         )}
       </GroupPageLayout>
       {loginModalOpen && (
