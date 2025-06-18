@@ -104,23 +104,14 @@ export default function JamPage({
         <GroupPageLayout
           banner={<ImageEdit />}
           actionButtons={
-            <div>
-              <Button
-                variant="solid"
-                className="mt-[2.5rem] w-[22.75rem]"
-                type="submit"
-                disabled={!isValid || !thumbnail}
-              >
-                {formType === 'edit' ? '모임 수정하기' : '모임 만들기'}
-              </Button>
-              <Button
-                variant="outline"
-                className="mt-[1rem] w-[22.75rem]"
-                type="submit"
-              >
-                미리 저장하기
-              </Button>
-            </div>
+            <Button
+              variant="solid"
+              className="mt-[2.5rem] w-[22.75rem]"
+              type="submit"
+              disabled={!isValid || !thumbnail}
+            >
+              {formType === 'edit' ? '모임 수정하기' : '모임 만들기'}
+            </Button>
           }
           isTab={false}
         >
