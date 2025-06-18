@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -214,23 +214,19 @@ export default function GroupPage({
         {activeTab === 'recruit' ? (
           <GroupInfoSection gathering={gatheringDetailData} isHost={isHost} />
         ) : isHost && !isCompleted ? (
-          <Suspense>
-            <MemberInfoSection
-              gathering={gatheringDetailData}
-              approvedParticipants={approvedParticipants}
-              pendingParticipants={pendingParticipants}
-            />
-          </Suspense>
+          <MemberInfoSection
+            gathering={gatheringDetailData}
+            approvedParticipants={approvedParticipants}
+            pendingParticipants={pendingParticipants}
+          />
         ) : (
-          <Suspense>
-            <ParticipantsSection
-              writtenReviews={writtenReviewsData}
-              gathering={gatheringDetailData}
-              participants={
-                isCompleted ? completedParticipants : approvedParticipants
-              }
-            />
-          </Suspense>
+          <ParticipantsSection
+            writtenReviews={writtenReviewsData}
+            gathering={gatheringDetailData}
+            participants={
+              isCompleted ? completedParticipants : approvedParticipants
+            }
+          />
         )}
       </GroupPageLayout>
       {loginModalOpen && (
