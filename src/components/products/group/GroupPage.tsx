@@ -1,26 +1,32 @@
 'use client';
 
-import Button from '@/components/commons/Button';
-import GroupPageLayout from '@/components/commons/GroupPageLayout';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
 import { SESSION_KR_TO_ENUM } from '@/constants/tagsMapping';
+
 import { useCancelParticipateGatheringMutation } from '@/hooks/queries/gatherings/useCancelParticipateGathering';
 import { useGatheringDetailQuery } from '@/hooks/queries/gatherings/useGatheringsDetailQuery';
 import { useGatheringParticipantsQuery } from '@/hooks/queries/gatherings/useGatheringsParticipantsQuery';
 import { useParticipateGatheringMutation } from '@/hooks/queries/gatherings/useParticipateGatheringsMutation';
 import { useWrittenReviewsQuery } from '@/hooks/queries/review/useWrittenReviewsQuery';
+
 import { useQueryTab } from '@/hooks/useQueryTab';
 import { useUserStore } from '@/stores/useUserStore';
 import { imgChange } from '@/utils/imgChange';
 import { useSentryErrorLogger } from '@/utils/useSentryErrorLogger';
-import Image from 'next/image';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import GroupInfoSection from './GroupInfoSection';
-import MemberInfoSection from './MemberInfoSection';
-import ParticipantsSection from './ParticipantsSection';
+
+import Button from '@/components/commons/Button';
+import GroupPageLayout from '@/components/commons/GroupPageLayout';
 import ParticipationForm from './ParticipationForm';
 import ModalInteraction from '@/components/commons/Modal/ModalInteraction';
 import GroupPageSkeleton from './GroupPageSkeleton';
+
+const GroupInfoSection = dynamic(() => import('./GroupInfoSection'));
+const MemberInfoSection = dynamic(() => import('./MemberInfoSection'));
+const ParticipantsSection = dynamic(() => import('./ParticipantsSection'));
 
 export default function GroupPage() {
   const router = useRouter();
@@ -329,7 +335,7 @@ export default function GroupPage() {
             : approvedParticipants.length + 1
         }
         banner={
-          <div className="pc:rounded-[0.5rem] relative h-[22rem] w-full overflow-hidden">
+          <div className="pc:rounded-[0.5rem] pc:h-[22rem] tab:h-[352px] relative h-[232px] w-full overflow-hidden">
             <Image
               src={imgChange(gatheringDetailData.thumbnail, 'banner')}
               alt="모임 배너"
