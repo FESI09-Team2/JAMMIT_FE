@@ -1,19 +1,3 @@
-// import GroupPage from '@/components/products/group/GroupPage';
-// import { getGatheringDetail } from '@/lib/gatherings/gatherings';
-
-// interface Params {
-//   params: {
-//     groupId: string;
-//   };
-// }
-
-// export default async function Group({ params }: Params) {
-//   const numericId = Number(params.groupId);
-//   const data = await getGatheringDetail(numericId);
-
-//   return <GroupPage initialData={data} id={numericId} />;
-// }
-
 import GroupPage from '@/components/products/group/GroupPage';
 import { getGatheringDetail } from '@/lib/gatherings/gatherings';
 
