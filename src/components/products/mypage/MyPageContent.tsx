@@ -11,6 +11,7 @@ import {
   useGatherMeParticipants,
 } from '@/hooks/queries/gather/useGatherMeParticipants';
 import { usePrefetchedCount } from '@/hooks/queries/gather/usePrefetchedCoint';
+import { useReviewToWriteInfiniteQuery } from '@/hooks/queries/review/usePrefetchReview';
 import { useReviewInfiniteQuery } from '@/hooks/queries/review/useReviewInfiniteQuery';
 import { useUserMeQuery } from '@/hooks/queries/user/useUserMeQuery';
 import { useQueryTab } from '@/hooks/useQueryTab';
@@ -46,10 +47,15 @@ export default function MyPage() {
   });
 
   const { data: user } = useUserMeQuery();
-  // const { data: write } = useReviewWrite({  id: user?.id as number,});
-  // const writeCount =
-  //   write?.pages[0].gatherings.filter((item) => item.status === 'COMPLETED')
-  //     .length ?? 0;
+  const { data: write } = useReviewToWriteInfiniteQuery({
+    size: 8,
+    includeCanceled: false,
+    id: user?.id as number,
+  });
+
+  const writeCount =
+    write?.pages[0].gatherings.filter((item) => item.status === 'COMPLETED')
+      .length ?? 0;
   const { data: review } = useReviewInfiniteQuery({
     size: 8,
     id: user?.id as number,
@@ -107,11 +113,11 @@ export default function MyPage() {
       {
         key: 'reviews_towrite',
         label: '작성 가능한 리뷰',
-        count: 0,
+        count: writeCount,
         component: <ReviewsToWrite />,
       },
     ],
-    [participatingCount, createdCount, reviewCount],
+    [participatingCount, createdCount, reviewCount, writeCount],
   );
 
   const tabClass = (isActive: boolean) =>

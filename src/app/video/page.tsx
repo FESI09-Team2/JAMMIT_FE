@@ -13,7 +13,7 @@ export default function Page() {
     try {
       // STEP 1. 업로드용 URL 발급
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_APP_URL_TEST}/video/uploadUrl`,
+        `${process.env.NEXT_PUBLIC_APP_URL_NEST}/video/uploadUrl`,
         {
           method: 'POST',
           headers: {
@@ -34,7 +34,7 @@ export default function Page() {
       if (!uploadRes.ok) throw new Error('Mux 업로드 실패');
       // STEP 3. 백엔드에 업로드 정보 등록
       const register = await fetch(
-        `${process.env.NEXT_PUBLIC_APP_URL_TEST}/video/register`,
+        `${process.env.NEXT_PUBLIC_APP_URL_NEST}/video/register`,
         {
           method: 'POST',
           headers: {
