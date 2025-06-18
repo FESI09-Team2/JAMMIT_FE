@@ -117,7 +117,6 @@ export default function GroupPage({
     } else {
       if (isParticipantsLoading || isWrittenReviewLoading)
         return <div>로딩 중...</div>;
-
       if (participantsError || wittenReviewError) return <div>에러 발생</div>;
 
       if (!participantsData)
