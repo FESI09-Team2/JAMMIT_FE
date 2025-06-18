@@ -2,9 +2,9 @@ import ShimmerSkeleton from '@/components/commons/ShimmerSkeleton';
 
 export default function MemberTabSkeleton() {
   return (
-    <div className="mx-auto w-full max-w-[1344px] pt-[24px]">
-      <ShimmerSkeleton className="pc:rounded-[8px] relative h-[352px] w-full" />
-      <ShimmerSkeleton className="pc:w-[964px] relative mt-[64px] h-[332px] w-full rounded-[8px]" />
+    <div className="mx-auto w-full max-w-[84rem] pt-[1.5rem]">
+      <ShimmerSkeleton className="pc:rounded-[0.5rem] relative h-[22rem] w-full" />
+      <ShimmerSkeleton className="pc:w-[60.25rem] relative mt-[4rem] h-[20.75rem] w-full rounded-[0.5rem]" />
     </div>
   );
 }
