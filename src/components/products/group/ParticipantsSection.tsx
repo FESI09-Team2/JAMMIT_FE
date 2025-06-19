@@ -97,8 +97,8 @@ export default function ParticipantsSection({
   };
 
   return (
-    <section className="pc:w-[960px] tab:p-[40px] w-full rounded-[8px] bg-[#202024] p-[20px]">
-      <div className="flex flex-col justify-between gap-[10px]">
+    <section className="pc:w-[60rem] tab:p-[2.5rem] w-full rounded-[0.5rem] bg-[#202024] p-[1.25rem]">
+      <div className="flex flex-col justify-between gap-[0.625rem]">
         <h1 className="group-info-title">{gathering.name}</h1>
         <p className="group-info-subtitle">{gathering.creator.nickname}</p>
       </div>
@@ -125,24 +125,24 @@ export default function ParticipantsSection({
 
           return (
             <div key={participantId}>
-              <div className="pc:flex-row pc:items-center my-[12px] flex flex-col">
-                <div className="tab:gap-[20px] mr-[20px] flex items-center gap-[12px]">
+              <div className="pc:flex-row pc:items-center my-[0.75rem] flex flex-col">
+                <div className="tab:gap-[1.25rem] mr-[1.25rem] flex items-center gap-[0.75rem]">
                   <ProfileImage src={profileImagePath} size={3} />
 
-                  <div className="pc:w-[139px] flex items-center">
-                    <span className="text-[16px] underline underline-offset-2">
+                  <div className="pc:w-[8.6875rem] flex items-center">
+                    <span className="text-[1rem] underline underline-offset-2">
                       {userNickname}
                     </span>
                     {isHostItem && (
-                      <div className="ml-[7px] flex h-[16px] w-[46px] items-center justify-center rounded-[8.5008px] bg-purple-700 text-center text-[12px] font-semibold">
+                      <div className="ml-[0.4375rem] flex h-[1rem] w-[2.875rem] items-center justify-center rounded-[0.5313rem] bg-purple-700 text-center text-[0.75rem] font-semibold">
                         주최자
                       </div>
                     )}
                   </div>
 
-                  <div className="pc:w-[167px] flex gap-[4px]">
+                  <div className="pc:w-[10.4375rem] flex gap-[0.25rem]">
                     {!isHostItem && (
-                      <div className="rounded-[8px] bg-[#34343A] px-[12px] py-[6px] text-gray-100">
+                      <div className="rounded-[0.5rem] bg-[#34343A] px-[0.75rem] py-[0.375rem] text-gray-100">
                         {SESSION_ENUM_TO_KR[bandSession]}
                       </div>
                     )}
@@ -151,8 +151,8 @@ export default function ParticipantsSection({
 
                 <div
                   className={clsx(
-                    'pc:mt-0 mt-[12px] flex items-center break-keep text-ellipsis whitespace-pre-line',
-                    isCompleted ? 'pc:w-[326px]' : 'pc:w-[470px]',
+                    'pc:mt-0 mt-[0.75rem] flex items-center break-keep text-ellipsis whitespace-pre-line',
+                    isCompleted ? 'pc:w-[20.375rem]' : 'pc:w-[29.375rem]',
                   )}
                 >
                   {introduction}
@@ -161,18 +161,18 @@ export default function ParticipantsSection({
                 {isCompleted &&
                   user?.id !== userId &&
                   (isParticipating || isHost) && (
-                    <div className="pc:mt-0 mt-[12px]">
+                    <div className="pc:mt-0 mt-[0.75rem]">
                       {hasWrittenReview ? (
                         <Button
                           disabled
                           variant="outline"
-                          className="pc:w-[7.75rem] w-full"
+                          className="pc:w-[124px] w-full"
                         >
                           리뷰 작성 완료
                         </Button>
                       ) : (
                         <Button
-                          className="pc:w-[7.75rem] w-full"
+                          className="pc:w-[124px] w-full"
                           variant="outline"
                           onClick={() =>
                             handleOpenReviewModal(userId, userNickname)
@@ -184,20 +184,20 @@ export default function ParticipantsSection({
                     </div>
                   )}
               </div>
-              <div className="border-b-[1px] border-[#2D3035]" />
+              <div className="border-b-[0.0625rem] border-[#2D3035]" />
             </div>
           );
         },
       )}
       {participants.length === 0 && (
-        <div className="mt-[40px] flex w-full flex-col items-center justify-center">
+        <div className="mt-[2.5rem] flex w-full flex-col items-center justify-center">
           <Image
             src="/images/img_character01.png"
             alt="링크 공유 캐릭터 이미지"
             width={128}
             height={128}
           />
-          <div className="h-[24px] w-full pt-[8px] text-center text-gray-400">
+          <div className="h-[1.5rem] w-full pt-[0.5rem] text-center text-gray-400">
             아직 참여 멤버가 없어요~
           </div>
         </div>
