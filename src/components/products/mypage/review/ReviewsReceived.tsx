@@ -1,20 +1,10 @@
 'use client';
-import {
-  ImgTag01,
-  ImgTag02,
-  ImgTag03,
-  ImgTag04,
-  ImgTag05,
-  ImgTag06,
-  ImgTag07,
-  ImgTag08,
-  ImgTag09,
-} from '@/assets/received';
 import { REVIEW_METRICS } from '@/constants/review';
+import { useDeviceType } from '@/hooks/useDeviceType';
 import { ReviewStatusPros } from '@/types/review';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import { useState } from 'react';
 
 interface ReviewStatusProps {
@@ -25,7 +15,7 @@ const MAX_VISIBLE_ITEMS = 3;
 
 export default function ReviewStatusItem({ data }: ReviewStatusProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const device = useDeviceType();
   // 차트 변환
   const max = Math.max(
     ...REVIEW_METRICS.map((item) => data[item.countKey] ?? 0),
@@ -45,28 +35,38 @@ export default function ReviewStatusItem({ data }: ReviewStatusProps) {
     }
     return a.label.localeCompare(b.label);
   });
-  const labelToImage: Record<string, StaticImageData> = {
-    '연주 실력이 좋아요': ImgTag02,
-    '곡 준비를 잘 해왔어요': ImgTag03,
-    '다른 파트와의 호흡이 잘 맞아요': ImgTag04,
-    '악보나 연습자료를 잘 공유해줬어요': ImgTag05,
-    '분위기를 잘 이끌어요': ImgTag06,
-    '팀워크가 좋고 함께 연주하기 편했어요': ImgTag07,
-    '볼륨이나 톤을 배려해줘요': ImgTag08,
-    '합주 시간 약속을 잘 지켜요': ImgTag09,
+  const labelToImage: Record<string, string> = {
+    '연주 실력이 좋아요': '/images/received/img_tag_sticker_02.avif',
+    '곡 준비를 잘 해왔어요': '/images/received/img_tag_sticker_03.avif',
+    '다른 파트와의 호흡이 잘 맞아요':
+      '/images/received/img_tag_sticker_04.avif',
+    '악보나 연습자료를 잘 공유해줬어요':
+      '/images/received/img_tag_sticker_05.avif',
+    '분위기를 잘 이끌어요': '/images/received/img_tag_sticker_06.avif',
+    '팀워크가 좋고 함께 연주하기 편했어요':
+      '/images/received/img_tag_sticker_07.avif',
+    '볼륨이나 톤을 배려해줘요': '/images/received/img_tag_sticker_08avif',
+    '합주 시간 약속을 잘 지켜요': '/images/received/img_tag_sticker_09.avif',
   };
 
-  const visibleItems = isExpanded
-    ? chartData
-    : chartData.slice(0, MAX_VISIBLE_ITEMS);
+  // PC에서는 모든 데이터, 모바일/태블릿에서는 접기/펼치기
+  const visibleItems =
+    device === 'pc'
+      ? chartData
+      : isExpanded
+        ? chartData
+        : chartData.slice(0, MAX_VISIBLE_ITEMS);
+
   // 평가가 없을시
   const hasNoScore = max === 0;
+
   // max가 여러개일시
   const topItems = chartData.filter((item) => item.count === max);
   const topItem = topItems[0];
   const SelectedImage = hasNoScore
-    ? ImgTag01
-    : (labelToImage[topItems[0].name] ?? ImgTag01);
+    ? '/images/received/img_tag_sticker_01.avif'
+    : (labelToImage[topItems[0].name] ??
+      '/images/received/img_tag_sticker_01.avif');
   const title = hasNoScore ? '아직 받은 평가가 없어요' : topItem.label;
   return (
     <div className="pc:w-[23rem] w-full rounded-lg bg-[#28282a] px-[2.375rem] py-[2.375rem]">
@@ -74,7 +74,7 @@ export default function ReviewStatusItem({ data }: ReviewStatusProps) {
         <p className="loading-[160%] mb-6 text-2xl font-bold">
           &quot;{title}&quot;
         </p>
-        <SelectedImage />
+        <Image src={SelectedImage} alt="" width={196} height={224} />
       </div>
       <ul className="tab:w-[18.25rem] mx-auto mt-[3.25rem] flex w-full flex-col gap-4">
         {visibleItems.map((item) => (
@@ -98,7 +98,7 @@ export default function ReviewStatusItem({ data }: ReviewStatusProps) {
           </li>
         ))}
       </ul>
-      {chartData.length > MAX_VISIBLE_ITEMS && (
+      {device !== 'pc' && chartData.length > MAX_VISIBLE_ITEMS && (
         <button
           className="pc:hidden mx-auto mt-4 block text-sm font-semibold text-[var(--purple-600)]"
           onClick={() => setIsExpanded((prev) => !prev)}
