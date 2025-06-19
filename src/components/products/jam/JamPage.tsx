@@ -8,6 +8,7 @@ import JamFormSection from '@/components/products/jam/JamFormSection';
 import { useGatherModify } from '@/hooks/queries/gather/useGatherModify';
 import { useGatherRegister } from '@/hooks/queries/gather/useGatherRegister';
 import { useUserStore } from '@/stores/useUserStore';
+import { useToastStore } from '@/stores/useToastStore';
 import { RegisterGatheringsRequest } from '@/types/gather';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -32,6 +33,7 @@ export default function JamPage({
   const isLoggedIn = useUserStore((state) => state.isLoggedIn);
   const isRefreshing = useUserStore((state) => state.isRefreshing);
   const isLoaded = useUserStore((state) => state.isLoaded);
+  const { show } = useToastStore();
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
@@ -89,6 +91,7 @@ export default function JamPage({
   const handleTempSave = () => {
     const formData = watch();
     localStorage.setItem(TEMP_STORAGE_KEY, JSON.stringify(formData));
+    show('임시저장이 완료되었습니다.');
   };
 
   const onSubmit = (data: RegisterGatheringsRequest) => {
@@ -128,7 +131,7 @@ export default function JamPage({
         <GroupPageLayout
           banner={<ImageEdit />}
           actionButtons={
-            <div className="mt-[2.5rem] flex gap-[1rem]">
+            <div className="pc:flex-col mt-[2.5rem] flex gap-[1rem]">
               {formType === 'register' && (
                 <Button
                   variant="outline"
@@ -136,7 +139,7 @@ export default function JamPage({
                   type="button"
                   onClick={handleTempSave}
                 >
-                  임시저장
+                  임시 저장하기
                 </Button>
               )}
               <Button
