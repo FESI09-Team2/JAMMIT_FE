@@ -9,9 +9,7 @@ export const useVerifyCodeMutation = () => {
       postVerifyCode({ email, code }),
     onSuccess: (data) => {
       if (data && data.success === false) {
-        useToastStore
-          .getState()
-          .show(data.message || '인증 코드 확인에 실패했습니다.');
+        useToastStore.getState();
         return;
       }
       useToastStore.getState().show('인증 코드가 확인되었습니다.');
