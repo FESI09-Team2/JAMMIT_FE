@@ -33,7 +33,7 @@ export const getVideoList = async ({
     page: page.toString(),
   }).toString();
   const result = await nestApiClient.get<GetVideoListResponse>(
-    `video?${query}`,
+    `/video?${query}`,
   );
   return result;
 };
