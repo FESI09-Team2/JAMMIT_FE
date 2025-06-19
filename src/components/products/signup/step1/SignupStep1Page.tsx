@@ -30,8 +30,9 @@ export default function SignUpStep1Page() {
     defaultValues: { email: '', name: '', password: '' },
     shouldUnregister: false,
   });
+
   const {
-    formState: { isValid },
+    formState: { isValid, isSubmitting, errors },
     watch,
     setError,
     clearErrors,
@@ -39,11 +40,15 @@ export default function SignUpStep1Page() {
 
   const email = useWatch({ name: 'email', control: methods.control });
   const password = watch('password');
+  const name = watch('name');
+
   const [checking, setChecking] = useState(false);
   const [isDuplicate, setIsDuplicate] = useState<boolean | null>(null);
   const [duplicateMessage, setDuplicateMessage] = useState<string | null>(null);
+
   const isValidEmailFormat = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
   const checkEmail = useCallback(async (emailToCheck: string) => {
     setChecking(true);
     try {
@@ -62,6 +67,7 @@ export default function SignUpStep1Page() {
       setChecking(false);
     }
   }, []);
+
   const debounceCheckEmail = useMemo(
     () => debounce(checkEmail, 500),
     [checkEmail],
@@ -105,6 +111,15 @@ export default function SignUpStep1Page() {
     alert('이메일 확인 버튼이 클릭되었습니다.');
   };
 
+  const isEmailButtonDisabled =
+    !email ||
+    !!errors.email ||
+    isSubmitting ||
+    checking ||
+    Boolean(isDuplicate);
+
+  const isCodeButtonDisabled = !name || !!errors.name || isSubmitting;
+
   return (
     <AuthCard title="회원가입" linkTo="login">
       <div className="tab:w-[25.125rem] flex w-[19.4375rem] flex-col items-center">
@@ -123,6 +138,7 @@ export default function SignUpStep1Page() {
                   size="lg"
                   placeholder="이메일을 입력해주세요."
                   isrightbutton={true}
+                  rightButtonDisabled={isEmailButtonDisabled}
                   onRightButtonClick={handleEmailSendClick}
                   rules={{
                     required: '이메일은 필수 입력입니다.',
@@ -152,6 +168,7 @@ export default function SignUpStep1Page() {
                 size="lg"
                 placeholder="인증 6자리를 입력해주세요."
                 isrightbutton={true}
+                rightButtonDisabled={isCodeButtonDisabled}
                 onRightButtonClick={handleEmailVerifyClick}
                 rules={{
                   required: '인증번호는 필수 입력입니다.',

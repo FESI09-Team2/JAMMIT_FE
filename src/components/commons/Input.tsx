@@ -41,10 +41,12 @@ interface InputProps {
   size?: 'xs' | 'sm' | 'md' | 'lg';
   /** 오른쪽 버튼 표시 여부 */
   isrightbutton?: boolean;
-  /** 버튼 내용 */
-  children?: ReactNode;
+  /** 오른쪽 버튼 비활성화 */
+  rightButtonDisabled?: boolean;
   /** 오른쪽 버튼 클릭 이벤트 */
   onRightButtonClick?: () => void;
+  /** 버튼 내용 */
+  children?: ReactNode;
 }
 
 function Input({
@@ -62,17 +64,20 @@ function Input({
   innerRef,
   size,
   isrightbutton,
-  children,
+  rightButtonDisabled,
   onRightButtonClick,
+  children,
 }: InputProps) {
   const {
     register,
     setValue,
     formState: { errors },
   } = useFormContext();
+
   const IsError = errors[name];
   const IsPwd = type === 'password';
   const [showPassword, setShowPassword] = useState(false);
+
   const sizeClass = {
     // 283px
     xs: 'tab:w-[17.6875rem] w-[13.125rem]',
@@ -154,6 +159,7 @@ function Input({
                 variant="outline"
                 className="w-auto max-w-[6.8125rem] min-w-[5.8125rem]"
                 onClick={onRightButtonClick}
+                disabled={rightButtonDisabled}
               >
                 {children}
               </Button>
