@@ -62,7 +62,7 @@ export default function ModalReview({
     <ModalWrapper
       title="리뷰쓰기"
       onClose={onCancel}
-      className="relative h-auto w-[32.5rem] rounded-lg bg-[#242429] p-[1.5rem] text-gray-100"
+      className="tab:w-[32.5rem] relative h-auto w-full rounded-lg bg-[#242429] p-[1.5rem] text-gray-100"
     >
       <FormProvider {...methods}>
         <form
