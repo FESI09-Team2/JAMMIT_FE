@@ -15,7 +15,7 @@ import {
   useWatch,
 } from 'react-hook-form';
 import { useSendCodeMutation } from '@/hooks/queries/auth/useSendCodeMutation';
-import { useToastStore } from '@/stores/useToastStore';
+import { useVerifyCodeMutation } from '@/hooks/queries/auth/useVerifyCodeMutation';
 
 interface FormValues {
   email: string;
@@ -39,8 +39,8 @@ export default function SignUpStep1Page() {
   } = methods;
 
   const email = useWatch({ name: 'email', control: methods.control });
+  const code = useWatch({ name: 'name', control: methods.control });
   const password = watch('password');
-  const name = watch('name');
 
   const [checking, setChecking] = useState(false);
   const [isDuplicate, setIsDuplicate] = useState<boolean | null>(null);
@@ -74,7 +74,7 @@ export default function SignUpStep1Page() {
   );
 
   const sendCodeMutation = useSendCodeMutation();
-  const showToast = useToastStore((state) => state.show);
+  const verifyCodeMutation = useVerifyCodeMutation();
 
   useEffect(() => {
     if (!email) {
@@ -100,15 +100,11 @@ export default function SignUpStep1Page() {
   };
 
   const handleEmailSendClick = () => {
-    if (!email) {
-      showToast('이메일을 입력해주세요.');
-      return;
-    }
     sendCodeMutation.mutate({ email });
   };
 
   const handleEmailVerifyClick = () => {
-    alert('이메일 확인 버튼이 클릭되었습니다.');
+    verifyCodeMutation.mutate({ email, code });
   };
 
   const isSendButtonDisabled =
@@ -119,7 +115,7 @@ export default function SignUpStep1Page() {
     Boolean(isDuplicate) ||
     sendCodeMutation.isPending;
 
-  const isVerifyButtonDisabled = !name || !!errors.name || isSubmitting;
+  const isVerifyButtonDisabled = !code || !!errors.name || isSubmitting;
 
   return (
     <AuthCard title="회원가입" linkTo="login">
