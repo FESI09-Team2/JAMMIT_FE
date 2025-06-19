@@ -194,7 +194,7 @@ export default function SignUpStep1Page() {
                   인증확인
                 </Input>
                 {isEmailVerified && (
-                  <p className="mt-3 text-sm text-green-500">
+                  <p className="mt-3 text-sm text-[#bf5eff]">
                     이메일 인증이 완료되었습니다.
                   </p>
                 )}
