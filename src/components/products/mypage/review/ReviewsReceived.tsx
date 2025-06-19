@@ -1,3 +1,4 @@
+'use client';
 import {
   ImgTag01,
   ImgTag02,
@@ -12,13 +13,19 @@ import {
 import { REVIEW_METRICS } from '@/constants/review';
 import { ReviewStatusPros } from '@/types/review';
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
 import { StaticImageData } from 'next/image';
+import { useState } from 'react';
 
 interface ReviewStatusProps {
   data: ReviewStatusPros;
 }
 
+const MAX_VISIBLE_ITEMS = 3;
+
 export default function ReviewStatusItem({ data }: ReviewStatusProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   // 차트 변환
   const max = Math.max(
     ...REVIEW_METRICS.map((item) => data[item.countKey] ?? 0),
@@ -32,6 +39,11 @@ export default function ReviewStatusItem({ data }: ReviewStatusProps) {
       value: (count / max) * 100,
       count,
     };
+  }).sort((a, b) => {
+    if (b.count !== a.count) {
+      return b.count - a.count;
+    }
+    return a.label.localeCompare(b.label);
   });
   const labelToImage: Record<string, StaticImageData> = {
     '연주 실력이 좋아요': ImgTag02,
@@ -44,6 +56,9 @@ export default function ReviewStatusItem({ data }: ReviewStatusProps) {
     '합주 시간 약속을 잘 지켜요': ImgTag09,
   };
 
+  const visibleItems = isExpanded
+    ? chartData
+    : chartData.slice(0, MAX_VISIBLE_ITEMS);
   // 평가가 없을시
   const hasNoScore = max === 0;
   // max가 여러개일시
@@ -54,15 +69,15 @@ export default function ReviewStatusItem({ data }: ReviewStatusProps) {
     : (labelToImage[topItems[0].name] ?? ImgTag01);
   const title = hasNoScore ? '아직 받은 평가가 없어요' : topItem.label;
   return (
-    <div className="w-[23rem] rounded-lg bg-[#28282a] px-[2.375rem] py-[2.375rem]">
+    <div className="pc:w-[23rem] w-full rounded-lg bg-[#28282a] px-[2.375rem] py-[2.375rem]">
       <div className="flex flex-col items-center">
         <p className="loading-[160%] mb-6 text-2xl font-bold">
           &quot;{title}&quot;
         </p>
         <SelectedImage />
       </div>
-      <ul className="mt-[3.25rem] flex w-full flex-col gap-4">
-        {chartData.map((item) => (
+      <ul className="tab:w-[18.25rem] mx-auto mt-[3.25rem] flex w-full flex-col gap-4">
+        {visibleItems.map((item) => (
           <li
             key={`${item.name}-${item.value}`}
             className="relative flex h-10 items-center overflow-hidden rounded-lg bg-[#52525E] px-4"
@@ -71,16 +86,26 @@ export default function ReviewStatusItem({ data }: ReviewStatusProps) {
               <p>{item.name}</p>
               <p>{item.count}</p>
             </div>
-            <div
+            <motion.div
               className={clsx(
                 'absolute top-0 left-0 z-1 h-full rounded-lg transition-all',
-                item.count === max ? 'bg-[var(--purple-700)]' : 'bg-[#6F52A3]',
+                item.count === max ? 'bg-[var(--purple-750)]' : 'bg-[#6F52A3]',
               )}
-              style={{ width: `${item.value}%` }}
+              initial={{ width: 0 }}
+              animate={{ width: `${item.value}%` }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
             />
           </li>
         ))}
       </ul>
+      {chartData.length > MAX_VISIBLE_ITEMS && (
+        <button
+          className="pc:hidden mx-auto mt-4 block text-sm font-semibold text-[var(--purple-600)]"
+          onClick={() => setIsExpanded((prev) => !prev)}
+        >
+          {isExpanded ? '숨기기' : '더보기'}
+        </button>
+      )}
     </div>
   );
 }
