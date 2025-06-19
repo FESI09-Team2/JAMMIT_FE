@@ -97,12 +97,13 @@ export default function SignUpStep1Page() {
             noValidate
             className="w-full"
           >
-            <div className="flex flex-col gap-[1.5rem]">
-              <div>
+            <div className="flex flex-col gap-[0.75rem]">
+              <div className="flex flex-row items-center gap-[0.5rem]">
                 <Input
                   name="email"
                   type="text"
                   label="아이디"
+                  size="xs"
                   placeholder="이메일을 입력해주세요."
                   rules={{
                     required: '이메일은 필수 입력입니다.',
@@ -112,6 +113,13 @@ export default function SignUpStep1Page() {
                     },
                   }}
                 />
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="tab:w-[6.8125rem] w-[5.8125rem]"
+                >
+                  인증하기
+                </Button>
                 {duplicateMessage && (
                   <p
                     className={`mt-3 text-sm ${
@@ -122,15 +130,25 @@ export default function SignUpStep1Page() {
                   </p>
                 )}
               </div>
-              <Input
-                name="name"
-                type="text"
-                label="이름"
-                placeholder="이름을 입력해주세요."
-                rules={{
-                  required: '이름은 필수 입력입니다.',
-                }}
-              />
+              <div className="flex flex-row items-center gap-[0.5rem]">
+                <Input
+                  name="name"
+                  type="text"
+                  label="인증번호 입력"
+                  size="xs"
+                  placeholder="인증 6자리를 입력해주세요."
+                  rules={{
+                    required: '인증번호는 필수 입력입니다.',
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="tab:w-[6.8125rem] w-[5.8125rem]"
+                >
+                  인증확인
+                </Button>
+              </div>
               <Input
                 name="password"
                 type="password"
