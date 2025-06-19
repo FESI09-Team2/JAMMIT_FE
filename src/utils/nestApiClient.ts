@@ -1,6 +1,6 @@
 import { tokenService } from './tokenService';
 
-class ApiClient {
+class NestApiClient {
   private baseURL: string;
 
   constructor(baseURL: string) {
@@ -109,6 +109,6 @@ class ApiClient {
   }
 }
 
-export const apiClient = new ApiClient(
+export const nestApiClient = new NestApiClient(
   process.env.NEXT_PUBLIC_APP_URL_NEST || '',
 );
