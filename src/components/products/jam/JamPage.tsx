@@ -30,13 +30,15 @@ export default function JamPage({
   const queryClient = useQueryClient();
   const router = useRouter();
   const isLoggedIn = useUserStore((state) => state.isLoggedIn);
+  const isRefreshing = useUserStore((state) => state.isRefreshing);
+  const isLoaded = useUserStore((state) => state.isLoaded);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && isLoaded && !isRefreshing) {
       setShowLoginModal(true);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, isLoaded, isRefreshing]);
 
   const handleLoginModalClose = () => {
     setShowLoginModal(false);
