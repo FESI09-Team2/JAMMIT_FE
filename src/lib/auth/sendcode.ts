@@ -9,7 +9,7 @@ interface SendemailResponse {
   message: string;
 }
 
-export async function postsendcode({
+export async function postSendCode({
   email,
 }: SendemailRequest): Promise<SendemailResponse> {
   return await apiClient.post<SendemailResponse>('/auth/email/send-code', {

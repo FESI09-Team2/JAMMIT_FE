@@ -10,7 +10,7 @@ interface VerifyemailResponse {
   message: string;
 }
 
-export async function postverifycode({
+export async function postVerifyCode({
   email,
   code,
 }: VerifyemailRequest): Promise<VerifyemailResponse> {
