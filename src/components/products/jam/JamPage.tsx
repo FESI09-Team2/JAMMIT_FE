@@ -87,7 +87,7 @@ export default function JamPage({
 
   // 임시저장
   const handleTempSave = () => {
-    const formData = methods.getValues();
+    const formData = watch();
     localStorage.setItem(TEMP_STORAGE_KEY, JSON.stringify(formData));
   };
 
