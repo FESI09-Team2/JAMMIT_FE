@@ -97,58 +97,48 @@ export default function SignUpStep1Page() {
             noValidate
             className="w-full"
           >
-            <div className="flex flex-col gap-[0.75rem]">
-              <div className="flex flex-row items-center gap-[0.5rem]">
-                <Input
-                  name="email"
-                  type="text"
-                  label="아이디"
-                  size="xs"
-                  placeholder="이메일을 입력해주세요."
-                  rules={{
-                    required: '이메일은 필수 입력입니다.',
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: '올바른 이메일 형식을 입력해주세요.',
-                    },
-                  }}
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="tab:w-[6.8125rem] w-[5.8125rem]"
+            <div className="flex flex-col gap-[1.5rem]">
+              <Input
+                name="email"
+                type="text"
+                label="아이디"
+                size="lg"
+                placeholder="이메일을 입력해주세요."
+                isrightbutton={true}
+                rules={{
+                  required: '이메일은 필수 입력입니다.',
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: '올바른 이메일 형식을 입력해주세요.',
+                  },
+                }}
+              >
+                인증하기
+              </Input>
+              {duplicateMessage && (
+                <p
+                  className={`mt-3 text-sm ${
+                    isDuplicate ? 'text-red-500' : 'text-[#bf5eff]'
+                  }`}
                 >
-                  인증하기
-                </Button>
-                {duplicateMessage && (
-                  <p
-                    className={`mt-3 text-sm ${
-                      isDuplicate ? 'text-red-500' : 'text-[#bf5eff]'
-                    }`}
-                  >
-                    {duplicateMessage}
-                  </p>
-                )}
-              </div>
-              <div className="flex flex-row items-center gap-[0.5rem]">
-                <Input
-                  name="name"
-                  type="text"
-                  label="인증번호 입력"
-                  size="xs"
-                  placeholder="인증 6자리를 입력해주세요."
-                  rules={{
-                    required: '인증번호는 필수 입력입니다.',
-                  }}
-                />
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="tab:w-[6.8125rem] w-[5.8125rem]"
-                >
-                  인증확인
-                </Button>
-              </div>
+                  {duplicateMessage}
+                </p>
+              )}
+
+              <Input
+                name="name"
+                type="text"
+                label="인증번호 입력"
+                size="lg"
+                placeholder="인증 6자리를 입력해주세요."
+                isrightbutton={true}
+                rules={{
+                  required: '인증번호는 필수 입력입니다.',
+                }}
+              >
+                인증확인
+              </Input>
+
               <Input
                 name="password"
                 type="password"

@@ -12,6 +12,7 @@ import React, {
   useState,
 } from 'react';
 import { RegisterOptions, useFormContext } from 'react-hook-form';
+import Button from './Button';
 
 interface InputProps {
   /** RHF name속성 */
@@ -38,6 +39,10 @@ interface InputProps {
   innerRef?: RefObject<HTMLInputElement | null>;
   /** input의 너비 */
   size?: 'xs' | 'sm' | 'md' | 'lg';
+  /** 오른쪽 버튼 표시 여부 */
+  isrightbutton?: boolean;
+  /** 버튼 내용 */
+  children?: ReactNode;
 }
 
 function Input({
@@ -54,6 +59,8 @@ function Input({
   defaultValue,
   innerRef,
   size,
+  isrightbutton,
+  children,
 }: InputProps) {
   const {
     register,
@@ -116,27 +123,39 @@ function Input({
           {label}
         </label>
         <div className={`relative ${sizeClass} text-gray-400`}>
-          <input
-            id={name}
-            type={IsPwd ? (showPassword ? 'text' : 'password') : type}
-            onFocus={onInputFocus}
-            placeholder={placeholder}
-            defaultValue={defaultValue}
-            minLength={minLength}
-            maxLength={maxLength}
-            ref={(el) => {
-              ref(el);
-              if (innerRef) {
-                innerRef.current = el;
-              }
-            }}
-            {...rest}
-            className={`h-[2.75rem] w-full rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem] ${
-              IsError
-                ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500'
-                : 'focus-within:ring-0 focus-within:outline-none'
-            }`}
-          />
+          <div className="flex flex-row items-center gap-[0.5rem]">
+            <input
+              id={name}
+              type={IsPwd ? (showPassword ? 'text' : 'password') : type}
+              onFocus={onInputFocus}
+              placeholder={placeholder}
+              defaultValue={defaultValue}
+              minLength={minLength}
+              maxLength={maxLength}
+              ref={(el) => {
+                ref(el);
+                if (innerRef) {
+                  innerRef.current = el;
+                }
+              }}
+              {...rest}
+              className={`h-[2.75rem] w-full rounded-lg border-0 bg-[#34343A] px-[1rem] py-[0.625rem] ${
+                IsError
+                  ? 'border-red-500 focus-within:border-red-500 focus-within:ring-red-500'
+                  : 'focus-within:ring-0 focus-within:outline-none'
+              }`}
+            />
+            {isrightbutton && (
+              <Button
+                type="button"
+                variant="outline"
+                className="w-auto max-w-[6.8125rem] min-w-[5.8125rem]"
+                onClick={() => alert('버튼입력')}
+              >
+                {children}
+              </Button>
+            )}
+          </div>
           {IsPwd && (
             <button
               type="button"
@@ -155,9 +174,6 @@ function Input({
             <p className="mt-1 text-sm text-red-500">{message}</p>
           )}
         />
-        {!IsError && (
-          <div className="mt-1 text-sm text-transparent">placeholder</div>
-        )}
       </div>
     </>
   );
