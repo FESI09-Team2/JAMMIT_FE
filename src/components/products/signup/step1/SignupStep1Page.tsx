@@ -111,14 +111,15 @@ export default function SignUpStep1Page() {
     alert('이메일 확인 버튼이 클릭되었습니다.');
   };
 
-  const isEmailButtonDisabled =
+  const isSendButtonDisabled =
     !email ||
     !!errors.email ||
     isSubmitting ||
     checking ||
-    Boolean(isDuplicate);
+    Boolean(isDuplicate) ||
+    sendCodeMutation.isPending;
 
-  const isCodeButtonDisabled = !name || !!errors.name || isSubmitting;
+  const isVerifyButtonDisabled = !name || !!errors.name || isSubmitting;
 
   return (
     <AuthCard title="회원가입" linkTo="login">
@@ -138,7 +139,7 @@ export default function SignUpStep1Page() {
                   size="lg"
                   placeholder="이메일을 입력해주세요."
                   isrightbutton={true}
-                  rightButtonDisabled={isEmailButtonDisabled}
+                  rightButtonDisabled={isSendButtonDisabled}
                   onRightButtonClick={handleEmailSendClick}
                   rules={{
                     required: '이메일은 필수 입력입니다.',
@@ -168,7 +169,7 @@ export default function SignUpStep1Page() {
                 size="lg"
                 placeholder="인증 6자리를 입력해주세요."
                 isrightbutton={true}
-                rightButtonDisabled={isCodeButtonDisabled}
+                rightButtonDisabled={isVerifyButtonDisabled}
                 onRightButtonClick={handleEmailVerifyClick}
                 rules={{
                   required: '인증번호는 필수 입력입니다.',
