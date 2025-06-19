@@ -43,6 +43,8 @@ interface InputProps {
   isrightbutton?: boolean;
   /** 버튼 내용 */
   children?: ReactNode;
+  /** 오른쪽 버튼 클릭 이벤트 */
+  onRightButtonClick?: () => void;
 }
 
 function Input({
@@ -61,6 +63,7 @@ function Input({
   size,
   isrightbutton,
   children,
+  onRightButtonClick,
 }: InputProps) {
   const {
     register,
@@ -150,7 +153,7 @@ function Input({
                 type="button"
                 variant="outline"
                 className="w-auto max-w-[6.8125rem] min-w-[5.8125rem]"
-                onClick={() => alert('버튼입력')}
+                onClick={onRightButtonClick}
               >
                 {children}
               </Button>

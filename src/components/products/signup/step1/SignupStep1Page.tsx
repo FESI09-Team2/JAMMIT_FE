@@ -14,6 +14,8 @@ import {
   useForm,
   useWatch,
 } from 'react-hook-form';
+import { useSendCodeMutation } from '@/hooks/queries/auth/useSendCodeMutation';
+import { useToastStore } from '@/stores/useToastStore';
 
 interface FormValues {
   email: string;
@@ -65,6 +67,9 @@ export default function SignUpStep1Page() {
     [checkEmail],
   );
 
+  const sendCodeMutation = useSendCodeMutation();
+  const showToast = useToastStore((state) => state.show);
+
   useEffect(() => {
     if (!email) {
       setDuplicateMessage(null);
@@ -88,6 +93,18 @@ export default function SignUpStep1Page() {
     router.push('/signup/step2');
   };
 
+  const handleEmailSendClick = () => {
+    if (!email) {
+      showToast('이메일을 입력해주세요.');
+      return;
+    }
+    sendCodeMutation.mutate({ email });
+  };
+
+  const handleEmailVerifyClick = () => {
+    alert('이메일 확인 버튼이 클릭되었습니다.');
+  };
+
   return (
     <AuthCard title="회원가입" linkTo="login">
       <div className="tab:w-[25.125rem] flex w-[19.4375rem] flex-col items-center">
@@ -98,32 +115,35 @@ export default function SignUpStep1Page() {
             className="w-full"
           >
             <div className="flex flex-col gap-[1.5rem]">
-              <Input
-                name="email"
-                type="text"
-                label="아이디"
-                size="lg"
-                placeholder="이메일을 입력해주세요."
-                isrightbutton={true}
-                rules={{
-                  required: '이메일은 필수 입력입니다.',
-                  pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    message: '올바른 이메일 형식을 입력해주세요.',
-                  },
-                }}
-              >
-                인증하기
-              </Input>
-              {duplicateMessage && (
-                <p
-                  className={`mt-3 text-sm ${
-                    isDuplicate ? 'text-red-500' : 'text-[#bf5eff]'
-                  }`}
+              <div>
+                <Input
+                  name="email"
+                  type="text"
+                  label="아이디"
+                  size="lg"
+                  placeholder="이메일을 입력해주세요."
+                  isrightbutton={true}
+                  onRightButtonClick={handleEmailSendClick}
+                  rules={{
+                    required: '이메일은 필수 입력입니다.',
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: '올바른 이메일 형식을 입력해주세요.',
+                    },
+                  }}
                 >
-                  {duplicateMessage}
-                </p>
-              )}
+                  인증하기
+                </Input>
+                {duplicateMessage && (
+                  <p
+                    className={`mt-3 text-sm ${
+                      isDuplicate ? 'text-red-500' : 'text-[#bf5eff]'
+                    }`}
+                  >
+                    {duplicateMessage}
+                  </p>
+                )}
+              </div>
 
               <Input
                 name="name"
@@ -132,6 +152,7 @@ export default function SignUpStep1Page() {
                 size="lg"
                 placeholder="인증 6자리를 입력해주세요."
                 isrightbutton={true}
+                onRightButtonClick={handleEmailVerifyClick}
                 rules={{
                   required: '인증번호는 필수 입력입니다.',
                 }}
