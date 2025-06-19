@@ -71,7 +71,7 @@ export default function GroupInfoSection({
         {/* 모임 제목, 주최자 */}
         <div className="relative flex flex-col gap-[10px]">
           <div className="flex w-full justify-between">
-            <h1 className="group-info-title break-keep">{name}</h1>
+            <h1 className="group-info-title">{name}</h1>
           </div>
           <p className="group-info-subtitle">{creator.nickname}</p>
           <ShareIcon

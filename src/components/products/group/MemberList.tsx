@@ -4,6 +4,7 @@ import { Participant } from '@/types/gathering';
 import Image from 'next/image';
 import CharacterImage from '../../../../public/images/img_character01.png';
 import MemberRow from './MemberRow';
+import { useDeviceType } from '@/hooks/useDeviceType';
 
 interface MemberListProps {
   title: string;
@@ -11,7 +12,7 @@ interface MemberListProps {
   isSelectable?: boolean;
   selectedIds?: number[];
   setSelectedIds?: React.Dispatch<React.SetStateAction<number[]>>;
-  gathering?: number;
+  gatheringId?: number;
 }
 
 export default function MemberList({
@@ -20,8 +21,9 @@ export default function MemberList({
   isSelectable = true,
   selectedIds = [],
   setSelectedIds,
-  gathering,
+  gatheringId: gatheringId,
 }: MemberListProps) {
+  const device = useDeviceType();
   const handleSelectChange = (id: number) => {
     if (!isSelectable || !setSelectedIds) {
       return;
@@ -56,7 +58,7 @@ export default function MemberList({
 
   return (
     <div>
-      <div className="mb-[0.5rem] text-[1.5rem] font-bold">
+      <div className="mb-[8px] text-[24px] font-bold">
         {title}{' '}
         {members.length != 0 && (
           <span className="font-medium text-[#A339FF]">{members.length}</span>
@@ -66,29 +68,33 @@ export default function MemberList({
         <div className="flex w-full flex-col items-center justify-center">
           <Image
             src={CharacterImage}
-            alt="링크 공유 캐릭터 이미지"
+            alt="캐릭터 이미지"
             width={128}
             height={128}
           />
-          <div className="h-[24px] w-full pt-[8px] text-center text-gray-400">
+          <div className="h-[1.5rem] w-full pt-[0.5rem] text-center text-gray-400">
             {emptyMessage}
           </div>
-          <div className="mt-[40px] w-full border-b-[0.0625rem] border-[#2D3035]" />
+          <div className="mt-[2.5rem] w-full border-b-[1px] border-[#2D3035]" />
         </div>
       ) : (
         <>
-          <div className="flex h-[3rem] items-center gap-[1.25rem] bg-[#25252a] px-[1.0625rem] text-[0.9375rem] font-bold">
-            {isSelectable ? (
-              <div onClick={handleSelectAll} className="cursor-pointer">
-                {allSelected ? <Checkbox /> : <CheckboxEmpty />}
-              </div>
-            ) : (
-              <div className="w-[1rem]" />
-            )}
-            <p className="ml-[4.25rem] w-[8.6875rem]">닉네임</p>
-            <p className="w-[10.4375rem]">신청 세션</p>
-            <p className="w-[22.875rem]">소개</p>
-          </div>
+          {device === 'pc' ? (
+            <div className="flex h-[48px] items-center gap-[20px] bg-[#25252a] px-[17px] text-[15px] font-bold">
+              {isSelectable ? (
+                <div onClick={handleSelectAll} className="cursor-pointer">
+                  {allSelected ? <Checkbox /> : <CheckboxEmpty />}
+                </div>
+              ) : (
+                <div className="w-[16px]" />
+              )}
+              <p className="ml-[68px] w-[139px]">닉네임</p>
+              <p className="w-[167px]">신청 세션</p>
+              <p className="w-[366px]">소개</p>
+            </div>
+          ) : (
+            <div className="border-b-[1px] border-[#2D3035]" />
+          )}
           {members.map((member) => (
             <MemberRow
               key={`${member.userId}-${member.bandSession}`}
@@ -100,7 +106,7 @@ export default function MemberList({
               selected={selectedIds.includes(member.participantId)}
               onSelectChange={handleSelectChange}
               isSelectable={isSelectable}
-              gathering={gathering}
+              gatheringId={gatheringId}
             />
           ))}
         </>

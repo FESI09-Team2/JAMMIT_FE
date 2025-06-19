@@ -13,7 +13,7 @@ interface MemberRowProps {
   introduction: string;
   profileImage?: string | null;
   isSelectable?: boolean;
-  gathering?: number;
+  gatheringId?: number;
 }
 
 export default function MemberRow({
@@ -25,37 +25,43 @@ export default function MemberRow({
   introduction,
   profileImage = null,
   isSelectable = true,
-  gathering,
+  gatheringId: gatheringId,
 }: MemberRowProps) {
   return (
     <div>
-      <div className="my-[0.75rem] flex items-center gap-[1.25rem] px-[1.0625rem]">
+      <div className="my-[12px] flex items-center gap-[20px] px-[17px]">
         {isSelectable ? (
           <div onClick={() => onSelectChange(id)} className="cursor-pointer">
             {selected ? <Checkbox /> : <CheckboxEmpty />}
           </div>
         ) : (
-          <div className="w-[1rem]" />
+          <div className="w-[16px]" />
         )}
-        <ProfileImage src={profileImage} size={3} />
 
-        <div className="w-[8.6875rem] underline underline-offset-2">
-          {!gathering && nickname}
-          {gathering && (
-            <Link href={`/group/${gathering}/reviews/${id}`}>{nickname}</Link>
-          )}
-        </div>
+        <div className="pc:flex-row flex w-full flex-col">
+          <div className="tab:gap-[20px] mr-[20px] flex items-center gap-[12px]">
+            <ProfileImage src={profileImage} size={3} />
 
-        <div className="flex w-[10.4375rem] gap-[0.25rem]">
-          <div className="rounded-[0.5rem] bg-[#34343A] px-[0.75rem] py-[0.375rem] text-gray-100">
-            {SESSION_ENUM_TO_KR[session]}
+            <div className="pc:w-[139px] underline underline-offset-2">
+              <Link href={`/group/${gatheringId}/reviews/${id}`}>
+                {nickname}
+              </Link>
+            </div>
+
+            <div className="pc:w-[167px] flex gap-[4px]">
+              <div className="rounded-[8px] bg-[#34343A] px-[12px] py-[6px] text-gray-100">
+                {SESSION_ENUM_TO_KR[session]}
+              </div>
+            </div>
+          </div>
+
+          <div className="pc:w-[366px] pc:mt-0 mt-[12px] break-keep whitespace-pre-line">
+            {introduction}
           </div>
         </div>
-        <div className="line-clamp-2 w-[22.875rem] overflow-hidden text-ellipsis">
-          {introduction}
-        </div>
       </div>
-      <div className="border-b-[0.0625rem] border-[#2D3035]" />
+
+      <div className="border-b-[1px] border-[#2D3035]" />
     </div>
   );
 }

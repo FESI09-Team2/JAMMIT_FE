@@ -43,18 +43,19 @@ export default function MemberInfoSection({
 
   return (
     <>
-      <section className="flex w-[60rem] flex-col gap-[40px] rounded-[0.5rem] bg-[#202024] p-[2.5rem]">
+      <section className="pc:w-[960px] tab:p-[40px] flex w-full flex-col gap-[2.5rem] rounded-[8px] bg-[#202024] p-[20px]">
         {/* 모임 제목, 주최자 */}
-        <div className="flex h-[4.375rem] flex-col justify-between">
+        <div className="flex flex-col justify-between gap-[10px]">
           <h1 className="group-info-title">{gathering.name}</h1>
           <p className="group-info-subtitle">{gathering.creator.nickname}</p>
         </div>
 
-        <div className="border-b-[0.0625rem] border-[#2D3035]" />
+        <div className="border-b-[1px] border-[#2D3035]" />
         <MemberList
           title="확정 멤버"
           members={approvedParticipants}
           isSelectable={false}
+          gatheringId={gathering.id}
         />
         <MemberList
           title="신청 멤버"
@@ -62,15 +63,15 @@ export default function MemberInfoSection({
           selectedIds={selectedIds}
           setSelectedIds={setSelectedIds}
           isSelectable={true}
-          gathering={gathering.id}
+          gatheringId={gathering.id}
         />
       </section>
 
       {isRecruiting && (
-        <div className="ml-[1.25rem] flex flex-col gap-[1.25rem]">
+        <div className="ml-[20px] flex flex-col gap-[20px]">
           <Button
             variant="solid"
-            className="w-[22.75rem]"
+            className="pc:w-[364px] w-full"
             onClick={handleAccept}
             disabled={selectedIds.length === 0}
           >
@@ -78,7 +79,7 @@ export default function MemberInfoSection({
           </Button>
           <Button
             variant="outline"
-            className="w-[22.75rem]"
+            className="pc:w-[364px] w-full"
             onClick={handleReject}
             disabled={selectedIds.length === 0}
           >
