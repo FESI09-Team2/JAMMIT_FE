@@ -41,20 +41,30 @@ export default function SessionFormSection({
 
   const handleSortOptionChange = useCallback(
     (index: number, newSortOption: string) => {
-      setSessionList((prev) =>
-        prev.map((session, idx) =>
+      setSessionList((prev) => {
+        const newList = prev.map((session, idx) =>
           idx === index ? { ...session, sortOption: newSortOption } : session,
-        ),
-      );
+        );
+        setValue(
+          'gatheringSessions',
+          newList
+            .filter((s) => s.sortOption !== '')
+            .map((s) => ({
+              bandSession: SESSION_KEY_MAP[s.sortOption],
+              recruitCount: s.count,
+            })),
+        );
+        return newList;
+      });
     },
-    [],
+    [setValue],
   );
 
   const handleCountChange = useCallback(
     (index: number, newCount: number) => {
       setSessionList((prev) => {
-        const newList = prev.map((session, i) =>
-          i === index ? { ...session, count: newCount } : session,
+        const newList = prev.map((session, idx) =>
+          idx === index ? { ...session, count: newCount } : session,
         );
 
         setValue(
@@ -87,7 +97,7 @@ export default function SessionFormSection({
 
   return (
     <div className="flex flex-col gap-[0.5rem]">
-      <p className="text-sm font-semibold">모집 세션</p>
+      <p className="text-sm font-semibold text-gray-100">모집 세션</p>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-[0.75rem]">
           {sessionList.map(({ sortOption, count }, index) => (
