@@ -45,6 +45,7 @@ export default function SignUpStep1Page() {
   const [checking, setChecking] = useState(false);
   const [isDuplicate, setIsDuplicate] = useState<boolean | null>(null);
   const [duplicateMessage, setDuplicateMessage] = useState<string | null>(null);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
 
   const isValidEmailFormat = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -79,12 +80,14 @@ export default function SignUpStep1Page() {
   useEffect(() => {
     if (!email) {
       setDuplicateMessage(null);
+      setIsEmailVerified(false);
       return;
     }
     const isValidFormat = isValidEmailFormat(email);
     if (!isValidFormat) {
       setDuplicateMessage(null);
       setIsDuplicate(null);
+      setIsEmailVerified(false);
       return;
     }
 
@@ -93,6 +96,10 @@ export default function SignUpStep1Page() {
       debounceCheckEmail.cancel();
     };
   }, [email, setError, clearErrors, debounceCheckEmail]);
+
+  useEffect(() => {
+    setIsEmailVerified(false);
+  }, [email]);
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     useSignupStore.getState().setStep1Data(data);
@@ -104,7 +111,16 @@ export default function SignUpStep1Page() {
   };
 
   const handleEmailVerifyClick = () => {
-    verifyCodeMutation.mutate({ email, code });
+    verifyCodeMutation.mutate(
+      { email, code },
+      {
+        onSuccess: (data) => {
+          if (data && data.success !== false) {
+            setIsEmailVerified(true);
+          }
+        },
+      },
+    );
   };
 
   const isSendButtonDisabled =
@@ -116,6 +132,9 @@ export default function SignUpStep1Page() {
     sendCodeMutation.isPending;
 
   const isVerifyButtonDisabled = !code || !!errors.name || isSubmitting;
+
+  const isNextButtonDisabled =
+    !isValid || checking || isDuplicate === true || !isEmailVerified;
 
   return (
     <AuthCard title="회원가입" linkTo="login">
@@ -158,21 +177,28 @@ export default function SignUpStep1Page() {
                 )}
               </div>
 
-              <Input
-                name="name"
-                type="text"
-                label="인증번호 입력"
-                size="lg"
-                placeholder="인증 6자리를 입력해주세요."
-                isrightbutton={true}
-                rightButtonDisabled={isVerifyButtonDisabled}
-                onRightButtonClick={handleEmailVerifyClick}
-                rules={{
-                  required: '인증번호는 필수 입력입니다.',
-                }}
-              >
-                인증확인
-              </Input>
+              <div>
+                <Input
+                  name="name"
+                  type="text"
+                  label="인증번호 입력"
+                  size="lg"
+                  placeholder="인증 6자리를 입력해주세요."
+                  isrightbutton={true}
+                  rightButtonDisabled={isVerifyButtonDisabled}
+                  onRightButtonClick={handleEmailVerifyClick}
+                  rules={{
+                    required: '인증번호는 필수 입력입니다.',
+                  }}
+                >
+                  인증확인
+                </Input>
+                {isEmailVerified && (
+                  <p className="mt-3 text-sm text-green-500">
+                    이메일 인증이 완료되었습니다.
+                  </p>
+                )}
+              </div>
 
               <Input
                 name="password"
@@ -204,7 +230,7 @@ export default function SignUpStep1Page() {
               size="large"
               className="mt-[2.5rem] w-full"
               type="submit"
-              disabled={!isValid || checking || isDuplicate === true}
+              disabled={isNextButtonDisabled}
             >
               {checking ? '확인 중...' : '다음'}
             </Button>
