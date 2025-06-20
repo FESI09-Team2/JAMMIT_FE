@@ -10,7 +10,7 @@ import DateFormSection from './DateFormSection';
 import GenreFormSection from './GenreFormSection';
 import TextArea from '@/components/commons/Textarea';
 
-const DIVIDER = 'my-[2.5rem] max-w-[56rem] min-w-[20.9375rem] border-gray-800';
+const DIVIDER = 'my-[2.5rem] max-w-[56rem] w-full border-gray-800';
 
 interface JamFormSectionProps {
   control: Control<RegisterGatheringsRequest>;
@@ -35,8 +35,8 @@ export default function JamFormSection({
   );
 
   return (
-    <div className="mt-[2.5rem] flex h-auto w-auto max-w-[61rem] min-w-[23.4375rem] flex-col bg-[#202024] p-[2.5rem]">
-      <div className="pc:w-full tab:w-[40rem] flex w-[20.9375rem] flex-col gap-[1.5rem]">
+    <div className="pc:max-w-[60rem] mt-[2.5rem] flex h-auto w-full flex-col bg-[#202024] p-[2.5rem]">
+      <div className="pc:w-full tab:max-w-[40rem] flex w-full flex-col gap-[1.5rem]">
         {/** 모임 제목 */}
         <Input
           name="name"
