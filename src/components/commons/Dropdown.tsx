@@ -75,6 +75,7 @@ export default function Dropdown({
     onSelect(DropdownMenu);
   };
 
+  // isProfile일떄는 그냥 profile적용, 중앙배치
   return (
     <div
       className={`w-auto ${isProfile ? 'h-auto' : 'h-[2.75rem]'}`}
@@ -120,7 +121,7 @@ export default function Dropdown({
 
         {isOpen && (
           <>
-            {isMobile ? (
+            {isMobile && !isProfile ? (
               <div
                 className="fixed inset-0 z-50 bg-black/60"
                 onClick={() => setIsOpen(false)}
@@ -134,7 +135,9 @@ export default function Dropdown({
                 </div>
               </div>
             ) : (
-              <div className={`absolute z-50 ${isProfile && 'w-[8.875rem]'}`}>
+              <div
+                className={`absolute z-50 ${isProfile ? 'w-[8.875rem]' : ''}`}
+              >
                 <DropdownMenuList
                   menuOptions={menuOptions}
                   onSelect={handleSelect}
