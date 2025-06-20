@@ -143,7 +143,7 @@ export default function Dropdown({
             ) : (
               <div
                 className={`absolute z-50 ${
-                  isProfile ? 'pc:left-0 -right-10 w-[8.875rem]' : ''
+                  isProfile ? '-right-10 -bottom-[0.625rem] w-[8.875rem]' : ''
                 }`}
               >
                 <DropdownMenuList
