@@ -56,7 +56,6 @@ export default function Dropdown({
   const device = useDeviceType();
   const isMobile = device === 'mob';
 
-  // 드롭다운이 열려있고 모바일일 때만 스크롤 방지
   usePreventScroll(isOpen && isMobile);
 
   useEffect(() => {
@@ -79,7 +78,6 @@ export default function Dropdown({
     onSelect(DropdownMenu);
   };
 
-  // isProfile일떄는 그냥 profile적용, 중앙배치
   return (
     <div
       className={`w-auto ${isProfile ? 'h-auto' : 'h-[2.75rem]'}`}
@@ -144,7 +142,9 @@ export default function Dropdown({
               </div>
             ) : (
               <div
-                className={`absolute z-50 ${isProfile ? 'w-[8.875rem]' : ''}`}
+                className={`absolute z-50 ${
+                  isProfile ? 'pc:left-0 -right-10 w-[8.875rem]' : ''
+                }`}
               >
                 <DropdownMenuList
                   menuOptions={menuOptions}
