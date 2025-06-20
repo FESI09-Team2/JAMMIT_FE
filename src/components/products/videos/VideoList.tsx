@@ -9,7 +9,7 @@ import InfinityScroll from '@/components/commons/InfinityScroll';
 export default function VideoList() {
   const [sort, setSort] = useState<'latest' | 'popular'>('latest');
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
-    useVideoInfiniteQuery({ sort, size: 10 });
+    useVideoInfiniteQuery({ sort, size: 12 });
 
   const flatVideos = data?.pages.flatMap((page) => page.data) ?? [];
   const isInitialLoading = isLoading && flatVideos.length === 0;

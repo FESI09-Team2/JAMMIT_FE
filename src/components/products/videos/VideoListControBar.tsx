@@ -26,7 +26,7 @@ export default function VideoListControlBar({
         <IcSort />
         {sortLabel}
       </button>
-      <Button size="small" variant="solid">
+      <Button variant="solid" className="w-[148px]">
         글 작성
       </Button>
     </div>
