@@ -5,12 +5,15 @@ interface DropdownMenuListProps {
   onSelect: (option: string) => void;
   /** Dropdownlist의 너비 */
   size?: 'sm' | 'md' | 'lg';
+  /** 모바일 여부 */
+  isMobile?: boolean;
 }
 
 export default function DropdownMenuList({
   menuOptions,
   onSelect,
   size,
+  isMobile = false,
 }: DropdownMenuListProps) {
   const sizeClass = {
     sm: 'w-[9rem]',
@@ -20,7 +23,7 @@ export default function DropdownMenuList({
 
   return (
     <div
-      className={`absolute ${sizeClass} gap-[0.625rem] rounded-lg border-1 border-[#505057] bg-[#34343A] text-gray-100`}
+      className={`${!isMobile ? 'absolute' : ''} ${sizeClass} gap-[0.625rem] rounded-lg border-1 border-[#505057] bg-[#34343A] text-gray-100`}
     >
       {menuOptions.map((option) => (
         <div

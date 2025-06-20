@@ -4,6 +4,7 @@ import { ReactNode, useRef, useState, useEffect } from 'react';
 import { useClickOutside } from '@/hooks/useClickOutside';
 import { useDeviceType } from '@/hooks/useDeviceType';
 import DropdownMenuList from './DropdownMenuList';
+import { usePreventScroll } from '@/hooks/usePreventScroll';
 
 interface DropdownProps {
   /** 사용자가 드롭다운 항목을 선택했을 때 호출되는 콜백 함수 */
@@ -54,6 +55,9 @@ export default function Dropdown({
   const displayValue = selectedDropdownMenu || '';
   const device = useDeviceType();
   const isMobile = device === 'mob';
+
+  // 드롭다운이 열려있고 모바일일 때만 스크롤 방지
+  usePreventScroll(isOpen && isMobile);
 
   useEffect(() => {
     setSelectedDropdownMenu(value || '');
@@ -126,11 +130,15 @@ export default function Dropdown({
                 className="fixed inset-0 z-50 bg-black/60"
                 onClick={() => setIsOpen(false)}
               >
-                <div onClick={(e) => e.stopPropagation()}>
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                >
                   <DropdownMenuList
                     menuOptions={menuOptions}
                     onSelect={handleSelect}
                     size={size}
+                    isMobile={isMobile}
                   />
                 </div>
               </div>
@@ -142,6 +150,7 @@ export default function Dropdown({
                   menuOptions={menuOptions}
                   onSelect={handleSelect}
                   size={size}
+                  isMobile={false}
                 />
               </div>
             )}

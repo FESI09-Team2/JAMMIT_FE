@@ -27,7 +27,7 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
   const device = useDeviceType();
 
   useClickOutside(modalRef, onClose);
-  usePreventScroll();
+  usePreventScroll(true);
 
   useEffect(() => {
     const firstCount =
