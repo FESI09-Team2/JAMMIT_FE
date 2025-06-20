@@ -2,6 +2,7 @@
 
 import { ReactNode, useRef, useState, useEffect } from 'react';
 import { useClickOutside } from '@/hooks/useClickOutside';
+import { useDeviceType } from '@/hooks/useDeviceType';
 import DropdownMenuList from './DropdownMenuList';
 
 interface DropdownProps {
@@ -51,12 +52,18 @@ export default function Dropdown({
   const setIsOpen = externalSetIsOpen || setInternalIsOpen;
   const dropdownRef = useRef<HTMLDivElement>(null);
   const displayValue = selectedDropdownMenu || '';
+  const device = useDeviceType();
+  const isMobile = device === 'mob';
 
   useEffect(() => {
     setSelectedDropdownMenu(value || '');
   }, [value]);
 
-  useClickOutside(dropdownRef, () => setIsOpen(false));
+  useClickOutside(dropdownRef, () => {
+    if (!isMobile) {
+      setIsOpen(false);
+    }
+  });
 
   const handleDropdownMenu = () => {
     setIsOpen(!isOpen);
@@ -76,7 +83,11 @@ export default function Dropdown({
       <div className="relative">
         <button
           onClick={handleDropdownMenu}
-          className={`flex items-center justify-between gap-[0.625rem] rounded-lg border-0 bg-[#34343A] text-gray-100 ${sizeClass} ${isProfile ? 'h-auto w-auto border-none bg-transparent p-0' : 'px-[1rem] py-[0.625rem]'}`}
+          className={`flex items-center justify-between gap-[0.625rem] rounded-lg border-0 bg-[#34343A] text-gray-100 ${sizeClass} ${
+            isProfile
+              ? 'h-auto w-auto border-none bg-transparent p-0'
+              : 'px-[1rem] py-[0.625rem]'
+          }`}
           type="button"
           aria-label="드롭다운 이미지 버튼"
         >
@@ -108,13 +119,30 @@ export default function Dropdown({
         </button>
 
         {isOpen && (
-          <div className={`absolute z-50 ${isProfile && 'w-[8.875rem]'}`}>
-            <DropdownMenuList
-              menuOptions={menuOptions}
-              onSelect={handleSelect}
-              size={size}
-            />
-          </div>
+          <>
+            {isMobile ? (
+              <div
+                className="fixed inset-0 z-50 bg-black/60"
+                onClick={() => setIsOpen(false)}
+              >
+                <div onClick={(e) => e.stopPropagation()}>
+                  <DropdownMenuList
+                    menuOptions={menuOptions}
+                    onSelect={handleSelect}
+                    size={size}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className={`absolute z-50 ${isProfile && 'w-[8.875rem]'}`}>
+                <DropdownMenuList
+                  menuOptions={menuOptions}
+                  onSelect={handleSelect}
+                  size={size}
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
