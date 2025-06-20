@@ -1,20 +1,5 @@
-import { nestApiClient } from '@/utils/nestApiClient';
-
-export interface VideoItem {
-  id: string;
-  title: string;
-  thumbnailUrl: string;
-  nickname: string;
-  createdAt: string;
-}
-
-export interface GetVideoListResponse {
-  page: number;
-  take: number;
-  total: number;
-  pages: number;
-  data: VideoItem[];
-}
+import { GetVideoListResponse } from '@/types/video';
+import { nestApiClient } from '@/utils/apiClient';
 
 export interface GetVideoListParams {
   order?: 'latest' | 'popular';
