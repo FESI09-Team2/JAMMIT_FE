@@ -36,7 +36,7 @@ export default function JamFormSection({
 
   return (
     <div className="mt-[2.5rem] flex h-auto w-auto max-w-[61rem] min-w-[23.4375rem] flex-col bg-[#202024] p-[2.5rem]">
-      <div className="pc:w-[27.9375rem] tab:w-[640px] flex min-w-[335px] flex-col gap-[1.5rem]">
+      <div className="pc:w-full tab:w-[40rem] flex min-w-[20.9375rem] flex-col gap-[1.5rem]">
         {/** 모임 제목 */}
         <Input
           name="name"
