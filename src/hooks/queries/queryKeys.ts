@@ -3,7 +3,6 @@ export const gatheringKeys = {
 
   // 전체 모임 목록
   list: (filters: {
-    page?: number;
     size?: number;
     sort?: string;
     genres?: string[];
@@ -37,12 +36,18 @@ export const userKeys = {
   me: () => [...userKeys.base, 'me'] as const,
 
   // 내가 생성한 모임 목록
-  myCreatedGatherings: () =>
-    [...userKeys.base, 'gatherings', 'created'] as const,
+  myCreatedGatherings: (filters: {
+    page?: number | undefined;
+    size?: number | undefined;
+    includeCanceled: boolean | undefined;
+  }) => [...userKeys.base, 'gatherings', 'created', filters] as const,
 
   // 내가 신청한 모임 목록
-  myParticipatedGatherings: () =>
-    [...userKeys.base, 'gatherings', 'participated'] as const,
+  myParticipatedGatherings: (filters: {
+    page?: number | undefined;
+    size?: number | undefined;
+    includeCanceled: boolean | undefined;
+  }) => [...userKeys.base, 'gatherings', 'participated', filters] as const,
 
   // 내 리뷰 관련
   reviews: {
