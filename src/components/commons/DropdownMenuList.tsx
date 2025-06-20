@@ -14,7 +14,7 @@ export default function DropdownMenuList({
 }: DropdownMenuListProps) {
   const sizeClass = {
     sm: 'w-[9rem]',
-    md: 'w-[26rem]',
+    md: 'pc:w-[26rem] tab:w-[32.5rem] w-[14rem]',
     lg: 'w-auto',
   }[size || 'lg'];
 
@@ -26,7 +26,7 @@ export default function DropdownMenuList({
         <div
           key={option}
           onClick={() => onSelect(option)}
-          className="cursor-pointer rounded-lg px-[1rem] py-[0.625rem] hover:bg-[#464F4E]"
+          className="cursor-pointer rounded-lg px-[1rem] py-[0.625rem] hover:bg-[#594D6C]"
         >
           <span>{option}</span>
         </div>
