@@ -7,6 +7,11 @@ interface VideoCardProps {
 }
 
 export function VideoCard({ video }: VideoCardProps) {
+  const formatDuration = (duration: string) => {
+    const [h, m, s] = duration.split(':');
+    return h === '00' ? `${m}:${s}` : `${h}:${m}:${s}`;
+  };
+
   return (
     <div className="h-[16.25rem] w-[20rem] rounded-lg">
       <div className="relative h-[11.25rem] w-full">
@@ -20,7 +25,7 @@ export function VideoCard({ video }: VideoCardProps) {
           />
         </div>
         <div className="absolute right-[0.625rem] bottom-[0.625rem] flex h-[1.5rem] items-center justify-center rounded-[0.25rem] bg-white/40 px-[0.375rem] text-[0.875rem] text-black">
-          <span className="text-center">{video.duration}</span>
+          <span className="text-center">{formatDuration(video.duration)}</span>
         </div>
       </div>
 

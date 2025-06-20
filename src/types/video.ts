@@ -9,9 +9,7 @@ export interface VideoItem {
 }
 
 export interface GetVideoListResponse {
+  totalPage: number;
   page: number;
-  take: number;
-  total: number;
-  pages: number;
   data: VideoItem[];
 }

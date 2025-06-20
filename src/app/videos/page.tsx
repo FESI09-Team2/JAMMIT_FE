@@ -1,4 +1,4 @@
-import VideoList from '@/components/products/video/VideoList';
+import VideoList from '@/components/products/videos/VideoList';
 
 export default async function VideoListPage() {
   return <VideoList />;
