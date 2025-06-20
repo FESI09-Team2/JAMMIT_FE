@@ -41,7 +41,7 @@ export default function Dropdown({
 }: DropdownProps) {
   const sizeClass = {
     sm: 'w-[9rem]',
-    md: 'pc:w-[26rem] tab:w-[32.5rem] w-[13.5rem]',
+    md: 'pc:w-[26rem] tab:w-[32.5rem] w-[14rem]',
     lg: 'w-auto',
   }[size || 'lg'];
 
