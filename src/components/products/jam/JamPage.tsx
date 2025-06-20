@@ -131,11 +131,11 @@ export default function JamPage({
         <GroupPageLayout
           banner={<ImageEdit />}
           actionButtons={
-            <div className="pc:flex-col mt-[2.5rem] flex w-full gap-[1rem]">
+            <div className="pc:mt-[2.5rem] flex w-full flex-col gap-[1rem]">
               {formType === 'register' && (
                 <Button
                   variant="outline"
-                  className="w-[11.375rem]"
+                  className="pc:w-[11.375rem] tab:w-[680px] w-[343px]"
                   type="button"
                   onClick={handleTempSave}
                 >
@@ -144,7 +144,7 @@ export default function JamPage({
               )}
               <Button
                 variant="solid"
-                className="w-[11.375rem]"
+                className="pc:w-[11.375rem] tab:w-[680px] w-[343px]"
                 type="submit"
                 disabled={!isValid || !thumbnail}
               >
