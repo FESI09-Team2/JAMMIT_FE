@@ -31,21 +31,25 @@ export default function SessionSelector({
   );
 
   return (
-    <div className="flex gap-[0.75rem]">
-      <Dropdown
-        onSelect={setSortOption}
-        menuOptions={availableOptions}
-        surfixIcon={<ArrowDown />}
-        size="md"
-        value={sortOption}
-        isOpen={isDropdownOpen}
-        setIsOpen={setIsDropdownOpen}
-        placeholder="세션을 선택하세요."
-      />
-      <NumberInput
-        count={session[SESSION_KEY_MAP[sortOption]] || 1}
-        onChange={onChange}
-      />
+    <div className="flex w-full gap-[0.75rem]">
+      <div className="min-w-0">
+        <Dropdown
+          onSelect={setSortOption}
+          menuOptions={availableOptions}
+          surfixIcon={<ArrowDown />}
+          size="md"
+          value={sortOption}
+          isOpen={isDropdownOpen}
+          setIsOpen={setIsDropdownOpen}
+          placeholder="세션을 선택하세요."
+        />
+      </div>
+      <div className="flex-shrink-0">
+        <NumberInput
+          count={session[SESSION_KEY_MAP[sortOption]] || 1}
+          onChange={onChange}
+        />
+      </div>
     </div>
   );
 }
