@@ -1,6 +1,21 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-export default function VideoListBanner() {
+interface VideoListBannerProps {
+  weekTopVideoId: string | null;
+}
+
+export default function VideoListBanner({
+  weekTopVideoId,
+}: VideoListBannerProps) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (weekTopVideoId) {
+      router.push(`/video/${weekTopVideoId}`);
+    }
+  };
+
   return (
     <div className="pc:h-[15.625rem] pc:rounded-[0.5rem] flex h-[12.4375rem] w-full items-center justify-between bg-[#2d2d2d] pl-[5.8125rem]">
       <div>
@@ -10,7 +25,10 @@ export default function VideoListBanner() {
         <p className="text-[2rem] font-semibold">
           지금 가장 핫한 이 영상은 보고 재밋하니?
         </p>
-        <button className="mt-[1.5625rem] h-[2.25rem] rounded-[3.125rem] bg-white/10 px-[0.875rem] text-center text-[1rem] font-semibold text-white/60">
+        <button
+          className="mt-[1.5625rem] h-[2.25rem] cursor-pointer rounded-[3.125rem] bg-white/10 px-[0.875rem] text-center text-[1rem] font-semibold text-white/60 hover:bg-white/20"
+          onClick={handleClick}
+        >
           이번 주 인기글 바로가기
         </button>
       </div>

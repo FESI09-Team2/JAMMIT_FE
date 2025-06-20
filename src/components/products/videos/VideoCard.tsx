@@ -1,19 +1,28 @@
 import { VideoItem } from '@/types/video';
 import { formatDateToYYMMDD } from '@/utils/formatDate';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface VideoCardProps {
   video: VideoItem;
 }
 
 export function VideoCard({ video }: VideoCardProps) {
+  const router = useRouter();
   const formatDuration = (duration: string) => {
     const [h, m, s] = duration.split(':');
     return h === '00' ? `${m}:${s}` : `${h}:${m}:${s}`;
   };
 
+  const handleClick = () => {
+    router.push(`/video/${video.id}`);
+  };
+
   return (
-    <div className="h-[16.25rem] w-[20rem] rounded-lg">
+    <div
+      className="h-[16.25rem] w-[20rem] cursor-pointer rounded-lg"
+      onClick={handleClick}
+    >
       <div className="relative h-[11.25rem] w-full">
         <div className="w-full overflow-hidden rounded-[0.5rem]">
           <Image

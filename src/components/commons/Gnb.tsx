@@ -20,6 +20,7 @@ export default function Gnb() {
   const navItems = [
     { href: '/', label: '모임 찾기' },
     { href: '/wishlist', label: '찜한 모임' },
+    { href: '/videos', label: '영상 게시판' },
   ];
 
   const handleProfileSelect = (option: string) => {

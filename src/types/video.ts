@@ -8,8 +8,13 @@ export interface VideoItem {
   duration: string;
 }
 
+export interface WeekTopVideo {
+  id: string;
+}
+
 export interface GetVideoListResponse {
   totalPage: number;
   page: number;
   data: VideoItem[];
+  weekTopVideo: WeekTopVideo;
 }
