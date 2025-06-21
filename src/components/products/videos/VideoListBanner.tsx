@@ -28,6 +28,7 @@ export default function VideoListBanner({
         <button
           className="mt-[1.5625rem] h-[2.25rem] cursor-pointer rounded-[3.125rem] bg-white/10 px-[0.875rem] text-center text-[1rem] font-semibold text-white/60 hover:bg-white/20"
           onClick={handleClick}
+          aria-label="이번 주 인기 영상 상세 페이지로 이동"
         >
           이번 주 인기글 바로가기
         </button>

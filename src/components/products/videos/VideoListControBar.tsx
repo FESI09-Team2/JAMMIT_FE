@@ -18,10 +18,11 @@ export default function VideoListControlBar({
   };
 
   return (
-    <div className="mt-[60px] mb-[32px] flex w-full justify-between">
+    <div className="mt-[3.75rem] mb-[2rem] flex w-full justify-between">
       <button
+        aria-label={`정렬: ${sortLabel}`}
         onClick={toggleSort}
-        className="pc:h-10 pc:w-[6.875rem] pc:gap-1 pc:rounded-lg pc:text-sm flex h-9 w-9 items-center justify-center gap-0 rounded-xl bg-[var(--gray-100)] text-[0px]"
+        className="pc:h-10 pc:w-[6.875rem] pc:gap-1 pc:rounded-lg pc:text-sm flex h-9 w-9 items-center justify-center gap-0 rounded-xl bg-[var(--gray-100)]"
       >
         <IcSort />
         {sortLabel}

@@ -14,7 +14,7 @@ export default function VideoList() {
   const flatVideos = data?.pages.flatMap((page) => page.data) ?? [];
   const isInitialLoading = isLoading && flatVideos.length === 0;
 
-  const weekTopVideoId = data?.pages?.[0]?.weekTopVideo.id ?? null;
+  const weekTopVideoId = data?.pages?.[0]?.weekTopVideo?.id ?? null;
 
   return (
     <div className="pc:max-w-[84rem] pc:mt-8 pc:pb-[5rem] mx-auto max-w-full pb-[1.375rem]">
