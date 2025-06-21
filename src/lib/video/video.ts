@@ -1,4 +1,4 @@
-import { GetVideoListResponse } from '@/types/video';
+import { GetUserVideoListResponse, GetVideoListResponse } from '@/types/video';
 import { nestApiClient } from '@/utils/apiClient';
 
 export interface GetVideoListParams {
@@ -20,5 +20,32 @@ export const getVideoList = async ({
   const result = await nestApiClient.get<GetVideoListResponse>(
     `/video?${query}`,
   );
+  return result;
+};
+
+export interface GetUserVideoListParams {
+  userId?: string;
+  order?: 'latest' | 'popular';
+  take?: number;
+  page?: number;
+}
+
+export const getUserVideoList = async ({
+  userId,
+  order = 'latest',
+  take = 10,
+  page = 1,
+}: GetUserVideoListParams): Promise<GetUserVideoListResponse> => {
+  const query = new URLSearchParams({
+    ...(userId && { userId }),
+    order,
+    take: take.toString(),
+    page: page.toString(),
+  }).toString();
+
+  const result = await nestApiClient.get<GetUserVideoListResponse>(
+    `/video/user?${query}`,
+  );
+
   return result;
 };

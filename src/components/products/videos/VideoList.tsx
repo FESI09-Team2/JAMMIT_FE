@@ -27,6 +27,7 @@ export default function VideoList() {
         emptyText="업로드된 영상이 없습니다."
         hasMore={!!hasNextPage && !isFetching}
         onInView={() => {
+          console.log('✅ inView triggered!');
           if (hasNextPage && !isFetching) {
             fetchNextPage();
           }

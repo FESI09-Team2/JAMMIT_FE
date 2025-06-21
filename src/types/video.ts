@@ -68,3 +68,10 @@ export interface CommentResponse {
 export interface CommentRequest {
   content: string;
 }
+
+export interface GetUserVideoListResponse {
+  page: number;
+  totalPage: number;
+  data: VideoItem[];
+  message: string;
+}
