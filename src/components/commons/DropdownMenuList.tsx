@@ -29,7 +29,7 @@ export default function DropdownMenuList({
         <div
           key={option}
           onClick={() => onSelect(option)}
-          className="cursor-pointer rounded-lg px-[1rem] py-[0.625rem] hover:bg-[#594D6C]"
+          className="cursor-pointer px-[1rem] py-[0.625rem] hover:bg-[#594D6C]"
         >
           <span>{option}</span>
         </div>
