@@ -37,7 +37,7 @@ export async function generateMetadata({
 export default async function page({ params }: { params: Params }) {
   const queryClient = new QueryClient();
   const { videoId } = await params;
-  await prefetchVideoQuery({ videoId });
+  await prefetchVideoQuery({ queryClient, videoId });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
