@@ -20,6 +20,7 @@ import MuxPlayer from '@mux/mux-player-react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import ShareLinkModal from '../group/ShareLinkModal';
+
 interface prop {
   videoId: string;
 }
@@ -65,6 +66,7 @@ export default function VideoDetailClient({ videoId }: prop) {
   const commentValue = watch('content');
   const onSubmit = (data: CommentRequest) => {
     submitComment(data.content);
+    methods.reset();
   };
   if (isLoading || likeStatusLoading) return null;
   return (
@@ -156,6 +158,7 @@ export default function VideoDetailClient({ videoId }: prop) {
                 variant="outlineOrder"
                 type="submit"
                 disabled={!commentValue?.trim()}
+                aria-label="댓글 저장 버튼"
               >
                 등록
               </Button>

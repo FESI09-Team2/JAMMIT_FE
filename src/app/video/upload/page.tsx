@@ -6,6 +6,7 @@ export default function Page() {
   const [file, setFile] = useState<File | null>(null);
   const [message, setMessage] = useState('');
   const { accessToken } = useAuthStore();
+  console.log(accessToken);
   const handleUpload = async () => {
     if (!file) {
       return setMessage('파일 선택해');
