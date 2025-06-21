@@ -97,7 +97,7 @@ export default function MemberList({
           {members.map((member) => (
             <MemberRow
               key={`${member.userId}-${member.bandSession}`}
-              id={member.participantId}
+              id={member.userId}
               nickname={member.userNickname}
               session={member.bandSession}
               introduction={member.introduction}
