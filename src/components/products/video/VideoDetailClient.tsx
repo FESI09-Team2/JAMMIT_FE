@@ -15,7 +15,7 @@ import {
 } from '@/hooks/queries/video/useVideoDetail';
 import { useDeviceType } from '@/hooks/useDeviceType';
 import { CommentRequest } from '@/types/video';
-import { getDate } from '@/utils/date';
+import { formatDateToYYMMDD } from '@/utils/formatDate';
 import MuxPlayer from '@mux/mux-player-react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -92,7 +92,7 @@ export default function VideoDetailClient({ videoId }: prop) {
             <p className="leading-none opacity-60">
               조회수 {data?.viewCount ?? 0}회
               <span className="mx-2 inline-flex">|</span>
-              {getDate(data?.createdAt as string)}
+              {formatDateToYYMMDD(data?.createdAt as string)}
             </p>
           </div>
           <div className="pc:mt-0 tab:mt-0 mt-8 flex items-center gap-6">
