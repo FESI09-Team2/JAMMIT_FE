@@ -1,7 +1,7 @@
 import InfinityScroll from '@/components/commons/InfinityScroll';
 import { useUserVideoInfiniteQuery } from '@/hooks/queries/video/useUserVideoInfiniteQuery';
 import { VideoCard } from '../../videos/VideoCard';
-import CardSkeleton from '@/components/commons/Card/SkeletonItem';
+import VideoCardSkeleton from '../../videos/VideoCardSkeleton';
 
 export default function MyVideo() {
   const { data, fetchNextPage, hasNextPage, isFetching, isLoading } =
@@ -13,8 +13,8 @@ export default function MyVideo() {
   if (!data) {
     return (
       <div className="pc:grid-cols-4 pc:gap-x-5 pc:px-0 tab:px-6 grid grid-cols-1 gap-y-10 px-4">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <CardSkeleton key={i} /> // 수정 예정
+        {Array.from({ length: 12 }).map((_, i) => (
+          <VideoCardSkeleton key={i} />
         ))}
       </div>
     );
