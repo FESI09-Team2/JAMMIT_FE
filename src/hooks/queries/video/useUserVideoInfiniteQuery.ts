@@ -5,7 +5,7 @@ import { userKeys } from '../queryKeys';
 import { GetUserVideoListResponse } from '@/types/video';
 
 interface UseUserVideoInfiniteQueryParams {
-  userId?: string;
+  userId?: number;
   sort: 'latest' | 'popular';
   size?: number;
 }
@@ -16,7 +16,7 @@ export const useUserVideoInfiniteQuery = ({
   size = 10,
 }: UseUserVideoInfiniteQueryParams) => {
   return useInfiniteQuery({
-    queryKey: userKeys.uploadedVideos(userId),
+    queryKey: userKeys.videos(userId).list,
     queryFn: ({ pageParam = 1 }) =>
       getUserVideoList({ userId, page: pageParam, take: size, order: sort }),
     initialPageParam: 1,

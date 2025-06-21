@@ -20,6 +20,7 @@ import GatheringList from './gather/GatheringList';
 import GatheringListComponents from './gather/GatheringListComponents';
 import MyReview from './review/MyReview';
 import MyVideo from './video/MyVideo';
+import { userVideoCountQuery } from '@/hooks/queries/video/useUserVideoCountQuery';
 
 type TabKey =
   | 'participating'
@@ -57,6 +58,11 @@ export default function MyPage() {
       .length ?? 0;
   const { data: review } = useReviewInfiniteQuery({
     size: 8,
+  });
+
+  const videoCount = usePrefetchedCount({
+    ...userVideoCountQuery(),
+    selector: (data) => data.count,
   });
 
   const reviewCount = review?.pages[0].totalElements ?? 0;
@@ -112,11 +118,11 @@ export default function MyPage() {
       {
         key: 'video',
         label: '재밋 후기',
-        count: writeCount, // 수정 예정
+        count: videoCount,
         component: <MyVideo />,
       },
     ],
-    [participatingCount, createdCount, reviewCount, writeCount],
+    [participatingCount, createdCount, reviewCount, writeCount, videoCount],
   );
 
   const tabClass = (isActive: boolean) =>

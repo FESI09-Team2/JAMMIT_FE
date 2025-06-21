@@ -75,3 +75,8 @@ export interface GetUserVideoListResponse {
   data: VideoItem[];
   message: string;
 }
+
+export interface GetUserVideoCountResponse {
+  count: number;
+  message: string;
+}
