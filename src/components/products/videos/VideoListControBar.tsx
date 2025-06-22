@@ -22,7 +22,7 @@ export default function VideoListControlBar({
   };
 
   return (
-    <div className="tab:px-[1.5rem] pc:px-0 pc:justify-between mt-[3.75rem] mb-[2rem] flex w-full px-[1rem]">
+    <div className="tab:px-[1.5rem] pc:px-0 pc:justify-between pc:mt-[3.75rem] pc:mb-[2rem] my-[1.25rem] flex w-full px-[1rem]">
       <button
         aria-label={`정렬: ${sortLabel}`}
         onClick={toggleSort}
