@@ -4,11 +4,13 @@ import Button from '@/components/commons/Button';
 import Input from '@/components/commons/Input';
 import Textarea from '@/components/commons/Textarea';
 import { useVideoUploadMutation } from '@/hooks/queries/video/useVideoUpload';
+import { usePreventScroll } from '@/hooks/usePreventScroll';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { FormProvider, useForm } from 'react-hook-form';
+import Lottie from 'react-lottie-player';
 
 export default function VideoUpload() {
   const router = useRouter();
@@ -55,6 +57,7 @@ export default function VideoUpload() {
     mode: 'onChange',
   });
   const { accessToken } = useAuthStore();
+  console.log(accessToken);
   const {
     handleSubmit,
     formState: { isValid },
@@ -81,16 +84,18 @@ export default function VideoUpload() {
     setVideoFile(null);
     setThumbnail(null);
   };
+  usePreventScroll(progress > 0 && isPending);
   return (
-    <div className="pc:max-w-[84rem] pc:mt-6 pc:mb-36 tab:mb-11 mx-auto mb-6">
+    <div className="pc:max-w-[84rem] pc:mt-6 tab:mt-6 pc:mb-36 tab:mb-11 pc:px-0 tab:px-8 mx-auto mt-4 mb-6 px-4">
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div
-            className="relative h-[22rem] cursor-pointer overflow-hidden rounded-lg bg-[var(--bg-34343A)]"
+            className="pc:h-[22rem] tab:h-[15.125rem] relative h-[8.5rem] cursor-pointer overflow-hidden rounded-lg bg-[var(--bg-34343A)]"
             {...getRootProps()}
           >
             <input {...getInputProps()} />
             {thumbnail ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={thumbnail}
                 alt="썸네일 미리보기"
@@ -98,8 +103,8 @@ export default function VideoUpload() {
               />
             ) : (
               <div className="flex h-full w-full flex-col items-center justify-center">
-                <IcVideo />
-                <p className="mt-7 text-center font-medium text-[var(--gray-500)]">
+                <IcVideo className="pc:w-[9rem] tab:w-[5rem] w-[2.5rem]" />
+                <p className="pc:mt-7 tab:mt-5 pc:text-base tab:text-base mt-2.5 text-center text-sm font-medium text-[var(--gray-500)]">
                   파일을 드래그 하거나
                   <br />
                   이곳을 눌러 선택하세요.
@@ -108,7 +113,7 @@ export default function VideoUpload() {
             )}
           </div>
           <div className="pc:mt-[2.5rem] flex justify-between gap-5">
-            <div className="pc:px-10 pc:py-10 flex-[1] rounded-lg bg-[#202024]">
+            <div className="pc:px-10 pc:py-10 pc:mb-0 pc:bg-[#202024] mb-16 flex-[1] rounded-lg pt-5">
               <Input
                 name="title"
                 type="text"
@@ -122,7 +127,9 @@ export default function VideoUpload() {
                   },
                 }}
               />
-              <p className="mt-10 mb-[0.5rem] text-sm font-semibold">내용</p>
+              <p className="pc:mt-10 mt-5 mb-[0.5rem] text-sm font-semibold">
+                내용
+              </p>
               <Textarea
                 name="description"
                 placeholder="어떤 영상인가요?"
@@ -137,16 +144,29 @@ export default function VideoUpload() {
             </div>
             <Button
               variant="solid"
-              className="pc:w-[22.75rem] w-full rounded-lg"
+              className="pc:w-[22.75rem] tab:w-[calc(100%-64px)] pc:static fixed bottom-8 w-[calc(100%-32px)] rounded-lg"
               type="submit"
               disabled={!isValid || !videoFile}
               aria-label="영상 저장 버튼"
             >
-              {isPending ? `${progress}% 업로드 중...` : '작성완료'}
+              작성완료
             </Button>
           </div>
         </form>
       </FormProvider>
+      {isPending && progress > 0 && (
+        <div className="fixed top-0 left-0 z-100 flex h-full w-full items-center justify-center bg-black/60">
+          <div className="pc:h-[23.75rem] pc:w-[25rem] pc:gap-[1.875rem] pc:py-[1.56rem] flex h-[15.5rem] w-[16.25rem] flex-col items-center gap-[1.25rem] rounded-3xl bg-[#202024] py-[1.25rem]">
+            <Lottie
+              path="/json/jump.json"
+              loop
+              play
+              className="pc:w-[12.5rem] pc:h-[16.25rem] h-[9.375rem] w-[7.375rem]"
+            />
+            <p className="text-gray-500">힘차게 업로드 중... 🤘 </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
