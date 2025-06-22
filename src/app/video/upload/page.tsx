@@ -58,6 +58,7 @@ export default function VideoUpload() {
     mode: 'onChange',
   });
   const { accessToken } = useAuthStore();
+  console.log(accessToken);
   const {
     handleSubmit,
     formState: { isValid },

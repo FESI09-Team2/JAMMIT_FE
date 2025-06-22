@@ -42,14 +42,7 @@ export const uploadVideo = async ({
 
     xhr.send(videoFile);
   });
-  // const uploadRes = await fetch(uploadUrl, {
-  //     method: 'PUT',
-  //     headers: {
-  //     'Content-Type': videoFile.type,
-  //     },
-  //     body: videoFile,
-  // });
-  // if (!uploadRes.ok) throw new Error('Mux 업로드 실패');
+
   // STEP 3. 백엔드에 업로드 정보 등록
   return nestApiClient.post(`/video/register`, {
     title,

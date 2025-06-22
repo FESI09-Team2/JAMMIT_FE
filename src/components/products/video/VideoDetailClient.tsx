@@ -17,7 +17,7 @@ import { useDeviceType } from '@/hooks/useDeviceType';
 import { CommentRequest } from '@/types/video';
 import { formatDateToYYMMDD } from '@/utils/formatDate';
 import { useSentryErrorLogger } from '@/utils/useSentryErrorLogger';
-import MuxPlayer from '@mux/mux-player-react';
+// import MuxPlayer from '@mux/mux-player-react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import ShareLinkModal from '../group/ShareLinkModal';
@@ -102,7 +102,7 @@ export default function VideoDetailClient({ videoId }: prop) {
   if (isLoading || likeStatusLoading) return <VideoDetailSkeleton />;
   return (
     <div className="pc:max-w-[84rem] pc:mt-6 pc:mb-36 tab:mb-11 mx-auto mb-6">
-      <MuxPlayer
+      {/* <MuxPlayer
         playbackId={data?.playbackId}
         metadata={{
           video_id: videoId,
@@ -110,7 +110,7 @@ export default function VideoDetailClient({ videoId }: prop) {
           viewer_user_id: data?.nickname,
         }}
         style={{ width: '100%', height: 'auto' }}
-      />
+      /> */}
       <div className="pc:mt-6 tab:mt-8 pc:mx-0 tab:mx-8 mx-4 mt-4">
         <div className="pc:flex tab:flex block items-start justify-between">
           <div>
