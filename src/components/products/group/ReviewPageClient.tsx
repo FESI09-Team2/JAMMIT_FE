@@ -74,7 +74,7 @@ export default function ReviewPageClient({
         component: <MyVideo userId={userId} />,
       },
     ],
-    [data, videoCount],
+    [data, videoCount, userId],
   );
 
   if (!data || isLoading) {
