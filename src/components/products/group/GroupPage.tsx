@@ -64,6 +64,8 @@ export default function GroupPage({
     initialData,
   });
 
+  console.log(gatheringDetailData);
+
   const isMembersTabQueryReady = isLoaded && !isRefreshing && !!user;
 
   const {
