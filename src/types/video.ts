@@ -76,3 +76,15 @@ export interface CreateVideoRequest {
   accessToken: string;
   onProgress: (progress: number) => void;
 }
+
+export interface GetUserVideoListResponse {
+  page: number;
+  totalPage: number;
+  data: VideoItem[];
+  message: string;
+}
+
+export interface GetUserVideoCountResponse {
+  count: number;
+  message: string;
+}

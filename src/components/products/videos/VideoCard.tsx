@@ -9,7 +9,8 @@ interface VideoCardProps {
 
 export function VideoCard({ video }: VideoCardProps) {
   const router = useRouter();
-  const formatDuration = (duration: string) => {
+  const formatDuration = (duration: string | null) => {
+    if (!duration) return '00:00';
     const [h, m, s] = duration.split(':');
     return h === '00' ? `${m}:${s}` : `${h}:${m}:${s}`;
   };
@@ -20,7 +21,7 @@ export function VideoCard({ video }: VideoCardProps) {
 
   return (
     <div
-      className="h-[16.25rem] w-[20rem] cursor-pointer rounded-lg"
+      className="pc:w-[20rem] w-full cursor-pointer rounded-lg"
       onClick={handleClick}
     >
       <div className="relative h-[11.25rem] w-full overflow-hidden rounded-[0.5rem]">
