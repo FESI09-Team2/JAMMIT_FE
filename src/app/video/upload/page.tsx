@@ -17,6 +17,7 @@ export default function VideoUpload() {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
   // 드래그앤 드랍
   const { getRootProps, getInputProps } = useDropzone({
     accept: { 'video/*': [] },
@@ -57,7 +58,6 @@ export default function VideoUpload() {
     mode: 'onChange',
   });
   const { accessToken } = useAuthStore();
-  console.log(accessToken);
   const {
     handleSubmit,
     formState: { isValid },
@@ -67,6 +67,7 @@ export default function VideoUpload() {
 
   const onSubmit = (data: { title: string; description: string }) => {
     if (!videoFile || !accessToken) return;
+    setIsUploading(true);
     submitUpload(
       {
         title: data.title,
@@ -76,13 +77,12 @@ export default function VideoUpload() {
       },
       {
         onSuccess: () => {
-          router.replace('/videos');
+          setTimeout(() => {
+            router.replace('/videos');
+          }, 4000);
         },
       },
     );
-    methods.reset();
-    setVideoFile(null);
-    setThumbnail(null);
   };
   usePreventScroll(progress > 0 && isPending);
   return (
@@ -154,7 +154,7 @@ export default function VideoUpload() {
           </div>
         </form>
       </FormProvider>
-      {isPending && progress > 0 && (
+      {(isUploading || (isPending && progress > 0)) && (
         <div className="fixed top-0 left-0 z-100 flex h-full w-full items-center justify-center bg-black/60">
           <div className="pc:h-[23.75rem] pc:w-[25rem] pc:gap-[1.875rem] pc:py-[1.56rem] flex h-[15.5rem] w-[16.25rem] flex-col items-center gap-[1.25rem] rounded-3xl bg-[#202024] py-[1.25rem]">
             <Lottie

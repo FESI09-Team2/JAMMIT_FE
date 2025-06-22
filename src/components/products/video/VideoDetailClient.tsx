@@ -21,6 +21,7 @@ import MuxPlayer from '@mux/mux-player-react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import ShareLinkModal from '../group/ShareLinkModal';
+import VideoDetailSkeleton from './VideoDetailSkeleton';
 
 interface prop {
   videoId: string;
@@ -98,7 +99,7 @@ export default function VideoDetailClient({ videoId }: prop) {
     tags: { section: 'video', action: 'likeStatus' },
     message: '좋아요 상태 불러오기 실패',
   });
-  if (isLoading || likeStatusLoading) return null;
+  if (isLoading || likeStatusLoading) return <VideoDetailSkeleton />;
   return (
     <div className="pc:max-w-[84rem] pc:mt-6 pc:mb-36 tab:mb-11 mx-auto mb-6">
       <MuxPlayer
