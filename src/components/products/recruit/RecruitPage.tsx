@@ -60,6 +60,8 @@ export default function RecruitPage({
           setSessions={setSessions}
           setSort={setSort}
           sort={sort}
+          defaultGenres={defaultGenres}
+          defaultSessions={defaultSessions}
         />
         <InfinityScroll
           isInitialLoading={isInitialLoading}
