@@ -179,7 +179,7 @@ export default function VideoUpload() {
                   <span
                     className={`absolute top-1 left-1 h-6 w-6 rounded-full transition-transform duration-300 ${
                       toggle
-                        ? 'translate-x-8 bg-purple-400'
+                        ? 'translate-x-7 bg-purple-400'
                         : 'translate-x-0 bg-[var(--foreground)]'
                     }`}
                   />
