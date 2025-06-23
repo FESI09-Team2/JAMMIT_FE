@@ -81,7 +81,9 @@ export default function JamPage({
       if (savedData) {
         const parsedData = JSON.parse(savedData) as RegisterGatheringsRequest;
         Object.entries(parsedData).forEach(([key, value]) => {
-          setValue(key as keyof RegisterGatheringsRequest, value);
+          setValue(key as keyof RegisterGatheringsRequest, value, {
+            shouldValidate: true,
+          });
         });
       }
     }
