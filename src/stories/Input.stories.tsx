@@ -27,7 +27,7 @@ const meta: Meta<typeof Input> = {
     },
     type: {
       control: { type: 'select' },
-      options: ['text', 'password', 'email', 'number'],
+      options: ['text', 'password'],
     },
     label: { control: 'text' },
     placeholder: { control: 'text' },
