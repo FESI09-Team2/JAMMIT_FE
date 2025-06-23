@@ -1,22 +1,23 @@
-import React, { useCallback } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
-import ModalWrapper from './ModalWrapper';
-import ProfileImageUpload from '../ProfileImageUpload';
-import Input from '../Input';
-import Button from '../Button';
-import { EditFormData } from '@/types/modal';
-import TagSection from '../TagSection';
-import { BandSession, Genre } from '@/types/tags';
+import { PASSWORD_RULE } from '@/constants/regex';
 import { GENRE_TAGS, SESSION_TAGS } from '@/constants/tags';
 import {
-  GENRE_KR_TO_ENUM,
-  SESSION_KR_TO_ENUM,
-  SESSION_ENUM_TO_KR,
   GENRE_ENUM_TO_KR,
+  GENRE_KR_TO_ENUM,
+  SESSION_ENUM_TO_KR,
+  SESSION_KR_TO_ENUM,
 } from '@/constants/tagsMapping';
-import { useErrorModalStore } from '@/stores/useErrorModalStore';
-import ErrorModal from './ErrorModal';
 import { useImageUpload } from '@/hooks/useImageUpload';
+import { useErrorModalStore } from '@/stores/useErrorModalStore';
+import { EditFormData } from '@/types/modal';
+import { BandSession, Genre } from '@/types/tags';
+import { useCallback } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import Button from '../Button';
+import Input from '../Input';
+import ProfileImageUpload from '../ProfileImageUpload';
+import TagSection from '../TagSection';
+import ErrorModal from './ErrorModal';
+import ModalWrapper from './ModalWrapper';
 
 interface ModalEditProps {
   /** "확인" 버튼 클릭 시 실행할 콜백 */
@@ -109,7 +110,7 @@ export default function ModalEdit({
       <ModalWrapper
         title="프로필 수정하기"
         onClose={onCancel}
-        className="relative h-auto w-[32.5rem] max-w-md overflow-y-auto rounded-lg bg-[#242429] p-[1.5rem]"
+        className="pc:h-[35.5rem] relative h-auto w-[32.5rem] max-w-md overflow-y-auto rounded-lg bg-[#242429] p-[1.5rem]"
       >
         <FormProvider {...methods}>
           <form
@@ -128,13 +129,7 @@ export default function ModalEdit({
                 type="password"
                 label="비밀번호"
                 placeholder="비밀번호를 입력해주세요."
-                rules={{
-                  required: '비밀번호는 필수 입력입니다.',
-                  minLength: {
-                    value: 8,
-                    message: '비밀번호는 최소 8자 이상이어야 합니다.',
-                  },
-                }}
+                rules={PASSWORD_RULE}
               />
               <Input
                 name="passwordConfirm"
