@@ -73,7 +73,7 @@ function ModalImgEdit({ onSubmit, onClose }: ModalImgEditProps) {
               return (
                 <div
                   key={idx}
-                  className={`cursor-pointer rounded-lg border-2 ${
+                  className={`cursor-pointer overflow-hidden rounded-lg border-2 ${
                     selectedIndex === idx
                       ? 'border-[#9900FF]'
                       : 'border-transparent'
