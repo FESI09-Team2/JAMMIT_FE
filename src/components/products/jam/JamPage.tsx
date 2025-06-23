@@ -57,7 +57,12 @@ export default function JamPage({
       gatheringDateTime: '',
       recruitDateTime: '',
       genres: [],
-      gatheringSessions: [],
+      gatheringSessions: [
+        {
+          bandSession: undefined,
+          recruitCount: 1,
+        },
+      ],
     },
     mode: 'onChange',
   });
@@ -126,7 +131,7 @@ export default function JamPage({
       registerGathering(data, {
         onSuccess: (response) => {
           localStorage.removeItem(TEMP_STORAGE_KEY);
-          queryClient.refetchQueries({
+          queryClient.invalidateQueries({
             predicate: (query) =>
               query.queryKey &&
               query.queryKey[0] === 'gatherings' &&
@@ -167,12 +172,7 @@ export default function JamPage({
           }
           isTab={false}
         >
-          <JamFormSection
-            control={control}
-            watch={watch}
-            setValue={setValue}
-            initialData={initialData}
-          />
+          <JamFormSection control={control} watch={watch} setValue={setValue} />
         </GroupPageLayout>
       </form>
       {showLoginModal && (
