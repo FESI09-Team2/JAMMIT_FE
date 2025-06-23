@@ -44,7 +44,6 @@ export default function JamFormSection({
           label="모임 제목"
           size="lg"
           placeholder="모임 제목을 작성하세요."
-          autoComplete="off"
           rules={{
             required: '모임 제목을 입력하세요.',
             maxLength: {

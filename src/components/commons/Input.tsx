@@ -69,7 +69,7 @@ function Input({
   rightButtonDisabled,
   onRightButtonClick,
   children,
-  autoComplete = 'on',
+  autoComplete = 'off',
 }: InputProps) {
   const {
     register,
