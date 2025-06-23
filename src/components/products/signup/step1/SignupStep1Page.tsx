@@ -2,6 +2,8 @@
 import AuthCard from '@/components/commons/AuthCard';
 import Button from '@/components/commons/Button';
 import Input from '@/components/commons/Input';
+import { useSendCodeMutation } from '@/hooks/queries/auth/useSendCodeMutation';
+import { useVerifyCodeMutation } from '@/hooks/queries/auth/useVerifyCodeMutation';
 import { checkEmailDuplicate } from '@/lib/auth/signup';
 import { useSignupStore } from '@/stores/useSignupStore';
 import * as Sentry from '@sentry/nextjs';
@@ -14,8 +16,6 @@ import {
   useForm,
   useWatch,
 } from 'react-hook-form';
-import { useSendCodeMutation } from '@/hooks/queries/auth/useSendCodeMutation';
-import { useVerifyCodeMutation } from '@/hooks/queries/auth/useVerifyCodeMutation';
 
 interface FormValues {
   email: string;
@@ -146,59 +146,55 @@ export default function SignUpStep1Page() {
             className="w-full"
           >
             <div className="flex flex-col gap-[1.5rem]">
-              <div>
-                <Input
-                  name="email"
-                  type="text"
-                  label="아이디"
-                  size="lg"
-                  placeholder="이메일을 입력해주세요."
-                  isrightbutton={true}
-                  rightButtonDisabled={isSendButtonDisabled}
-                  onRightButtonClick={handleEmailSendClick}
-                  rules={{
-                    required: '이메일은 필수 입력입니다.',
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: '올바른 이메일 형식을 입력해주세요.',
-                    },
-                  }}
+              <Input
+                name="email"
+                type="text"
+                label="아이디"
+                size="lg"
+                placeholder="이메일을 입력해주세요."
+                isrightbutton={true}
+                rightButtonDisabled={isSendButtonDisabled}
+                onRightButtonClick={handleEmailSendClick}
+                rules={{
+                  required: '이메일은 필수 입력입니다.',
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: '올바른 이메일 형식을 입력해주세요.',
+                  },
+                }}
+              >
+                인증하기
+              </Input>
+              {duplicateMessage && (
+                <p
+                  className={`mt-3 text-sm ${
+                    isDuplicate ? 'text-red-500' : 'text-[#bf5eff]'
+                  }`}
                 >
-                  인증하기
-                </Input>
-                {duplicateMessage && (
-                  <p
-                    className={`mt-3 text-sm ${
-                      isDuplicate ? 'text-red-500' : 'text-[#bf5eff]'
-                    }`}
-                  >
-                    {duplicateMessage}
-                  </p>
-                )}
-              </div>
+                  {duplicateMessage}
+                </p>
+              )}
 
-              <div>
-                <Input
-                  name="name"
-                  type="text"
-                  label="인증번호 입력"
-                  size="lg"
-                  placeholder="인증 6자리를 입력해주세요."
-                  isrightbutton={true}
-                  rightButtonDisabled={isVerifyButtonDisabled}
-                  onRightButtonClick={handleEmailVerifyClick}
-                  rules={{
-                    required: '인증번호는 필수 입력입니다.',
-                  }}
-                >
-                  인증확인
-                </Input>
-                {isEmailVerified && (
-                  <p className="mt-3 text-sm text-[#bf5eff]">
-                    이메일 인증이 완료되었습니다.
-                  </p>
-                )}
-              </div>
+              <Input
+                name="name"
+                type="text"
+                label="인증번호 입력"
+                size="lg"
+                placeholder="인증 6자리를 입력해주세요."
+                isrightbutton={true}
+                rightButtonDisabled={isVerifyButtonDisabled}
+                onRightButtonClick={handleEmailVerifyClick}
+                rules={{
+                  required: '인증번호는 필수 입력입니다.',
+                }}
+              >
+                인증확인
+              </Input>
+              {isEmailVerified && (
+                <p className="mt-3 text-sm text-[#bf5eff]">
+                  이메일 인증이 완료되었습니다.
+                </p>
+              )}
 
               <Input
                 name="password"

@@ -6,7 +6,8 @@ import { useDeviceType } from '@/hooks/useDeviceType';
 import { BandSession, Genre } from '@/types/tags';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { Fragment, useEffect, useState } from 'react';
 
 interface FilterHeaderProps {
   genres: Genre[];
@@ -35,14 +36,17 @@ export default function RecruitHeader({
     else if (device === 'tab') setSrc('/images/main/img_main_banner_tab.avif');
     else setSrc('/images/main/img_main_banner_pc.avif');
   }, [device]);
-
-  const handleSort = useCallback(() => {
-    setSort?.((prev) =>
-      prev === 'recruitDeadline,asc'
+  const router = useRouter();
+  const handleSort = () => {
+    const nextSort =
+      sort === 'recruitDeadline,asc'
         ? 'recruitDeadline,desc'
-        : 'recruitDeadline,asc',
-    );
-  }, [setSort]);
+        : 'recruitDeadline,asc';
+    setSort?.(nextSort);
+    const url = new URL(window.location.href);
+    url.searchParams.set('sort', nextSort);
+    router.replace(`${url.pathname}?${url.searchParams.toString()}`);
+  };
   const sortLabel = sort === 'recruitDeadline,asc' ? '마감임박' : '최신순';
   if (!src) return null;
   return (
