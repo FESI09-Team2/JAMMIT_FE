@@ -3,12 +3,15 @@ export interface VideoDetailResponse {
   title: string;
   playbackId: string;
   viewCount: number;
-
   description: string;
   nickname: string;
   userId: string;
   thumbnailUrl: string;
   createdAt: string;
+  creatorName: string;
+  creatorThumbnailUrl: string;
+  creatorTitle: string;
+  slug: string;
 }
 export interface VideoItem {
   id: string;
@@ -35,10 +38,8 @@ export interface LikeStatus {
   liked: boolean;
   likeCount: number;
 }
-export interface LikeResponse {
+export interface LikeResponse extends LikeStatus {
   message: string;
-  liked: boolean;
-  likeCount: number;
 }
 export interface ViewResponse {
   message: string;
@@ -69,6 +70,18 @@ export interface CommentRequest {
   content: string;
 }
 
+export interface CreateVideoRequest {
+  videoFile: File;
+  title: string;
+  description: string;
+  accessToken: string;
+  slug: number;
+  creatorTitle: string;
+  creatorName: string;
+  thumbnailUrl: string;
+  onProgress: (progress: number) => void;
+}
+
 export interface GetUserVideoListResponse {
   page: number;
   totalPage: number;
@@ -79,4 +92,21 @@ export interface GetUserVideoListResponse {
 export interface GetUserVideoCountResponse {
   count: number;
   message: string;
+}
+export interface GetGetherItem {
+  id: number;
+  name: string;
+  thumbnail: string;
+  gatheringDateTime: string;
+  place: string;
+  totalRecruit: number;
+  totalCurrent: number;
+  status: string;
+  hostNickname: string;
+}
+export interface GetGetherResponse {
+  success: boolean;
+  code: number;
+  message: string;
+  result: GetGetherItem[];
 }

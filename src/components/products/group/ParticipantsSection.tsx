@@ -11,6 +11,7 @@ import { useUserStore } from '@/stores/useUserStore';
 import { GatheringDetailResponse, Participant } from '@/types/gathering';
 import { ReviewItem } from '@/types/review';
 import { handleAuthApiError } from '@/utils/authApiError';
+import { logToSentry } from '@/utils/logToSentry';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -50,7 +51,7 @@ export default function ParticipantsSection({
       status: 'COMPLETED',
       createdAt: new Date().toISOString(), // 임의 시간 (현재 시간)
       introduction: '',
-      profileImagePath: '',
+      userProfileImagePath: gathering.creator.profileImagePath,
     },
     ...participants,
   ];
@@ -87,10 +88,12 @@ export default function ParticipantsSection({
         useToastStore.getState().show('리뷰가 성공적으로 작성되었습니다.');
       },
       onError: (error) => {
-        handleAuthApiError(error, '리뷰 작성 중 오류가 발생했습니다.', {
+        logToSentry(error, {
           section: 'review',
           action: 'create_review',
         });
+
+        handleAuthApiError(error, '리뷰 작성 중 오류가 발생했습니다.');
       },
     });
     handleCloseReviewModal();
@@ -112,7 +115,7 @@ export default function ParticipantsSection({
             bandSession,
             introduction,
             userId,
-            profileImagePath,
+            userProfileImagePath,
           },
           index,
         ) => {
@@ -127,7 +130,7 @@ export default function ParticipantsSection({
             <div key={participantId}>
               <div className="pc:flex-row pc:items-center my-[0.75rem] flex flex-col">
                 <div className="tab:gap-[1.25rem] mr-[1.25rem] flex items-center gap-[0.75rem]">
-                  <ProfileImage src={profileImagePath} size={3} />
+                  <ProfileImage src={userProfileImagePath} size={3} />
 
                   <div className="pc:w-[8.6875rem] flex items-center">
                     <span className="text-[1rem] underline underline-offset-2">

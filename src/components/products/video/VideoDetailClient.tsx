@@ -2,6 +2,7 @@
 import IcLove from '@/assets/icons/ic_love.svg';
 import IcShare from '@/assets/icons/ic_share.svg';
 import Button from '@/components/commons/Button';
+import GoGether from '@/components/commons/GoGether';
 import InfinityScroll from '@/components/commons/InfinityScroll';
 import Liked from '@/components/commons/Liked';
 import ProfileImage from '@/components/commons/ProfileImage';
@@ -15,11 +16,13 @@ import {
 } from '@/hooks/queries/video/useVideoDetail';
 import { useDeviceType } from '@/hooks/useDeviceType';
 import { CommentRequest } from '@/types/video';
-import { getDate } from '@/utils/date';
+import { formatDateToYYMMDD } from '@/utils/formatDate';
+import { useSentryErrorLogger } from '@/utils/useSentryErrorLogger';
 import MuxPlayer from '@mux/mux-player-react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import ShareLinkModal from '../group/ShareLinkModal';
+import VideoDetailSkeleton from './VideoDetailSkeleton';
 
 interface prop {
   videoId: string;
@@ -28,17 +31,25 @@ interface prop {
 export default function VideoDetailClient({ videoId }: prop) {
   const deviceType = useDeviceType();
   const [open, setOpen] = useState(false);
-  const { data, isLoading } = useVideoDetailQuery({ videoId });
+  const { data, isLoading, isError, error } = useVideoDetailQuery({ videoId });
   const {
     data: comment,
     fetchNextPage,
     hasNextPage,
     isFetching,
+    isError: isCommentError,
+    error: commentError,
   } = useCommentQuery({ take: 10, videoId });
-  const { mutate: submitComment } = useCommentMutation(videoId);
-  const { data: likeStatus, isLoading: likeStatusLoading } = useLikeStatus({
+  const {
+    data: likeStatus,
+    isLoading: likeStatusLoading,
+    isError: isLikeError,
+    error: likeError,
+  } = useLikeStatus({
     videoId,
   });
+  const { mutate: submitComment } = useCommentMutation(videoId);
+
   const { mutate: toggleLike } = useLikeMutation();
 
   const flatData = comment?.pages.flatMap((item) => item.data);
@@ -68,7 +79,29 @@ export default function VideoDetailClient({ videoId }: prop) {
     submitComment(data.content);
     methods.reset();
   };
-  if (isLoading || likeStatusLoading) return null;
+  // 자동 Sentry 로깅
+  useSentryErrorLogger({
+    isError,
+    error,
+    tags: { section: 'video', action: 'detail' },
+    message: '비디오 상세 정보 불러오기 실패',
+  });
+
+  useSentryErrorLogger({
+    isError: isCommentError,
+    error: commentError,
+    tags: { section: 'video', action: 'comment' },
+    message: '댓글 불러오기 실패',
+  });
+
+  useSentryErrorLogger({
+    isError: isLikeError,
+    error: likeError,
+    tags: { section: 'video', action: 'likeStatus' },
+    message: '좋아요 상태 불러오기 실패',
+  });
+  if (isLoading || likeStatusLoading) return <VideoDetailSkeleton />;
+  console.log(data);
   return (
     <div className="pc:max-w-[84rem] pc:mt-6 pc:mb-36 tab:mb-11 mx-auto mb-6">
       <MuxPlayer
@@ -92,7 +125,7 @@ export default function VideoDetailClient({ videoId }: prop) {
             <p className="leading-none opacity-60">
               조회수 {data?.viewCount ?? 0}회
               <span className="mx-2 inline-flex">|</span>
-              {getDate(data?.createdAt as string)}
+              {formatDateToYYMMDD(data?.createdAt as string)}
             </p>
           </div>
           <div className="pc:mt-0 tab:mt-0 mt-8 flex items-center gap-6">
@@ -124,9 +157,18 @@ export default function VideoDetailClient({ videoId }: prop) {
             </button>
           </div>
         </div>
-        <p className="pc:mt-11 pc:mb-[3.125rem] mt-8 mb-8 leading-[160%]">
-          {data?.description}
-        </p>
+        <p className="pc:my-10 my-8 leading-[160%]">{data?.description}</p>
+        {data?.slug && (
+          <div className="pc:my-10 my-8">
+            <GoGether
+              gatheringId={Number(data?.slug)}
+              gatheringName={data?.creatorTitle as string}
+              gatheringHostNickname={data?.creatorName as string}
+              gatheringThumbnail={data?.creatorThumbnailUrl as string}
+            />
+          </div>
+        )}
+
         <div className="flex items-center">
           <em className="text-[1.25rem]">댓글</em>
           <span className="mr-5 ml-2 block text-[1.25rem] text-[var(--purple-500)]">
