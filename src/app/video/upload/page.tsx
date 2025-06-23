@@ -1,9 +1,13 @@
 'use client';
 import IcVideo from '@/assets/icons/ic_video.svg';
 import Button from '@/components/commons/Button';
+import GoGether from '@/components/commons/GoGether';
 import Input from '@/components/commons/Input';
 import Textarea from '@/components/commons/Textarea';
-import { useVideoUploadMutation } from '@/hooks/queries/video/useVideoUpload';
+import {
+  useGather,
+  useVideoUploadMutation,
+} from '@/hooks/queries/video/useVideoUpload';
 import { usePreventScroll } from '@/hooks/usePreventScroll';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useRouter } from 'next/navigation';
@@ -18,6 +22,7 @@ export default function VideoUpload() {
   const [thumbnail, setThumbnail] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [toggle, setToggle] = useState(false);
   // 드래그앤 드랍
   const { getRootProps, getInputProps } = useDropzone({
     accept: { 'video/*': [] },
@@ -58,14 +63,32 @@ export default function VideoUpload() {
     mode: 'onChange',
   });
   const { accessToken } = useAuthStore();
-  console.log(accessToken);
   const {
     handleSubmit,
     formState: { isValid },
   } = methods;
   const { mutate: submitUpload, isPending } =
     useVideoUploadMutation(setProgress);
-
+  const { data: gather } = useGather(toggle);
+  const [selectedGathering, setSelectedGathering] = useState<{
+    slug: number;
+    creatorTitle: string;
+    creatorName: string;
+    thumbnailUrl: string;
+  } | null>(null);
+  const handleSelectedGathering = (
+    id: number,
+    name: string,
+    hostNickname: string,
+    thumbnail: string,
+  ) => {
+    setSelectedGathering({
+      slug: id,
+      creatorTitle: name,
+      creatorName: hostNickname,
+      thumbnailUrl: thumbnail,
+    });
+  };
   const onSubmit = (data: { title: string; description: string }) => {
     if (!videoFile || !accessToken) return;
     setIsUploading(true);
@@ -75,6 +98,10 @@ export default function VideoUpload() {
         description: data.description,
         videoFile,
         accessToken,
+        slug: selectedGathering?.slug as number,
+        creatorTitle: selectedGathering?.creatorTitle as string,
+        creatorName: selectedGathering?.creatorName as string,
+        thumbnailUrl: selectedGathering?.thumbnailUrl as string,
       },
       {
         onSuccess: () => {
@@ -142,6 +169,54 @@ export default function VideoUpload() {
                   },
                 }}
               />
+              <div className="my-10 flex items-center justify-between">
+                <p>원 모임글 연결</p>
+                <button
+                  className="relative h-[2rem] w-[3.75rem] rounded-4xl bg-[var(--bg-34343A)]"
+                  onClick={() => setToggle((prev) => !prev)}
+                  type="button"
+                >
+                  <span
+                    className={`absolute top-1 left-1 h-6 w-6 rounded-full transition-transform duration-300 ${
+                      toggle
+                        ? 'translate-x-8 bg-purple-400'
+                        : 'translate-x-0 bg-[var(--foreground)]'
+                    }`}
+                  />
+                </button>
+              </div>
+              {toggle && (
+                <>
+                  {gather && gather.length > 0 ? (
+                    gather?.map((item) => (
+                      <button
+                        className="mt-5 flex w-full flex-col"
+                        key={item.id}
+                        type="button"
+                        onClick={() =>
+                          handleSelectedGathering(
+                            item.id,
+                            item.name,
+                            item.hostNickname,
+                            item.thumbnail,
+                          )
+                        }
+                      >
+                        <GoGether
+                          selected={selectedGathering?.slug === item.id}
+                          linkable={false}
+                          gatheringId={item.id}
+                          gatheringName={item.name}
+                          gatheringHostNickname={item.hostNickname}
+                          gatheringThumbnail={item.thumbnail}
+                        />
+                      </button>
+                    ))
+                  ) : (
+                    <p>참여한 모임이 없습니다.</p>
+                  )}
+                </>
+              )}
             </div>
             <Button
               variant="solid"
@@ -164,7 +239,12 @@ export default function VideoUpload() {
               play
               className="pc:w-[12.5rem] pc:h-[16.25rem] h-[9.375rem] w-[7.375rem]"
             />
-            <p className="text-gray-500">힘차게 업로드 중... 🤘 </p>
+            <p className="text-gray-500">
+              힘차게 업로드 중... 🤘{' '}
+              <span className="font-semibold text-[var(--purple-500)]">
+                {progress}%
+              </span>
+            </p>
           </div>
         </div>
       )}
