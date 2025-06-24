@@ -151,7 +151,7 @@ aria-label과 meta 태그 도입을 통해 SEO 성능을 70점에서 100점으�
 <img width="564" alt="스크린샷 2025-06-24 오전 1 42 23" src="https://github.com/user-attachments/assets/204fcaca-1959-45e4-bd02-2aaf139300ae" />
 
 **성능 개선 결과** (1,000개 mock data 렌더링 테스트)
-- Performance Score: 46 → 86 (+40점, ≈52%↑)
+- Performance Score: 46 → 86 (+40점, ≈86.96%↑)
 - FCP: 0.9s → 0.8s (≈11%↓)
 - LCP: 5.0s → 4.4s (≈12%↓)
 - TBT: 6,140ms → 570ms (≈91%↓)
