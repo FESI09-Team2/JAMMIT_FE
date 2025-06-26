@@ -1,4 +1,5 @@
 'use client';
+import IcReload from '@/assets/icons/ic_reload.svg';
 import IcSort from '@/assets/icons/ic_sort.svg';
 import MultiSelectDropdown from '@/components/commons/MultiSelectDropdown';
 import { GENRE_OPTIONS, SESSION_OPTIONS } from '@/constants/checkbox';
@@ -6,6 +7,7 @@ import { useDeviceType } from '@/hooks/useDeviceType';
 import { BandSession, Genre } from '@/types/tags';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 
 interface FilterHeaderProps {
@@ -16,6 +18,8 @@ interface FilterHeaderProps {
   setSort?: React.Dispatch<React.SetStateAction<string>>;
   page?: string;
   sort?: string;
+  defaultSessions: BandSession[];
+  defaultGenres: Genre[];
 }
 
 export default function RecruitHeader({
@@ -26,6 +30,8 @@ export default function RecruitHeader({
   setSort,
   page = 'main',
   sort,
+  defaultSessions,
+  defaultGenres,
 }: FilterHeaderProps) {
   // 반응형 이미지
   const [src, setSrc] = useState<string | null>(null);
@@ -35,14 +41,21 @@ export default function RecruitHeader({
     else if (device === 'tab') setSrc('/images/main/img_main_banner_tab.avif');
     else setSrc('/images/main/img_main_banner_pc.avif');
   }, [device]);
-
-  const handleSort = useCallback(() => {
-    setSort?.((prev) =>
-      prev === 'recruitDeadline,asc'
+  const router = useRouter();
+  const handleSort = () => {
+    const nextSort =
+      sort === 'recruitDeadline,asc'
         ? 'recruitDeadline,desc'
-        : 'recruitDeadline,asc',
-    );
-  }, [setSort]);
+        : 'recruitDeadline,asc';
+    setSort?.(nextSort);
+    const url = new URL(window.location.href);
+    url.searchParams.set('sort', nextSort);
+    router.replace(`${url.pathname}?${url.searchParams.toString()}`);
+  };
+  const handleReset = useCallback(() => {
+    setGenres(defaultGenres);
+    setSessions(defaultSessions);
+  }, [setSessions, setGenres, defaultSessions, defaultGenres]);
   const sortLabel = sort === 'recruitDeadline,asc' ? '마감임박' : '최신순';
   if (!src) return null;
   return (
@@ -84,15 +97,24 @@ export default function RecruitHeader({
               onChange={setSessions}
             />
           </div>
-          {page !== 'wish' && (
+          <div className="flex gap-2">
+            {page !== 'wish' && (
+              <button
+                onClick={handleSort}
+                className="pc:h-10 pc:w-[6.875rem] pc:gap-1 pc:rounded-lg pc:text-sm flex h-9 w-9 items-center justify-center gap-0 rounded-xl bg-[var(--gray-100)] text-[0px]"
+              >
+                <IcSort />
+                {sortLabel}
+              </button>
+            )}
             <button
-              onClick={handleSort}
+              onClick={handleReset}
               className="pc:h-10 pc:w-[6.875rem] pc:gap-1 pc:rounded-lg pc:text-sm flex h-9 w-9 items-center justify-center gap-0 rounded-xl bg-[var(--gray-100)] text-[0px]"
             >
-              <IcSort />
-              {sortLabel}
+              <IcReload />
+              필터 초기화
             </button>
-          )}
+          </div>
         </div>
         {page !== 'wish' && (
           <Link
