@@ -31,7 +31,7 @@ const meta: Meta<typeof Liked> = {
     },
     className: {
       control: { type: 'text' },
-      description: '추가 CSS 클래스',
+      description: '추가 CSS 클래스, 대부분 아이콘이 들어',
     },
     children: {
       control: { type: 'text' },
