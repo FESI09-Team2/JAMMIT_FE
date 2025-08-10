@@ -42,13 +42,13 @@ export default function MyPage() {
   const isQueryReady = isLoaded && !isRefreshing && !!user;
 
   const participatingCount = usePrefetchedCount({
-    ...gatherMeParticipantsQuery({ page: 0, size: 1, includeCanceled: true }),
+    ...gatherMeParticipantsQuery({ page: 0, size: 2, includeCanceled: false }),
     selector: (data) => data.totalElements,
     enabled: isQueryReady,
   });
 
   const createdCount = usePrefetchedCount({
-    ...gatherMeCreateQuery({ page: 0, size: 1, includeCanceled: true }),
+    ...gatherMeCreateQuery({ page: 0, size: 2, includeCanceled: false }),
     selector: (data) => data.totalElements,
     enabled: isQueryReady,
   });
