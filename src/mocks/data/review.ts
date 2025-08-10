@@ -1,5 +1,5 @@
-import { ReviewItem, ReviewStatusPros } from '@/types/review';
-import { BandSession } from '@/types/tags';
+import { ReviewItem, ReviewStatusPros } from '../../types/review';
+import { BandSession } from '../../types/tags';
 
 // 받은 리뷰 통계
 export const MOCK_REVIEW_STATISTICS: ReviewStatusPros = {

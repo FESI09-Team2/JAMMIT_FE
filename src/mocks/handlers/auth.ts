@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { MOCK_TOKENS, MOCK_USER } from '@/mocks/data/auth';
+import { MOCK_TOKENS, MOCK_USER } from '../data/auth';
 
 export const authHandlers = [
   // 로그인

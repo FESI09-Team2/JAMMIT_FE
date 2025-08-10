@@ -4,8 +4,8 @@ import {
   MOCK_RECEIVED_REVIEWS,
   MOCK_WRITTEN_REVIEWS,
   MOCK_REVIEWS_TO_WRITE,
-} from '@/mocks/data/review';
-import { PostReviewRequest } from '@/types/review';
+} from '../data/review';
+import { PostReviewRequest } from '../../types/review';
 
 export const reviewHandlers = [
   // 받은 리뷰 통계

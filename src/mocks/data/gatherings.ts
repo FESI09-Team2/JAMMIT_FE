@@ -1,9 +1,9 @@
-import { GatheringCard } from '@/types/card';
-import { GenreType, BandSessionType } from '@/types/tags';
+import { GatheringCard } from '../../types/card';
+import { GenreType, BandSessionType } from '../../types/tags';
 import {
   RegisterGatheringsResponse,
   ModifiedGatheringsResponse,
-} from '@/types/gather';
+} from '../../types/gather';
 
 // 기본 모임 데이터 템플릿
 const baseGatherings: GatheringCard[] = [
@@ -698,6 +698,150 @@ export const MOCK_MY_COMPLETED_GATHERINGS: GatheringCard[] = [
     ],
   },
 ];
+
+// 모임 상세 목데이터
+export const MOCK_GATHERING_DETAILS = {
+  1: {
+    id: 1,
+    name: '락 밴드 모임',
+    thumbnail: '/images/card/img_card_pc_01.avif',
+    place: '서울 강남구',
+    description:
+      '락 음악을 좋아하는 분들과 함께하는 밴드 모임입니다. 다양한 장르의 락 음악을 연주하고 즐기며, 새로운 음악적 경험을 만들어가고 싶습니다.',
+    gatheringDateTime: '2024-12-25T19:00:00',
+    recruitDeadline: '2024-12-20T23:59:59',
+    status: 'RECRUITING',
+    genres: ['ROCK', 'METAL'],
+    sessions: [
+      { bandSession: 'VOCAL', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'ELECTRIC_GUITAR', recruitCount: 2, currentCount: 1 },
+      { bandSession: 'DRUM', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'BASS', recruitCount: 1, currentCount: 0 },
+      { bandSession: 'KEYBOARD', recruitCount: 1, currentCount: 0 },
+    ],
+    creator: {
+      id: 1,
+      nickname: '테스트유저',
+      profileImagePath: '/images/ic_default_profile.svg',
+    },
+  },
+  201: {
+    id: 201,
+    name: '참가한 팝 밴드',
+    thumbnail: '/images/card/img_card_pc_03.avif',
+    place: '서울 이태원',
+    description:
+      '팝 음악을 연주하는 밴드 모임입니다. 다양한 팝 곡들을 연주하며 즐거운 시간을 보내고 싶습니다.',
+    gatheringDateTime: '2024-12-28T18:00:00',
+    recruitDeadline: '2024-12-22T23:59:59',
+    status: 'RECRUITING',
+    genres: ['POP', 'BALLAD'],
+    sessions: [
+      { bandSession: 'VOCAL', recruitCount: 2, currentCount: 2 },
+      { bandSession: 'ELECTRIC_GUITAR', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'DRUM', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'BASS', recruitCount: 1, currentCount: 0 },
+      { bandSession: 'KEYBOARD', recruitCount: 1, currentCount: 1 },
+    ],
+    creator: {
+      id: 2,
+      nickname: '팝스타',
+      profileImagePath: '/images/ic_default_profile.svg',
+    },
+  },
+  301: {
+    id: 301,
+    name: '완료된 락 밴드',
+    thumbnail: '/images/card/img_card_pc_05.avif',
+    place: '서울 강남구',
+    description:
+      '이미 완료된 락 밴드 모임입니다. 성공적으로 진행되었고, 멋진 공연을 선보였습니다.',
+    gatheringDateTime: '2024-12-15T19:00:00',
+    recruitDeadline: '2024-12-10T23:59:59',
+    status: 'COMPLETED',
+    genres: ['ROCK', 'METAL'],
+    sessions: [
+      { bandSession: 'VOCAL', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'ELECTRIC_GUITAR', recruitCount: 2, currentCount: 2 },
+      { bandSession: 'DRUM', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'BASS', recruitCount: 1, currentCount: 1 },
+    ],
+    creator: {
+      id: 4,
+      nickname: '락스타',
+      profileImagePath: '/images/ic_default_profile.svg',
+    },
+  },
+};
+
+// 모임 참가자 목데이터
+export const MOCK_PARTICIPANTS = {
+  1: [
+    {
+      participantId: 1,
+      userId: 2,
+      userNickname: '보컬리스트',
+      userEmail: 'vocal@test.com',
+      bandSession: 'VOCAL',
+      status: 'APPROVED',
+      createdAt: '2024-12-01T10:00:00',
+      introduction:
+        '안녕하세요! 보컬을 담당하고 있습니다. 다양한 장르의 음악을 좋아합니다.',
+      userProfileImagePath: '/images/ic_default_profile.svg',
+    },
+    {
+      participantId: 2,
+      userId: 3,
+      userNickname: '드러머',
+      userEmail: 'drum@test.com',
+      bandSession: 'DRUM',
+      status: 'APPROVED',
+      createdAt: '2024-12-02T14:30:00',
+      introduction:
+        '드럼을 연주하고 있습니다. 리듬감이 좋고 다양한 스타일을 연주할 수 있습니다.',
+      userProfileImagePath: '/images/ic_default_profile.svg',
+    },
+    {
+      participantId: 3,
+      userId: 4,
+      userNickname: '기타리스트',
+      userEmail: 'guitar@test.com',
+      bandSession: 'ELECTRIC_GUITAR',
+      status: 'PENDING',
+      createdAt: '2024-12-03T16:45:00',
+      introduction:
+        '일렉트릭 기타를 연주합니다. 락과 메탈 장르에 특화되어 있습니다.',
+      userProfileImagePath: '/images/ic_default_profile.svg',
+    },
+  ],
+  201: [
+    {
+      participantId: 4,
+      userId: 1,
+      userNickname: '테스트유저',
+      userEmail: 'test@test.com',
+      bandSession: 'VOCAL',
+      status: 'APPROVED',
+      createdAt: '2024-12-01T09:00:00',
+      introduction:
+        '팝 밴드에 참가하고 있습니다. 즐거운 음악을 만들어가고 싶습니다.',
+      userProfileImagePath: '/images/ic_default_profile.svg',
+    },
+  ],
+  301: [
+    {
+      participantId: 5,
+      userId: 1,
+      userNickname: '테스트유저',
+      userEmail: 'test@test.com',
+      bandSession: 'VOCAL',
+      status: 'APPROVED',
+      createdAt: '2024-12-01T08:00:00',
+      introduction: '완료된 락 밴드에 참가했습니다. 멋진 공연을 선보였습니다.',
+      userProfileImagePath: '/images/ic_default_profile.svg',
+    },
+  ],
+};
 
 // 모임 생성 응답 데이터
 export const MOCK_REGISTER_RESPONSE: RegisterGatheringsResponse = {

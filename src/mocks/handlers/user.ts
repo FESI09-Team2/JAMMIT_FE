@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { MOCK_USER_PROFILE, MOCK_UPLOADED_IMAGES } from '@/mocks/data/user';
+import { MOCK_USER_PROFILE, MOCK_UPLOADED_IMAGES } from '../data/user';
 
 export const userHandlers = [
   // 내 정보 조회

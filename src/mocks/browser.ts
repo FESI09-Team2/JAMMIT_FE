@@ -11,3 +11,10 @@ export const worker = setupWorker(
   ...userHandlers,
   ...reviewHandlers,
 );
+
+console.log('MSW 핸들러 등록됨:', {
+  gatherings: gatheringsHandlers.length,
+  auth: authHandlers.length,
+  user: userHandlers.length,
+  review: reviewHandlers.length,
+});
