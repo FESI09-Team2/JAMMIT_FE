@@ -1,5 +1,9 @@
 import { GatheringCard } from '@/types/card';
 import { GenreType, BandSessionType } from '@/types/tags';
+import {
+  RegisterGatheringsResponse,
+  ModifiedGatheringsResponse,
+} from '@/types/gather';
 
 // 기본 모임 데이터 템플릿
 const baseGatherings: GatheringCard[] = [
@@ -371,3 +375,140 @@ export const MOCK_GATHERINGS: GatheringCard[] = [
   ...baseGatherings,
   ...generateAdditionalGatherings(),
 ];
+
+// 내가 생성한 모임 목록 (테스트용)
+export const MOCK_MY_CREATED_GATHERINGS: GatheringCard[] = [
+  {
+    id: 101,
+    name: '내가 만든 락 밴드',
+    place: '서울 강남구',
+    thumbnail: '/images/card/img_card_pc_01.avif',
+    gatheringDateTime: '2024-12-25T19:00:00',
+    totalRecruit: 5,
+    totalCurrent: 3,
+    viewCount: 150,
+    recruitDeadline: '2024-12-20T23:59:59',
+    status: 'RECRUITING',
+    genres: ['ROCK', 'METAL'],
+    creator: {
+      id: 1, // 현재 로그인한 사용자 ID
+      nickname: '테스트유저',
+    },
+    sessions: [
+      { bandSession: 'VOCAL', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'ELECTRIC_GUITAR', recruitCount: 1, currentCount: 0 },
+      { bandSession: 'DRUM', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'BASS', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'KEYBOARD', recruitCount: 1, currentCount: 0 },
+    ],
+  },
+  {
+    id: 102,
+    name: '내가 만든 재즈 세션',
+    place: '서울 홍대',
+    thumbnail: '/images/card/img_card_pc_02.avif',
+    gatheringDateTime: '2024-12-30T20:00:00',
+    totalRecruit: 4,
+    totalCurrent: 4,
+    viewCount: 89,
+    recruitDeadline: '2024-12-25T23:59:59',
+    status: 'CONFIRMED',
+    genres: ['JAZZ', 'ACOUSTIC'],
+    creator: {
+      id: 1, // 현재 로그인한 사용자 ID
+      nickname: '테스트유저',
+    },
+    sessions: [
+      { bandSession: 'VOCAL', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'ACOUSTIC_GUITAR', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'DRUM', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'BASS', recruitCount: 1, currentCount: 1 },
+    ],
+  },
+];
+
+// 내가 참가한 모임 목록 (테스트용)
+export const MOCK_MY_PARTICIPATED_GATHERINGS: GatheringCard[] = [
+  {
+    id: 201,
+    name: '참가한 팝 밴드',
+    place: '서울 이태원',
+    thumbnail: '/images/card/img_card_pc_03.avif',
+    gatheringDateTime: '2024-12-28T18:00:00',
+    totalRecruit: 6,
+    totalCurrent: 5,
+    viewCount: 234,
+    recruitDeadline: '2024-12-22T23:59:59',
+    status: 'RECRUITING',
+    genres: ['POP', 'BALLAD'],
+    creator: {
+      id: 2,
+      nickname: '팝스타',
+    },
+    sessions: [
+      { bandSession: 'VOCAL', recruitCount: 2, currentCount: 2 },
+      { bandSession: 'ELECTRIC_GUITAR', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'DRUM', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'BASS', recruitCount: 1, currentCount: 0 },
+      { bandSession: 'KEYBOARD', recruitCount: 1, currentCount: 1 },
+    ],
+  },
+  {
+    id: 202,
+    name: '참가한 인디 밴드',
+    place: '서울 홍대',
+    thumbnail: '/images/card/img_card_pc_04.avif',
+    gatheringDateTime: '2024-12-31T20:00:00',
+    totalRecruit: 4,
+    totalCurrent: 3,
+    viewCount: 67,
+    recruitDeadline: '2024-12-29T23:59:59',
+    status: 'RECRUITING',
+    genres: ['INDIE', 'ALTERNATIVE'],
+    creator: {
+      id: 3,
+      nickname: '인디러버',
+    },
+    sessions: [
+      { bandSession: 'VOCAL', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'ELECTRIC_GUITAR', recruitCount: 1, currentCount: 1 },
+      { bandSession: 'DRUM', recruitCount: 1, currentCount: 0 },
+      { bandSession: 'BASS', recruitCount: 1, currentCount: 1 },
+    ],
+  },
+];
+
+// 모임 생성 응답 데이터
+export const MOCK_REGISTER_RESPONSE: RegisterGatheringsResponse = {
+  id: 999,
+  name: '새로 생성된 모임',
+  message: '모임이 성공적으로 생성되었습니다.',
+  gatheringDateTime: '2024-12-25T19:00:00',
+  recruitDeadline: '2024-12-20T23:59:59',
+  thumbnail: '/images/card/img_card_pc_01.avif',
+  status: 'RECRUITING',
+};
+
+// 모임 수정 응답 데이터
+export const MOCK_MODIFIED_RESPONSE: ModifiedGatheringsResponse = {
+  id: 1,
+  name: '수정된 모임',
+  thumbnail: '/images/card/img_card_pc_01.avif',
+  place: '서울 강남구',
+  description: '수정된 모임 설명입니다.',
+  gatheringDateTime: '2024-12-25T19:00:00',
+  recruitDeadline: '2024-12-20T23:59:59',
+  status: 'RECRUITING',
+  genres: ['ROCK', 'METAL'],
+  sessions: [
+    { bandSession: 'VOCAL', recruitCount: 1, currentCount: 1 },
+    { bandSession: 'ELECTRIC_GUITAR', recruitCount: 1, currentCount: 0 },
+    { bandSession: 'DRUM', recruitCount: 1, currentCount: 1 },
+    { bandSession: 'BASS', recruitCount: 1, currentCount: 1 },
+    { bandSession: 'KEYBOARD', recruitCount: 1, currentCount: 0 },
+  ],
+  creator: {
+    id: 1,
+    nickname: '테스트유저',
+  },
+};
