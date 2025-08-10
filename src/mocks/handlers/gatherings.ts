@@ -229,6 +229,42 @@ export const gatheringsHandlers = [
     });
   }),
 
+  // 모임 참가 신청 (상대 경로)
+  http.post('/gatherings/:id/participants', async ({ request, params }) => {
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    if (!token.includes('mock')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    const body = (await request.json()) as {
+      bandSession: string;
+      introduction: string;
+    };
+    const { bandSession, introduction } = body;
+
+    if (!bandSession || !introduction) {
+      return new HttpResponse(null, { status: 400 });
+    }
+
+    return HttpResponse.json({
+      gatheringId: parseInt(params.id as string),
+      userId: 1, // 현재 로그인한 사용자 ID
+      bandSession,
+      status: 'PENDING',
+      message: '참가 신청이 완료되었습니다.',
+      completed: false,
+      canceled: false,
+      approved: false,
+      rejected: false,
+      pending: true,
+    });
+  }),
+
   // 모임 목록 조회 (인증 불필요)
   http.get('*/gatherings', ({ request }) => {
     const url = new URL(request.url);
