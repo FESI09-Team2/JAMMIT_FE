@@ -29,18 +29,18 @@ export const gatheringsHandlers = [
     // 없으면 동적으로 생성
     if (!gatheringDetail) {
       const mockNames = [
-        '락 밴드 모임',
-        '팝 밴드 모임',
-        '재즈 세션',
-        '인디 밴드',
-        '어쿠스틱 밴드',
+        '락 밴드 모집합니다',
+        '재즈 세션 모집',
+        '팝 밴드 모집',
+        '인디 밴드 모집',
+        '재즈 트리오',
         '메탈 밴드',
+        '클래식 앙상블',
+        'RNB 밴드',
         '펑크 밴드',
+        '어쿠스틱 포크 세션',
         '블루스 세션',
         '컨트리 밴드',
-        '일렉트로닉 밴드',
-        '힙합 크루',
-        '클래식 앙상블',
       ];
       const mockPlaces = [
         '서울 강남구',
@@ -69,7 +69,7 @@ export const gatheringsHandlers = [
 
       gatheringDetail = {
         id,
-        name: `${randomName} ${id}`,
+        name: randomName,
         thumbnail: `/images/card/img_card_pc_${(id % 18) + 1}.avif`,
         place: randomPlace,
         description: `${randomName}입니다. 다양한 음악을 연주하며 즐거운 시간을 보내고 싶습니다.`,
@@ -89,8 +89,21 @@ export const gatheringsHandlers = [
           { bandSession: 'KEYBOARD', recruitCount: 1, currentCount: id % 2 },
         ],
         creator: {
-          id: (id % 10) + 1,
-          nickname: `유저${(id % 10) + 1}`,
+          // 현실적인 시나리오: 몇 명의 사용자가 여러 모임을 생성
+          // ID 1~10: 테스트유저가 생성한 모임들 (baseGatherings)
+          // ID 11~60: 테스트유저가 생성한 모임들
+          // ID 61~110: 유저2가 생성한 모임들
+          // ID 111~160: 유저3이 생성한 모임들
+          // ID 161~210: 유저4가 생성한 모임들
+          // ID 211~260: 유저5가 생성한 모임들
+          // ID 261~310: 유저6이 생성한 모임들
+          id: id <= 10 ? 1 : Math.floor((id - 11) / 50) + 1,
+          nickname:
+            id <= 10
+              ? '테스트유저'
+              : Math.floor((id - 11) / 50) === 0
+                ? '테스트유저'
+                : `유저${Math.floor((id - 11) / 50) + 1}`,
           profileImagePath: '/images/ic_default_profile.svg',
         },
       };
