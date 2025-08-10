@@ -4,6 +4,8 @@ import {
   RegisterGatheringsRequest,
   ModifiedGatheringsRequest,
 } from '../../types/gather';
+import { Participant } from '../../types/gathering';
+import { GenreType } from '../../types/tags';
 import {
   MOCK_GATHERINGS,
   MOCK_MY_CREATED_GATHERINGS,
@@ -28,6 +30,9 @@ export const gatheringsHandlers = [
 
     // 없으면 동적으로 생성
     if (!gatheringDetail) {
+      // 작성 가능한 리뷰 모임들은 COMPLETED 상태로 설정
+      const isReviewToWriteGathering = [7, 8].includes(id);
+
       const mockNames = [
         '락 밴드 모집합니다',
         '재즈 세션 모집',
@@ -63,9 +68,38 @@ export const gatheringsHandlers = [
         ['CLASSICAL'],
       ];
 
-      const randomName = mockNames[id % mockNames.length];
-      const randomPlace = mockPlaces[id % mockPlaces.length];
-      const randomGenres = mockGenres[id % mockGenres.length];
+      let randomName = mockNames[id % mockNames.length];
+      let randomPlace = mockPlaces[id % mockPlaces.length];
+      let randomGenres = mockGenres[id % mockGenres.length];
+
+      // 작성 가능한 리뷰 모임들은 MOCK_REVIEWS_TO_WRITE와 일치하도록 설정
+      if (isReviewToWriteGathering) {
+        if (id === 1) {
+          randomName = '락 밴드 모집합니다';
+          randomPlace = '서울 강남';
+          randomGenres = ['ROCK', 'METAL'] as GenreType[];
+        } else if (id === 2) {
+          randomName = '재즈 세션 모집';
+          randomPlace = '서울 홍대';
+          randomGenres = ['JAZZ', 'BLUES'] as GenreType[];
+        } else if (id === 3) {
+          randomName = '팝 밴드 모집';
+          randomPlace = '서울 종로구';
+          randomGenres = ['POP', 'ROCK'] as GenreType[];
+        } else if (id === 4) {
+          randomName = '인디 밴드 모집';
+          randomPlace = '서울 마포구';
+          randomGenres = ['INDIE', 'ROCK'] as GenreType[];
+        } else if (id === 7) {
+          randomName = 'R&B 세션';
+          randomPlace = '서울 홍대';
+          randomGenres = ['RNB', 'BALLAD'] as GenreType[];
+        } else if (id === 8) {
+          randomName = '스트링 앙상블';
+          randomPlace = '서울 종로구';
+          randomGenres = ['ACOUSTIC', 'FOLK'] as GenreType[];
+        }
+      }
 
       gatheringDetail = {
         id,
@@ -75,19 +109,51 @@ export const gatheringsHandlers = [
         description: `${randomName}입니다. 다양한 음악을 연주하며 즐거운 시간을 보내고 싶습니다.`,
         gatheringDateTime: `2024-12-${25 + (id % 7)}T19:00:00`,
         recruitDeadline: `2024-12-${20 + (id % 5)}T23:59:59`,
-        status: id % 3 === 0 ? 'COMPLETED' : 'RECRUITING',
+        status: isReviewToWriteGathering
+          ? 'COMPLETED'
+          : id <= 10
+            ? 'COMPLETED'
+            : id % 3 === 0
+              ? 'COMPLETED'
+              : 'RECRUITING',
         genres: randomGenres,
-        sessions: [
-          { bandSession: 'VOCAL', recruitCount: 1, currentCount: id % 2 },
-          {
-            bandSession: 'ELECTRIC_GUITAR',
-            recruitCount: 2,
-            currentCount: id % 3,
-          },
-          { bandSession: 'DRUM', recruitCount: 1, currentCount: 1 },
-          { bandSession: 'BASS', recruitCount: 1, currentCount: id % 2 },
-          { bandSession: 'KEYBOARD', recruitCount: 1, currentCount: id % 2 },
-        ],
+        sessions: isReviewToWriteGathering
+          ? id === 7
+            ? [
+                { bandSession: 'VOCAL', recruitCount: 2, currentCount: 2 },
+                {
+                  bandSession: 'ELECTRIC_GUITAR',
+                  recruitCount: 1,
+                  currentCount: 1,
+                },
+                { bandSession: 'DRUM', recruitCount: 1, currentCount: 1 },
+                { bandSession: 'BASS', recruitCount: 1, currentCount: 1 },
+                { bandSession: 'KEYBOARD', recruitCount: 1, currentCount: 1 },
+              ]
+            : [
+                { bandSession: 'VOCAL', recruitCount: 1, currentCount: 1 },
+                {
+                  bandSession: 'STRING_INSTRUMENT',
+                  recruitCount: 3,
+                  currentCount: 3,
+                },
+                { bandSession: 'PERCUSSION', recruitCount: 1, currentCount: 1 },
+              ]
+          : [
+              { bandSession: 'VOCAL', recruitCount: 1, currentCount: id % 2 },
+              {
+                bandSession: 'ELECTRIC_GUITAR',
+                recruitCount: 2,
+                currentCount: id % 3,
+              },
+              { bandSession: 'DRUM', recruitCount: 1, currentCount: 1 },
+              { bandSession: 'BASS', recruitCount: 1, currentCount: id % 2 },
+              {
+                bandSession: 'KEYBOARD',
+                recruitCount: 1,
+                currentCount: id % 2,
+              },
+            ],
         creator: {
           // 현실적인 시나리오: 몇 명의 사용자가 여러 모임을 생성
           // ID 1~10: 테스트유저가 생성한 모임들 (baseGatherings)
@@ -97,9 +163,15 @@ export const gatheringsHandlers = [
           // ID 161~210: 유저4가 생성한 모임들
           // ID 211~260: 유저5가 생성한 모임들
           // ID 261~310: 유저6이 생성한 모임들
-          id: id <= 10 ? 1 : Math.floor((id - 11) / 50) + 1,
-          nickname:
-            id <= 10
+          // 작성 가능한 리뷰 모임들(ID 7, 8)은 테스트유저가 생성
+          id: isReviewToWriteGathering
+            ? 1
+            : id <= 10
+              ? 1
+              : Math.floor((id - 11) / 50) + 1,
+          nickname: isReviewToWriteGathering
+            ? '테스트유저'
+            : id <= 10
               ? '테스트유저'
               : Math.floor((id - 11) / 50) === 0
                 ? '테스트유저'
@@ -132,47 +204,163 @@ export const gatheringsHandlers = [
   // 모임 참가자 목록 조회 (인증 불필요)
   http.get('*/gatherings/:id/participants', ({ params }) => {
     const id = parseInt(params.id as string);
+    console.log('MSW: 참가자 목록 조회 요청', id);
 
     // 기존 참가자 데이터가 있으면 사용
     let participants =
       MOCK_PARTICIPANTS[id as keyof typeof MOCK_PARTICIPANTS] || [];
 
+    console.log('MSW: 기존 참가자 데이터', participants);
+
     // 없으면 동적으로 생성
     if (participants.length === 0) {
-      const mockNicknames = [
-        '보컬리스트',
-        '드러머',
-        '기타리스트',
-        '베이시스트',
-        '키보디스트',
-        '재즈맨',
-        '팝스타',
-        '인디러버',
-        '락스타',
-        '재즈마스터',
-      ];
-      const mockSessions = [
-        'VOCAL',
-        'DRUM',
-        'ELECTRIC_GUITAR',
-        'BASS',
-        'KEYBOARD',
-      ];
+      // 작성 가능한 리뷰 모임들은 MOCK_REVIEWS_TO_WRITE와 일치하도록 설정
+      const isReviewToWriteGathering = [1, 2, 3, 4, 7, 8].includes(id);
 
-      const participantCount = (id % 5) + 1; // 1~5명
+      if (isReviewToWriteGathering) {
+        if (id === 1) {
+          participants = [
+            {
+              participantId: 10,
+              userId: 6,
+              userNickname: 'User6',
+              userEmail: 'user6@example.com',
+              bandSession: 'VOCAL',
+              status: 'COMPLETED',
+              createdAt: '2024-12-05T18:00:00',
+              introduction: '락 음악을 사랑하는 보컬입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        } else if (id === 2) {
+          participants = [
+            {
+              participantId: 20,
+              userId: 7,
+              userNickname: 'User7',
+              userEmail: 'user7@example.com',
+              bandSession: 'DRUM',
+              status: 'COMPLETED',
+              createdAt: '2024-12-06T19:00:00',
+              introduction: '재즈 드럼을 연주하는 뮤지션입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        } else if (id === 3) {
+          participants = [
+            {
+              participantId: 30,
+              userId: 8,
+              userNickname: 'User8',
+              userEmail: 'user8@example.com',
+              bandSession: 'ELECTRIC_GUITAR',
+              status: 'COMPLETED',
+              createdAt: '2024-12-07T20:00:00',
+              introduction: '팝 기타를 연주하는 뮤지션입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        } else if (id === 4) {
+          participants = [
+            {
+              participantId: 31,
+              userId: 9,
+              userNickname: 'User9',
+              userEmail: 'user9@example.com',
+              bandSession: 'BASS',
+              status: 'COMPLETED',
+              createdAt: '2024-12-08T21:00:00',
+              introduction: '인디 베이스를 연주하는 뮤지션입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        } else if (id === 7) {
+          participants = [
+            {
+              participantId: 40,
+              userId: 2,
+              userNickname: '재즈맨',
+              userEmail: 'jazz@example.com',
+              bandSession: 'VOCAL',
+              status: 'APPROVED',
+              createdAt: '2024-12-08T20:00:00',
+              introduction: '재즈를 사랑하는 보컬입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+            {
+              participantId: 41,
+              userId: 3,
+              userNickname: '팝스타',
+              userEmail: 'pop@example.com',
+              bandSession: 'ELECTRIC_GUITAR',
+              status: 'APPROVED',
+              createdAt: '2024-12-08T20:00:00',
+              introduction: '팝 음악을 좋아하는 기타리스트입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        } else if (id === 8) {
+          participants = [
+            {
+              participantId: 42,
+              userId: 4,
+              userNickname: '인디러버',
+              userEmail: 'indie@example.com',
+              bandSession: 'DRUM',
+              status: 'APPROVED',
+              createdAt: '2024-12-07T19:00:00',
+              introduction: '인디 음악을 즐기는 드러머입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+            {
+              participantId: 43,
+              userId: 5,
+              userNickname: '어쿠스틱맨',
+              userEmail: 'acoustic@example.com',
+              bandSession: 'ACOUSTIC_GUITAR',
+              status: 'APPROVED',
+              createdAt: '2024-12-07T19:00:00',
+              introduction: '어쿠스틱 기타를 연주하는 뮤지션입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        }
+      } else {
+        const mockNicknames = [
+          '보컬리스트',
+          '드러머',
+          '기타리스트',
+          '베이시스트',
+          '키보디스트',
+          '재즈맨',
+          '팝스타',
+          '인디러버',
+          '락스타',
+          '재즈마스터',
+        ];
+        const mockSessions = [
+          'VOCAL',
+          'DRUM',
+          'ELECTRIC_GUITAR',
+          'BASS',
+          'KEYBOARD',
+        ];
 
-      participants = Array.from({ length: participantCount }, (_, index) => ({
-        participantId: id * 100 + index + 1,
-        userId: id * 10 + index + 1,
-        userNickname: mockNicknames[(id + index) % mockNicknames.length],
-        userEmail: `user${id * 10 + index + 1}@test.com`,
-        bandSession: mockSessions[index % mockSessions.length],
-        status:
-          index === 0 ? 'APPROVED' : index % 2 === 0 ? 'PENDING' : 'APPROVED',
-        createdAt: `2024-12-${1 + (index % 10)}T${10 + index}:00:00`,
-        introduction: `${mockNicknames[(id + index) % mockNicknames.length]}입니다. 즐거운 음악을 만들어가고 싶습니다.`,
-        userProfileImagePath: '/images/ic_default_profile.svg',
-      }));
+        const participantCount = (id % 5) + 1; // 1~5명
+
+        participants = Array.from({ length: participantCount }, (_, index) => ({
+          participantId: id * 100 + index + 1,
+          userId: id * 10 + index + 1,
+          userNickname: mockNicknames[(id + index) % mockNicknames.length],
+          userEmail: `user${id * 10 + index + 1}@test.com`,
+          bandSession: mockSessions[index % mockSessions.length],
+          status:
+            index === 0 ? 'APPROVED' : index % 2 === 0 ? 'PENDING' : 'APPROVED',
+          createdAt: `2024-12-${1 + (index % 10)}T${10 + index}:00:00`,
+          introduction: `${mockNicknames[(id + index) % mockNicknames.length]}입니다. 즐거운 음악을 만들어가고 싶습니다.`,
+          userProfileImagePath: '/images/ic_default_profile.svg',
+        }));
+      }
     }
 
     return HttpResponse.json({
@@ -184,9 +372,172 @@ export const gatheringsHandlers = [
   // 모임 참가자 목록 조회 (상대 경로, 인증 불필요)
   http.get('/gatherings/:id/participants', ({ params }) => {
     const id = parseInt(params.id as string);
-    const participants =
+    console.log('MSW: 참가자 목록 조회 요청 (상대 경로)', id);
+
+    // 기존 참가자 데이터가 있으면 사용
+    let participants =
       MOCK_PARTICIPANTS[id as keyof typeof MOCK_PARTICIPANTS] || [];
 
+    console.log('MSW: 기존 참가자 데이터 (상대 경로)', participants);
+
+    // 없으면 동적으로 생성
+    if (participants.length === 0) {
+      console.log('MSW: 참가자 데이터가 없어서 동적으로 생성 (상대 경로)');
+      // 작성 가능한 리뷰 모임들은 MOCK_REVIEWS_TO_WRITE와 일치하도록 설정
+      const isReviewToWriteGathering = [1, 2, 3, 4, 7, 8].includes(id);
+
+      if (isReviewToWriteGathering) {
+        console.log('MSW: 작성 가능한 리뷰 모임 처리 (상대 경로)', id);
+        if (id === 1) {
+          participants = [
+            {
+              participantId: 10,
+              userId: 6,
+              userNickname: 'User6',
+              userEmail: 'user6@example.com',
+              bandSession: 'VOCAL',
+              status: 'COMPLETED',
+              createdAt: '2024-12-05T18:00:00',
+              introduction: '락 음악을 사랑하는 보컬입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        } else if (id === 2) {
+          participants = [
+            {
+              participantId: 20,
+              userId: 7,
+              userNickname: 'User7',
+              userEmail: 'user7@example.com',
+              bandSession: 'DRUM',
+              status: 'COMPLETED',
+              createdAt: '2024-12-06T19:00:00',
+              introduction: '재즈 드럼을 연주하는 뮤지션입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        } else if (id === 3) {
+          participants = [
+            {
+              participantId: 30,
+              userId: 8,
+              userNickname: 'User8',
+              userEmail: 'user8@example.com',
+              bandSession: 'ELECTRIC_GUITAR',
+              status: 'COMPLETED',
+              createdAt: '2024-12-07T20:00:00',
+              introduction: '팝 기타를 연주하는 뮤지션입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        } else if (id === 4) {
+          participants = [
+            {
+              participantId: 31,
+              userId: 9,
+              userNickname: 'User9',
+              userEmail: 'user9@example.com',
+              bandSession: 'BASS',
+              status: 'COMPLETED',
+              createdAt: '2024-12-08T21:00:00',
+              introduction: '인디 베이스를 연주하는 뮤지션입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        } else if (id === 7) {
+          participants = [
+            {
+              participantId: 40,
+              userId: 2,
+              userNickname: '재즈맨',
+              userEmail: 'jazz@example.com',
+              bandSession: 'VOCAL',
+              status: 'APPROVED',
+              createdAt: '2024-12-08T20:00:00',
+              introduction: '재즈를 사랑하는 보컬입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+            {
+              participantId: 41,
+              userId: 3,
+              userNickname: '팝스타',
+              userEmail: 'pop@example.com',
+              bandSession: 'ELECTRIC_GUITAR',
+              status: 'APPROVED',
+              createdAt: '2024-12-08T20:00:00',
+              introduction: '팝 음악을 좋아하는 기타리스트입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        } else if (id === 8) {
+          participants = [
+            {
+              participantId: 42,
+              userId: 4,
+              userNickname: '인디러버',
+              userEmail: 'indie@example.com',
+              bandSession: 'DRUM',
+              status: 'APPROVED',
+              createdAt: '2024-12-07T19:00:00',
+              introduction: '인디 음악을 즐기는 드러머입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+            {
+              participantId: 43,
+              userId: 5,
+              userNickname: '어쿠스틱맨',
+              userEmail: 'acoustic@example.com',
+              bandSession: 'ACOUSTIC_GUITAR',
+              status: 'APPROVED',
+              createdAt: '2024-12-07T19:00:00',
+              introduction: '어쿠스틱 기타를 연주하는 뮤지션입니다.',
+              userProfileImagePath: '/images/ic_default_profile.svg',
+            },
+          ];
+        }
+      } else {
+        console.log('MSW: 일반 모임 처리 (상대 경로)', id);
+        const mockNicknames = [
+          '보컬리스트',
+          '드러머',
+          '기타리스트',
+          '베이시스트',
+          '키보디스트',
+          '재즈맨',
+          '팝스타',
+          '인디러버',
+          '락스타',
+          '재즈마스터',
+        ];
+        const mockSessions = [
+          'VOCAL',
+          'DRUM',
+          'ELECTRIC_GUITAR',
+          'BASS',
+          'KEYBOARD',
+        ];
+
+        const participantCount = (id % 5) + 1; // 1~5명
+
+        participants = Array.from({ length: participantCount }, (_, index) => ({
+          participantId: id * 100 + index + 1,
+          userId: id * 10 + index + 1,
+          userNickname: mockNicknames[(id + index) % mockNicknames.length],
+          userEmail: `user${id * 10 + index + 1}@test.com`,
+          bandSession: mockSessions[index % mockSessions.length],
+          status:
+            index === 0 ? 'APPROVED' : index % 2 === 0 ? 'PENDING' : 'APPROVED',
+          createdAt: `2024-12-${1 + (index % 10)}T${10 + index}:00:00`,
+          introduction: `${mockNicknames[(id + index) % mockNicknames.length]}입니다. 즐거운 음악을 만들어가고 싶습니다.`,
+          userProfileImagePath: '/images/ic_default_profile.svg',
+        }));
+      }
+    }
+
+    console.log('MSW: 최종 참가자 데이터 반환 (상대 경로)', {
+      participants,
+      total: participants.length,
+    });
     return HttpResponse.json({
       participants,
       total: participants.length,
@@ -264,6 +615,162 @@ export const gatheringsHandlers = [
       pending: true,
     });
   }),
+
+  // 참가 승인 (상대 경로)
+  http.post(
+    '/gatherings/:id/participants/:participantId/approve',
+    async ({ request, params }) => {
+      const authHeader = request.headers.get('Authorization');
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+      if (!token.includes('mock')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const gatheringId = parseInt(params.id as string);
+      const participantId = parseInt(params.participantId as string);
+
+      // 모임 생성자만 승인할 수 있도록 체크 (현재 로그인한 사용자가 모임 생성자인지)
+      const gatheringDetail = MOCK_GATHERING_DETAILS[gatheringId];
+      if (!gatheringDetail || gatheringDetail.creator.id !== 1) {
+        return new HttpResponse(null, { status: 403 });
+      }
+
+      // 참가자 정보 찾기
+      const participants = MOCK_PARTICIPANTS[gatheringId];
+      const participant = participants?.find(
+        (p: Participant) => p.participantId === participantId,
+      );
+
+      if (!participant) {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      if (participant.status !== 'PENDING') {
+        return new HttpResponse(null, {
+          status: 400,
+          statusText: '이미 처리된 참가 신청입니다.',
+        });
+      }
+
+      // 상태 업데이트 (실제로는 DB 업데이트)
+      participant.status = 'APPROVED';
+
+      return HttpResponse.json({
+        message: '참가 신청이 승인되었습니다.',
+        participantId,
+        status: 'APPROVED',
+      });
+    },
+  ),
+
+  // 참가 거절 (상대 경로)
+  http.put(
+    '/gatherings/:id/participants/:participantId/reject',
+    async ({ request, params }) => {
+      const authHeader = request.headers.get('Authorization');
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+      if (!token.includes('mock')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const gatheringId = parseInt(params.id as string);
+      const participantId = parseInt(params.participantId as string);
+
+      // 모임 생성자만 거절할 수 있도록 체크
+      const gatheringDetail = MOCK_GATHERING_DETAILS[gatheringId];
+      if (!gatheringDetail || gatheringDetail.creator.id !== 1) {
+        return new HttpResponse(null, { status: 403 });
+      }
+
+      // 참가자 정보 찾기
+      const participants = MOCK_PARTICIPANTS[gatheringId];
+      const participant = participants?.find(
+        (p: Participant) => p.participantId === participantId,
+      );
+
+      if (!participant) {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      if (participant.status !== 'PENDING') {
+        return new HttpResponse(null, {
+          status: 400,
+          statusText: '이미 처리된 참가 신청입니다.',
+        });
+      }
+
+      // 상태 업데이트
+      participant.status = 'REJECTED';
+
+      return HttpResponse.json({
+        message: '참가 신청이 거절되었습니다.',
+        participantId,
+        status: 'REJECTED',
+      });
+    },
+  ),
+
+  // 참가 취소 (상대 경로)
+  http.put(
+    '/gatherings/:id/participants/:participantId/cancel',
+    async ({ request, params }) => {
+      const authHeader = request.headers.get('Authorization');
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+      if (!token.includes('mock')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const gatheringId = parseInt(params.id as string);
+      const participantId = parseInt(params.participantId as string);
+
+      // 참가자 정보 찾기
+      const participants = MOCK_PARTICIPANTS[gatheringId];
+      const participant = participants?.find(
+        (p: Participant) => p.participantId === participantId,
+      );
+
+      if (!participant) {
+        return new HttpResponse(null, { status: 404 });
+      }
+
+      // 본인만 취소할 수 있거나, 모임 생성자가 취소할 수 있음
+      const gatheringDetail = MOCK_GATHERING_DETAILS[gatheringId];
+      const isCreator = gatheringDetail?.creator.id === 1;
+      const isParticipant = participant.userId === 1;
+
+      if (!isCreator && !isParticipant) {
+        return new HttpResponse(null, { status: 403 });
+      }
+
+      if (participant.status === 'CANCELED') {
+        return new HttpResponse(null, {
+          status: 400,
+          statusText: '이미 취소된 참가 신청입니다.',
+        });
+      }
+
+      // 상태 업데이트
+      participant.status = 'CANCELED';
+
+      return HttpResponse.json({
+        message: '참가 신청이 취소되었습니다.',
+        participantId,
+        status: 'CANCELED',
+      });
+    },
+  ),
 
   // 모임 목록 조회 (인증 불필요)
   http.get('*/gatherings', ({ request }) => {

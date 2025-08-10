@@ -98,10 +98,46 @@ export const reviewHandlers = [
     // 페이지네이션
     const startIndex = page * size;
     const endIndex = startIndex + size;
-    const paginatedGatherings = MOCK_REVIEWS_TO_WRITE.result.slice(
-      startIndex,
-      endIndex,
-    );
+    const paginatedGatherings = MOCK_REVIEWS_TO_WRITE.result
+      .slice(startIndex, endIndex)
+      .map((gathering) => ({
+        ...gathering,
+        status: 'COMPLETED', // 완료된 모임 상태 추가
+      }));
+
+    return HttpResponse.json({
+      ...MOCK_REVIEWS_TO_WRITE,
+      result: paginatedGatherings,
+    });
+  }),
+
+  // 작성할 리뷰 목록 (상대 경로)
+  http.get('/review/unwritten', ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+
+    // 인증 토큰 확인
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    if (!token.includes('mock')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get('page') || '0');
+    const size = parseInt(url.searchParams.get('size') || '8');
+
+    // 페이지네이션
+    const startIndex = page * size;
+    const endIndex = startIndex + size;
+    const paginatedGatherings = MOCK_REVIEWS_TO_WRITE.result
+      .slice(startIndex, endIndex)
+      .map((gathering) => ({
+        ...gathering,
+        status: 'COMPLETED', // 완료된 모임 상태 추가
+      }));
 
     return HttpResponse.json({
       ...MOCK_REVIEWS_TO_WRITE,
@@ -172,4 +208,104 @@ export const reviewHandlers = [
       result: review,
     });
   }),
+
+  // 특정 참가자 리뷰 조회
+  http.get(
+    '*/review/:gatheringId/participants/:userId/reviews',
+    async ({ request, params }) => {
+      const authHeader = request.headers.get('Authorization');
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+      if (!token.includes('mock')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const gatheringId = parseInt(params.gatheringId as string);
+      const userId = parseInt(params.userId as string);
+
+      // URL 파라미터에서 페이지 정보 추출
+      const url = new URL(request.url);
+      const page = parseInt(url.searchParams.get('page') || '0');
+      const size = parseInt(url.searchParams.get('size') || '10');
+
+      // 해당 모임의 해당 참가자에 대한 리뷰들 필터링
+      const allReviews = [...MOCK_RECEIVED_REVIEWS, ...MOCK_WRITTEN_REVIEWS];
+
+      const filteredReviews = allReviews.filter(
+        (review) =>
+          review.gatheringId === gatheringId && review.reviewerId === userId,
+      );
+
+      // 페이지네이션 적용
+      const startIndex = page * size;
+      const endIndex = startIndex + size;
+      const paginatedReviews = filteredReviews.slice(startIndex, endIndex);
+
+      const totalElements = filteredReviews.length;
+      const totalPages = Math.ceil(totalElements / size);
+      const last = page >= totalPages - 1;
+
+      return HttpResponse.json({
+        content: paginatedReviews,
+        page,
+        size,
+        totalElements,
+        totalPages,
+        last,
+      });
+    },
+  ),
+
+  // 특정 참가자 리뷰 조회 (상대 경로)
+  http.get(
+    '/review/:gatheringId/participants/:userId/reviews',
+    async ({ request, params }) => {
+      const authHeader = request.headers.get('Authorization');
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+      if (!token.includes('mock')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const gatheringId = parseInt(params.gatheringId as string);
+      const userId = parseInt(params.userId as string);
+
+      // URL 파라미터에서 페이지 정보 추출
+      const url = new URL(request.url);
+      const page = parseInt(url.searchParams.get('page') || '0');
+      const size = parseInt(url.searchParams.get('size') || '10');
+
+      // 해당 모임의 해당 참가자에 대한 리뷰들 필터링
+      const allReviews = [...MOCK_RECEIVED_REVIEWS, ...MOCK_WRITTEN_REVIEWS];
+
+      const filteredReviews = allReviews.filter(
+        (review) =>
+          review.gatheringId === gatheringId && review.reviewerId === userId,
+      );
+
+      // 페이지네이션 적용
+      const startIndex = page * size;
+      const endIndex = startIndex + size;
+      const paginatedReviews = filteredReviews.slice(startIndex, endIndex);
+
+      const totalElements = filteredReviews.length;
+      const totalPages = Math.ceil(totalElements / size);
+      const last = page >= totalPages - 1;
+
+      return HttpResponse.json({
+        content: paginatedReviews,
+        page,
+        size,
+        totalElements,
+        totalPages,
+        last,
+      });
+    },
+  ),
 ];

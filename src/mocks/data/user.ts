@@ -1,6 +1,6 @@
 export const MOCK_USER_PROFILE = {
   id: 1,
-  username: 'testuser',
+  username: '테스트유저',
   email: 'test@example.com',
   nickname: '테스트유저',
   profileImagePath: '/images/ic_default_profile.svg',

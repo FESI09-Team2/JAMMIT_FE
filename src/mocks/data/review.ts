@@ -198,9 +198,82 @@ export const MOCK_REVIEWS_TO_WRITE = {
   message: 'Success',
   result: [
     {
+      gatheringId: 1,
+      gatheringName: '락 밴드 모집합니다',
+      gatheringThumbnail: '/images/card/img_card_pc_01.avif',
+      gatheringHostNickname: '테스트유저',
+      unwrittenParticipants: [
+        {
+          participantId: 10,
+          userId: 6,
+          userNickname: 'User6',
+          userEmail: 'user6@example.com',
+          bandSession: 'VOCAL',
+          status: 'COMPLETED',
+          createdAt: '2024-12-05T18:00:00Z',
+          introduction: '락 음악을 사랑하는 보컬입니다.',
+        },
+      ],
+    },
+    {
+      gatheringId: 2,
+      gatheringName: '재즈 세션 모집',
+      gatheringThumbnail: '/images/card/img_card_pc_02.avif',
+      gatheringHostNickname: '테스트유저',
+      unwrittenParticipants: [
+        {
+          participantId: 20,
+          userId: 7,
+          userNickname: 'User7',
+          userEmail: 'user7@example.com',
+          bandSession: 'DRUM',
+          status: 'COMPLETED',
+          createdAt: '2024-12-06T19:00:00Z',
+          introduction: '재즈 드럼을 연주하는 뮤지션입니다.',
+        },
+      ],
+    },
+    {
+      gatheringId: 3,
+      gatheringName: '팝 밴드 모집',
+      gatheringThumbnail: '/images/card/img_card_pc_03.avif',
+      gatheringHostNickname: '테스트유저',
+      unwrittenParticipants: [
+        {
+          participantId: 30,
+          userId: 8,
+          userNickname: 'User8',
+          userEmail: 'user8@example.com',
+          bandSession: 'ELECTRIC_GUITAR',
+          status: 'COMPLETED',
+          createdAt: '2024-12-07T20:00:00Z',
+          introduction: '팝 기타를 연주하는 뮤지션입니다.',
+        },
+      ],
+    },
+    {
+      gatheringId: 4,
+      gatheringName: '인디 밴드 모집',
+      gatheringThumbnail: '/images/card/img_card_pc_04.avif',
+      gatheringHostNickname: '테스트유저',
+      unwrittenParticipants: [
+        {
+          participantId: 31,
+          userId: 9,
+          userNickname: 'User9',
+          userEmail: 'user9@example.com',
+          bandSession: 'BASS',
+          status: 'COMPLETED',
+          createdAt: '2024-12-08T21:00:00Z',
+          introduction: '인디 베이스를 연주하는 뮤지션입니다.',
+        },
+      ],
+    },
+    {
       gatheringId: 7,
       gatheringName: 'R&B 세션',
       gatheringThumbnail: '/images/card/img_card_pc_07.avif',
+      gatheringHostNickname: '테스트유저',
       unwrittenParticipants: [
         {
           participantId: 1,
@@ -228,6 +301,7 @@ export const MOCK_REVIEWS_TO_WRITE = {
       gatheringId: 8,
       gatheringName: '스트링 앙상블',
       gatheringThumbnail: '/images/card/img_card_pc_08.avif',
+      gatheringHostNickname: '테스트유저',
       unwrittenParticipants: [
         {
           participantId: 3,
