@@ -8,6 +8,8 @@ import {
   MOCK_GATHERINGS,
   MOCK_MY_CREATED_GATHERINGS,
   MOCK_MY_PARTICIPATED_GATHERINGS,
+  MOCK_MY_ALL_PARTICIPATED_GATHERINGS,
+  MOCK_MY_COMPLETED_GATHERINGS,
   MOCK_REGISTER_RESPONSE,
   MOCK_MODIFIED_RESPONSE,
 } from '@/mocks/data/gatherings';
@@ -211,8 +213,50 @@ export const gatheringsHandlers = [
     return HttpResponse.json(response);
   }),
 
-  // 내가 참가한 모임 목록
+  // 내가 참가한 모임 목록 (작성 가능한 리뷰용)
   http.get('*/gatherings/:gatheringId/participants/my', ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+
+    // 인증 토큰 확인
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    if (!token.includes('mock')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    const url = new URL(request.url);
+    const page = parseInt(url.searchParams.get('page') || '0');
+    const size = parseInt(url.searchParams.get('size') || '8');
+    const includeCanceled = url.searchParams.get('includeCanceled') === 'true';
+
+    // includeCanceled 파라미터에 따라 필터링
+    let filteredGatherings = MOCK_MY_ALL_PARTICIPATED_GATHERINGS;
+    if (!includeCanceled) {
+      filteredGatherings = filteredGatherings.filter(
+        (g) => g.status !== 'CANCELED',
+      );
+    }
+
+    // 페이지네이션 적용
+    const totalElements = filteredGatherings.length;
+    const totalPage = Math.ceil(totalElements / size);
+    const startIndex = page * size;
+    const endIndex = startIndex + size;
+    const paginatedGatherings = filteredGatherings.slice(startIndex, endIndex);
+
+    return HttpResponse.json({
+      gatherings: paginatedGatherings,
+      currentPage: page,
+      totalPage,
+      totalElements,
+    });
+  }),
+
+  // 내가 참가한 모임 목록 (기존 - 단순 참가 모임만)
+  http.get('*/gatherings/my/participated', ({ request }) => {
     const authHeader = request.headers.get('Authorization');
 
     // 인증 토큰 확인
@@ -254,6 +298,41 @@ export const gatheringsHandlers = [
 
     return HttpResponse.json(response);
   }),
+
+  // 내가 참가한 완료된 모임 목록
+  http.get(
+    '*/gatherings/:gatheringId/participants/my/completed',
+    ({ request }) => {
+      const authHeader = request.headers.get('Authorization');
+
+      // 인증 토큰 확인
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      const token = authHeader.replace('Bearer ', '');
+      if (!token.includes('mock')) {
+        return new HttpResponse(null, { status: 401 });
+      }
+
+      // 완료된 모임만 필터링하고 GetGetherItem 형식으로 변환
+      const completedGatherings = MOCK_MY_COMPLETED_GATHERINGS.filter(
+        (g) => g.status === 'COMPLETED',
+      ).map((g) => ({
+        id: g.id,
+        name: g.name,
+        thumbnail: g.thumbnail,
+        gatheringDateTime: g.gatheringDateTime,
+        place: g.place,
+        totalRecruit: g.totalRecruit,
+        totalCurrent: g.totalCurrent,
+        status: g.status,
+        hostNickname: g.creator.nickname,
+      }));
+
+      return HttpResponse.json(completedGatherings);
+    },
+  ),
 
   // 모임 삭제
   http.delete('*/gatherings/:id', ({ request, params }) => {
