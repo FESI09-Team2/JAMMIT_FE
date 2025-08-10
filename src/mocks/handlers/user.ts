@@ -1,27 +1,38 @@
 import { http, HttpResponse } from 'msw';
-
-export const MOCK_USER_PROFILE = {
-  id: 1,
-  username: 'testuser',
-  email: 'test@example.com',
-  nickname: '테스트유저',
-  profileImagePath: '/images/ic_default_profile.svg',
-  createdAt: '2024-01-01T00:00:00Z',
-  updatedAt: '2024-01-01T00:00:00Z',
-  preferredGenres: [],
-  preferredBandSessions: [],
-  totalCreatedGatheringCount: 0,
-  completedGatheringCount: 0,
-};
+import { MOCK_USER_PROFILE, MOCK_UPLOADED_IMAGES } from '@/mocks/data/user';
 
 export const userHandlers = [
   // 내 정보 조회
-  http.get('*/user', () => {
+  http.get('*/user', ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+
+    // 인증 토큰 확인
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    if (!token.includes('mock')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
     return HttpResponse.json(MOCK_USER_PROFILE);
   }),
 
   // 프로필 수정
   http.put('*/user', async ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+
+    // 인증 토큰 확인
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    if (!token.includes('mock')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
     const body = (await request.json()) as Record<string, unknown>;
 
     return HttpResponse.json({
@@ -36,6 +47,18 @@ export const userHandlers = [
 
   // 프로필 이미지 수정
   http.put('*/user/image', async ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+
+    // 인증 토큰 확인
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    if (!token.includes('mock')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
     const body = (await request.json()) as Record<string, unknown>;
 
     return HttpResponse.json({
@@ -49,12 +72,48 @@ export const userHandlers = [
   }),
 
   // 프로필 이미지 업로드
-  http.post('*/user/:userId/profile-image', async () => {
+  http.post('*/user/:userId/profile-image', async ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+
+    // 인증 토큰 확인
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    if (!token.includes('mock')) {
+      return new HttpResponse(null, { status: 401 });
+    }
+
+    // FormData 처리 (실제 파일 업로드 시뮬레이션)
+    const formData = await request.formData();
+    const file = formData.get('file') as File;
+
+    if (!file) {
+      return new HttpResponse(null, { status: 400 });
+    }
+
+    // 파일 크기 제한 (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      return new HttpResponse(null, { status: 413 });
+    }
+
+    // 허용된 파일 타입 체크
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      return new HttpResponse(null, { status: 415 });
+    }
+
+    // 랜덤하게 업로드된 이미지 경로 선택
+    const randomImage =
+      MOCK_UPLOADED_IMAGES[
+        Math.floor(Math.random() * MOCK_UPLOADED_IMAGES.length)
+      ];
+
+    // 실제 코드가 기대하는 형식: result에 profileImagePath 문자열만 반환
     return HttpResponse.json({
       success: true,
-      result: {
-        profileImagePath: '/images/uploaded-profile.jpg',
-      },
+      result: randomImage,
     });
   }),
 ];

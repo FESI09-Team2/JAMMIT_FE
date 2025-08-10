@@ -1,16 +1,9 @@
 import { http, HttpResponse } from 'msw';
-
-export const MOCK_USER = {
-  id: 1,
-  email: 'test@example.com',
-  nickname: '테스트유저',
-  profileImage: '/images/ic_default_profile.svg',
-  createdAt: '2024-01-01T00:00:00Z',
-};
+import { MOCK_TOKENS, MOCK_USER } from '@/mocks/data/auth';
 
 export const authHandlers = [
   // 로그인
-  http.post('*/auth/login', async ({ request }) => {
+  http.post('*/login', async ({ request }) => {
     const body = (await request.json()) as { email: string; password: string };
     const { email, password } = body;
 
@@ -74,5 +67,23 @@ export const authHandlers = [
     }
 
     return new HttpResponse(null, { status: 400 });
+  }),
+
+  // 토큰 갱신
+  http.post('*/auth/refresh', async ({ request }) => {
+    const body = (await request.json()) as { refreshToken: string };
+    const { refreshToken } = body;
+
+    // refreshToken 유효성 검사
+    if (refreshToken && refreshToken.includes('mock')) {
+      return HttpResponse.json({
+        success: true,
+        result: {
+          accessToken: MOCK_TOKENS.accessToken,
+        },
+      });
+    }
+
+    return new HttpResponse(null, { status: 401 });
   }),
 ];
